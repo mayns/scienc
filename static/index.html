@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <link rel="shortcut icon" type="image/xicon" href="{{ 'favicon.ico'|static_url(value) }}">
+    <link href='http://fonts.googleapis.com/css?family=Roboto|Roboto+Slab&subset=latin,cyrillic' rel='stylesheet' type='text/css'>
+    <link rel="stylesheet" href="{{ 'css/common.css'|static_url(value) }}" media="all"/>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+    <title>Scienc</title>
+</head>
+    <body>
+        <div style="width: 100%; background: #192430; position: absolute; margin-top: 0; height: 100px"></div>
+        <div style="border-bottom: 5px solid #516273; position: absolute; width: 100%; margin-top: 100px"></div>
+        <script type="text/x-handlebars" id="application">
+            <section class="base_container">
+                <header class="main_header inline">
+                    <h1 class="main_logo"><a href="#"></a></h1>
+                    <span style="cursor: pointer; position: relative; float: right; right: 120px; padding-top: 40px">{{ '{{#link-to "addProject"}}' }}<img src='{{"images/common/add_project.png"|static_url(value) }}'/>{{ '{{/link-to}}' }}</span>
+                    <span style="cursor: pointer; position: relative; float: right; right: 140px; padding-top: 40px">{{ '{{#link-to "scientistProjects"}}' }}<img src='{{"images/common/my_projects.png"|static_url(value) }}'/>{{ '{{/link-to}}' }}</span>
+                    <span class="main_search"></span>
+                </header>
+
+                <div class="text_container" >
+
+                    {{ '{{ outlet }}' }}
+                    {{ '{{outlet modal}}' }}
+                </div>
+
+            </section>
+        </script>
+
+{# DO NOT DELETE!#}
+{#<span style="cursor: pointer; position: relative; float: right; right: 120px; padding-top: 40px">{{ '{{#link-to "scientistRegistration"}}' }}<img src='{{"images/common/register_icon.png"|static_url(value) }}'/>{{ '{{/link-to}}' }}</span>#}
+{#<span {{ "{{action 'openModal' 'modal' model}}" }} style="cursor: pointer; position: relative; float: right; right: 140px; padding-top: 40px"><img src='{{"images/common/login_icon.png"|static_url(value) }}'/></span>#}
+{#<span style="cursor: pointer; position: relative; float: right; right: 120px; padding-top: 40px">{{ '{{#link-to "addProject"}}' }}<img src='{{"images/common/add_project.png"|static_url(value) }}'/>{{ '{{/link-to}}' }}</span>#}
+{#<span style="cursor: pointer; position: relative; float: right; right: 140px; padding-top: 40px">{{ '{{#link-to "scientistProjects"}}' }}<img src='{{"images/common/my_projects.png"|static_url(value) }}'/>{{ '{{/link-to}}' }}</span>        #}
+
+
+        <script type="text/x-handlebars" data-template-name="scientists">
+            {% include 'templates/scientists_list.html' %}
+        </script>
+
+        <script type="text/x-handlebars" data-template-name="projects">
+            {% include 'templates/projects.html' %}
+        </script>
+
+        <script type="text/x-handlebars" data-template-name="scientist">
+            {% include 'templates/scientist_profile.html' %}
+        </script>
+
+        <script type="text/x-handlebars" data-template-name="scientistRegistration">
+            {% include 'templates/scientist_registration.html' %}
+        </script>
+
+        <script type="text/x-handlebars" data-template-name="addProject">
+            {% include 'templates/add_project.html' %}
+        </script>
+{##}
+{#        <script type="text/x-handlebars" data-template-name="scientistProjects">#}
+{#            {% include 'templates/scientist_projects.html' %}#}
+{#        </script>#}
+
+        <script type="text/x-handlebars" data-template-name="modal">
+            {% include 'templates/components/modal-dialog.html' %}
+        </script>
+
+          <script type="text/x-handlebars" id="components/modal-dialog">
+                <div class="overlay" {{ '{{action "close"}}' }}>
+                </div>
+                <div class="modal">
+                    {{ '{{yield}}' }}
+                </div>
+          </script>
+
+    <script src="{{ 'js/libs/jquery-1.10.2.min.js'|static_url(value) }}"></script>
+    <script src="{{ 'js/libs/handlebars-1.0.0.js'|static_url(value) }}"></script>
+    <script src="{{ 'js/libs/ember.js'|static_url(value) }}"></script>
+    <script src="{{ 'js/libs/ember-data.js'|static_url(value) }}"></script>
+    <script src="{{'js/application.js'|static_url(value) }}"></script>
+    <script src="{{'js/router.js'|static_url(value) }}"></script>
+    <script src="{{'js/models/scientist.js'|static_url(value) }}"></script>
+    <script src="{{'js/models/project.js'|static_url(value) }}"></script>
+    <script src="{{'js/controllers/scientistRegistrationController.js'|static_url(value) }}"></script>
+    <script src="{{'js/controllers/scientistsController.js'|static_url(value) }}"></script>
+    <script src="{{'js/controllers/projectsController.js'|static_url(value) }}"></script>
+    <script src="{{'js/controllers/addProjectController.js'|static_url(value) }}"></script>
+    </body>
+</html>

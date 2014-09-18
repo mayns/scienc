@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+
+{% block base_body_content %}
+    <div class="text_container" >
+{#        <h2 style="margin-bottom: 20px">Участники проекта</h2>#}
+        <div class="inline user_list_element">
+            <span><img src='{{"images/common/user_photo_100.png"|static_url(value) }}'/></span>
+            <div class="user_list_middle">
+                <span class="font_slab_32">Михаил Васильевич Ломоносов</span>
+                <div style="clear: left; margin-top: 25px;"><span style="font-size: 18px; font-weight: bold">Проектов: </span><span style="font-weight: bolder; font-size: 20px; color: #0a926a; margin-left: 10px">899</span></div>
+            </div>
+            <span class="delete_user"></span>
+        </div>
+    </div>
+
+{% endblock %}

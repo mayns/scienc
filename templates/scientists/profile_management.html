@@ -1,0 +1,138 @@
+{% extends 'base.html' %}
+
+{% block page_js %}
+    <script>
+
+        $("#submit").on('click', function(){
+            var name = getCookie('_xsrf');
+            var form = "addScientistForm";
+            var scientist = get_data(form);
+            console.log(name);
+            $.ajax({
+              type: "POST",
+              url: "/ajax/scientists/add/",
+              dataType: 'json',
+              data: {
+                _xsrf: name,
+                scientist: JSON.stringify(scientist)
+              },
+              success: function(response) {
+                console.log(response);
+              }
+            });
+        })
+
+    </script>
+{% endblock %}
+
+{% block base_body_content %}
+    <div class="text_container" >
+        <h2 style="margin-bottom: 20px">Редактировать профиль</h2>
+        <form id="addScientistForm">
+            <div class="common_info margin_bottom">
+                <div class = "common_info_left">
+                    <div class="line_body">
+                        <h3 class="font_grey">Общие сведения</h3>
+                        <div class="line margin_left w700"><span class="line_body_left font_grey">Фамилия</span><span class="line_body_right"><input id="surname" class="main_input" type="text"></span></div>
+                        <div class="line margin_left w700"><span class="line_body_left font_grey">Имя</span><span class="line_body_right"><input id="name" class="main_input" type="text"></span></div>
+                        <div class="line margin_left w700"><span class="line_body_left font_grey">Отчество</span><span class="line_body_right"><input id="middle_name" class="main_input line_body_right" type="text"></span></div>
+                        <div class="line margin_left w700"><span class="line_body_left font_grey">Дата рождения</span>
+                            <span class="line_body_right">
+                                <span class="date_format"><input style="text-align: center" class="main_input" id="birth_date_day" placeholder="дд" type="text"></span>
+                                <span class="date_format"><input style="text-align: center" class="main_input" id="birth_date_month" placeholder="мм" type="text"></span>
+                                <span class="date_format"><input style="text-align: center" class="main_input" id="birth_date_year" placeholder="гггг" type="text"></span>
+                            </span>
+                        </div>
+                        <div class="line margin_left w700"><span class="line_body_left font_grey">Место обитания</span>
+                            <span class="line_body_right">
+                                <span class="location_format"><input class="main_input" id="location_country" placeholder="-- Страна --" type="text"></span>
+                                <span class="location_format"><input class="main_input" id="location_city" placeholder="-- Город --" type="text"></span>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+                <div class="common_info_photo" >
+                    <img src='{{"images/common/register_user_photo.png"|static_url(value)}}' alt="Photo"/>
+                </div>
+            </div>
+            <div class="education margin_bottom">
+                <h3 class="font_grey">Сведения об образовании</h3>
+                <div class="middle_education margin_left margin_bottom_10">
+                    <h4 class="font_grey margin_bottom_10">Среднее образование</h4>
+                    <div class="education_block_left">
+                        <span style="width: 300px;"><input class="main_input" id="middle_education_country" type="text" placeholder="-- Страна --"></span>
+                        <span style="width: 300px; margin-left: 25px"><input class="main_input" id="middle_education_city" type="text" placeholder="-- Город --"></span>
+                        <span style="width: 625px; margin-top: 20px"><input class="main_input" id="middle_education_school" type="text" placeholder="-- Учебное заведение --"></span>
+                    </div>
+                    <div class="education_block_right">
+                        <input id="scholar" type="checkbox"><label class="font_grey" style="font-size: 14px; width: auto;">Учусь в настоящий момент</label>
+                        <span class="manage_form add_30" id="add_form"></span>
+                        <span class="manage_form remove_30 margin_left" id="remove_form"></span>
+                    </div>
+                </div>
+                <div class="high_education margin_left">
+                    <h4 class="font_grey margin_bottom_10">Высшее образование</h4>
+                    <div class="education_block_left">
+                        <span style="width: 300px;"><input class="main_input" id="high_education_country" type="text" placeholder="-- Страна --"></span>
+                        <span style="width: 300px; margin-left: 25px"><input class="main_input" id="high_education_city" type="text" placeholder="-- Город --"></span>
+                        <span style="width: 300px; margin-top: 20px"><input class="main_input" id="high_education_school" type="text" placeholder="-- Учебное заведение --"></span>
+                        <span style="width: 300px; margin-left: 25px; margin-top: 20px"><input class="main_input" id="high_education_status" type="text" placeholder="-- Степень --"></span>
+                    </div>
+                    <div class="education_block_right">
+                        <input id="student" type="checkbox"><label class="font_grey" style="font-size: 14px; width: auto;">Учусь в настоящий момент</label>
+                        <span class="manage_form add_30" id="add_form_education_id"></span>
+                        <span class="manage_form remove_30 margin_left" id="remove_form_education_id"></span>
+                    </div>
+                </div>
+            </div>
+            <div class="publications margin_bottom">
+                <h3 class="font_grey">Публикации</h3>
+                <div class="publications_block">
+                    <div class="publications_block_left">
+                        <span style="width: 425px;"><input class="main_input" id="middle_education_country" type="text" placeholder="-- Название --"></span>
+                        <span style="width: 425px; margin-left: 25px"><input class="main_input" id="middle_education_city" type="text" placeholder="-- Издание --"></span>
+                        <span style="width: 875px; margin-top: 20px"><input class="main_input" id="middle_education_school" type="text" placeholder="-- Ссылка --"></span>
+                    </div>
+                    <div class="publications_block_right">
+                        <span class="manage_form add_30" id="add_form_publication_id"></span>
+                        <span class="manage_form remove_30 margin_left" id="remove_form_publication_id"></span>
+                    </div>
+                </div>
+            </div>
+            <div class="interests margin_bottom">
+                <h3 class="font_grey">Сферы научных интересов</h3>
+                <textarea class="interests_field"></textarea>
+{#                    <div class="removable_tag">#}
+{#                        <span style="position: relative; float: left">Котики</span>#}
+{#                        <span style="float: left; position: relative; margin-left: 10px; padding-top: 2px; height: 20px"><img src='{{"images/common/del_tag.png"|static_url(value)}}'></span>#}
+{#                    </div>#}
+            </div>
+            <div class="gender margin_bottom">
+                <h3 class="font_grey">Пол</h3>
+                <span class="radio_gender"><input name="gender" id="male" type="radio"><label class="font_grey" style="font-size: 14px; width: auto;">Муж.</label></span>
+                <span class="radio_gender"><input name="gender" id="female" type="radio"><label class="font_grey" style="font-size: 14px; width: auto;">Жен.</label></span>
+            </div>
+            <div class="about margin_bottom">
+                <h3 class="font_grey">О себе</h3>
+                <textarea class="about_filed"></textarea>
+            </div>
+            <div class="contacts margin_bottom">
+                <h3 class="font_grey">Контакты</h3>
+                <div class="contacts_list">
+                    <span class="contacts_add">Email (будет виден другим пользователям)</span>
+                    <span class="add_20 margin_left"></span>
+                    <span style="font-size: 14px; width: auto; position: relative; float: right; height: auto"><input id="use_default_email" type="checkbox"><label class="font_grey">Использовать default@service.com</label></span>
+                    <span class="hidden" style="width: 625px; margin-top: 20px">
+                        <input class="main_input" id="email_id" type="text">
+                        <span class="remove_20 margin_left"></span>
+                    </span>
+                    <span class="contacts_add">Skype</span>
+                    <span class="add_20 margin_left"></span>
+                    <span class="contacts_add">Телефон</span>
+                    <span class="add_20 margin_left"></span>
+                </div>
+            </div>
+            <span id="edit" class="main_button" style="position: relative; margin-bottom: 70px; margin-left: 40%;">Редактировать</span>
+        </form>
+    </div>
+{% endblock %}

@@ -1,0 +1,9 @@
+{{ "{{#modal-dialog}}" }}
+    <form id="login">
+            <span {{ '{{action "close"}}' }} class="close-modal"></span>
+            <div class="centered"><span class="login-text">Log in</span></div>
+            <div class="centered" style="margin-left: 43px"><input id="login_email" class="login-input" type="text" placeholder="Email"></div>
+            <div class="centered" style="margin-left: 43px"><input id="login_password" class="login-input" type="password" placeholder="Password"></div>
+            <span {{ '{{action "close"}}' }} id="submit_login" style="margin-left: 28%" class="main_button">It's me again!</span>
+    </form>
+{{ '{{/modal-dialog}}' }}

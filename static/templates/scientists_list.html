@@ -1,0 +1,14 @@
+<ul id='scientists' style='list-style-type:none;'>
+    {{ '{{#each}}' }}
+        <li>
+            <div class="inline user_list_element">
+                <span><img src='{{"images/common/user_photo_100.png"|static_url(value) }}'/></span>
+                <div class="user_list_middle">
+                    <span class="font_slab_32">{{ "{{#link-to 'scientist' id}}" }}{{ '{{full_name}}' }}{{ "{{/link-to}}" }}</span>
+                    <div style="clear: left; margin-top: 25px;"><span style="font-size: 18px; font-weight: bold">Проектов: </span><span style="font-weight: bolder; font-size: 20px; color: #0a926a; margin-left: 10px">899</span></div>
+                </div>
+                <span class="delete_user" {{ '{{action "remove" id}}' }}></span>
+            </div>
+        </li>
+    {{ '{{/each}}' }}
+</ul>

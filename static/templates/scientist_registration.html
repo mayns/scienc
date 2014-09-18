@@ -1,0 +1,65 @@
+<h2 style="margin-bottom: 20px">Регистрация - предъявите партбилет</h2>
+<form id="addScientistForm">
+    <div class="common_info margin_bottom">
+        <div class = "common_info_left">
+            <div class="line_body">
+                <h3 class="font_grey">Общие сведения</h3>
+
+                <div class="line margin_left w700">
+                    <span class="line_body_left font_grey">Фамилия</span>
+                    <span class="line_body_right">
+                        {{ '{{ input id="last_name" class="main_input" type="text" value=last_name }}' }}
+                    </span>
+                </div>
+
+                <div class="line margin_left w700">
+                    <span class="line_body_left font_grey">Имя</span>
+                    <span class="line_body_right">
+                        {{ '{{ input id="first_name" class="main_input" type="text" value=first_name }}' }}
+                    </span>
+                </div>
+
+                <div class="line margin_left w700">
+                    <span class="line_body_left font_grey">Отчество</span>
+                    <span class="line_body_right">
+                        {{ '{{ input id="middle_name" class="main_input" type="text" value=middle_name }}' }}
+                    </span>
+                </div>
+
+                <div class="line margin_left w700">
+                    <span class="line_body_left font_grey">Место обитания</span>
+                    <span class="line_body_right">
+                        <span class="location_format">
+                            {{ '{{ input id="location_country" class="main_input" placeholder="-- Страна --" type="text" value=location_country }}' }}
+                        </span>
+                        <span class="location_format">
+                            {{ '{{ input id="location_city" class="main_input" placeholder="-- Город --" type="text" value=location_city }}' }}
+                        </span>
+                    </span>
+                </div>
+
+            </div>
+        </div>
+        <div class="common_info_photo" >
+            <img src='{{"images/common/register_user_photo.png"|static_url(value)}}' alt="Photo"/>
+        </div>
+    </div>
+
+    <div class="email_info clear_left">
+        <div class="line">
+            <span style="font-size: 19px; font-weight: bold; width: 170px" class="font_grey">Email</span>
+            <span style="width: 545px"><input id="middle_name" class="main_input" placeholder="default@service.com" type="text"></span>
+        </div>
+    </div>
+
+    <div class="passw_info clear_left font_grey margin_bottom">
+        <div class="line">
+            <span style="font-size: 19px; font-weight: bold; width: 170px" class="font_grey">Пароль</span>
+            <span style="width: 260px"><input id="middle_name" class="main_input" type="password"></span>
+            <span style="width: 260px; margin-left: 25px"><input id="middle_name" class="main_input" type="password" placeholder="Введите пароль еще раз"></span>
+{#            <span style="width: auto; margin-left: 25px" class="font_grey">Не менее 6 символов</span>#}
+        </div>
+    </div>
+
+    <span {{ '{{action "save"}}' }} id="submit" class="main_button" style="position: relative; margin-bottom: 70px; margin-left: 40%;">Вступаю!</span>
+</form>

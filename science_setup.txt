@@ -1,0 +1,142 @@
+##########################################
+# Настройка проекта Science для Mac OS X #
+##########################################
+
+Устанавливаем PCRE
+------------------
+curl -O ftp://ftp.csx.cam.ac.uk/pub/software/programming/pcre/pcre-8.33.tar.gz
+tar -xvzf pcre-8.33.tar.gz
+cd pcre-8.33/
+./configure
+make
+make install
+cd ..
+
+Устанавливаем HaProxy
+------------------
+curl -O http://haproxy.1wt.eu/download/1.5/src/devel/haproxy-1.5-dev19.tar.gz
+tar -xvzf haproxy-1.5-dev19.tar.gz
+cd haproxy-1.5-dev19/
+make TARGET=generic USE_PCRE=1 USE_OPENSSL=1 USE_ZLIB=1
+make install
+cd ..
+
+Устанавливаем redis
+------------------
+curl -O http://download.redis.io/releases/redis-2.6.16.tar.gz
+tar -xvzf redis-2.6.16.tar.gz
+cd redis-2.6.16
+make
+make install
+cd ..
+
+Устанавливаем nginx
+------------------
+curl -O http://nginx.org/download/nginx-1.5.4.tar.gz
+tar -xvzf nginx-1.5.4.tar.gz
+cd nginx-1.5.4/
+./configure --with-http_gzip_static_module --with-ipv6
+make
+make install
+cd ..
+
+Необходимые пакеты
+------------------
+pip install tornado supervisor django jinja2 babel python-memcached redis tornado-redis
+
+Генерим ssh ключ
+------------------
+выходим из sudo
+cd ~/.ssh
+ssh-keygen
+Filename не вводить, нажать enter; Phrase = <по желанию>
+pbcopy < id_rsa.pub
+добавить ключ в профиль на сайте
+
+Забираем из ветки master все данные в git
+
+Настраиваем Redis:
+-----------------
+создаем директории для хранения конфигов, бд и логов:
+sudo -s
+mkdir /opt
+mkdir /opt/db
+mkdir /opt/db/conf
+mkdir /opt/db/redis
+mkdir /var/log/redis_science
+chmod -R 777 /var/log/redis_science
+
+копируем конфиг в нужную директорию:
+cp configs/dev/redis_science.conf /opt/db/conf
+
+По желанию:
+добавляем редис в инит мак оси:
+cp configs/dev/org.redis.server.plist /Library/LaunchDaemons/
+
+загружаем демона:
+launchctl load /Library/LaunchDaemons/org.redis.server.plist
+
+чтобы его перезапустить, вызываем unload --> load
+
+Настраиваем Nginx
+----------------
+mkdir /usr/local/nginx
+ln -s /usr/loca/nginx/sbin/nginx /usr/local/bin/nginx
+cd в папку проекта
+cp -R configs/dev/nginx.conf /usr/local/nginx/conf
+
+В dev/science_nginx.conf заменить все пути на свои системные
+mkdir /var/log/nginx/
+mkdir /usr/local/nginx/sites-enabled
+cp configs/dev/science_nginx.conf /usr/local/nginx/sites-enabled
+ln -s /usr/local/nginx/sbin/nginx /usr/bin/
+nginx
+
+остановить nginx
+nginx -s stop
+
+Прописываем хосты:
+-----------------
+sudo -s
+nano /etc/hosts
+127.0.0.1       sciencemates.dev
+
+В PyCharm заходим в Settings --> File and Code Templates, выбираем Python Script, вставляем первой строкой 
+# -*- coding: utf-8 -*-
+
+Запускаем HaProxy из папки проекта:
+-----------------
+sudo haproxy -f configs/haproxy.conf
+
+если не находит такой команды, выполняем:
+ln -s /usr/local/sbin/haproxy /usr/bin/
+
+PostgreSQL with MacPorts
+----------------
+sudo port -v selfupdate
+sudo port install postgresql93-server
+
+Создаем папку, где будет храниться база
+sudo mkdir -p /opt/db/postgresql93/defaultdb
+
+Устанавливаем владельца и пароль
+sudo chown postgres:postgres /opt/db/postgresql93/defaultdb
+
+Инициализируем первоналачальную базу
+sudo su postgres -c '/opt/local/lib/postgresql93/bin/initdb -D /opt/db/postgresql93/defaultdb'
+
+Запускаем сервер
+sudo su postgres -c '/opt/local/lib/postgresql93/bin/postgres -D /opt/db/postgresql93/defaultdb'
+
+Прописываем путь
+export PATH=/opt/local/lib/postgresql93/bin:$PATH
+
+Это вроде как и так стоит
+createuser --superuser postgres -U postgres
+
+Создаем нашу базу
+createdb science
+
+Переход в базу
+sudo su postgres
+psql science
