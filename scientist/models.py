@@ -19,17 +19,17 @@ class Scientist(PSQLModel):
 
     def __init__(self, scientist_id):
         super(Scientist, self).__init__(scientist_id)
-        self.email = u''            # *
-        self.first_name = u''             # * - mandatory field
-        self.last_name = u''          # *
-        self.middle_name = u''      # *
-        self.dob = u''             #
+        self.email = u''
+        self.first_name = u''
+        self.last_name = u''
+        self.middle_name = u''
+        self.dob = u''
         self.gender = u''
-        self.image = u''           #
-        self.location_country = u''        # место пребывания
+        self.image = u''
+        self.location_country = u''
         self.location_city = u''
-        self.middle_education = []         # list of dicts
-        self.high_education = []         # list of dicts
+        self.middle_education = []
+        self.high_education = []
         self.publications = []
         self.interests = u''
         self.project_ids = []
