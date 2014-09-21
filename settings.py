@@ -17,13 +17,6 @@ COOKIE_SECRET = u"wfgelwdhgw734862ihdi"
 SESSION_SECRET = u"tf7843dyjbhxhswydwihdidhwq"
 
 
-# -------- MEMCACHED ---------- #
-
-MEMCACHE_SERVER = u'127.0.0.1:11211'
-MEMCACHE_TIMEOUT = 3600             # 1 hour in seconds
-MEMCACHE_SESSION_TIMEOUT = 86400    # 1 day in seconds
-
-
 # -------- STATIC ---------- #
 
 TEMPLATE_DIRS = (
