@@ -3,9 +3,8 @@
 __author__ = 'nyash myash'
 
 from tornado import gen
-import settings,hashlib,cPickle,time
+import settings, hashlib, cPickle, time
 from common.connections import RedisClient
-# from codecs import encode
 
 
 
@@ -24,14 +23,14 @@ REDIS_FILTER_KEY = u"Country:{country_id}:Filter:{filter}"
 
 n = 234
 
+
 def get_hash(fltr):
     """Returns a string of the hexdigest of the given filter name using MD5 algorithm"""
     hash_object = hashlib.md5(fltr.encode('utf-8'))
     return hash_object.hexdigest()
 
-
-
 #TODO I think this should be One Single Function to fill Redis with all this data.
+
 
 @gen.coroutine
 def add_data():

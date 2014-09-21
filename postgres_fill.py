@@ -3,11 +3,9 @@
 __author__ = 'nyash myash'
 
 from tornado import gen
-import logging
 import momoko
 import psycopg2
 import time
-import settings
 from common.psql_connections import PSQLClient
 from common.utils import generate_id
 import cPickle
@@ -33,8 +31,6 @@ def insert_data(partition):
                     title_ru = item[u'title']
             yield momoko.Op(conn.execute, u"""INSERT INTO countries (id, title_en, title_ru) VALUES
                                         ('{0}', '{1}', '{2}');""".format(i, title_en, title_ru))
-
-
 
         #inserting all another data
         for i in range(1,234):
@@ -140,7 +136,6 @@ def insert_data(partition):
                                         yield momoko.Op(conn.execute, u"""INSERT INTO chairs (chid, fid, title) VALUES
                                             ('{chid}', '{fid}', '{title}');""".format(chid=chid, fid=fid,
                                                                                       title=chair_title))
-
 
     except (psycopg2.Warning, psycopg2.Error) as error:
         raise Exception(str(error))

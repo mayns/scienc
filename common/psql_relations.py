@@ -9,6 +9,8 @@ from common.psql_connections import PSQLClient
 
 __author__ = 'mayns'
 
+PSQL_TABLES = [u'scientists', u'projects']
+
 
 def create_dbs():
     from psycopg2 import connect
@@ -44,19 +46,9 @@ def create_dbs():
 @gen.coroutine
 def create_relations(partition):
     try:
-        print u'creating relations'
-        # yield delete_tables(partition)
-        # yield delete_tables(partition)
-        # logging.info(u'creating scientists')
+        yield delete_tables(partition)
         yield create_project_relation(partition)
-        # yield create_scientists_relation(partition)
-        # yield create_country_relation(partition)
-        # yield create_city_relation(partition)
-        # yield create_main_city_relation(partition)
-        # yield create_university_relation(partition)
-        # yield create_faculty_relation(partition)
-        # yield create_chair_relation(partition)
-        # yield create_school_relation(partition)
+        yield create_scientists_relation(partition)
         logging.info(u'done')
 
     except (psycopg2.Warning, psycopg2.Error) as error:
@@ -66,107 +58,89 @@ def create_relations(partition):
 @gen.coroutine
 def delete_tables(partition):
         conn = PSQLClient.get_client(partition)
-        logging.info(u'deleting scientists')
-        yield momoko.Op(conn.execute, 'DROP TABLE scientists CASCADE')
+        for table in PSQL_TABLES:
+            try:
+                logging.info(u'deleting {}'.format(table))
+                print u'deleting {}'.format(table)
+                yield momoko.Op(conn.execute, u'DROP TABLE %s CASCADE' % table)
+            except Exception, ex:
+                print ex
+                continue
 
 
 @gen.coroutine
 def create_scientists_relation(partition):
-        conn = PSQLClient.get_client(partition)
+    logging.info(u'creating scientists relation')
+    conn = PSQLClient.get_client(partition)
+    yield momoko.Op(conn.execute,
+                    'CREATE TABLE scientists ('
+                    'id    varchar(80) primary key, '
+                    'email  text, '
+                    'first_name text, '
+                    'last_name text, '
+                    'middle_name text, '
+                    'dob text, '
+                    'gender text, '
+                    'image text, '
+                    'location_country text, '
+                    'location_city text, '
+                    'middle_education  text[], '
+                    'high_education  text[], '
+                    'publications  text[], '
+                    'interests  text, '
+                    'project_ids  text[], '
+                    'about  text, '
+                    'contacts  text[],'
+                    'desired_projects  text[]);')
 
-        # yield momoko.Op(conn.execute, u"CREATE UNIQUE INDEX scientists_unique ON scientists (id, email);")
-        yield momoko.Op(conn.execute,
-                        'CREATE TABLE scientists ('
-                        'id    varchar(80) primary key, '
-                        'first_name text, '
-                        'last_name text, '
-                        'middle_name text, '
-                        'dob_day text, '
-                        'dob_month text, '
-                        'dob_year text, '
-                        'gender text, '
-                        'image text, '
-                        'location_country text, '
-                        'location_city text, '
-                        'middle_education  text[], '
-                        'high_education  text[], '
-                        'publications  text[], '
-                        'interests  text, '
-                        'project_ids  text[], '
-                        'about  text, '
-                        'email  text, '
-                        'contacts  text[]);')
-
-        yield momoko.Op(conn.execute, u"CREATE INDEX scientists_projects_gin ON scientists USING GIN(project_ids);")
+    yield momoko.Op(conn.execute, u"CREATE INDEX scientists_projects_gin ON scientists USING GIN(project_ids);")
 
 
 @gen.coroutine
 def create_project_relation(partition):
+    logging.info(u'creating project relation')
     conn = PSQLClient.get_client(partition)
     yield momoko.Op(conn.execute,
                     'CREATE TABLE projects ('
-                    'id varchar(80) primary key,'
-                    # 'sphere text,'  # область исследований
-                    'title text,'  # название
-                    'description text DEFAULT NULL,'  # краткое описание - выводится в карточке проекта
-                    # 'short_description text DEFAULT NULL,'  # краткое описание - выводится в карточке проекта
-                    # 'participants text[],'  # участники проекта с ролями - как это сделать?????
-                    # 'form text,'  # личный, групповой, под эгидой организации
-                    # 'sponsor_organization_type text DEFAULT NULL,'  # гражданское научное учреждение, частная компания,
-                    # государственная или муниципальная компания, военное учреждение, общественная организация
-                    # 'organization_name text DEFAULT NULL,'
-                    'objective text,'  # цель исследваний
-                    'results text,'  # описание исследований
-                    'team text);')  # описание исследований
-                    # 'research_description text,'  # описание исследований
-                    # 'usage_facts text DEFAULT NULL,'  # результаты уже применены
-                    # 'usage_possibilities text DEFAULT NULL,'  # предполагаемое применение результатов
-                    # 'useful_data text DEFAULT NULL,' # полезные статьи и т.п.
-                    # 'main_project_id varchar(80) DEFAULT NULL ,'  # ссылка на основной прект (если таковой есть)
-                    # 'sub_project_id varchar(80) DEFAULT NULL,'  # ссылка на дополнительные проекты
-                    # 'gratuities text DEFAULT NULL);')
+                    'id varchar(80) primary key, '
+                    'research_fields text[], '
+                    'title text, '
+                    'description_short text, '
+                    'views integer, '
+                    'responses integer, '
+                    'organization_type text, '
+                    'organization_structure text, '
+                    'start_date text, '
+                    'end_date text, '
+                    'objective text, '
+                    'description_full text, '
+                    'usage_possibilities text, '
+                    'results text, '
+                    'related_data text, '
+                    'leader text, '
+                    'participants text[], '
+                    'missed_participants text[], '
+                    'tags text[], '
+                    'manager text, '
+                    'contacts text[]);')
 
-    # yield momoko.Op(conn.execute, u"CREATE INDEX title_ru_idx ON projects "
-    #                               u"USING GIN (to_tsvector('russian', title));")
-    # yield momoko.Op(conn.execute, u"CREATE INDEX title_en_idx ON projects "
-    #                               u"USING GIN (to_tsvector('english', title));")
-    #
-    # yield momoko.Op(conn.execute, u"CREATE INDEX short_description_ru_idx ON projects "
-    #                               u"USING GIN (to_tsvector('russian', short_description));")
-    # yield momoko.Op(conn.execute, u"CREATE INDEX short_description_en_idx ON projects "
-    #                               u"USING GIN (to_tsvector('english', short_description));")
-    #
-    # yield momoko.Op(conn.execute, u"CREATE INDEX organization_name_ru_idx ON projects "
-    #                               u"USING GIN (to_tsvector('russian', organization_name));")
-    # yield momoko.Op(conn.execute, u"CREATE INDEX organization_name_en_idx ON projects "
-    #                               u"USING GIN (to_tsvector('english', organization_name));")
-    #
-    # yield momoko.Op(conn.execute, u"CREATE INDEX purpose_ru_idx ON projects "
-    #                               u"USING GIN (to_tsvector('russian', purpose));")
-    # yield momoko.Op(conn.execute, u"CREATE INDEX purpose_en_idx ON projects "
-    #                               u"USING GIN (to_tsvector('english', purpose));")
-    #
-    # yield momoko.Op(conn.execute, u"CREATE INDEX research_description_ru_idx ON projects "
-    #                               u"USING GIN (to_tsvector('russian', research_description));")
-    # yield momoko.Op(conn.execute, u"CREATE INDEX research_description_en_idx ON projects "
-    #                               u"USING GIN (to_tsvector('english', research_description)); ")
-    #
-    # yield momoko.Op(conn.execute, u"CREATE INDEX sage_facts_ru_idx ON projects "
-    #                               u"USING GIN (to_tsvector('russian', usage_facts));")
-    # yield momoko.Op(conn.execute, u"CREATE INDEX usage_facts_en_idx ON projects "
-    #                               u"USING GIN (to_tsvector('english', usage_facts));")
-    #
-    # yield momoko.Op(conn.execute, u"CREATE INDEX usage_possibilities_ru_idx ON projects "
-    #                               u"USING GIN (to_tsvector('russian', usage_possibilities));")
-    # yield momoko.Op(conn.execute, u"CREATE INDEX usage_possibilities_en_idx ON projects "
-    #                               u"USING GIN (to_tsvector('english', usage_possibilities));")
+    yield momoko.Op(conn.execute, u"CREATE INDEX title_ru_idx ON projects "
+                                  u"USING GIN (to_tsvector('russian', title));")
+    yield momoko.Op(conn.execute, u"CREATE INDEX title_en_idx ON projects "
+                                  u"USING GIN (to_tsvector('english', title));")
+
+    yield momoko.Op(conn.execute, u"CREATE INDEX organization_structure_ru_idx ON projects "
+                                  u"USING GIN (to_tsvector('russian', organization_structure));")
+    yield momoko.Op(conn.execute, u"CREATE INDEX organization_structure_en_idx ON projects "
+                                  u"USING GIN (to_tsvector('english', organization_structure));")
+
+    yield momoko.Op(conn.execute, u"CREATE INDEX description_full_ru_idx ON projects "
+                                  u"USING GIN (to_tsvector('russian', description_full));")
+    yield momoko.Op(conn.execute, u"CREATE INDEX description_full_en_idx ON projects "
+                                  u"USING GIN (to_tsvector('english', description_full)); ")
 
 
-
-
-
-
-
+# ---------------------- EDUCATION & LOCATION TABLES --------------------------
 
 @gen.coroutine
 def create_country_relation(partition):

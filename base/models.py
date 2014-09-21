@@ -2,7 +2,7 @@
 
 from tornado import gen
 from common.decorators import redis_connection
-from common.cache import Memcached
+
 __author__ = 'oks'
 
 
@@ -37,7 +37,6 @@ class RedisModel(object):
 
 
 class PSQLModel(object):
-    MEM_KEY_ID = None
     PSQL_TABLE = None
     PSQL_COLUMNS = None
 
@@ -55,21 +54,6 @@ class PSQLModel(object):
     def type(self):
         return self.__class__.__name__
 
-    def flush_memcached(self):
-        if self.MEM_KEY_ID:
-            Memcached.set_object_cached(self.MEM_KEY_ID % self.id, self)
-
-    def delete_memcached(self, refresh_related_objects=False):
-        if self.MEM_KEY_ID:
-            Memcached.delete_cached_object(self.MEM_KEY_ID % self.id)
-
-        if refresh_related_objects:
-            self.refresh_related_objects()
-
-    @classmethod
-    def delete_memcached_by_id(cls, entity_id):
-        Memcached.delete_cached_object(cls.MEM_KEY_ID % entity_id)
-
     def refresh_related_objects(self):
         # must implement in child-class
         pass
@@ -79,20 +63,6 @@ class PSQLModel(object):
     def from_db_by_id(cls, *args):
         # abstract method
         raise NotImplementedError()
-
-
-    @classmethod
-    @gen.coroutine
-    def get_by_id(cls, entity_id):
-        entity_id = entity_id
-        if cls.MEM_KEY_ID:
-            entity = Memcached.get_cached_object(cls.MEM_KEY_ID % entity_id)
-            if entity:
-                raise gen.Return(entity)
-        entity, rd_entity = yield gen.Task(cls.from_db_by_id, entity_id)
-        if entity and cls.MEM_KEY_ID:
-            entity.flush_memcached()
-        raise gen.Return(entity)
 
 
 def get_update_sql_query(tbl, update_params, where_params=None):
@@ -124,7 +94,5 @@ def get_insert_sql_query(tbl, insert_data):
         if i < len(insert_data.keys()) - 1:
             sql_fields += u','
             sql_values += u','
-    print tbl
-    print insert_data
     sql_string = u'INSERT INTO {table_name} ({fields}) VALUES ({values})'.format(table_name=tbl, fields=sql_fields, values=sql_values)
     return sql_string, insert_data

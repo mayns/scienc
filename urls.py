@@ -10,16 +10,17 @@ __author__ = 'oks'
 
 url_handlers = [
     (r"/", HomeHandler),
+
     # scientists
-    (r"/api/scientists", ScientistsListHandler),
-    (r"/api/scientists/add/", ScientistsListHandler),
-    (r"/api/scientists/(\w+)", ScientistsListHandler),
-    (r"/api/scientist/(\w+)", ScientistProfileHandler),
+    (r"/scientists", ScientistsListHandler),
+    (r"/scientists/add/", ScientistsListHandler),
+    (r"/scientists/(\w+)", ScientistsListHandler),
+    (r"/scientist/(\w+)", ScientistProfileHandler),
     (r"/ajax/scientists/login/", AjaxScientistLoginHandler),
 
     # projects
-    (r"/api/project/add", ProjectListHandler),
-    (r"/api/projects", ProjectListHandler),
+    (r"/project/add", ProjectListHandler),
+    (r"/projects", ProjectListHandler),
     # (r"/ckeditor/samples/", CkeditorSampleHandler),
 
 ]

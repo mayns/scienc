@@ -10,16 +10,16 @@ __author__ = 'oks'
 PROJECT_ID = u'ScienceMates'
 PROJECT_NAME = u'ScienceMates'
 PROJECT_TITLE = u'ScienceMates'
-SERVER_IP = 'localhost'
+SERVER_IP = u'localhost'
 PROJECT_PATH = os.path.join(os.path.dirname(__file__))
 
-COOKIE_SECRET = "wfgelwdhgw734862ihdi"
-SESSION_SECRET = "tf7843dyjbhxhswydwihdidhwq"
+COOKIE_SECRET = u"wfgelwdhgw734862ihdi"
+SESSION_SECRET = u"tf7843dyjbhxhswydwihdidhwq"
 
 
 # -------- MEMCACHED ---------- #
 
-MEMCACHE_SERVER = '127.0.0.1:11211'
+MEMCACHE_SERVER = u'127.0.0.1:11211'
 MEMCACHE_TIMEOUT = 3600             # 1 hour in seconds
 MEMCACHE_SESSION_TIMEOUT = 86400    # 1 day in seconds
 
@@ -27,18 +27,18 @@ MEMCACHE_SESSION_TIMEOUT = 86400    # 1 day in seconds
 # -------- STATIC ---------- #
 
 TEMPLATE_DIRS = (
-    os.path.join(PROJECT_PATH, "static"),
+    os.path.join(PROJECT_PATH, u"static"),
 )
 
 JINJA_FILTERS = (
-    'jinja.filters',
+    u'jinja.filters',
 )
 
 JINJA_EXTS = (
-    'jinja2.ext.i18n',
+    u'jinja2.ext.i18n',
 )
 
-BABEL_CONF = 'babel.cfg'
+BABEL_CONF = u'babel.cfg'
 
 
 # -------- REDIS ---------- #
@@ -53,7 +53,6 @@ REDIS_PARTITION_MAP = {
 REDIS_MAX_CONNECTIONS = 50000
 
 PSQL_PARTITION_DEFAULT = u'Default'
-PSQL_PARTITION_TEST = u'Test'
 
 PSQL_ROOT_USER = u'postgres'
 PSQL_ROOT_PASSWORD = u'postgres'

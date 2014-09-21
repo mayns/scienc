@@ -60,7 +60,6 @@ class Scientist(PSQLModel):
         scientist = yield cls.from_db_class_data(scientist_id, json_scientist)
         raise gen.Return((scientist, json_scientist))
 
-
     @classmethod
     @gen.coroutine
     @psql_connection()

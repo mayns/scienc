@@ -29,6 +29,7 @@ class PSQLClient(object):
             connection_params = settings.PSQL_PARTITION_MAP.get(partition, {})
             if use_async:
                 dsn = u'dbname={database} user={user} password={password} host={host} port={port}'.format(**connection_params)
+
                 def set_unicode():
                     psycopg2.extensions.register_type(psycopg2.extensions.UNICODE, _connection_pool[partition].getconn())
                     psycopg2.extensions.register_type(psycopg2.extensions.UNICODEARRAY, _connection_pool[partition].getconn())
@@ -39,7 +40,6 @@ class PSQLClient(object):
                 psycopg2.extensions.register_type(psycopg2.extensions.UNICODE, _connection_pool[partition])
                 psycopg2.extensions.register_type(psycopg2.extensions.UNICODEARRAY, _connection_pool[partition])
         return _connection_pool[partition]
-
 
     @classmethod
     def get_client(cls, partition, use_async=True):

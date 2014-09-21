@@ -2,10 +2,11 @@
 
 from importlib import import_module
 from inspect import getmembers, isfunction
-global jinja_template_loader
 from tornado.template import BaseLoader
 from jinja2 import FileSystemLoader, Environment, ChoiceLoader, TemplateNotFound, Template
 import settings
+
+global jinja_template_loader
 
 __author__ = 'oks'
 
