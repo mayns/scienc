@@ -22,7 +22,6 @@ REDIS_CHAIRS_KEY = u"Country:{country_id}:{city_id}:{university_id}:{faculty_id}
 REDIS_CHAIR_KEY = u"Country:{country_id}:{city_id}:{university_id}:{faculty_id}:{chair_id}"
 REDIS_FILTER_KEY = u"Country:{country_id}:Filter:{filter}"
 
-
 n = 234
 
 def get_hash(fltr):

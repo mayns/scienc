@@ -26,8 +26,8 @@ def psql_connection(partition=settings.PSQL_PARTITION_DEFAULT, use_async=True):
     def wrapper(function):
         @functools.wraps(function)
         def call(self, *args, **kwargs):
-            from common.psql_connections import PSQLNonTransactionClient
-            conn = PSQLNonTransactionClient.get_client(partition, use_async)
+            from common.psql_connections import PSQLClient
+            conn = PSQLClient.get_client(partition, use_async)
             return function(self, conn, *args, **kwargs)
         return call
     return wrapper
