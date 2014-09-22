@@ -91,7 +91,8 @@ def create_scientists_relation(partition):
                     'project_ids  text[], '
                     'about  text, '
                     'contacts  text[],'
-                    'desired_projects  text[]);')
+                    'desired_projects  text[],'
+                    'managing_projects  text[]);')
 
     yield momoko.Op(conn.execute, u"CREATE INDEX scientists_projects_gin ON scientists USING GIN(project_ids);")
 

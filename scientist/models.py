@@ -15,7 +15,7 @@ class Scientist(PSQLModel):
     PSQL_TABLE = u'scientists'
     PSQL_COLUMNS = [u'id', u'email', u'first_name', u'last_name', u'middle_name', u'dob', u'gender', u'image',
                     u'location_country', u'location_city', u'middle_education', u'high_education' u'publications',
-                    u'interests', u'project_ids', u'about', u'contacts', u'desired_projects']
+                    u'interests', u'project_ids', u'about', u'contacts', u'desired_projects', u'managing_projects']
 
     def __init__(self, scientist_id):
         super(Scientist, self).__init__(scientist_id)
@@ -36,6 +36,7 @@ class Scientist(PSQLModel):
         self.about = u''
         self.contacts = []
         self.desired_projects = []
+        self.managing_projects = []
 
     @classmethod
     @gen.coroutine
