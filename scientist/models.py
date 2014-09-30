@@ -13,13 +13,15 @@ __author__ = 'oks'
 class Scientist(PSQLModel):
 
     PSQL_TABLE = u'scientists'
-    PSQL_COLUMNS = [u'id', u'email', u'first_name', u'last_name', u'middle_name', u'dob', u'gender', u'image',
-                    u'location_country', u'location_city', u'middle_education', u'high_education' u'publications',
-                    u'interests', u'project_ids', u'about', u'contacts', u'desired_projects', u'managing_projects']
+    PSQL_COLUMNS = [u'id', u'email', u'password', u'first_name', u'last_name', u'middle_name', u'dob', u'gender',
+                    u'image', u'location_country', u'location_city', u'middle_education', u'high_education',
+                    u'publications', u'interests', u'project_ids', u'about', u'contacts', u'desired_projects',
+                    u'managing_projects', u'swear']
 
     def __init__(self, scientist_id):
         super(Scientist, self).__init__(scientist_id)
         self.email = u''
+        self.password = u''
         self.first_name = u''
         self.last_name = u''
         self.middle_name = u''
@@ -37,6 +39,7 @@ class Scientist(PSQLModel):
         self.contacts = []
         self.desired_projects = []
         self.managing_projects = []
+        self.swear = u''
 
     @classmethod
     @gen.coroutine
