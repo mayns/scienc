@@ -9,7 +9,7 @@ from common.psql_connections import PSQLClient
 
 __author__ = 'mayns'
 
-PSQL_TABLES = [u'scientists', u'projects']
+TABLES = [u'scientists', u'projects']
 
 
 def create_dbs():
@@ -49,6 +49,7 @@ def create_relations(partition):
         yield delete_tables(partition)
         yield create_project_relation(partition)
         yield create_scientists_relation(partition)
+        yield create_charmed_relation(partition)
         logging.info(u'done')
 
     except (psycopg2.Warning, psycopg2.Error) as error:
@@ -58,7 +59,7 @@ def create_relations(partition):
 @gen.coroutine
 def delete_tables(partition):
         conn = PSQLClient.get_client(partition)
-        for table in PSQL_TABLES:
+        for table in TABLES:
             try:
                 logging.info(u'deleting {}'.format(table))
                 print u'deleting {}'.format(table)
@@ -95,6 +96,16 @@ def create_scientists_relation(partition):
                     'managing_projects  text[]);')
 
     yield momoko.Op(conn.execute, u"CREATE INDEX scientists_projects_gin ON scientists USING GIN(project_ids);")
+
+
+@gen.coroutine
+def create_charmed_relation(partition):
+    logging.info(u'creating this... you know what')
+    conn = PSQLClient.get_client(partition)
+    yield momoko.Op(conn.execute,
+                    'CREATE TABLE charmed ('
+                    'id varchar(255) primary key,'
+                    'value text;')
 
 
 @gen.coroutine

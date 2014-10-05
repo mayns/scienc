@@ -60,7 +60,7 @@ def gen_hash(password, salt=None, algorithm='sha512'):
     if salt is None:
         salt = ''.join([random.choice(ascii_letters + digits) for _ in range(8)])
     hash_lib.update(salt)
-    return (algorithm, salt, hash_lib.hexdigest())
+    return algorithm, salt, hash_lib.hexdigest()
 
 
 def set_password(raw_password):

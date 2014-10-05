@@ -3,7 +3,6 @@ import momoko
 
 from tornado import gen
 import settings
-from common.decorators import redis_connection
 from common.psql_connections import PSQLNonTransactionClient
 from common.utils import set_password, generate_id
 from common.decorators import psql_connection
@@ -16,7 +15,6 @@ class ScientistBL(object):
 
     @classmethod
     @gen.coroutine
-    @redis_connection()
     def save_to_redis(cls, conn, data):
         email = data.get(u'email', None)
         if not email:
@@ -30,8 +28,12 @@ class ScientistBL(object):
 
 
     @classmethod
+    def validate_data(cls, data):
+        pass
+
+
+    @classmethod
     @gen.coroutine
-    @redis_connection()
     def check_user_exist(cls, conn, email):
         password = yield gen.Task(conn.get, u'User:Email:{}'.format(email))
         raise gen.Return(password)
@@ -39,43 +41,15 @@ class ScientistBL(object):
     @classmethod
     @gen.coroutine
     def add_scientist(cls, scientist_dict):
-        scientist_id = 0
+        scientist_id = generate_id()
+        scientist = Scientist.from_db_class_data(scientist_id, scientist_dict)
+        scientist.encrypt()
         try:
-            scientist_id = generate_id()
-            scientist = Scientist(scientist_id)
-            scientist.first_name = scientist_dict.get(u'first_name', u'')
-            scientist.last_name = scientist_dict.get(u'last_name', u'')
-            scientist.middle_name = scientist_dict.get(u'middle_name', u'')
-            scientist.dob_day = scientist_dict.get(u'dob_day', u'')
-            scientist.dob_month = scientist_dict.get(u'dob_month', u'')
-            scientist.dob_year = scientist_dict.get(u'dob_year', u'')
-            scientist.gender = scientist_dict.get(u'gender', u'')
-            scientist.image = scientist_dict.get(u'image', u'')
-            scientist.location_country = scientist_dict.get(u'location_country', u'')
-            scientist.location_city = scientist_dict.get(u'location_city', u'')
-            scientist.middle_education = scientist_dict.get(u'middle_education', [])
-            # scientist.middle_education = cls.get_middle_education_list(scientist_dict)
-            scientist.high_education = scientist_dict.get(u'high_education', [])
-            scientist.publications = scientist_dict.get(u'publications', [])
-            scientist.interests = scientist_dict.get(u'interests', u'')
-            scientist.project_ids = scientist_dict.get(u'project_ids', [])
-            scientist.about = scientist_dict.get(u'about', u'')
-            scientist.contacts = scientist_dict.get(u'contacts', [])
-            # scientist = yield Scientist.from_db_class_data(scientist_id, scientist_dict)
             yield scientist.save(update=False)
         except Exception, ex:
-            print u'Exception!!'
+            print u'Exception! in add scientist'
             print ex
         raise gen.Return(scientist_id)
-
-    # @classmethod
-    # @gen.coroutine
-    # def get_middle_education_list(cls, scientist_dict):
-    #     middle_education_list = scientist_dict.get(u'middle_education')
-    #     middle_education_country = scientist_dict.get(u'middle_education_country')
-    #     middle_education_city = scientist_dict.get(u'middle_education_city')
-    #     middle_education_city = scientist_dict.get(u'middle_education_title')
-    #     middle_education_year = scientist_dict.get(u'middle_education_year')
 
 
     @classmethod

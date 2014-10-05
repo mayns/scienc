@@ -24,7 +24,7 @@ class ScientistNewHandler(BaseRequestHandler):
 
 
 class ScientistsListHandler(BaseRequestHandler):
-    def get_grava(self):
+    def gravatar(self):
         email = 'oksgorobets@gmail.com'
         size = 40
         gravatar_url = "http://www.gravatar.com/avatar/" + hashlib.md5(email.lower()).hexdigest() + "?"
@@ -42,7 +42,10 @@ class ScientistsListHandler(BaseRequestHandler):
     @gen.coroutine
     def post(self, *args, **kwargs):
         scientist_dict = json.loads(self.request.body)
-        scientist_id = yield ScientistBL.add_scientist(scientist_dict[u'scientist'])
+        if ScientistBL.validate_data(scientist_dict):
+            scientist_id = yield ScientistBL.add_scientist(scientist_dict[u'scientist'])
+        else:
+            raise Exception(u'Not valid data')
         scientist_dict['scientist'].update(dict(id=scientist_id))
         self.finish(json.dumps(scientist_dict))
 

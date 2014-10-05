@@ -1,49 +1,18 @@
 # -*- coding: utf-8 -*-
 
 from tornado import gen
-from common.decorators import redis_connection
 
 __author__ = 'oks'
 
 
-class RedisModel(object):
-    REDIS_KEY = u"General"
-
-    def __init__(self, entity_id):
-        self.entity_id = entity_id
-
-    @property
-    def type(self):
-        return self.__class__.__name__
-
-    def refresh_related_objects(self):
-        # must implement in child-class
-        pass
-
-    @classmethod
-    @gen.coroutine
-    def from_redis_by_id(cls, *args):
-        # abstract method
-        raise NotImplementedError()
-
-    @classmethod
-    @redis_connection()
-    def remove_from_redis(cls, conn, entity_id):
-        yield gen.Task(conn.delete, u"{name}:{id}".format(name=cls.REDIS_KEY, id=entity_id))
-
-    @redis_connection()
-    def update_entity(self, **kwargs):
-        pass
-
-
 class PSQLModel(object):
-    PSQL_TABLE = None
-    PSQL_COLUMNS = None
+    TABLE = None
+    COLUMNS = None
 
     def __init__(self, entity_id):
         self.id = entity_id
-        self.psql_table = self.PSQL_TABLE
-        self.psql_columns = self.PSQL_COLUMNS
+        self.psql_table = self.TABLE
+        self.psql_columns = self.COLUMNS
         self.initialize()
 
     def initialize(self):

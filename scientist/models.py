@@ -2,7 +2,7 @@
 
 import json
 import momoko
-
+from common.utils import gen_hash, set_password
 from tornado import gen
 from base.models import PSQLModel, get_insert_sql_query, get_update_sql_query
 from common.decorators import psql_connection
@@ -11,17 +11,17 @@ __author__ = 'oks'
 
 
 class Scientist(PSQLModel):
-
-    PSQL_TABLE = u'scientists'
-    PSQL_COLUMNS = [u'id', u'email', u'password', u'first_name', u'last_name', u'middle_name', u'dob', u'gender',
-                    u'image', u'location_country', u'location_city', u'middle_education', u'high_education',
-                    u'publications', u'interests', u'project_ids', u'about', u'contacts', u'desired_projects',
-                    u'managing_projects', u'swear']
+    TABLE = u'scientists'
+    COLUMNS = [u'id', u'email', u'first_name', u'last_name', u'middle_name', u'dob', u'gender',
+               u'image', u'location_country', u'location_city', u'middle_education', u'high_education',
+               u'publications', u'interests', u'project_ids', u'about', u'contacts', u'desired_project_ids',
+               u'managing_project_ids', u'swear']
+    CHARMED = u'charmed'
+    CHARMED_COLUMNS = [u'key', u'value']
 
     def __init__(self, scientist_id):
         super(Scientist, self).__init__(scientist_id)
         self.email = u''
-        self.password = u''
         self.first_name = u''
         self.last_name = u''
         self.middle_name = u''
@@ -34,29 +34,41 @@ class Scientist(PSQLModel):
         self.high_education = []
         self.publications = []
         self.interests = u''
-        self.project_ids = []
+        self.project_ids = []  # participate project ids
         self.about = u''
         self.contacts = []
-        self.desired_projects = []
-        self.managing_projects = []
+        self.desired_project_ids = []
+        self.managing_project_ids = []
         self.swear = u''
 
+    @psql_connection()
+    def encrypt(self, conn, data, update=True):
+        key = gen_hash(self.id, self.email)
+        value = set_password(data[u'password'])
+        if update:
+            sqp_query, params = get_update_sql_query(self.CHARMED, dict(id=key, value=value))
+        else:
+            sqp_query, params = get_insert_sql_query(self.CHARMED, dict(id=key, value=value))
+        yield momoko.Op(conn.execute, sqp_query, params)
+
     @classmethod
-    @gen.coroutine
     def from_db_class_data(cls, scientist_id, scientist_dict):
         scientist = Scientist(scientist_id)
         for key, value in scientist_dict.iteritems():
-            if value and hasattr(scientist, key):
+            if hasattr(scientist, key):
                 setattr(scientist, key, value)
-        raise gen.Return(scientist)
+            else:
+                raise Exception(u'Unknown attribute: {}'.format(key))
+        return scientist
 
     @classmethod
     @gen.coroutine
     @psql_connection()
     def from_db_by_id(cls, conn, scientist_id):
-        cursor = yield momoko.Op(conn.execute, u"SELECT {columns} FROM {table_name} WHERE id={id}".format(columns=u', '.join(cls.PSQL_COLUMNS),
-                                                                                                          table_name=cls.PSQL_TABLE,
-                                                                                                          id=str(scientist_id)))
+        cursor = yield momoko.Op(conn.execute, u"SELECT {columns} FROM {table_name} WHERE id={id}".format(
+            columns=u', '.join(cls.PSQL_COLUMNS),
+            table_name=cls.PSQL_TABLE,
+            id=str(scientist_id)))
         scientist_data = cursor.fetchone()
         if not scientist_data:
             raise gen.Return((None, None))
@@ -72,7 +84,8 @@ class Scientist(PSQLModel):
         scientists_data = cursor.fetchall()
         if not scientists_data:
             raise gen.Return(None)
-        json_scientists = json.dumps({'scientist': [dict(zip(cls.PSQL_COLUMNS, scientist_data)) for scientist_data in scientists_data]})
+        json_scientists = json.dumps(
+            {'scientist': [dict(zip(cls.PSQL_COLUMNS, scientist_data)) for scientist_data in scientists_data]})
         raise gen.Return(json_scientists)
 
     @gen.coroutine
