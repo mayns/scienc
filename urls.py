@@ -14,15 +14,11 @@ url_handlers = [
     (r"/not-found", cm_handlers.NotFoundHandler),
 
     # scientists
-    (r"/scientists", sc_handlers.ScientistsListHandler),
-    (r"/scientists/add/", sc_handlers.ScientistsListHandler),
-    (r"/scientists/(\w+)", sc_handlers.ScientistsListHandler),
-    (r"/scientist/(\w+)", sc_handlers.ScientistProfileHandler),
+    (r"/scientists/(\w+)", sc_handlers.ScientistHandler),
     (r"/ajax/scientists/login/", sc_ajax_handlers.AjaxScientistLoginHandler),
 
     # projects
-    (r"/project/add", pr_handlers.ProjectListHandler),
-    (r"/projects", pr_handlers.ProjectListHandler),
+    (r"/projects/(\w+)", pr_handlers.ProjectHandler),
     # (r"/ckeditor/samples/", CkeditorSampleHandler),
 
 ]
