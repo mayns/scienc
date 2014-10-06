@@ -13,3 +13,9 @@ class HomeHandler(BaseRequestHandler):
         self.render(u'index.html')
 
 
+class NotFoundHandler(BaseRequestHandler):
+    @gen.coroutine
+    def get(self):
+        self.render(u'404.html')
+
+
