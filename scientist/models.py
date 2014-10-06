@@ -11,11 +11,14 @@ __author__ = 'oks'
 
 
 class Scientist(PSQLModel):
+
+    ENTITY = u'scientist'
     TABLE = u'scientists'
     COLUMNS = [u'id', u'email', u'first_name', u'last_name', u'middle_name', u'dob', u'gender',
                u'image', u'location_country', u'location_city', u'middle_education', u'high_education',
                u'publications', u'interests', u'project_ids', u'about', u'contacts', u'desired_project_ids',
                u'managing_project_ids', u'swear']
+
     CHARMED = u'charmed'
     CHARMED_COLUMNS = [u'key', u'value']
 
@@ -75,18 +78,6 @@ class Scientist(PSQLModel):
         json_scientist = dict(zip(cls.PSQL_COLUMNS, scientist_data))
         scientist = yield cls.from_db_class_data(scientist_id, json_scientist)
         raise gen.Return((scientist, json_scientist))
-
-    @classmethod
-    @gen.coroutine
-    @psql_connection()
-    def get_all_json(cls, conn):
-        cursor = yield momoko.Op(conn.execute, u'SELECT * FROM {table_name}'.format(table_name=cls.PSQL_TABLE))
-        scientists_data = cursor.fetchall()
-        if not scientists_data:
-            raise gen.Return(None)
-        json_scientists = json.dumps(
-            {'scientist': [dict(zip(cls.PSQL_COLUMNS, scientist_data)) for scientist_data in scientists_data]})
-        raise gen.Return(json_scientists)
 
     @gen.coroutine
     @psql_connection()

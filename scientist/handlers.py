@@ -14,14 +14,11 @@ class ScientistsListHandler(BaseRequestHandler):
 
     @gen.coroutine
     def get(self):
+        print u'scientists list get'
         scientists = yield ScientistBL.get_all_scientists()
         if scientists is None:
-            scientists = json.dumps({'scientists': []})
+            scientists = json.dumps({u'scientists': []})
         self.finish(scientists)
-
-    @gen.coroutine
-    def put(self):
-        print u'scientists list put'
 
 
 class ScientistHandler(BaseRequestHandler):
@@ -42,7 +39,7 @@ class ScientistHandler(BaseRequestHandler):
             scientist_id = yield ScientistBL.add_scientist(scientist_dict[u'scientist'])
         else:
             raise Exception(u'Not valid data')
-        scientist_dict['scientist'].update(dict(id=scientist_id))
+        scientist_dict[u'scientist'].update(dict(id=scientist_id))
         self.finish(json.dumps(scientist_dict))
 
     @gen.coroutine

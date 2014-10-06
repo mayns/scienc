@@ -24,13 +24,12 @@ class ScientistBL(object):
             return
         enc_password = set_password(password)
         yield gen.Task(conn.set, u'User:Email:{}'.format(email), enc_password)
-        yield gen.Task(conn.hmset, u"Scientist:{id}".format(id=data['id']), data)
+        yield gen.Task(conn.hmset, u"Scientist:{id}".format(id=data[u'id']), data)
 
 
     @classmethod
     def validate_data(cls, data):
         pass
-
 
     @classmethod
     @gen.coroutine
@@ -50,7 +49,6 @@ class ScientistBL(object):
             print u'Exception! in add scientist'
             print ex
         raise gen.Return(scientist_id)
-
 
     @classmethod
     @gen.coroutine

@@ -15,8 +15,8 @@ url_handlers = [
     (r"/not-found", cm_handlers.NotFoundHandler),
 
     # scientists
-    (r"/scientists", sc_handlers.ScientistsListHandler),
     (r"/scientist/(\w+)", sc_handlers.ScientistHandler),
+    (r"/scientists", sc_handlers.ScientistsListHandler),
     (r"/ajax/scientist/login/", sc_ajax_handlers.AjaxScientistLoginHandler),
 
     # projects

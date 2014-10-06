@@ -29,10 +29,8 @@ class ProjectBL(object):
     @classmethod
     @gen.coroutine
     def get_all_projects(cls):
-        projects = None
         try:
             projects = yield Project.get_all_json()
-
+            raise gen.Return(projects)
         except Exception, ex:
             print u'Exception', ex
-        raise gen.Return(projects)

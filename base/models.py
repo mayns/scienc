@@ -1,23 +1,28 @@
 # -*- coding: utf-8 -*-
 
+import json
+import momoko
 from tornado import gen
+from common.decorators import psql_connection
 
 __author__ = 'oks'
 
 
 class PSQLModel(object):
+
+    ENTITY = None
     TABLE = None
     COLUMNS = None
 
     def __init__(self, entity_id):
         self.id = entity_id
-        self.psql_table = self.TABLE
-        self.psql_columns = self.COLUMNS
+        self.table = self.TABLE
+        self.columns = self.COLUMNS
         self.initialize()
 
     def initialize(self):
-        assert self.psql_table, u'PSQL table name not specified'
-        assert self.psql_columns, u'PSQL columns name not specified'
+        assert self.table, u'PSQL table name not specified'
+        assert self.columns, u'PSQL columns name not specified'
 
     @property
     def type(self):
@@ -32,6 +37,18 @@ class PSQLModel(object):
     def from_db_by_id(cls, *args):
         # abstract method
         raise NotImplementedError()
+
+    @classmethod
+    @gen.coroutine
+    @psql_connection()
+    def get_all_json(cls, conn):
+        print cls.TABLE
+        cursor = yield momoko.Op(conn.execute, u'SELECT * FROM {table_name}'.format(table_name=cls.TABLE))
+        data = cursor.fetchall()
+        if not data:
+            raise gen.Return(None)
+        json_data = json.dumps({cls.ENTITY: [dict(zip(cls.COLUMNS, entity_data)) for entity_data in data]})
+        raise gen.Return(json_data)
 
 
 def get_update_sql_query(tbl, update_params, where_params=None):
