@@ -30,6 +30,16 @@ class CkeditorSampleHandler(BaseRequestHandler):
         self.render(u'/ckeditor/samples/index.html')
 
 
+class ProjectsListHandler(BaseRequestHandler):
+
+    @gen.coroutine
+    def get(self):
+        projects = yield ProjectBL.get_all_projects()
+        if projects is None:
+            projects = json.dumps({'projects': []})
+        self.finish(projects)
+
+
 class ProjectHandler(BaseRequestHandler):
     @gen.coroutine
     def post(self, *args, **kwargs):
@@ -50,7 +60,3 @@ class ProjectHandler(BaseRequestHandler):
     @gen.coroutine
     def get(self):
         print u'project get'
-        projects = yield ProjectBL.get_all_projects()
-        if projects is None:
-            projects = json.dumps({'projects': []})
-        self.finish(projects)

@@ -3,6 +3,7 @@
 # from project.handlers import CkeditorSampleHandler
 from common import handlers as cm_handlers
 from project import handlers as pr_handlers
+from project import ajax_handlers as pr_ajax_handlers
 from scientist import handlers as sc_handlers
 from scientist import ajax_handlers as sc_ajax_handlers
 
@@ -14,11 +15,13 @@ url_handlers = [
     (r"/not-found", cm_handlers.NotFoundHandler),
 
     # scientists
-    (r"/scientists/(\w+)", sc_handlers.ScientistHandler),
-    (r"/ajax/scientists/login/", sc_ajax_handlers.AjaxScientistLoginHandler),
+    (r"/scientists", sc_handlers.ScientistsListHandler),
+    (r"/scientist/(\w+)", sc_handlers.ScientistHandler),
+    (r"/ajax/scientist/login/", sc_ajax_handlers.AjaxScientistLoginHandler),
 
     # projects
-    (r"/projects/(\w+)", pr_handlers.ProjectHandler),
+    (r"/project/(\w+)", pr_handlers.ProjectHandler),
+    (r"/projects", pr_handlers.ProjectsListHandler),
     # (r"/ckeditor/samples/", CkeditorSampleHandler),
 
 ]

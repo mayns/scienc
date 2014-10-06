@@ -10,13 +10,21 @@ from scientist.scientist_bl import ScientistBL
 __author__ = 'oks'
 
 
+class ScientistsListHandler(BaseRequestHandler):
+
+    @gen.coroutine
+    def get(self):
+        scientists = yield ScientistBL.get_all_scientists()
+        if scientists is None:
+            scientists = json.dumps({'scientists': []})
+        self.finish(scientists)
+
+    @gen.coroutine
+    def put(self):
+        print u'scientists list put'
+
+
 class ScientistHandler(BaseRequestHandler):
-    def gravatar(self):
-        email = 'oksgorobets@gmail.com'
-        size = 40
-        gravatar_url = "http://www.gravatar.com/avatar/" + hashlib.md5(email.lower()).hexdigest() + "?"
-        gravatar_url += urllib.urlencode({'s': str(size)})
-        return gravatar_url
 
     @gen.coroutine
     def put(self):
@@ -25,10 +33,6 @@ class ScientistHandler(BaseRequestHandler):
     @gen.coroutine
     def get(self):
         print u'scientist get'
-        scientists = yield ScientistBL.get_all_scientists()
-        if scientists is None:
-            scientists = json.dumps({'scientists': []})
-        self.finish(scientists)
 
     @gen.coroutine
     def post(self, *args, **kwargs):
