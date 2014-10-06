@@ -105,7 +105,7 @@ def create_charmed_relation(partition):
     yield momoko.Op(conn.execute,
                     'CREATE TABLE charmed ('
                     'id varchar(255) primary key,'
-                    'value text;')
+                    'val text;')
 
 
 @gen.coroutine
@@ -115,10 +115,12 @@ def create_project_relation(partition):
     yield momoko.Op(conn.execute,
                     'CREATE TABLE projects ('
                     'id varchar(80) primary key, '
+                    'manager text, '
                     'research_fields text[], '
                     'title text, '
                     'description_short text, '
                     'views integer, '
+                    'likes integer, '
                     'responses integer, '
                     'organization_type text, '
                     'organization_structure text, '
@@ -133,8 +135,9 @@ def create_project_relation(partition):
                     'participants text[], '
                     'missed_participants text[], '
                     'tags text[], '
-                    'manager text, '
-                    'contacts text[]);')
+                    'contact_manager text, '
+                    'contacts text[], '
+                    'project_site text);')
 
     yield momoko.Op(conn.execute, u"CREATE INDEX title_ru_idx ON projects "
                                   u"USING GIN (to_tsvector('russian', title));")

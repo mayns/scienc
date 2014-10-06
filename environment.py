@@ -3,7 +3,7 @@
 __author__ = 'mayns'
 
 
-########### SCIENCE FIELDS ###########
+#---------- SCIENCE FIELDS ----------#
 
 MATH = u'Математика, информатика и механика'
 PHYSICS = u'Физика и астрономия'
@@ -14,3 +14,22 @@ ENGINEERING = u'Инженерные науки'
 IT = u'Информационные технологии и вычислительные системы'
 
 SCIENCE_FIELDS = [MATH, PHYSICS, CHEMISTRY, BIOLOGY, EARTH, ENGINEERING, IT]
+
+
+#-------- ORGANIZATION TYPES --------#
+
+PRIVATE = u'private'
+GROUP = u'group'
+UNIVERSITY = u'university'
+INSTITUTION = u'institution'
+
+ORGANIZATION_TYPES = [PRIVATE, GROUP, UNIVERSITY, INSTITUTION]
+
+
+#---------- CONTACT TYPES -----------#
+
+PHONE = u'phone'
+SKYPE = u'skype'
+EMAIL = u'email'
+
+CONTACT_TYPES = [PHONE, SKYPE, EMAIL]

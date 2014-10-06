@@ -14,13 +14,14 @@ class Project(PSQLModel):
 
     ENTITY = u'project'
     TABLE = u'projects'
-    COLUMNS = [u'id', u'research_fields', u'title', u'description_short', u'views', u'likes', u'responses',
+    COLUMNS = [u'id', u'manager', u'research_fields', u'title', u'description_short', u'views', u'likes', u'responses',
                u'organization_type', u'organization_structure', u'start_date', u'end_date', u'objective',
                u'description_full', u'usage_possibilities', u'results', u'related_data', u'leader', u'participants',
-               u'missed_participants', u'tags', u'manager', u'contacts']
+               u'missed_participants', u'tags', u'contact_manager', u'contacts', u'project_site']
 
     def __init__(self, project_id):
         super(Project, self).__init__(project_id)
+        self.manager = None     # person added the project
         self.research_fields = []  # области науки
         self.title = u''
         self.description_short = u''  # краткое описание для обложки
@@ -42,8 +43,9 @@ class Project(PSQLModel):
         self.missed_participants = []  # кого не хватает
         self.tags = []  # тэги
 
-        self.manager = u''  # ответственный за связь
+        self.contact_manager = u''  # ответственный за связь
         self.contacts = []  # способы связи
+        self.project_site = u''
 
 
     @classmethod
