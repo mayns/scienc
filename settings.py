@@ -20,7 +20,7 @@ SESSION_SECRET = u"tf7843dyjbhxhswydwihdidhwq"
 # -------- STATIC ---------- #
 
 TEMPLATE_DIRS = (
-    os.path.join(PROJECT_PATH, u"static"),
+    os.path.join(PROJECT_PATH, u"templates"),
 )
 
 JINJA_FILTERS = (
