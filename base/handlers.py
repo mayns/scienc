@@ -15,44 +15,21 @@ class BaseRequestHandler(web.RequestHandler):
     def get_current_user(self):
         return self.get_secure_cookie(u"scientist")
 
-    def render(self, template, context=None):
-        if context is None:
-            context = {}
-        response_html = self.render_string(template, context)
-        self.finish(response_html)
+    def post(self, *args, **kwargs):
+        pass
 
-    def render_error(self, ex, context=None):
-        if context is None:
-            context = {}
-        logging.exception(ex)
+    def get(self, *args, **kwargs):
+        pass
 
-        context.update(dict(
-            exception=ex.message if ex.message else ex
-        ))
-        self.render('error_page.html', context)
+    def put(self, *args, **kwargs):
+        pass
 
-    def render_string(self, template_file_name, context=None):
-        try:
-            if context is None:
-                context = {}
-            self.payload.update(context)
-            template = self.application.template_loader.get_template(template_file_name)
-            if not template:
-                raise Exception("Template {0} not found".format(template_file_name))
-            response_html = template.render(self.payload)
-        except Exception, ex:
-            logging.exception(ex)
-            template = self.application.template_loader.get_template('error_page.html')
-            ex_type, ex_val, ex_trace = sys.exc_info()
-            self.payload.update(dict(
-                exception=ex,
-                ex_type=ex_type,
-                ex_val=ex_val,
-                ex_trace=ex_trace,
-                request=self.request
-            ))
-            response_html = template.render(self.payload)
-        return response_html
+    def delete(self, *args, **kwargs):
+        pass
+
+    def get_payload(self):
+        # must be implemented in child class
+        raise NotImplementedError
 
 
 class LoginHandler(BaseRequestHandler):

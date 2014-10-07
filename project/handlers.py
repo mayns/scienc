@@ -32,8 +32,7 @@ class ProjectHandler(BaseRequestHandler):
         print u'project post'
         project_dict = json.loads(self.request.body)
         project_id = yield ProjectBL.add_project(project_dict[u'project'])
-        project_dict[u'project'].update(dict(id=project_id))
-        self.finish(json.dumps(project_dict))
+        self.finish(json.dumps(dict(id=project_id)))
 
     @gen.coroutine
     def put(self):

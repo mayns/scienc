@@ -11,10 +11,12 @@ __author__ = 'oks'
 
 define("port", default=6600, help="run on the given port", type=int)
 
+
 class ScienceApplication(web.Application):
     def __init__(self, xsrf_cookies=False):
         handlers = url_handlers
         settings_app = dict(
+            debug=True,
             xsrf_cookies=xsrf_cookies,
             cookie_secret='fwwquydg367tgdbkjxlw362783t54%^I^&fcdsvjsxasaxs'
         )
