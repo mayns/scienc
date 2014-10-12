@@ -10,6 +10,7 @@ from common.psql_connections import PSQLClient
 from common.utils import generate_id
 import cPickle
 
+# TODO new tables
 @gen.coroutine
 def insert_data(partition):
     conn = PSQLClient.get_client(partition)

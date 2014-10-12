@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-import momoko
+# import momoko
 import psycopg2
 import psycopg2.extensions
 

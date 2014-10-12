@@ -4,6 +4,7 @@ from tornado import gen
 from base.handlers import BaseRequestHandler
 import json
 from project.project_bl import ProjectBL
+from tests.project_data import Project
 
 __author__ = 'oks'
 
@@ -18,30 +19,45 @@ class CkeditorSampleHandler(BaseRequestHandler):
 class ProjectsListHandler(BaseRequestHandler):
 
     @gen.coroutine
-    def get(self):
+    def get_payload(self, *args, **kwargs):
         print u'projects list get'
-        projects = yield ProjectBL.get_all_projects()
+        projects = Project.get_data()
+        # projects = yield ProjectBL.get_all_projects()
         if projects is None:
             projects = json.dumps({u'projects': []})
-        self.finish(projects)
+        raise gen.Return(projects)
 
 
 class ProjectHandler(BaseRequestHandler):
     @gen.coroutine
-    def post(self, *args, **kwargs):
+    def get_payload(self, *args, **kwargs):
         print u'project post'
-        project_dict = json.loads(self.request.body)
-        project_id = yield ProjectBL.add_project(project_dict[u'project'])
-        self.finish(json.dumps(dict(id=project_id)))
+        project_dict = json.loads(self.get_argument(u'data', u'{}'))
+        return project_dict
 
     @gen.coroutine
-    def put(self):
-        print u'project put'
+    def post(self, *args, **kwargs):
+        data = yield self.get_payload(*args, **kwargs)
+        project_id = yield ProjectBL.add_project(data)
+        response = dict(id=project_id)
+        response_data = yield self.get_response(response)
+        self.finish(response_data)
 
     @gen.coroutine
-    def delete(self):
-        print u'project delete'
+    def get(self, *args, **kwargs):
+        data = yield self.get_payload(*args, **kwargs)
+        response = yield ProjectBL.get_project(data[u'id'])
+        response_data = yield self.get_response(response)
+        self.finish(response_data)
 
     @gen.coroutine
-    def get(self):
-        print u'project get'
+    def put(self, *args, **kwargs):
+        data = yield self.get_payload()
+        response_data = yield self.get_response(data)
+        self.finish(response_data)
+
+    @gen.coroutine
+    def delete(self, *args, **kwargs):
+        data = yield self.get_payload()
+        response_data = yield self.get_response(data)
+        self.finish(response_data)

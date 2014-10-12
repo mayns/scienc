@@ -34,19 +34,3 @@ def psql_connection(partition=settings.PSQL_PARTITION_DEFAULT, use_async=True):
     return wrapper
 
 
-def base_request(function):
-    def wrapper(*args, **kwargs):
-        from base.ajax_data import AJAX_STATUS_SUCCESS, AJAX_STATUS_ERROR
-        response_data = dict(
-            status=AJAX_STATUS_ERROR
-        )
-        try:
-            data = function(*args, **kwargs)
-            response_data = dict(
-                status=AJAX_STATUS_SUCCESS
-            )
-            response_data.update(dict(data=data))
-        except Exception, ex:
-            print ex
-        return response_data
-    return wrapper
