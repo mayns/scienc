@@ -1,26 +1,41 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <!-- 1. Load platform.js for polyfill support. -->
-    <script src="bower_components/platform/platform.js"></script>
-    <!-- 2. Use an HTML Import to bring in the element. -->
-    <link rel="import" href="/static/bower_components/core-ajax/core-ajax.html">
-  </head>
-  <body>
-    <!-- 3. Declare the element. Configure using its attributes. -->
-    <core-ajax url="//example.com/json" handleAs="json"></core-ajax>
-    <script>
-      // Wait for 'polymer-ready'. Ensures the element is upgraded.
-      window.addEventListener('polymer-ready', function(e) {
-        var ajax = document.querySelector('core-ajax');
-
-        // Respond to events it fires.
-        ajax.addEventListener('core-response', function(e) {
-          console.log(this.response);
-        });
-
-        ajax.go(); // Call its API methods.
-      });
-    </script>
-  </body>
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <title>Scienc!</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="{{ 'css/main.css' | static_url }}">
+        <script src="{{'js/libs/require.js' | static_url(request) }}" data-main="../app"></script>
+    </head>
+    <body>
+        <div class="page-header-wrapper">
+            <header class="page-header container">
+                <div class="page-header-logo">
+                    <h1>Science<span>.im</span></h1>
+                </div>
+                <div class="page-header-controls middle">
+                    <div class="page-header-search action icon-search"></div>
+                    <div class="sign-in action icon-login">Sign in</div>
+                    <div class="sign-up action icon-logout">Sign up</div>
+                </div>
+            </header>    
+        </div>
+        <section class="projects container">
+            <article class="project">
+                <header class="project-header">
+                    <h1>Lorem ipsum dolor sit amet, consectetur adipisicing elit.</h1>
+                    <div class="project-holder">МГУ, ф-т биологии, кафедра бабочек</div>
+                    <div class="project-end-date">
+                        end date
+                        <span>13.10.14</span>
+                    </div>
+                </header>
+                <p>
+                    <b>Краткое описание: </b>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Harum aspernatur libero error, pariatur veritatis dicta, doloremque voluptate tenetur rem fugit eaque. Placeat impedit omnis molestiae veritatis harum, temporibus, vitae tempore.
+                </p>
+            </article>
+        </section>   
+    </body>
 </html>
