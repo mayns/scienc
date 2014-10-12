@@ -1,9 +1,26 @@
 # -*- coding: utf-8 -*-
 
 from tornado import web, gen
-from common.decorators import base_request
 
 __author__ = 'oks'
+
+
+def base_request(function):
+    def wrapper(*args, **kwargs):
+        from base.ajax_data import AJAX_STATUS_SUCCESS, AJAX_STATUS_ERROR
+        response_data = dict(
+            status=AJAX_STATUS_ERROR
+        )
+        try:
+            data = function(*args, **kwargs)
+            response_data = dict(
+                status=AJAX_STATUS_SUCCESS
+            )
+            response_data.update(dict(data=data))
+        except Exception, ex:
+            print ex
+        return response_data
+    return wrapper
 
 
 class BaseRequestHandler(web.RequestHandler):
@@ -16,31 +33,12 @@ class BaseRequestHandler(web.RequestHandler):
 
     @gen.coroutine
     @base_request
-    def post(self, *args, **kwargs):
-        data = yield self.get_payload()
-        self.finish(data)
+    def get_response(self, data):
+        return data
 
-    @gen.coroutine
-    @base_request
-    def get(self, *args, **kwargs):
-        data = yield self.get_payload()
-        self.finish(data)
-
-    @gen.coroutine
-    @base_request
-    def put(self, *args, **kwargs):
-        data = yield self.get_payload()
-        self.finish(data)
-
-    @gen.coroutine
-    @base_request
-    def delete(self, *args, **kwargs):
-        data = yield self.get_payload()
-        self.finish(data)
-
-    def get_payload(self):
-        # must be implemented in child class
-        raise NotImplementedError
+    # def get_payload(self):
+    #     # must be implemented in child class
+    #     raise NotImplementedError
 
 
 class LoginHandler(BaseRequestHandler):

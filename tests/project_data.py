@@ -125,5 +125,5 @@ class Project(object):
     }
 
     @classmethod
-    def get_data(cls):
-        return cls.get_data()
+    def get_data(cls, no=u'1'):
+        return cls.json_data[no]
