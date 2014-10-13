@@ -19,7 +19,7 @@ class CkeditorSampleHandler(BaseRequestHandler):
 class ProjectsListHandler(BaseRequestHandler):
 
     @gen.coroutine
-    def get_payload(self, *args, **kwargs):
+    def get(self, *args, **kwargs):
         print u'projects list get'
         projects = Project.get_data()
         # projects = yield ProjectBL.get_all_projects()
@@ -29,35 +29,32 @@ class ProjectsListHandler(BaseRequestHandler):
 
 
 class ProjectHandler(BaseRequestHandler):
-    @gen.coroutine
-    def get_payload(self, *args, **kwargs):
-        print u'project post'
-        project_dict = json.loads(self.get_argument(u'data', u'{}'))
-        return project_dict
 
     @gen.coroutine
     def post(self, *args, **kwargs):
-        data = yield self.get_payload(*args, **kwargs)
-        project_id = yield ProjectBL.add_project(data)
+        project_dict = json.loads(self.get_argument(u'data', u'{}'))
+        project_id = yield ProjectBL.add_project(project_dict)
         response = dict(id=project_id)
         response_data = yield self.get_response(response)
         self.finish(response_data)
 
     @gen.coroutine
     def get(self, *args, **kwargs):
-        data = yield self.get_payload(*args, **kwargs)
-        response = yield ProjectBL.get_project(data[u'id'])
+        project_dict = json.loads(self.get_argument(u'data', u'{}'))
+        response = yield ProjectBL.get_project(project_dict[u'id'])
         response_data = yield self.get_response(response)
         self.finish(response_data)
 
     @gen.coroutine
     def put(self, *args, **kwargs):
-        data = yield self.get_payload()
-        response_data = yield self.get_response(data)
+        project_dict = json.loads(self.get_argument(u'data', u'{}'))
+        yield ProjectBL.update_project(project_dict)
+        response_data = yield self.get_response(dict())
         self.finish(response_data)
 
     @gen.coroutine
     def delete(self, *args, **kwargs):
-        data = yield self.get_payload()
-        response_data = yield self.get_response(data)
+        project_dict = json.loads(self.get_argument(u'data', u'{}'))
+        yield ProjectBL.delete_project(project_dict[u'id'])
+        response_data = yield self.get_response(project_dict)
         self.finish(response_data)

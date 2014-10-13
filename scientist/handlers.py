@@ -24,26 +24,34 @@ class ScientistsListHandler(BaseRequestHandler):
 class ScientistHandler(BaseRequestHandler):
 
     @gen.coroutine
+    def post(self, *args, **kwargs):
+        print u'scientist post'
+        scientist_dict = json.loads(self.get_argument(u'data', u'{}'))
+        scientist_id = yield ScientistBL.add_scientist(scientist_dict[u'scientist'])
+        response = dict(id=scientist_id)
+        response_data = yield self.get_response(response)
+        self.finish(response_data)
+
+    @gen.coroutine
     def put(self):
         print u'scientist put'
+        scientist_dict = json.loads(self.get_argument(u'data', u'{}'))
+        yield ScientistBL.update_scientist(scientist_dict[u'scientist'])
+        response_data = yield self.get_response(dict())
+        self.finish(response_data)
 
     @gen.coroutine
     def get(self):
         print u'scientist get'
-
-    @gen.coroutine
-    def post(self, *args, **kwargs):
-        print u'scientist post'
-        scientist_dict = json.loads(self.request.body)
-        if ScientistBL.validate_data(scientist_dict):
-            scientist_id = yield ScientistBL.add_scientist(scientist_dict[u'scientist'])
-        else:
-            raise Exception(u'Not valid data')
-        scientist_dict[u'scientist'].update(dict(id=scientist_id))
-        self.finish(json.dumps(scientist_dict))
+        scientist_dict = json.loads(self.get_argument(u'data', u'{}'))
+        response = yield ScientistBL.get_project(scientist_dict[u'id'])
+        response_data = yield self.get_response(response)
+        self.finish(response_data)
 
     @gen.coroutine
     def delete(self, scientist_id):
         print u'scientist delete'
-        yield ScientistBL.delete_scientist(scientist_id)
-        self.finish()
+        scientist_dict = json.loads(self.get_argument(u'data', u'{}'))
+        yield ScientistBL.delete_scientist(scientist_dict[u'id'])
+        response_data = yield self.get_response(dict())
+        self.finish(response_data)
