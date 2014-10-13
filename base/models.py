@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 import json
-# import momoko
+import momoko
 from tornado import gen
 from common.decorators import psql_connection
 
