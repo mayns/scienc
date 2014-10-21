@@ -3,6 +3,8 @@
 import momoko
 import settings
 
+# TODO tests for connections
+
 
 class PSQLClient(object):
     def __init__(self):
