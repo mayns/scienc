@@ -21,15 +21,15 @@ class Project(PSQLModel):
 
     def __init__(self, project_id):
         super(Project, self).__init__(project_id)
-        self.manager = None     # person added the project
+        self.scientist_id = None     # person added the project
         self.research_fields = []  # области науки
         self.title = u''
         self.description_short = u''  # краткое описание для обложки
         self.views = 0  # количество просмотров
         self.likes = 0  # количество лайков
-        self.responses = 0  # количество откликов
-        self.organization_type = u''  # личный, групповой, под эгидой организации
-        self.organization_structure = u''  # ~ university, faculty, chair
+        self.responses = []  # ids отклкнувшихся юзеров
+        self.organization_type = u''  # личный, групповой, под эгидой организации, университет
+        self.organization_structure = {}  # ~ university, faculty, chair -- только у организации и универа - hstore
 
         self.start_date = u''  # начало работы
         self.end_date = u''  # планиуремая дата окончания если есть
@@ -37,14 +37,14 @@ class Project(PSQLModel):
         self.description_full = u''  # полное описание
         self.usage_possibilities = u''  # возможности применения результатов
         self.results = u''  # достигнутые результаты и практическое применение
-        self.related_data = u''  # дополнительные данные
+        self.related_data = []  # дополнительные данные -- [{'id', 'source', 'description'}]
         self.leader = u''  # руководитель проекта
-        self.participants = []  # участники с ролями
-        self.missed_participants = []  # кого не хватает
+        self.participants = []  # участники с ролями -- [{'id', 'role', 'name': str, <'user_id', 'verified': bool>}]
+        self.missed_participants = []  # кого не хватает -- [{'id': int, 'role': str, 'description': str}]
         self.tags = []  # тэги
 
         self.contact_manager = u''  # ответственный за связь
-        self.contacts = []  # способы связи
+        self.contacts = []  # способы связи -- [{'type', 'number'}]
         self.project_site = u''
 
 
