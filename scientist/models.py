@@ -25,6 +25,7 @@ class Scientist(PSQLModel):
     def __init__(self, scientist_id):
         super(Scientist, self).__init__(scientist_id)
         self.email = u''
+        self.lang = u'Ru'
         self.first_name = u''
         self.last_name = u''
         self.middle_name = u''
@@ -34,7 +35,7 @@ class Scientist(PSQLModel):
         self.location_country = u''
         self.location_city = u''
         self.middle_education = []
-        self.high_education = []
+        self.high_education = []    # [{country, city, university, faculty, chair, graduation_year, graduation_level}]
         self.publications = []
         self.interests = u''
         self.project_ids = []  # participate project ids

@@ -22,6 +22,7 @@ class Project(PSQLModel):
     def __init__(self, project_id):
         super(Project, self).__init__(project_id)
         self.scientist_id = None     # person added the project
+        self.lang = u'Ru'
         self.research_fields = []  # области науки
         self.title = u''
         self.description_short = u''  # краткое описание для обложки
@@ -29,6 +30,7 @@ class Project(PSQLModel):
         self.likes = 0  # количество лайков
         self.responses = []  # ids отклкнувшихся юзеров
         self.organization_type = u''  # личный, групповой, под эгидой организации, университет
+        self.organization_location = u''  # страна, город
         self.organization_structure = {}  # ~ university, faculty, chair -- только у организации и универа - hstore
 
         self.start_date = u''  # начало работы
