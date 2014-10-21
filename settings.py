@@ -45,20 +45,16 @@ REDIS_PARTITION_MAP = {
 }
 REDIS_MAX_CONNECTIONS = 50000
 
-PSQL_PARTITION_DEFAULT = u'Default'
-
 PSQL_ROOT_USER = u'postgres'
 PSQL_ROOT_PASSWORD = u'postgres'
 
-PSQL_PARTITION_MAP = {
-    PSQL_PARTITION_DEFAULT: dict(
-        database=u'science_db',
-        host=u'localhost',
-        port=5432,
-        user=PSQL_ROOT_USER,
-        password=PSQL_ROOT_PASSWORD,
-    ),
-}
+SCIENCE_DB = dict(
+    database=u'science_db',
+    host=u'localhost',
+    port=5432,
+    user=PSQL_ROOT_USER,
+    password=PSQL_ROOT_PASSWORD,
+)
 
 PSQL_MIN_CONNECTIONS = 1
 PSQL_MAX_CONNECTIONS = 100
