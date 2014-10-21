@@ -49,6 +49,9 @@ class Project(PSQLModel):
         self.contacts = []  # способы связи -- [{'type', 'number'}]
         self.project_site = u''
 
+        self.dt_created = None
+        self.dt_updated = None
+
 
     @classmethod
     @gen.coroutine

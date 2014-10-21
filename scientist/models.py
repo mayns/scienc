@@ -45,6 +45,9 @@ class Scientist(PSQLModel):
         self.managing_project_ids = []
         self.swear = u''
 
+        self.dt_created = None
+        self.dt_last_visit = None
+
     @psql_connection()
     def encrypt(self, conn, data, update=True):
         key = gen_hash(self.id, self.email)
