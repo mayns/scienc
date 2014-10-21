@@ -6,7 +6,7 @@ from tornado import gen
 import momoko
 import psycopg2
 import time
-from common.psql_connections import PSQLClient
+from common.connections import PSQLClient
 from common.utils import generate_id
 import cPickle
 

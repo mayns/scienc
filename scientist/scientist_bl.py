@@ -3,7 +3,7 @@ import momoko
 
 from tornado import gen
 import settings
-from common.psql_connections import PSQLNonTransactionClient
+from common.connections import PSQLNonTransactionClient
 from common.utils import set_password, generate_id
 from common.decorators import psql_connection
 from scientist.models import Scientist

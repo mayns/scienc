@@ -5,7 +5,7 @@ import logging
 import momoko
 import psycopg2
 import settings
-from common.psql_connections import PSQLClient
+from common.connections import PSQLClient
 
 __author__ = 'mayns'
 
