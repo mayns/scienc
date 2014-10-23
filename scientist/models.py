@@ -43,7 +43,6 @@ class Scientist(PSQLModel):
         self.contacts = []
         self.desired_project_ids = []
         self.managing_project_ids = []
-        self.swear = u''
 
         self.dt_created = None
         self.dt_last_visit = None

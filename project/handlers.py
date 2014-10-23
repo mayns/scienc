@@ -21,7 +21,7 @@ class ProjectsListHandler(BaseRequestHandler):
     @gen.coroutine
     def get(self, *args, **kwargs):
         print u'projects list get'
-        projects = Project.get_data()
+        projects = Project.get_list_data()
         # projects = yield ProjectBL.get_all_projects()
         if projects is None:
             projects = json.dumps({u'projects': []})

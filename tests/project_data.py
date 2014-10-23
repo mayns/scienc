@@ -6,6 +6,41 @@ __author__ = 'mayns'
 
 
 class Project(object):
+    projects_list = [
+        {
+            'id': 1,
+            'dt_updated': '12.10.2014',
+            'research_fields': 'math',
+            'title': 'New Algorithms for Nonnegative Matrix Factorization and Beyond',
+            'description_short': 'In biology most of the phenomena, whether at the scale of individual development or at '
+                              'that of Darwinian evolution, are temporally extended. Taking into account repeated '
+                              'iterations and sequential events is needed for any understanding of the '
+                              'self-organization processes at work in these domains. With two simple examples in plant'
+                              'growth: leaf venation and the formation of the phyllotactic spirals, I will discuss how'
+                              'characteristic structures emerge out of temporally iterated',
+            'views': 2,
+            'likes': 3,
+            'organization': 'MIT, CS lab 1'
+        },
+        {
+            'id': 2,
+            'dt_updated': '12.10.2012',
+            'research_fields': 'physics',
+            'title': 'Hot Spacetimes for Cold Atoms',
+            'description_short': 'Building on our earlier work and that of Son, we construct string theory duals of '
+                                 'non-relativistic critical phenomena at finite temperature and density. Concretely, '
+                                 'we find black hole solutions of type IIB supergravity whose asymptotic geometries '
+                                 'realize the Schroedinger group as isometries. We then identify the non-relativistic '
+                                 'conformal field theories to which they are dual. We analyze the thermodynamics of '
+                                 'these black holes, which turn out to describe the system at finite temperature and '
+                                 'finite density. The strong-coupling result for the shear viscosity of the dual '
+                                 'non-relativistic field theory saturates the KSS bound.',
+            'views': 2,
+            'likes': 3,
+            'organization': 'MIT, Department of Physics'
+        }
+    ]
+
     json_data = {
         u'1': dict(
             id=u'1',
@@ -18,8 +53,8 @@ class Project(object):
                               u'self-organization processes at work in these domains. With two simple examples in plant'
                               u'growth: leaf venation and the formation of the phyllotactic spirals, I will discuss how'
                               u'characteristic structures emerge out of temporally iterated',
-            views=0,
-            likes=0,
+            views=2,
+            likes=3,
             responses=0,
             organization_type=environment.PRIVATE,
             objective=u'In biology most of the phenomena, whether at the scale of individual development or at',
@@ -127,3 +162,7 @@ class Project(object):
     @classmethod
     def get_data(cls, no=u'1'):
         return cls.json_data[no]
+
+    @classmethod
+    def get_list_data(cls):
+        return cls.projects_list
