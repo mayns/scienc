@@ -7,7 +7,7 @@ import settings
 __author__ = 'oks'
 
 
-def psql_connection(partition=settings.SCIENCE_DB, use_async=True):
+def psql_connection():
     def wrapper(function):
         @functools.wraps(function)
         def call(self, *args, **kwargs):

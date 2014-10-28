@@ -3,7 +3,6 @@ import momoko
 
 from tornado import gen
 import settings
-from common.connections import PSQLNonTransactionClient
 from common.utils import set_password, generate_id
 from common.decorators import psql_connection
 from scientist.models import Scientist
@@ -63,8 +62,9 @@ class ScientistBL(object):
 
     @classmethod
     @gen.coroutine
-    def delete_scientist(cls, scientist_id):
-        conn = PSQLNonTransactionClient.get_client(partition=settings.SCIENCE_DB)
+    @psql_connection()
+    def delete_scientist(cls, conn, scientist_id):
+        conn = conn.get_client(partition=settings.SCIENCE_DB)
         try:
             sqp_query = u"DELETE FROM {table_name} WHERE id = '{id}'".format(table_name=u'scientists', id=scientist_id)
             yield momoko.Op(conn.execute, sqp_query)
