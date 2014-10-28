@@ -64,7 +64,7 @@ class ScientistBL(object):
     @classmethod
     @gen.coroutine
     def delete_scientist(cls, scientist_id):
-        conn = PSQLNonTransactionClient.get_client(partition=settings.PSQL_PARTITION_DEFAULT)
+        conn = PSQLNonTransactionClient.get_client(partition=settings.SCIENCE_DB)
         try:
             sqp_query = u"DELETE FROM {table_name} WHERE id = '{id}'".format(table_name=u'scientists', id=scientist_id)
             yield momoko.Op(conn.execute, sqp_query)

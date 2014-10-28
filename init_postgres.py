@@ -24,7 +24,7 @@ if __name__ == "__main__":
     # create_dbs()
 
     from common.psql_relations import create_relations
-    _ioloop.run_sync(partial(create_relations, settings.PSQL_PARTITION_DEFAULT))
+    _ioloop.run_sync(partial(create_relations, settings.SCIENCE_DB))
 
     # from postgres_fill import insert_data
     # _ioloop.run_sync(partial(insert_data, settings.PSQL_PARTITION_DEFAULT))
