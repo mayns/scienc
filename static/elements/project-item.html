@@ -1,0 +1,19 @@
+<link rel="import" href="/static/elements/polymer/polymer.html"/>
+
+<polymer-element name="project-item" attributes="data" noscript>
+	<template>
+		<article class="project">
+			<header class="project-header">
+				<h1>{{data.title}}</h1>
+				<div class="project-holder">{{data.organization}}</div>
+				<div class="project-end-date">
+					end date
+					<span>{{data.dt_updated}}</span>
+				</div>
+			</header>
+			<p>
+				<b>Краткое описание: </b>{{data.description_short}}
+			</p>
+		</article>
+	</template>
+</polymer-element>
