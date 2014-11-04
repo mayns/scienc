@@ -12,7 +12,7 @@ __author__ = 'oks'
 url_handlers = [
     # common
     (r"/", cm_handlers.HomeHandler),
-    (r"/not-found", cm_handlers.NotFoundHandler),
+    # (r"/not-found", cm_handlers.NotFoundHandler),
 
     # scientists
     (r"/api/scientist/(\w+)", sc_handlers.ScientistHandler),

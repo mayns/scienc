@@ -23,13 +23,15 @@ TEMPLATE_DIRS = (
     os.path.join(PROJECT_PATH, u"templates"),
 )
 
-JINJA_FILTERS = (
-    u'jinja.filters',
-)
+STATIC_PATH = os.path.join(PROJECT_PATH, u"static")
 
-JINJA_EXTS = (
-    u'jinja2.ext.i18n',
-)
+# JINJA_FILTERS = (
+#     u'jinja.filters',
+# )
+#
+# JINJA_EXTS = (
+#     u'jinja2.ext.i18n',
+# )
 
 BABEL_CONF = u'babel.cfg'
 
