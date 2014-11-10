@@ -39,7 +39,7 @@ git clone git@github.com:mayns/scienc.git
 mkdir /usr/local/nginx
 ln -s /usr/loca/nginx/sbin/nginx /usr/local/bin/nginx
 cd /gen/scienc
-В configs/dev/nginx.conf заменить kqueue на epoll
+В configs/dev/nginx.conf заменить epoll на kqueue
 cp -R configs/dev/nginx.conf /usr/local/nginx/conf
 
 В scienc.conf проверить все пути, чтобы ссылались на папку проекта
