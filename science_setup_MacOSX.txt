@@ -1,12 +1,12 @@
 ##########################################
 #                                        #
-#  Настройка проекта Science для Ubuntu  #
+# Настройка проекта Science для Mac OS X #
 #                                        #
 ##########################################
 
 Устанавливаем nginx
 ------------------
-wget http://nginx.org/download/nginx-1.6.2.tar.gz
+curl -O http://nginx.org/download/nginx-1.6.2.tar.gz
 tar -xvzf nginx-1.6.2.tar.gz
 cd nginx-1.6.2/
 ./configure --with-http_gzip_static_module --with-ipv6
@@ -56,9 +56,25 @@ nginx
 ----------------
 nginx -s stop
 
-Установка PostgreSQL
+Установка PostgreSQL with MacPorts
 ----------------
-sudo apt-get install postgresql-9.3 postgresql-contrib-9.3 postgresql-server-dev-9.3 pgadmin3
+sudo port -v selfupdate
+sudo port install postgresql93-server
+
+Создаем папку, где будет храниться база
+sudo mkdir -p /opt/db/postgresql93/defaultdb
+
+Устанавливаем владельца и пароль
+sudo chown postgres:postgres /opt/db/postgresql93/defaultdb
+
+Инициализируем первоналачальную базу
+sudo su postgres -c '/opt/local/lib/postgresql93/bin/initdb -D /opt/db/postgresql93/defaultdb'
+
+Запускаем сервер
+sudo su postgres -c '/opt/local/lib/postgresql93/bin/postgres -D /opt/db/postgresql93/defaultdb'
+
+Прописываем путь
+export PATH=/opt/local/lib/postgresql93/bin:$PATH
 
 Прописываем хосты
 -----------------
