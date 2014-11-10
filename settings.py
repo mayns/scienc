@@ -17,35 +17,7 @@ COOKIE_SECRET = u"wfgelwdhgw734862ihdi"
 SESSION_SECRET = u"tf7843dyjbhxhswydwihdidhwq"
 
 
-# -------- STATIC ---------- #
-
-TEMPLATE_DIRS = (
-    os.path.join(PROJECT_PATH, u"templates"),
-)
-
-STATIC_PATH = os.path.join(PROJECT_PATH, u"static")
-
-# JINJA_FILTERS = (
-#     u'jinja.filters',
-# )
-#
-# JINJA_EXTS = (
-#     u'jinja2.ext.i18n',
-# )
-
-BABEL_CONF = u'babel.cfg'
-
-
-# -------- REDIS ---------- #
-
-REDIS_PARTITION = u'Science'
-
-REDIS_PARTITION_MAP = {
-    REDIS_PARTITION: dict(
-        master={u"host": u"localhost", u"port": 6390, u"db": 0}
-    ),
-}
-REDIS_MAX_CONNECTIONS = 50000
+# -------- POSTGRESQL ---------- #
 
 PSQL_ROOT_USER = u'postgres'
 PSQL_ROOT_PASSWORD = u'postgres'
