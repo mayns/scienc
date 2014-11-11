@@ -11,7 +11,7 @@ class HomeHandler(BaseRequestHandler):
     @gen.coroutine
     def get(self):
         # self.render(u'index.html')
-        self.redirect(u'index.html')
+        self.render(u'index.html')
 
 
 class NotFoundHandler(BaseRequestHandler):
