@@ -1,19 +1,38 @@
-<link rel="import" href="/static/elements/polymer/polymer.html"/>
+<link rel="import" href="/static/elements/core/polymer/polymer.html"/>
 
 <polymer-element name="project-item" attributes="data" noscript>
 	<template>
+		<style>
+			:host {
+				border: 3px solid #ccc;
+				padding: 10px;
+				max-width: 960px;
+				position: relative;
+			}
+			h1 {
+				margin: 0 0 10px 0;
+			}
+			.project-holder {
+				background-color: #21303F;
+				color: white;
+				padding: 5px;
+			}
+		</style>
 		<article class="project">
 			<header class="project-header">
 				<h1>{{data.title}}</h1>
-				<div class="project-holder">{{data.organization}}</div>
-				<div class="project-end-date">
-					end date
-					<span>{{data.dt_updated}}</span>
+				<div horizontal layout justified>
+					<div class="project-holder">{{data.organization}}</div>
+					<div class="project-end-date">
+						дата окончания
+						<span>{{data.dt_updated}}</span>
+					</div>
 				</div>
 			</header>
 			<p>
 				<b>Краткое описание: </b>{{data.description_short}}
 			</p>
 		</article>
+		<div class="like" style="background: red; height: 20px; width: 20px;"></div>
 	</template>
 </polymer-element>

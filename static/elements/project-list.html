@@ -1,12 +1,17 @@
-<link rel="import" href="/static/elements/polymer/polymer.html"/>
+<link rel="import" href="/static/elements/core/polymer/polymer.html"/>
 <link rel="import" href="/static/elements/core/core-ajax/core-ajax.html"/>
 <link rel="import" href="/static/elements/project-item.html"/>
 
 <polymer-element name="project-list" noscript>
 	<template>
-		<core-ajax auto url="/projects.json" method="GET" handleAs="json" response="{{projects}}"></core-ajax>
-		<template repeat="{{project in projects}}">
-			<project-item data="{{project}}"></project-item>
+		<style>
+			project-item + project-item {
+				margin-top: 20px;
+			}
+		</style>
+		<core-ajax auto url="/api/projects" method="GET" handleAs="json" response="{{projects}}"></core-ajax>
+		<template repeat="{{project in projects.data}}">
+			<project-item data="{{project}}" class="{{project.research_fields}}"></project-item>
 		</template>
 	</template>
 </polymer-element>

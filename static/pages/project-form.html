@@ -1,0 +1,79 @@
+<link rel="import" href="/static/elements/core/polymer/polymer.html"/>
+
+<polymer-element name="project-form" attributes="data" noscript>
+	<template>
+		<article class="project">
+			<header class="project-header">
+				<h1>Добавить проект</h1>
+			</header>
+			<section class="project-properties">
+				<div>
+					<h2>Область науки</h2>
+					<areas-of-science id="project-areas-of-science" data="{{data.areas}}"></areas-of-science>
+				</div>
+				<div>
+					<h2 class="capitalized">Дата начала</h2><date-picker-calendar id="project-start-date" data="{{data.dt_start}}"></date-picker-calendar>
+					<h2 class="capitalized">Дата завершения</h2><date-picker-calendar id="project-end-date" data="{{data.ddt_end}}"></date-picker-calendar>
+				</div>
+				<div>
+					<h2>Название</h2>
+					<paper-input multiline id="project-title" data="{{data.title}}"></paper-input>
+				</div>
+				<div>
+					<h2>Короткое описание</h2>
+					<paper-input multiline id="project-short-description" data="{{data.description_short}}"></paper-input>
+				</div>
+				<div>
+					<h2>Тип проекта</h2>
+					<paper-radio-group selected="private" id="project-type" data={{data.type}}>
+						  <paper-radio-button name="private" label="Личный"></paper-radio-button>
+						  <paper-radio-button name="public" label="Групповой"></paper-radio-button>
+						  <paper-radio-button name="organizational" label="Под эгидой организации"></paper-radio-button>
+					</paper-radio-group>
+				</div>
+				<div>
+					<h2>Цели исследования</h2>
+					<paper-input multiline id="project-purpose" data="{{data.purpose}}"></paper-input>
+				</div>
+				<div>
+					<h2>Полное описание</h2>
+					<paper-input multiline id="project-full-description" data="{{data.description_full}}"></paper-input>
+				</div>
+				<div>
+					<h2>Возможности применения результатов</h2>
+					<paper-input multiline id="project-potential" data="{{data.potential}}"></paper-input>
+				</div>
+				<div>
+					<h2>Достигнутые результаты</h2>
+					<paper-input multiline id="project-achievements" data="{{data.achievements}}"></paper-input>
+				</div>
+				<div>
+					<h2>Руководитель проекта</h2>
+					<paper-input id="project-manager" data="{{data.manager}}"></paper-input>
+				</div>
+				<div>
+					<h2>Участники проекта</h2>
+					<div>
+						<project-members-list data="{{data.members}}"></project-members-list>
+					</div>
+					<h3>~WANTED~</h3>
+					<div>
+						<project-members-list data="{{data.wanted}}" wanted></project-members-list>
+					</div>
+				</div>
+				<div>
+					<h2>Теги</h2>
+					<project-tags data="{{data.tags}}"></project-tags>
+				</div>
+				<div>
+					<h2>Контактное лицо</h2>
+					<paper-input id="project-contact" data="{{data.contact}}"></paper-input>
+				</div>
+				<div>
+					<h2>Контакты</h2>
+					<project-contacts data="{{data.contacts}}"></project-contacts>
+				</div>
+			</section>
+		</article>
+	</template>
+</polymer-element>

@@ -1,47 +1,15 @@
-@import 'normalize';
-@import 'reset';
 @import 'layout';
 @import 'helpers';
-@import 'flexboxgrid';
 @import 'icons';
-@import 'projects';
+@import 'page_header';
 
-
-.page-header-wrapper {
-    background-color: #21303F;
-    border-bottom: 5px solid #637686;    
+.content {
+  padding: 30px;
 }
 
-.page-header {
-    height: 100px;
-    display: flex;
-    align-items: center;
-	justify-content: space-between;
+body {
+	font-family: 'Roboto', sans-serif;
 }
-
-.page-header-logo {
-    color: #E9A611;
-    font-size: 48px;
-}
-
-.page-header-logo span {
-    color: #606972;
-}
-
-.page-header-controls {
-    color: white;    
-	display: flex;
-	justify-content: space-around;
-	width: 250px;
-}
-
-.page-header-search {
-	font-size: 24px;
-}
-
-
-
-
 
 
 
