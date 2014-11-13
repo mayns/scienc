@@ -9,7 +9,8 @@ from common.connections import PSQLClient
 
 __author__ = 'mayns'
 
-TABLES = [u'scientists', u'projects']
+TABLES = [u'countries', u'main_cities', u'cities', u'schools', u'universities', u'faculties',  u'chairs', u'scientists',
+          u'projects', u'languages']
 
 
 def create_db():
@@ -44,10 +45,10 @@ def create_db():
 @gen.coroutine
 def create_relations():
     try:
-        yield delete_tables()
-        yield create_project_relation()
+        # yield delete_tables()
+        # yield create_project_relation(partition)
         yield create_scientists_relation()
-        yield create_charmed_relation()
+        # yield create_charmed_relation(partition)
         logging.info(u'done')
 
     except (psycopg2.Warning, psycopg2.Error) as error:
@@ -56,15 +57,16 @@ def create_relations():
 
 @gen.coroutine
 def delete_tables():
-    conn = PSQLClient.get_client()
-    for table in TABLES:
-        try:
-            logging.info(u'deleting {}'.format(table))
-            print u'deleting {}'.format(table)
-            yield momoko.Op(conn.execute, u'DROP TABLE %s CASCADE' % table)
-        except Exception, ex:
-            print ex
-            continue
+        conn = PSQLClient.get_client()
+        for table in TABLES:
+            try:
+                logging.info(u'LOG deleting {}'.format(table))
+                print u'PRINT deleting {}'.format(table)
+                yield momoko.Op(conn.execute, u'DROP TABLE %s CASCADE' % table)
+                logging.info(u'deleted')
+            except Exception, ex:
+                print ex
+                continue
 
 
 @gen.coroutine
@@ -72,28 +74,32 @@ def create_scientists_relation():
     logging.info(u'creating scientists relation')
     conn = PSQLClient.get_client()
     yield momoko.Op(conn.execute,
-                    'CREATE TABLE scientists ('
-                    'id    varchar(80) primary key, '
-                    'email  text, '
-                    'first_name text, '
-                    'last_name text, '
-                    'middle_name text, '
-                    'dob text, '
-                    'gender text, '
-                    'image text, '
-                    'location_country text, '
-                    'location_city text, '
-                    'middle_education  text[], '
-                    'high_education  text[], '
-                    'publications  text[], '
-                    'interests  text, '
-                    'project_ids  text[], '
-                    'about  text, '
-                    'contacts  text[],'
-                    'desired_projects  text[],'
-                    'managing_projects  text[]);')
+                    """CREATE TABLE scientists (
+                    id bigserial primary key,
+                    email text,
+                    first_name text,
+                    last_name text,
+                    middle_name text,
+                    dob text,
+                    gender text,
+                    image_small bytea,
+                    image_medium bytea,
+                    image_large bytea,
+                    location_country text,
+                    location_city text,
+                    middle_education  json,
+                    high_education  json,
+                    publications  text[],
+                    interests  text,
+                    project_ids  bigserial[],
+                    about  text,
+                    contacts  text[],
+                    desired_projects_ids  text[],
+                    managing_projects_ids  text[],
+                    dt_created timestamptz,
+                    dt_last_visit timestamptz;""")
 
-    yield momoko.Op(conn.execute, u"CREATE INDEX scientists_projects_gin ON scientists USING GIN(project_ids);")
+    # yield momoko.Op(conn.execute, u"CREATE INDEX scientists_projects_gin ON scientists USING GIN(project_ids);")
 
 
 @gen.coroutine
@@ -111,17 +117,17 @@ def create_project_relation():
     logging.info(u'creating project relation')
     conn = PSQLClient.get_client()
     yield momoko.Op(conn.execute,
-                    'CREATE TABLE projects ('
-                    'id varchar(80) primary key, '
-                    'manager text, '
-                    'research_fields text[], '
-                    'title text, '
-                    'description_short text, '
-                    'views integer, '
-                    'likes integer, '
-                    'responses integer, '
-                    'organization_type text, '
-                    'organization_structure text, '
+                    """CREATE TABLE projects (
+                    id varchar(80) primary key,
+                    manager text,
+                    research_fields text[],
+                    title text,
+                    description_short text,
+                    views integer,
+                    likes integer,
+                    responses integer,
+                    organization_type text,
+                    organization_structure text,
                     'start_date text, '
                     'end_date text, '
                     'objective text, '
@@ -135,7 +141,7 @@ def create_project_relation():
                     'tags text[], '
                     'contact_manager text, '
                     'contacts text[], '
-                    'project_site text);')
+                    'project_site text);""")
 
     yield momoko.Op(conn.execute, u"CREATE INDEX title_ru_idx ON projects "
                                   u"USING GIN (to_tsvector('russian', title));")
