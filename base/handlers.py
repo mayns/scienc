@@ -36,10 +36,6 @@ class BaseRequestHandler(web.RequestHandler):
     def get_response(self, data):
         return data
 
-    # def get_payload(self):
-    #     # must be implemented in child class
-    #     raise NotImplementedError
-
 
 class LoginHandler(BaseRequestHandler):
     def post(self):
