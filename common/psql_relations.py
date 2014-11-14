@@ -25,7 +25,7 @@ def create_db():
     exist_user = root_cursor.fetchone()
     if not exist_user:
         root_cursor.execute(u'CREATE USER {}'.format(dbs_param[u'user']))
-    root_cursor.execute(u'ALTER USER {} WITH PASSWORD %s'.format(dbs_param[u'user']), (dbs_param[u'password'],))
+    root_cursor.execute(u'ALTER USER {} WITH PASSWORD {}'.format(dbs_param[u'user']), (dbs_param[u'password']))
     root_cursor.execute(u'ALTER USER {} CREATEDB'.format(dbs_param[u'user']))
     root_con.commit()
     root_con.close()
