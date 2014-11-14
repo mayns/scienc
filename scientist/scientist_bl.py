@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-import momoko
+# import momoko
 
 from tornado import gen
 import settings

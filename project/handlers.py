@@ -4,7 +4,7 @@ from tornado import gen
 from base.handlers import BaseRequestHandler
 import json
 from project.project_bl import ProjectBL
-from tests.project_data import Project
+from tests.project_data import TestProject
 
 __author__ = 'oks'
 
@@ -21,7 +21,7 @@ class ProjectsListHandler(BaseRequestHandler):
     @gen.coroutine
     def get(self, *args, **kwargs):
         print u'projects list get'
-        projects = Project.get_list_data()
+        projects = TestProject.get_list_data()
         # projects = yield ProjectBL.get_all_projects()
 
         projects = projects if projects else []
@@ -41,10 +41,11 @@ class ProjectHandler(BaseRequestHandler):
 
     @gen.coroutine
     def get(self, *args, **kwargs):
-        project_dict = json.loads(self.get_argument(u'data', u'{}'))
-        response = yield ProjectBL.get_project(project_dict[u'id'])
-        response_data = yield self.get_response(response)
-        self.finish(response_data)
+        project_data = json.loads(self.get_argument(u'data', u'{}'))
+        project = TestProject.get_project(int(project_data.get(u'id', 1)))
+        # response = yield ProjectBL.get_project(project_dict[u'id'])
+        project = yield self.get_response(project)
+        self.finish(project)
 
     @gen.coroutine
     def put(self, *args, **kwargs):

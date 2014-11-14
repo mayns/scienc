@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 import json
-import momoko
+# from momoko import Op
 from common.utils import gen_hash, set_password
 from tornado import gen
 from base.models import PSQLModel, get_insert_sql_query, get_update_sql_query
@@ -55,7 +55,7 @@ class Scientist(PSQLModel):
             sqp_query, params = get_update_sql_query(self.CHARMED, dict(id=key, value=value))
         else:
             sqp_query, params = get_insert_sql_query(self.CHARMED, dict(id=key, value=value))
-        yield momoko.Op(conn.execute, sqp_query, params)
+        yield Op(conn.execute, sqp_query, params)
 
     @classmethod
     def from_db_class_data(cls, scientist_id, scientist_dict):
@@ -71,7 +71,7 @@ class Scientist(PSQLModel):
     @gen.coroutine
     @psql_connection()
     def from_db_by_id(cls, conn, scientist_id):
-        cursor = yield momoko.Op(conn.execute, u"SELECT {columns} FROM {table_name} WHERE id={id}".format(
+        cursor = yield Op(conn.execute, u"SELECT {columns} FROM {table_name} WHERE id={id}".format(
             columns=u', '.join(cls.PSQL_COLUMNS),
             table_name=cls.PSQL_TABLE,
             id=str(scientist_id)))
@@ -91,4 +91,4 @@ class Scientist(PSQLModel):
         else:
             update_params.update(dict(id=self.id))
             sqp_query, params = get_insert_sql_query(self.psql_table, update_params)
-        yield momoko.Op(conn.execute, sqp_query, params)
+        yield Op(conn.execute, sqp_query, params)
