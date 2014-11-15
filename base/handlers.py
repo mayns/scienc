@@ -29,15 +29,17 @@ class BaseRequestHandler(web.RequestHandler):
         super(BaseRequestHandler, self).__init__(*args, **kwargs)
 
     def get_current_user(self):
-        return self.get_secure_cookie(u"scientist")
+        return self.get_secure_cookie("user")
+
+    def get(self, *args, **kwargs):
+        if not self.current_user:
+            self.redirect("/login")
+            return
+        if not self.get_secure_cookie(u"science_mates_cookie"):
+            self.set_secure_cookie(u"science_mates_cookie", "myvalue")
+        return self.get_secure_cookie(u"science_mates_cookie")
 
     @gen.coroutine
     @base_request
     def get_response(self, data):
         return data
-
-
-class LoginHandler(BaseRequestHandler):
-    def post(self):
-        self.set_secure_cookie(u'scientist', self.get_argument(u'name'))
-        self.finish()

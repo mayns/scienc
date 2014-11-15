@@ -19,7 +19,7 @@ class ScienceApplication(web.Application):
         settings_app = dict(
             debug=True,
             xsrf_cookies=xsrf_cookies,
-            cookie_secret='fwwquydg367tgdbkjxlw362783t54%^I^&fcdsvjsxasaxs'
+            cookie_secret=settings.COOKIE_SECRET
         )
         web.Application.__init__(self, handlers, **settings_app)
 
