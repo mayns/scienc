@@ -8,11 +8,13 @@ __author__ = 'oks'
 
 
 def psql_connection(function):
+    # def wrapper(function):
     @functools.wraps(function)
     def call(self, *args, **kwargs):
         from common.connections import PSQLClient
         conn = PSQLClient.get_client()
         return function(self, conn, *args, **kwargs)
     return call
+    # return wrapper
 
 

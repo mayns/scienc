@@ -6,7 +6,12 @@ __author__ = 'mayns'
 class Scientist(object):
 
     json_data = {
-        u'1': dict(
+        0: dict(
+            email=u'oks',
+            password=u'qwe'
+        ),
+
+        1: dict(
             email=u'oksgorobets@gmail.com',
             password=u'alice',
             first_name=u'Оксана',
@@ -82,7 +87,7 @@ class Scientist(object):
 
             swear=u'true',
         ),
-        u'2': dict(
+        2: dict(
             email=u'',
             password=u'',
             first_name=u'',
@@ -105,7 +110,7 @@ class Scientist(object):
             swear=u'',
 
         ),
-        u'3': dict(
+        3: dict(
             email=u'',
             password=u'',
             first_name=u'',
@@ -127,7 +132,7 @@ class Scientist(object):
             managing_projects=u'',
             swear=u'',
         ),
-        u'4': dict(
+        4: dict(
             email=u'',
             password=u'',
             first_name=u'',
@@ -149,7 +154,7 @@ class Scientist(object):
             managing_projects=u'',
             swear=u'',
         ),
-        u'5': dict(
+        5: dict(
             email=u'',
             password=u'',
             first_name=u'',
@@ -171,7 +176,7 @@ class Scientist(object):
             managing_projects=u'',
             swear=u'',
         ),
-        u'6': dict(
+        6: dict(
             email=u'',
             password=u'',
             first_name=u'',
@@ -193,7 +198,7 @@ class Scientist(object):
             managing_projects=u'',
             swear=u'',
         ),
-        u'7': dict(
+        7: dict(
             email=u'',
             password=u'',
             first_name=u'',
@@ -215,7 +220,7 @@ class Scientist(object):
             managing_projects=u'',
             swear=u'',
         ),
-        u'8': dict(
+        8: dict(
             email=u'',
             password=u'',
             first_name=u'',
@@ -237,7 +242,7 @@ class Scientist(object):
             managing_projects=u'',
             swear=u'',
         ),
-        u'9': dict(
+        9: dict(
             email=u'',
             password=u'',
             first_name=u'',
@@ -259,7 +264,7 @@ class Scientist(object):
             managing_projects=u'',
             swear=u'',
         ),
-        u'10': dict(
+        10: dict(
             email=u'',
             password=u'',
             first_name=u'',

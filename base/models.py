@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 import json
-# import momoko
+import momoko
 from tornado import gen
 from common.decorators import psql_connection
 
@@ -72,6 +72,7 @@ def get_update_sql_query(tbl, update_params, where_params=None):
 
 
 def get_insert_sql_query(tbl, insert_data):
+    print insert_data
     sql_fields = u""
     sql_values = u""
     for i, title in enumerate(insert_data.keys()):
@@ -80,5 +81,5 @@ def get_insert_sql_query(tbl, insert_data):
         if i < len(insert_data.keys()) - 1:
             sql_fields += u','
             sql_values += u','
-    sql_string = u'INSERT INTO {table_name} ({fields}) VALUES ({values})'.format(table_name=tbl, fields=sql_fields, values=sql_values)
+    sql_string = u'INSERT INTO {table_name} ({fields}) VALUES ({values}) RETURNING id'.format(table_name=tbl, fields=sql_fields, values=sql_values)
     return sql_string, insert_data
