@@ -46,8 +46,8 @@ def create_db():
 def create_relations():
     try:
         # yield delete_tables()
-        # yield create_project_relation(partition)
         yield create_scientists_relation()
+        yield create_project_relation()
         # yield create_charmed_relation(partition)
         logging.info(u'done')
 
@@ -118,45 +118,50 @@ def create_project_relation():
     conn = PSQLClient.get_client()
     yield momoko.Op(conn.execute,
                     """CREATE TABLE projects (
-                    id varchar(80) primary key,
-                    manager text,
+                    id bigserial NOT NULL,
+                    lang text NOT NULL,
+                    scientist_id bigint REFERENCES scientists(id),
                     research_fields text[],
                     title text,
                     description_short text,
-                    views integer,
-                    likes integer,
-                    responses integer,
+                    views bigint,
+                    likes bigint,
+                    responses bigint[],
                     organization_type text,
-                    organization_structure text,
-                    'start_date text, '
-                    'end_date text, '
-                    'objective text, '
-                    'description_full text, '
-                    'usage_possibilities text, '
-                    'results text, '
-                    'related_data text, '
-                    'leader text, '
-                    'participants text[], '
-                    'missed_participants text[], '
-                    'tags text[], '
-                    'contact_manager text, '
-                    'contacts text[], '
-                    'project_site text);""")
+                    organization_location json,
+                    organization_structure json,
+                    start_date date,
+                    end_date date,
+                    objective text,
+                    description_full text,
+                    usage_possibilities text,
+                    results text,
+                    related_data json,
+                    leader json,
+                    participants json,
+                    missed_participants json,
+                    tags text[],
+                    contact_manager text,
+                    contacts json,
+                    project_site text,
+                    dt_created timestamptz,
+                    dt_updated timestamptz,
+                    primary key (id, lang));""")
 
-    yield momoko.Op(conn.execute, u"CREATE INDEX title_ru_idx ON projects "
-                                  u"USING GIN (to_tsvector('russian', title));")
-    yield momoko.Op(conn.execute, u"CREATE INDEX title_en_idx ON projects "
-                                  u"USING GIN (to_tsvector('english', title));")
-
-    yield momoko.Op(conn.execute, u"CREATE INDEX organization_structure_ru_idx ON projects "
-                                  u"USING GIN (to_tsvector('russian', organization_structure));")
-    yield momoko.Op(conn.execute, u"CREATE INDEX organization_structure_en_idx ON projects "
-                                  u"USING GIN (to_tsvector('english', organization_structure));")
-
-    yield momoko.Op(conn.execute, u"CREATE INDEX description_full_ru_idx ON projects "
-                                  u"USING GIN (to_tsvector('russian', description_full));")
-    yield momoko.Op(conn.execute, u"CREATE INDEX description_full_en_idx ON projects "
-                                  u"USING GIN (to_tsvector('english', description_full)); ")
+    # yield momoko.Op(conn.execute, u"CREATE INDEX title_ru_idx ON projects "
+    #                               u"USING GIN (to_tsvector('russian', title));")
+    # yield momoko.Op(conn.execute, u"CREATE INDEX title_en_idx ON projects "
+    #                               u"USING GIN (to_tsvector('english', title));")
+    #
+    # yield momoko.Op(conn.execute, u"CREATE INDEX organization_structure_ru_idx ON projects "
+    #                               u"USING GIN (to_tsvector('russian', organization_structure));")
+    # yield momoko.Op(conn.execute, u"CREATE INDEX organization_structure_en_idx ON projects "
+    #                               u"USING GIN (to_tsvector('english', organization_structure));")
+    #
+    # yield momoko.Op(conn.execute, u"CREATE INDEX description_full_ru_idx ON projects "
+    #                               u"USING GIN (to_tsvector('russian', description_full));")
+    # yield momoko.Op(conn.execute, u"CREATE INDEX description_full_en_idx ON projects "
+    #                               u"USING GIN (to_tsvector('english', description_full)); ")
 
 
 # ---------------------- EDUCATION & LOCATION TABLES --------------------------
