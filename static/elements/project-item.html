@@ -1,4 +1,6 @@
 <link rel="import" href="/static/elements/core/polymer/polymer.html"/>
+<link rel="import" href="/static/elements/app-router/app-router.html"/>
+<link rel="import" href="/static/elements/html5-history-anchor/html5-history-anchor.html"/>
 
 <polymer-element name="project-item" attributes="data" noscript>
 	<template>
@@ -12,6 +14,10 @@
 			h1 {
 				margin: 0 0 10px 0;
 			}
+            a {
+                text-decoration: none;
+                color: inherit;
+            }
 			.project-holder {
 				background-color: #21303F;
 				color: white;
@@ -20,7 +26,9 @@
 		</style>
 		<article class="project">
 			<header class="project-header">
-				<h1>{{data.title}}</h1>
+				<h1>
+					<a is="html5-history-anchor" href="/project/{{data.id}}" pushstate popstate>{{data.title}}</a>
+				</h1>
 				<div horizontal layout justified>
 					<div class="project-holder">{{data.organization}}</div>
 					<div class="project-end-date">

@@ -1,0 +1,10 @@
+<link rel="import" href="/static/elements/core/polymer/polymer.html"/>
+<link rel="import" href="/static/elements/core/core-ajax/core-ajax.html"/>
+<link rel="import" href="/static/elements/project-full.html"/>
+
+<polymer-element name="project-page" noscript id>
+	<template>
+		<core-ajax auto url="/api/project/{{id}}" method="GET" handleAs="json" response="{{project}}"></core-ajax>
+		<project-full data="{{project.data}}" vertical layout></project-full>
+	</template>
+</polymer-element>

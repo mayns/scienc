@@ -140,3 +140,19 @@
 body {
   font-family: 'Roboto', sans-serif;
 }
+
+/* line 14, ../scss/main.scss */
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+/* line 19, ../scss/main.scss */
+a:visited {
+  color: inherit;
+}
+
+/* line 23, ../scss/main.scss */
+a:active {
+  color: inherit;
+}
