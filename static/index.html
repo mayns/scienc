@@ -2,21 +2,22 @@
 <html>
     <head>
         <meta charset="utf-8"/>
-        <title>Polymer Test App</title>
+        <title>Science.im</title>
         <meta name="viewport" content="width=device-width, initial-scale=1"/>
         <link rel="stylesheet" href="/static/css/main.css"/>
         <link href='http://fonts.googleapis.com/css?family=Roboto:400,700,300,400italic,700italic&subset=latin,cyrillic-ext' rel='stylesheet' type='text/css'>
-        <link rel="stylesheet" href="/static/elements/core/polymer/polymer.html"/>
+        <link rel="import" href="/static/elements/core/polymer/polymer.html"/>
         <link rel="import" href="/static/elements/core/core-header-panel/core-header-panel.html"/>
         <link rel="import" href="/static/elements/core/core-toolbar/core-toolbar.html"/>
         <link rel="import" href="/static/elements/core/core-icon-button/core-icon-button.html"/>
         <link rel="import" href="/static/elements/app-router/app-router.html"/>
+        <link rel="import" href="/static/elements/html5-history-anchor/html5-history-anchor.html"/>
     </head>
     <body unresolved fullbleed layout vertical>
-        <core-header-panel flex>
+        <core-header-panel mode="seamed" flex>
             <div class="core-header page-header" horizontal layout center>
                 <div class="page-header-logo">
-                    <span class="color-yellow">Science</span><span class="color-grey">.im</span>
+                    <a is="html5-history-anchor" href="/" pushstate popstate><span class="color-yellow">Science</span><span class="color-grey">.im</span></a>
                 </div>
                 <div flex></div>
                 <core-icon-button class="color-white" icon="alarm"></core-icon-button>
@@ -24,8 +25,10 @@
                 <core-icon-button class="color-white" icon="search"></core-icon-button>
             </div>
             <div class="content" layout vertical center>
-                <app-router>
+                <app-router mode="pushstate">
                     <app-route path="/" import="/pages/home-page.html"></app-route>
+                    <app-route path="/project/:id" import="/pages/project-page.html"></app-route>
+                    <app-route path="*" redirect="/"></app-route>
                 </app-router>
             </div>
         </core-header-panel>
