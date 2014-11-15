@@ -40,7 +40,7 @@ class PSQLModel(object):
 
     @classmethod
     @gen.coroutine
-    @psql_connection()
+    @psql_connection
     def get_all_json(cls, conn):
         print cls.TABLE
         cursor = yield momoko.Op(conn.execute, u'SELECT * FROM {table_name}'.format(table_name=cls.TABLE))

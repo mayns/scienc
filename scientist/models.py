@@ -47,7 +47,7 @@ class Scientist(PSQLModel):
         self.dt_created = None
         self.dt_last_visit = None
 
-    @psql_connection()
+    @psql_connection
     def encrypt(self, conn, data, update=True):
         key = gen_hash(self.id, self.email)
         value = set_password(data[u'password'])
@@ -69,9 +69,9 @@ class Scientist(PSQLModel):
 
     @classmethod
     @gen.coroutine
-    @psql_connection()
+    @psql_connection
     def from_db_by_id(cls, conn, scientist_id):
-        cursor = yield Op(conn.execute, u"SELECT {columns} FROM {table_name} WHERE id={id}".format(
+        cursor = yield momoko.Op(conn.execute, u"SELECT {columns} FROM {table_name} WHERE id={id}".format(
             columns=u', '.join(cls.PSQL_COLUMNS),
             table_name=cls.PSQL_TABLE,
             id=str(scientist_id)))
@@ -83,7 +83,7 @@ class Scientist(PSQLModel):
         raise gen.Return((scientist, json_scientist))
 
     @gen.coroutine
-    @psql_connection()
+    @psql_connection
     def save(self, conn, update=True):
         update_params = self.__dict__
         if update:

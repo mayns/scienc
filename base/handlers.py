@@ -28,8 +28,12 @@ class BaseRequestHandler(web.RequestHandler):
         self.payload = dict()
         super(BaseRequestHandler, self).__init__(*args, **kwargs)
 
+    @gen.coroutine
     def get_current_user(self):
-        return self.get_secure_cookie("user")
+        from scientist.scientist_bl import ScientistBL
+        scientist_id = self.get_secure_cookie(u"scientist")
+        if not scientist_id: return None
+        return ScientistBL.get_scientist(scientist_id)
 
     def get(self, *args, **kwargs):
         if not self.current_user:

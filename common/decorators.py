@@ -7,7 +7,7 @@ import settings
 __author__ = 'oks'
 
 
-def psql_connection():
+def psql_connection(*args, **kwargs):
     def wrapper(function):
         @functools.wraps(function)
         def call(self, *args, **kwargs):

@@ -51,6 +51,13 @@ class ScientistBL(object):
 
     @classmethod
     @gen.coroutine
+    @gen.coroutine
+    def get_scientist(cls, scientist_id):
+        scientist = yield Scientist.from_db_by_id(scientist_id)
+        raise gen.Return(scientist)
+
+    @classmethod
+    @gen.coroutine
     def get_all_scientists(cls):
         scientists = None
         try:
@@ -62,7 +69,7 @@ class ScientistBL(object):
 
     @classmethod
     @gen.coroutine
-    @psql_connection()
+    @psql_connection
     def delete_scientist(cls, conn, scientist_id):
         conn = conn.get_client(partition=settings.SCIENCE_DB)
         try:
