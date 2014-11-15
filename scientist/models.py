@@ -71,6 +71,11 @@ class Scientist(PSQLModel):
     @gen.coroutine
     @psql_connection
     def from_db_by_id(cls, conn, scientist_id):
+
+        """
+        :type conn: PSQLClient
+        :raise:
+        """
         cursor = yield momoko.Op(conn.execute, u"SELECT {columns} FROM {table_name} WHERE id={id}".format(
             columns=u', '.join(cls.PSQL_COLUMNS),
             table_name=cls.PSQL_TABLE,
