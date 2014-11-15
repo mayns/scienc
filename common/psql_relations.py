@@ -88,7 +88,7 @@ def create_scientists_relation():
                     first_name text,
                     last_name text,
                     middle_name text,
-                    dob text,
+                    dob date,
                     gender text,
                     image_small bytea,
                     image_medium bytea,
@@ -101,9 +101,9 @@ def create_scientists_relation():
                     interests  text,
                     project_ids  bigint[],
                     about  text,
-                    contacts  text[],
-                    desired_projects_ids  text[],
-                    managing_projects_ids  text[],
+                    contacts  json,
+                    desired_projects_ids  bigint[],
+                    managing_projects_ids  bigint[],
                     dt_created timestamptz,
                     dt_last_visit timestamptz);""")
 
@@ -172,7 +172,7 @@ def create_project_relation():
     #                               u"USING GIN (to_tsvector('english', description_full)); ")
 
 
-# ---------------------- EDUCATION & LOCATION TABLES --------------------------
+# ---------------------- LOCATION TABLES --------------------------
 
 @gen.coroutine
 def create_country_relation():
@@ -224,6 +224,8 @@ def create_main_city_relation():
                     city_id bigint REFERENCES cities(id),
                     title text);""")
 
+
+# ---------------------- EDUCATION TABLES --------------------------
 
 @gen.coroutine
 def create_university_relation():
@@ -283,6 +285,10 @@ def create_school_relation():
     #                               u"USING GIN(to_tsvector('russian', title));")
     # yield momoko.Op(conn.execute, u"CREATE INDEX schools_en_idx ON schools "
     #                               u"USING GIN(to_tsvector('english', title));")
+
+
+
+# ---------------------- LANGUAGES TABLE --------------------------
 
 @gen.coroutine
 def create_languages_relation():
