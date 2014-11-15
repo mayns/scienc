@@ -91,13 +91,13 @@ def create_scientists_relation():
                     high_education  json,
                     publications  text[],
                     interests  text,
-                    project_ids  bigserial[],
+                    project_ids  bigint[],
                     about  text,
                     contacts  text[],
                     desired_projects_ids  text[],
                     managing_projects_ids  text[],
                     dt_created timestamptz,
-                    dt_last_visit timestamptz;""")
+                    dt_last_visit timestamptz);""")
 
     # yield momoko.Op(conn.execute, u"CREATE INDEX scientists_projects_gin ON scientists USING GIN(project_ids);")
 
