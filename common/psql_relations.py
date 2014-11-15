@@ -175,10 +175,10 @@ def create_country_relation():
                     'title_en text,'
                     'title_ru text);')
 
-    yield momoko.Op(conn.execute, u"CREATE INDEX countries_ru_idx ON countries "
-                                  u"USING GIN(to_tsvector('russian', title_ru));")
-    yield momoko.Op(conn.execute, u"CREATE INDEX countries_en_idx ON countries "
-                                  u"USING GIN(to_tsvector('english', title_en));")
+    # yield momoko.Op(conn.execute, u"CREATE INDEX countries_ru_idx ON countries "
+    #                               u"USING GIN(to_tsvector('russian', title_ru));")
+    # yield momoko.Op(conn.execute, u"CREATE INDEX countries_en_idx ON countries "
+    #                               u"USING GIN(to_tsvector('english', title_en));")
 
 
 @gen.coroutine
