@@ -64,7 +64,7 @@ class Project(PSQLModel):
 
     @classmethod
     @gen.coroutine
-    @psql_connection()
+    @psql_connection
     def from_db_by_id(cls, conn, project_id):
         cursor = yield momoko.Op(conn.execute, u"SELECT {columns} FROM {table_name} WHERE id={id}".format(
             columns=u', '.join(cls.PSQL_COLUMNS),
@@ -78,7 +78,7 @@ class Project(PSQLModel):
         raise gen.Return((project, json_project))
 
     @gen.coroutine
-    @psql_connection()
+    @psql_connection
     def save(self, conn, update=True):
         update_params = self.__dict__
         if update:

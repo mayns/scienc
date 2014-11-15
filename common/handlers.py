@@ -24,12 +24,16 @@ class LoginHandler(BaseRequestHandler):
 
     @gen.coroutine
     def post(self):
-        self.set_secure_cookie(u"scientist", self.get_argument("name"))
+        from scientist.scientist_bl import ScientistBL
+        email = self.get_argument(u'email')
+        passw = self.get_argument(u'password')
+        scientist_id = yield gen.Task(ScientistBL.check_user_exist, email)
+        self.set_secure_cookie(str(scientist_id), hash(scientist_id))
+        self.redirect(self.get_argument(u'next', u'/'))
 
-        self.finish()
 
-
-# class LoginHandler():
-#     def post(self):
-#         self.set_secure_cookie(u'scientist', self.get_argument(u'name'))
-#         self.finish()
+class LogoutHandler(BaseRequestHandler):
+    def get(self, *args, **kwargs):
+        scientist_id = self.get_argument(u'scientist_id')
+        self.clear_cookie(str(scientist_id))
+        self.redirect(self.get_argument(u'next', u'/'))

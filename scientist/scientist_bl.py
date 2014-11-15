@@ -39,15 +39,23 @@ class ScientistBL(object):
     @classmethod
     @gen.coroutine
     def add_scientist(cls, scientist_dict):
-        scientist_id = generate_id()
-        scientist = Scientist.from_db_class_data(scientist_id, scientist_dict)
-        scientist.encrypt()
+        # scientist_id = generate_id()
+        password = scientist_dict.pop(u'password')
+        scientist = Scientist.from_db_class_data(scientist_dict)
+        yield scientist.encrypt(dict(password=password))
         try:
             yield scientist.save(update=False)
         except Exception, ex:
             print u'Exception! in add scientist'
             print ex
-        raise gen.Return(scientist_id)
+        raise gen.Return(scientist.id)
+
+    @classmethod
+    @gen.coroutine
+    @gen.coroutine
+    def get_scientist(cls, scientist_id):
+        scientist = yield Scientist.from_db_by_id(scientist_id)
+        raise gen.Return(scientist)
 
     @classmethod
     @gen.coroutine
@@ -62,7 +70,7 @@ class ScientistBL(object):
 
     @classmethod
     @gen.coroutine
-    @psql_connection()
+    @psql_connection
     def delete_scientist(cls, conn, scientist_id):
         conn = conn.get_client(partition=settings.SCIENCE_DB)
         try:

@@ -3,6 +3,7 @@
 import json
 import urllib
 import hashlib
+from tornado import httpclient
 from tornado import gen
 from base.handlers import BaseRequestHandler
 from scientist.scientist_bl import ScientistBL
@@ -27,9 +28,13 @@ class ScientistHandler(BaseRequestHandler):
     def post(self, *args, **kwargs):
         print u'scientist post'
         scientist_dict = json.loads(self.get_argument(u'data', u'{}'))
-        scientist_id = yield ScientistBL.add_scientist(scientist_dict[u'scientist'])
+        # from tests.scientist_data import Scientist
+        # scientist_dict = Scientist.get_data(0)
+        # print login, passw
+        scientist_id = yield ScientistBL.add_scientist(scientist_dict)
         response = dict(id=scientist_id)
         response_data = yield self.get_response(response)
+        self.set_secure_cookie(u'scientist', scientist_id)
         self.finish(response_data)
 
     @gen.coroutine
@@ -41,12 +46,19 @@ class ScientistHandler(BaseRequestHandler):
         self.finish(response_data)
 
     @gen.coroutine
-    def get(self):
+    def get(self, *args, **kwargs):
         print u'scientist get'
-        scientist_dict = json.loads(self.get_argument(u'data', u'{}'))
-        response = yield ScientistBL.get_project(scientist_dict[u'id'])
-        response_data = yield self.get_response(response)
-        self.finish(response_data)
+        from tests.scientist_data import Scientist
+        scientist_dict = Scientist.get_data(0)
+        response = yield httpclient.AsyncHTTPClient().fetch(u'http://sciencemates.dev:9090/api/scientist/1',
+                                                            body=urllib.urlencode(dict(data=json.dumps(scientist_dict))),
+                                                            method=u"POST")
+        json_response = json.loads(response.body)
+        print json_response
+        # scientist_dict = json.loads(self.get_argument(u'data', u'{}'))
+        # response = yield ScientistBL.get_project(scientist_dict[u'id'])
+        # response_data = yield self.get_response(response)
+        # self.finish(response_data)
 
     @gen.coroutine
     def delete(self, scientist_id):
