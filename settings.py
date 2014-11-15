@@ -7,14 +7,12 @@ __author__ = 'oks'
 
 # -------- PROJECT MAIN ---------- #
 
-PROJECT_ID = u'ScienceMates'
-PROJECT_NAME = u'ScienceMates'
 PROJECT_TITLE = u'ScienceMates'
 SERVER_IP = u'localhost'
 PROJECT_PATH = os.path.join(os.path.dirname(__file__))
 
-COOKIE_SECRET = u"wfgelwdhgw734862ihdi"
-SESSION_SECRET = u"tf7843dyjbhxhswydwihdidhwq"
+COOKIE_SECRET = hash(u"Alice was beginning to get very tired of sitting by her sister on the bank")
+SESSION_SECRET = hash(u"However, this bottle was not marked `poison,' so Alice ventured to taste it")
 
 
 # -------- POSTGRESQL ---------- #
