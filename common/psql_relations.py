@@ -45,7 +45,7 @@ def create_db():
 @gen.coroutine
 def create_relations():
     try:
-        # yield delete_tables()
+        yield delete_tables()
         yield create_scientists_relation()
         yield create_project_relation()
         yield create_country_relation()
@@ -233,7 +233,7 @@ def create_university_relation():
     yield momoko.Op(conn.execute,
                     """CREATE TABLE universities (
                     id bigserial primary key,
-                    city_idd bigint REFERENCES cities(id),
+                    city_id bigint REFERENCES cities(id),
                     title text);""")
 
     # yield momoko.Op(conn.execute, u"CREATE INDEX universities_ru_idx ON universities "
