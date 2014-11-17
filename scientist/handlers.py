@@ -3,7 +3,7 @@
 import json
 import urllib
 import hashlib
-from tornado import httpclient
+from tornado import httpclient, httputil
 from tornado import gen
 from base.handlers import BaseRequestHandler
 from scientist.scientist_bl import ScientistBL
@@ -27,11 +27,13 @@ class ScientistHandler(BaseRequestHandler):
     @gen.coroutine
     def post(self, *args, **kwargs):
         print u'scientist post'
-        scientist_dict = json.loads(self.get_argument(u'data', u'{}'))
+        email = self.get_body_arguments(u'email')
+        password = self.get_body_arguments(u'password')
+        # scientist_dict = json.loads(self.get_argument(u'data', u'{}'))
         # from tests.scientist_data import Scientist
         # scientist_dict = Scientist.get_data(0)
         # print login, passw
-        scientist_id = yield ScientistBL.add_scientist(scientist_dict)
+        scientist_id = yield ScientistBL.add_scientist(dict(email=email, password=password))
         response = dict(id=scientist_id)
         response_data = yield self.get_response(response)
         self.set_secure_cookie(u'scientist', scientist_id)

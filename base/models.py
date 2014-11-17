@@ -14,8 +14,8 @@ class PSQLModel(object):
     TABLE = None
     COLUMNS = None
 
-    def __init__(self, entity_id):
-        self.id = entity_id
+    def __init__(self):
+        self.id = None
         self.table = self.TABLE
         self.columns = self.COLUMNS
         self.initialize()

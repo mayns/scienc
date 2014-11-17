@@ -1,9 +1,9 @@
 # -*- coding: utf-8 -*-
-# import momoko
 
+import momoko
 from tornado import gen
 import settings
-from common.utils import set_password, generate_id
+from common.utils import set_password
 from common.decorators import psql_connection
 from scientist.models import Scientist
 
@@ -39,12 +39,11 @@ class ScientistBL(object):
     @classmethod
     @gen.coroutine
     def add_scientist(cls, scientist_dict):
-        # scientist_id = generate_id()
         password = scientist_dict.pop(u'password')
-        scientist = Scientist.from_db_class_data(scientist_dict)
-        yield scientist.encrypt(dict(password=password))
+        scientist = Scientist.from_dict_data(scientist_dict)
         try:
             yield scientist.save(update=False)
+            yield scientist.encrypt(dict(password=password))
         except Exception, ex:
             print u'Exception! in add scientist'
             print ex
