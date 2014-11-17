@@ -19,7 +19,7 @@ def insert_data():
         # inserting countries names
         country_names = []
         for lang in ['en', 'ru']:
-            path = r'/countries/countries_{}.pkl'.format(lang)
+            path = r'/opt/data/countries_{}.pkl'.format(lang)
             f = open(path, 'rb')
             country_names.append(cPickle.load(f))
             f.close()
