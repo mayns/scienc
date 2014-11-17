@@ -55,7 +55,7 @@ def create_relations():
         yield create_faculty_relation()
         yield create_chair_relation()
         yield create_school_relation()
-        # yield create_charmed_relation()
+        yield create_charmed_relation()
         yield create_languages_relation()
         logging.info(u'done')
 
@@ -117,7 +117,7 @@ def create_charmed_relation():
     yield momoko.Op(conn.execute,
                     'CREATE TABLE charmed ('
                     'id varchar(255) primary key,'
-                    'val text;')
+                    'val text);')
 
 
 @gen.coroutine
