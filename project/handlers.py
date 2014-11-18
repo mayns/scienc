@@ -23,7 +23,8 @@ class ProjectsListHandler(BaseRequestHandler):
         print u'projects list get'
         projects = TestProject.get_list_data()
         # projects = yield ProjectBL.get_all_projects()
-
+        cookie = self.get_secure_cookie(u'scientist')
+        print cookie
         projects = projects if projects else []
         projects = yield self.get_response(projects)
         self.finish(json.dumps(projects))

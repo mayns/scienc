@@ -33,10 +33,10 @@ class ScientistHandler(BaseRequestHandler):
         # from tests.scientist_data import Scientist
         # scientist_dict = Scientist.get_data(0)
         # print login, passw
-        scientist_id = yield ScientistBL.add_scientist(dict(email=email, password=password))
-        response = dict(id=scientist_id)
+        scientist_id = yield ScientistBL.add_scientist(dict(email=email[0], password=password[0]))
+        response = dict(id=str(scientist_id))
         response_data = yield self.get_response(response)
-        self.set_secure_cookie(u'scientist', scientist_id)
+        self.set_secure_cookie(u'scientist', str(scientist_id))
         self.finish(response_data)
 
     @gen.coroutine

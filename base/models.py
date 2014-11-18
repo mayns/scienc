@@ -3,6 +3,7 @@
 import json
 import momoko
 from tornado import gen
+from common.utils import zip_values
 from common.decorators import psql_connection
 
 __author__ = 'oks'
@@ -71,15 +72,13 @@ def get_update_sql_query(tbl, update_params, where_params=None):
     return sql_string, update_params
 
 
-def get_insert_sql_query(tbl, insert_data):
-    print insert_data
-    sql_fields = u""
-    sql_values = u""
-    for i, title in enumerate(insert_data.keys()):
-        sql_fields = u"{prefix} {title}".format(prefix=sql_fields, title=title)
-        sql_values = u"{prefix} %({title})s".format(prefix=sql_values, title=title)
-        if i < len(insert_data.keys()) - 1:
-            sql_fields += u','
-            sql_values += u','
-    sql_string = u'INSERT INTO {table_name} ({fields}) VALUES ({values}) RETURNING id'.format(table_name=tbl, fields=sql_fields, values=sql_values)
+def get_insert_sql_query(tbl, columns, insert_data):
+
+    colvals = zip_values(columns, insert_data)
+    fields = u", ".join([v[0] for v in colvals])
+    colvals = map(lambda x: json.dumps(x[1]) if (isinstance(x[1], list) or isinstance(x[1], dict)) else x, colvals)
+    values = u"'" + u"', '".join([v[1] for v in colvals]) + u"'" if len(colvals) > 1 else u"'{}'".format(colvals[0][1])
+    sql_string = u'INSERT INTO {table_name} ({fields}) VALUES ({values}) RETURNING id'.format(table_name=tbl,
+                                                                                              fields=fields,
+                                                                                              values=values)
     return sql_string, insert_data
