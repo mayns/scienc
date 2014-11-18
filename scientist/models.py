@@ -23,8 +23,8 @@ class Scientist(PSQLModel):
     CHARMED = u'charmed'
     CHARMED_COLUMNS = [u'key', u'value']
 
-    def __init__(self, scientist_id):
-        super(Scientist, self).__init__(scientist_id)
+    def __init__(self):
+        super(Scientist, self).__init__()
         self.email = u''
         self.lang = u'Ru'
         self.first_name = u''
@@ -60,8 +60,8 @@ class Scientist(PSQLModel):
         yield momoko.Op(conn.execute, sqp_query, params)
 
     @classmethod
-    def from_db_class_data(cls, scientist_id, scientist_dict):
-        scientist = Scientist(scientist_id)
+    def from_dict_data(cls, scientist_dict):
+        scientist = Scientist()
         for key, value in scientist_dict.iteritems():
             if hasattr(scientist, key):
                 setattr(scientist, key, value)
@@ -81,7 +81,7 @@ class Scientist(PSQLModel):
         if not scientist_data:
             raise gen.Return((None, None))
         json_scientist = dict(zip(cls.COLUMNS, scientist_data))
-        scientist = yield cls.from_db_class_data(scientist_id, json_scientist)
+        scientist = yield cls.from_dict_data(json_scientist)
         raise gen.Return((scientist, json_scientist))
 
     @gen.coroutine
@@ -91,6 +91,5 @@ class Scientist(PSQLModel):
         if update:
             sqp_query, params = get_update_sql_query(self.TABLE, update_params, dict(id=self.id))
         else:
-            update_params.update(dict(id=self.id))
             sqp_query, params = get_insert_sql_query(self.TABLE, update_params)
-        yield momoko.Op(conn.execute, sqp_query, params)
+        self.id = yield momoko.Op(conn.execute, sqp_query, params)
