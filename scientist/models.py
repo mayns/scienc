@@ -57,8 +57,8 @@ class Scientist(PSQLModel):
         if update:
             sqp_query, params = get_update_sql_query(self.CHARMED, dict(id=key[2], val=value))
         else:
-            sqp_query, params = get_insert_sql_query(self.CHARMED, self.CHARMED_COLUMNS, dict(id=key[2], val=value))
-        yield momoko.Op(conn.execute, sqp_query, params)
+            sqp_query = get_insert_sql_query(self.CHARMED, self.CHARMED_COLUMNS, dict(id=key[2], val=value))
+        yield momoko.Op(conn.execute, sqp_query)
 
     @classmethod
     def from_dict_data(cls, scientist_dict):
@@ -92,6 +92,6 @@ class Scientist(PSQLModel):
         if update:
             sqp_query, params = get_update_sql_query(self.TABLE, self.COLUMNS, update_params, dict(id=self.id))
         else:
-            sqp_query, params = get_insert_sql_query(self.TABLE, self.COLUMNS, update_params)
-        cursor = yield momoko.Op(conn.execute, sqp_query, params)
+            sqp_query = get_insert_sql_query(self.TABLE, self.COLUMNS, update_params)
+        cursor = yield momoko.Op(conn.execute, sqp_query)
         self.id = cursor.fetchone()[0]
