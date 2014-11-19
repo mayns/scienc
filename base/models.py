@@ -17,21 +17,10 @@ class PSQLModel(object):
 
     def __init__(self):
         self.id = None
-        self.table = self.TABLE
-        self.columns = self.COLUMNS
-        self.initialize()
-
-    def initialize(self):
-        assert self.table, u'PSQL table name not specified'
-        assert self.columns, u'PSQL columns name not specified'
 
     @property
     def type(self):
         return self.__class__.__name__
-
-    def refresh_related_objects(self):
-        # must implement in child-class
-        pass
 
     @classmethod
     @gen.coroutine
@@ -76,9 +65,10 @@ def get_insert_sql_query(tbl, columns, insert_data):
 
     colvals = zip_values(columns, insert_data)
     fields = u", ".join([v[0] for v in colvals])
-    colvals = map(lambda x: json.dumps(x[1]) if (isinstance(x[1], list) or isinstance(x[1], dict)) else x, colvals)
+    colvals = map(lambda x: (x[0], json.dumps(x[1]).replace(u'[', u'{').replace(u']', u'}')) if type(x[1]) in [list, dict, int] else x, colvals)
     values = u"'" + u"', '".join([v[1] for v in colvals]) + u"'" if len(colvals) > 1 else u"'{}'".format(colvals[0][1])
+    values = values.replace(u'%', u'%%')
     sql_string = u'INSERT INTO {table_name} ({fields}) VALUES ({values}) RETURNING id'.format(table_name=tbl,
                                                                                               fields=fields,
                                                                                               values=values)
-    return sql_string, insert_data
+    return sql_string

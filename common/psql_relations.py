@@ -144,6 +144,7 @@ def create_project_relation():
                     description_full text,
                     usage_possibilities text,
                     results text,
+                    acknowledgements text,
                     related_data json,
                     leader json,
                     participants json,

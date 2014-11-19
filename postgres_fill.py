@@ -9,6 +9,8 @@ import time
 from common.connections import PSQLClient
 from common.utils import generate_id
 import cPickle
+from tests import project_data
+import json
 
 # TODO new tables
 @gen.coroutine
@@ -154,3 +156,18 @@ def delete_kinder_garden():
                     or title like  '%%при%% школ%%' or title like '%%Дошкольник%%'));""")
     except (psycopg2.Warning, psycopg2.Error) as error:
         raise Exception(str(error))
+
+
+@gen.coroutine
+def add_test_project():
+    from base.models import get_insert_sql_query
+    from project.models import Project
+    p = Project()
+    conn = PSQLClient.get_client()
+    test_project = project_data.TestProject()
+    test = test_project.json_data[3]
+    query = get_insert_sql_query(p.TABLE, p.COLUMNS, test)
+    print query
+    cursor = yield momoko.Op(conn.execute, query)
+    id = cursor.fetchone()[0]
+    print id
