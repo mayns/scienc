@@ -7,16 +7,15 @@ import momoko
 import psycopg2
 import time
 from common.connections import PSQLClient
-from common.utils import generate_id
+from base.models import get_insert_sql_query
+from project.models import Project
 import cPickle
-from tests import project_data
-import json
+from tests.project_data import TestProject
 
 # TODO new tables
 @gen.coroutine
 def insert_data():
     conn = PSQLClient.get_client()
-
     try:
         # inserting countries names
         country_names = []
@@ -149,8 +148,8 @@ def insert_data():
 
 @gen.coroutine
 def delete_kinder_garden():
+    conn = PSQLClient.get_client()
     try:
-        conn = PSQLClient.get_client()
         yield momoko.Op(conn.execute, u"""DELETE FROM schools WHERE (title like '%%дет. сад%%' and title not like '%%шк.%%'
                     and title not like '%%школ%%') or (title like '%%дет. сад%%' and (title like  '%%при%% шк.%%'
                     or title like  '%%при%% школ%%' or title like '%%Дошкольник%%'));""")
@@ -160,14 +159,7 @@ def delete_kinder_garden():
 
 @gen.coroutine
 def add_test_project():
-    from base.models import get_insert_sql_query
-    from project.models import Project
-    p = Project()
     conn = PSQLClient.get_client()
-    test_project = project_data.TestProject()
-    test = test_project.json_data[3]
-    query = get_insert_sql_query(p.TABLE, p.COLUMNS, test)
-    print query
-    cursor = yield momoko.Op(conn.execute, query)
-    id = cursor.fetchone()[0]
-    print id
+    test = TestProject.get_project(3)
+    query = get_insert_sql_query(Project.TABLE, Project.COLUMNS, test)
+    yield momoko.Op(conn.execute, query)

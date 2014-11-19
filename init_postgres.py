@@ -33,4 +33,4 @@ if __name__ == "__main__":
     # _ioloop.run_sync(partial(delete_kinder_garden))
 
     from postgres_fill import add_test_project
-    _ioloop.run_sync(partial(add_test_project))
+    _ioloop.run_sync(add_test_project)
