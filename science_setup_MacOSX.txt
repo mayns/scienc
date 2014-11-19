@@ -16,7 +16,7 @@ cd ..
 
 Необходимые пакеты
 ------------------
-pip install tornado
+pip install tornado momoko
 
 Генерим ssh ключ, если нет, иначе - пропускаем шаг
 ------------------
@@ -86,3 +86,7 @@ nano /etc/hosts
 ----------------
 В PyCharm заходим в Settings --> File and Code Templates, выбираем Python Script, вставляем первой строкой 
 # -*- coding: utf-8 -*-
+
+Запуск Tornado
+----------------
+python /gen/scienc/mainScience.py --port=6600
