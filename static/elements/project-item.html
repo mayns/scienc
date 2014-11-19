@@ -1,12 +1,13 @@
 <link rel="import" href="/static/elements/polymer/polymer/polymer.html"/>
 <link rel="import" href="/static/elements/app-router/app-router.html"/>
 <link rel="import" href="/static/elements/html5-history-anchor/html5-history-anchor.html"/>
+<link rel="import" href="/static/elements/polymer/core-icons/core-icons.html">
 
-<polymer-element name="project-item" attributes="data" noscript>
+<polymer-element name="project-item" attributes="data">
 	<template>
 		<style>
 			:host {
-				border: 3px solid #ccc;
+				border: 2px solid #ccc;
 				padding: 10px;
 				max-width: 960px;
 				position: relative;
@@ -23,13 +24,32 @@
 				color: white;
 				padding: 5px;
 			}
+			.project-like-icon {
+				cursor: pointer;
+				position: absolute;
+				left: 50%;
+				margin-left: -12px;
+			}
+			.project-like-icon:hover svg {
+				stroke: #FF334F;
+			}
+			.project-like-icon svg {
+				fill: white;
+				stroke-width: 2px;
+				stroke: #ccc;
+				transition: fill 0.3s ease, stroke 0.3s ease;
+			}
+			.project-like-icon.liked svg {
+				fill: #FF334F;
+				stroke: #FF334F;
+			}
 		</style>
 		<article class="project">
 			<header class="project-header">
 				<h1>
 					<a is="html5-history-anchor" href="/project/{{data.id}}" pushstate popstate>{{data.title}}</a>
 				</h1>
-				<div horizontal layout justified>
+				<div horizontal layout justified center>
 					<div class="project-holder">{{data.organization}}</div>
 					<div class="project-end-date">
 						дата окончания
@@ -40,7 +60,14 @@
 			<p>
 				<b>Краткое описание: </b>{{data.description_short}}
 			</p>
+			<core-icon class="project-like-icon" icon="favorite" on-tap="{{onFavIconTap}}"></core-icon>
 		</article>
-		<div class="like" style="background: red; height: 20px; width: 20px;"></div>
 	</template>
+	<script>
+		Polymer({
+			onFavIconTap: function(e, detail, sender) {
+				e.target.classList.toggle('liked');
+			}
+		});
+	</script>
 </polymer-element>
