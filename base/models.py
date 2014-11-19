@@ -63,6 +63,13 @@ def get_update_sql_query(tbl, update_params, where_params=None):
 
 def get_insert_sql_query(tbl, columns, insert_data):
 
+    """
+
+    :param insert_data:
+    :type insert_data: dict
+    :return: valid SQL request query
+    :rtype: unicode
+    """
     colvals = zip_values(columns, insert_data)
     fields = u", ".join([v[0] for v in colvals])
     colvals = map(lambda x: (x[0], json.dumps(x[1]).replace(u'[', u'{').replace(u']', u'}')) if type(x[1]) in [list, dict, int] else x, colvals)
