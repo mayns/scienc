@@ -82,3 +82,28 @@ def check_password(raw_password, enc_password):
     if algo == 'sha512':
         return hsh == gen_hash(raw_password, salt, algo)[-1]
     return hsh == get_hexdigest(algo, salt, raw_password)
+
+
+def zip_values(iterable, dict2):
+    """
+
+    :type iterable: iter
+    :type dict2: dict
+    :return: list of tuples with keys in both dicts
+    :rtype: list
+    """
+    zipped = []
+    assert isinstance(dict2, dict)
+    if not all([iterable, dict2]):
+        return []
+    if isinstance(iterable, dict):
+        for k, v in iterable.iteritems():
+            if k not in dict2.keys() or not dict2[k]:
+                continue
+            zipped.append((v, dict2[k]))
+    elif isinstance(iterable, list):
+        for k in iterable:
+            if k not in dict2.keys() or not dict2[k]:
+                continue
+            zipped.append((k, dict2[k]))
+    return zipped

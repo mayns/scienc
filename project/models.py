@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 import json
-# import momoko
+import momoko
 
 from tornado import gen
 from base.models import PSQLModel, get_insert_sql_query, get_update_sql_query
@@ -14,13 +14,13 @@ class Project(PSQLModel):
 
     ENTITY = u'project'
     TABLE = u'projects'
-    COLUMNS = [u'id', u'manager', u'research_fields', u'title', u'description_short', u'views', u'likes', u'responses',
+    COLUMNS = [u'scientist_id', u'lang', u'research_fields', u'title', u'description_short', u'views', u'likes', u'responses',
                u'organization_type', u'organization_structure', u'start_date', u'end_date', u'objective',
                u'description_full', u'usage_possibilities', u'results', u'related_data', u'leader', u'participants',
                u'missed_participants', u'tags', u'contact_manager', u'contacts', u'project_site']
 
-    def __init__(self, project_id):
-        super(Project, self).__init__(project_id)
+    def __init__(self):
+        super(Project, self).__init__()
         self.scientist_id = None     # person added the project
         self.lang = u'Ru'
         self.research_fields = []  # области науки
@@ -67,13 +67,13 @@ class Project(PSQLModel):
     @psql_connection
     def from_db_by_id(cls, conn, project_id):
         cursor = yield momoko.Op(conn.execute, u"SELECT {columns} FROM {table_name} WHERE id={id}".format(
-            columns=u', '.join(cls.PSQL_COLUMNS),
-            table_name=cls.PSQL_TABLE,
+            columns=u', '.join(cls.COLUMNS),
+            table_name=cls.TABLE,
             id=str(project_id)))
         project_data = cursor.fetchone()
         if not project_data:
             raise gen.Return((None, None))
-        json_project = dict(zip(cls.PSQL_COLUMNS, project_data))
+        json_project = dict(zip(cls.COLUMNS, project_data))
         project = yield cls.from_db_class_data(project_id, json_project)
         raise gen.Return((project, json_project))
 
@@ -82,8 +82,8 @@ class Project(PSQLModel):
     def save(self, conn, update=True):
         update_params = self.__dict__
         if update:
-            sqp_query, params = get_update_sql_query(self.psql_table, update_params, dict(id=self.id))
+            sqp_query, params = get_update_sql_query(self.TABLE, update_params, dict(id=self.id))
         else:
             update_params.update(dict(id=self.id))
-            sqp_query, params = get_insert_sql_query(self.psql_table, update_params)
+            sqp_query, params = get_insert_sql_query(self.TABLE, update_params)
         yield momoko.Op(conn.execute, sqp_query, params)

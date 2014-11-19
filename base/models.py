@@ -3,6 +3,7 @@
 import json
 import momoko
 from tornado import gen
+from common.utils import zip_values
 from common.decorators import psql_connection
 
 __author__ = 'oks'
@@ -16,21 +17,10 @@ class PSQLModel(object):
 
     def __init__(self):
         self.id = None
-        self.table = self.TABLE
-        self.columns = self.COLUMNS
-        self.initialize()
-
-    def initialize(self):
-        assert self.table, u'PSQL table name not specified'
-        assert self.columns, u'PSQL columns name not specified'
 
     @property
     def type(self):
         return self.__class__.__name__
-
-    def refresh_related_objects(self):
-        # must implement in child-class
-        pass
 
     @classmethod
     @gen.coroutine
@@ -71,15 +61,21 @@ def get_update_sql_query(tbl, update_params, where_params=None):
     return sql_string, update_params
 
 
-def get_insert_sql_query(tbl, insert_data):
-    print insert_data
-    sql_fields = u""
-    sql_values = u""
-    for i, title in enumerate(insert_data.keys()):
-        sql_fields = u"{prefix} {title}".format(prefix=sql_fields, title=title)
-        sql_values = u"{prefix} %({title})s".format(prefix=sql_values, title=title)
-        if i < len(insert_data.keys()) - 1:
-            sql_fields += u','
-            sql_values += u','
-    sql_string = u'INSERT INTO {table_name} ({fields}) VALUES ({values}) RETURNING id'.format(table_name=tbl, fields=sql_fields, values=sql_values)
-    return sql_string, insert_data
+def get_insert_sql_query(tbl, columns, insert_data):
+
+    """
+
+    :param insert_data:
+    :type insert_data: dict
+    :return: valid SQL request query
+    :rtype: unicode
+    """
+    colvals = zip_values(columns, insert_data)
+    fields = u", ".join([v[0] for v in colvals])
+    colvals = map(lambda x: (x[0], json.dumps(x[1]).replace(u'[', u'{').replace(u']', u'}')) if type(x[1]) in [list, dict, int] else x, colvals)
+    values = u"'" + u"', '".join([v[1] for v in colvals]) + u"'" if len(colvals) > 1 else u"'{}'".format(colvals[0][1])
+    values = values.replace(u'%', u'%%')
+    sql_string = u'INSERT INTO {table_name} ({fields}) VALUES ({values}) RETURNING id'.format(table_name=tbl,
+                                                                                              fields=fields,
+                                                                                              values=values)
+    return sql_string

@@ -15,18 +15,19 @@ class Scientist(PSQLModel):
 
     ENTITY = u'scientist'
     TABLE = u'scientists'
-    COLUMNS = [u'id', u'email', u'first_name', u'last_name', u'middle_name', u'dob', u'gender',
+    COLUMNS = [u'email', u'first_name', u'last_name', u'middle_name', u'dob', u'gender',
                u'image', u'location_country', u'location_city', u'middle_education', u'high_education',
                u'publications', u'interests', u'project_ids', u'about', u'contacts', u'desired_project_ids',
-               u'managing_project_ids', u'swear']
+               u'managing_project_ids', u'dt_created', u'dt_last_visit']
 
     CHARMED = u'charmed'
-    CHARMED_COLUMNS = [u'key', u'value']
+    CHARMED_COLUMNS = [u'id', u'val']
 
     def __init__(self):
         super(Scientist, self).__init__()
+        self.id = 0
         self.email = u''
-        self.lang = u'Ru'
+        # self.lang = u'Ru'
         self.first_name = u''
         self.last_name = u''
         self.middle_name = u''
@@ -45,8 +46,8 @@ class Scientist(PSQLModel):
         self.desired_project_ids = []
         self.managing_project_ids = []
 
-        self.dt_created = None
-        self.dt_last_visit = None
+        self.dt_created = u''
+        self.dt_last_visit = u''
 
     @gen.coroutine
     @psql_connection
@@ -56,7 +57,7 @@ class Scientist(PSQLModel):
         if update:
             sqp_query, params = get_update_sql_query(self.CHARMED, dict(id=key[2], val=value))
         else:
-            sqp_query, params = get_insert_sql_query(self.CHARMED, dict(id=key[2], val=value))
+            sqp_query, params = get_insert_sql_query(self.CHARMED, self.CHARMED_COLUMNS, dict(id=key[2], val=value))
         yield momoko.Op(conn.execute, sqp_query, params)
 
     @classmethod
@@ -89,7 +90,8 @@ class Scientist(PSQLModel):
     def save(self, conn, update=True):
         update_params = self.__dict__
         if update:
-            sqp_query, params = get_update_sql_query(self.TABLE, update_params, dict(id=self.id))
+            sqp_query, params = get_update_sql_query(self.TABLE, self.COLUMNS, update_params, dict(id=self.id))
         else:
-            sqp_query, params = get_insert_sql_query(self.TABLE, update_params)
-        self.id = yield momoko.Op(conn.execute, sqp_query, params)
+            sqp_query, params = get_insert_sql_query(self.TABLE, self.COLUMNS, update_params)
+        cursor = yield momoko.Op(conn.execute, sqp_query, params)
+        self.id = cursor.fetchone()[0]
