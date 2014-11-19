@@ -45,7 +45,7 @@ def create_db():
 @gen.coroutine
 def create_relations():
     try:
-        yield delete_tables()
+        # yield delete_tables()
         yield create_scientists_relation()
         yield create_project_relation()
         yield create_country_relation()
