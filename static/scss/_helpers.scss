@@ -2,7 +2,7 @@
     CURSORS
 */
 
-.action {
+html /deep/ .action {
   cursor: pointer;
 }
 
@@ -10,18 +10,18 @@
     COLORS
 */
 
-.color-grey {
+html /deep/ .color-grey {
   color: #606972;
 }
 
-.color-deep-blue {
+html /deep/ .color-deep-blue {
   color: #21303F;
 }
 
-.color-yellow {
+html /deep/ .color-yellow {
   color: #E9A611;
 }
 
-.color-white {
+html /deep/ .color-white {
   color: #FFFFFF;
 }

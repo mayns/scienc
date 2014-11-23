@@ -1,15 +1,8 @@
-@charset "UTF-8";
-/* line 1, ../scss/_layout.scss */
-.container {
-  width: 960px;
-  margin: 0 auto;
-}
-
 /*
     CURSORS
 */
 /* line 5, ../scss/_helpers.scss */
-.action {
+html /deep/ .action {
   cursor: pointer;
 }
 
@@ -17,91 +10,60 @@
     COLORS
 */
 /* line 13, ../scss/_helpers.scss */
-.color-grey {
+html /deep/ .color-grey {
   color: #606972;
 }
 
 /* line 17, ../scss/_helpers.scss */
-.color-deep-blue {
+html /deep/ .color-deep-blue {
   color: #21303F;
 }
 
 /* line 21, ../scss/_helpers.scss */
-.color-yellow {
+html /deep/ .color-yellow {
   color: #E9A611;
 }
 
 /* line 25, ../scss/_helpers.scss */
-.color-white {
+html /deep/ .color-white {
   color: #FFFFFF;
 }
 
-@font-face {
-  font-family: 'fontello';
-  src: url("../fonts/fontello.eot?6749488");
-  src: url("../fonts/fontello.eot?6749488#iefix") format("embedded-opentype"), url("../fonts/fontello.woff?6749488") format("woff"), url("../fonts/fontello.ttf?6749488") format("truetype"), url("../fonts/fontello.svg?6749488#fontello") format("svg");
-  font-weight: normal;
-  font-style: normal;
-}
-/* Chrome hack: SVG is rendered more smooth in Windozze. 100% magic, uncomment if you need it. */
-/* Note, that will break hinting! In other OS-es font will be not as sharp as it could be */
-@media screen and (-webkit-min-device-pixel-ratio: 0) {
-  @font-face {
-    font-family: 'fontello';
-    src: url("../font/fontello.svg?6749488#fontello") format("svg");
-  }
-}
-/* line 22, ../scss/_icons.scss */
-[class^="icon-"]:before, [class*=" icon-"]:before {
-  font-family: "fontello";
-  font-style: normal;
-  font-weight: normal;
-  speak: none;
-  display: inline-block;
-  text-decoration: inherit;
-  width: 1em;
-  margin-right: .2em;
-  text-align: center;
-  /* opacity: .8; */
-  /* For safety - reset parent styles, that can break glyph codes*/
-  font-variant: normal;
-  text-transform: none;
-  /* fix buttons height, for twitter bootstrap */
-  line-height: 1em;
-  /* Animation center compensation - margins should be symmetric */
-  /* remove if not needed */
-  margin-left: .2em;
-  /* you can be more comfortable with increased icons size */
-  /* font-size: 120%; */
-  /* Uncomment for 3D effect */
-  /* text-shadow: 1px 1px 1px rgba(127, 127, 127, 0.3); */
+/* line 3, ../scss/main.scss */
+.content {
+  padding: 30px;
+  width: 960px;
+  margin: 0 auto;
 }
 
-/* line 53, ../scss/_icons.scss */
-.icon-login:before {
-  content: '\e800';
+/* line 9, ../scss/main.scss */
+body {
+  font-family: 'Roboto', sans-serif;
 }
 
-/* '' */
-/* line 54, ../scss/_icons.scss */
-.icon-logout:before {
-  content: '\e801';
+/* line 13, ../scss/main.scss */
+a {
+  text-decoration: none;
+  color: inherit;
 }
 
-/* '' */
-/* line 55, ../scss/_icons.scss */
-.icon-search:before {
-  content: '\e802';
+/* line 18, ../scss/main.scss */
+a:visited {
+  color: inherit;
 }
 
-/* '' */
-/* line 1, ../scss/_page_header.scss */
+/* line 22, ../scss/main.scss */
+a:active {
+  color: inherit;
+}
+
+/* line 26, ../scss/main.scss */
 .page-header-wrapper {
   background-color: #21303F;
   border-bottom: 5px solid #637686;
 }
 
-/* line 6, ../scss/_page_header.scss */
+/* line 31, ../scss/main.scss */
 .page-header {
   height: 100px;
   padding: 0 20px;
@@ -112,13 +74,13 @@
   justify-content: space-between;
 }
 
-/* line 16, ../scss/_page_header.scss */
+/* line 41, ../scss/main.scss */
 .page-header-logo {
   color: #E9A611;
   font-size: 48px;
 }
 
-/* line 21, ../scss/_page_header.scss */
+/* line 46, ../scss/main.scss */
 .page-header-controls {
   color: white;
   display: flex;
@@ -126,33 +88,7 @@
   width: 250px;
 }
 
-/* line 28, ../scss/_page_header.scss */
+/* line 53, ../scss/main.scss */
 .page-header-search {
   font-size: 24px;
-}
-
-/* line 6, ../scss/main.scss */
-.content {
-  padding: 30px;
-}
-
-/* line 10, ../scss/main.scss */
-body {
-  font-family: 'Roboto', sans-serif;
-}
-
-/* line 14, ../scss/main.scss */
-a {
-  text-decoration: none;
-  color: inherit;
-}
-
-/* line 19, ../scss/main.scss */
-a:visited {
-  color: inherit;
-}
-
-/* line 23, ../scss/main.scss */
-a:active {
-  color: inherit;
 }

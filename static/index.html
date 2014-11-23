@@ -13,6 +13,11 @@
         <link rel="import" href="/static/elements/app-router/app-router.html"/>
         <link rel="import" href="/static/elements/html5-history-anchor/html5-history-anchor.html"/>
         <link rel="import" href="/static/elements/polymer/core-overlay/core-overlay.html"/>
+        <style>
+            app-router {
+                width: 100%;
+            }
+        </style>
     </head>
     <body unresolved fullbleed layout vertical>
         <core-header-panel mode="seamed" flex>
@@ -21,9 +26,9 @@
                     <a is="html5-history-anchor" href="/" pushstate popstate><span class="color-yellow">Science</span><span class="color-grey">.im</span></a>
                 </div>
                 <div flex></div>
-                <div class="color-white">Sign in </div>
+                <div class="color-white">Войти </div>
                 <div class="color-white">
-                    <a is="html5-history-anchor" href="/signup" pushstate popstate>Sign up</a>
+                    <a is="html5-history-anchor" href="/signup" pushstate popstate>&nbsp;Регистрация</a>
                 </div>
                 <core-icon-button class="color-white" icon="search"></core-icon-button>
             </div>
