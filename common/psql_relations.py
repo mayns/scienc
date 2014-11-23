@@ -21,11 +21,11 @@ def create_db():
     root_con = connect(dbname=u'postgres', user=settings.PSQL_ROOT_USER, host=dbs_param[u'host'],
                        port=dbs_param[u'port'], password=settings.PSQL_ROOT_PASSWORD)
     root_cursor = root_con.cursor()
-    root_cursor.execute(u'SELECT 1 FROM pg_roles WHERE rolname={}'.format(dbs_param[u'user']))
+    root_cursor.execute(u"SELECT 1 FROM pg_roles WHERE rolname='{}'".format(dbs_param[u'user']))
     exist_user = root_cursor.fetchone()
     if not exist_user:
         root_cursor.execute(u'CREATE USER {}'.format(dbs_param[u'user']))
-    root_cursor.execute(u'ALTER USER {} WITH PASSWORD {}'.format(dbs_param[u'user']), (dbs_param[u'password']))
+    root_cursor.execute(u"ALTER USER {} WITH PASSWORD '{}'".format(dbs_param[u'user'], dbs_param[u'password']))
     root_cursor.execute(u'ALTER USER {} CREATEDB'.format(dbs_param[u'user']))
     root_con.commit()
     root_con.close()
@@ -34,7 +34,7 @@ def create_db():
                   port=dbs_param[u'port'], password=dbs_param[u'password'])
     con.set_isolation_level(ISOLATION_LEVEL_AUTOCOMMIT)
     cursor = con.cursor()
-    cursor.execute(u'SELECT 1 FROM pg_database WHERE datname={}'.format(dbs_param[u'database']))
+    cursor.execute(u"SELECT 1 FROM pg_database WHERE datname='{}'".format(dbs_param[u'database']))
     exist_db = cursor.fetchone()
     if not exist_db:
         cursor.execute(u'CREATE DATABASE {}'.format(dbs_param[u'database']))
