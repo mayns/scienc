@@ -14,7 +14,6 @@ class AjaxScientistNewHandler(web.RequestHandler):
     @gen.coroutine
     def post(self):
         response = {'status': 'ok'}
-        print self.parse_arguments()
         size = 40
         try:
             scientist = self.get_argument(u'scientist', u'{}')

@@ -29,18 +29,18 @@ class ScientistHandler(BaseRequestHandler):
         print u'scientist post'
         # print self.request.body
         # print self.get_body_arguments(u'name')
-        print self.request.arguments
+        # print self.request.arguments
         # email = self.get_body_arguments(u'email')
         # password = self.get_body_arguments(u'password')
-        # scientist_dict = json.loads(self.get_argument(u'data', u'{}'))
+        scientist_dict = json.loads(self.get_argument(u'data', u'{}'))
         # from tests.scientist_data import Scientist
         # scientist_dict = Scientist.get_data(0)
         # print login, passw
         # scientist_id = yield ScientistBL.add_scientist(dict(email=email[0], password=password[0]))
-        # response = dict(id=str(scientist_id))
-        # response_data = yield self.get_response(response)
-        # self.set_secure_cookie(u'scientist', str(scientist_id))
-        # self.finish(response_data)
+        response = dict(id=str(1))
+        response_data = yield self.get_response(response)
+        self.set_secure_cookie(u'scientist', str(1))
+        self.finish(response_data)
 
     @gen.coroutine
     def put(self):

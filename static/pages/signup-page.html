@@ -43,7 +43,8 @@
 						</div>
 						<div>
 							<label for="placeOfLiving">Местро проживания</label>
-							<input type="text" id="placeOfLiving" name="placeOfLiving"/>
+							<input type="text" id="placeOfLiving" name="placeOfLiving[country]"/>
+							<input type="text" id="" name="placeOfLiving[city]"/>
 						</div>
 					</div>
 					<input class="photo action" type="file" name="photo"/>
@@ -118,9 +119,9 @@
 					</div>
 					<div>
 						<label for="email">Email</label>
-						<input type="email" name="email" id="email"/>
+						<input type="email" name="email" id="email" required/>
 						<label for="password">Пароль</label>
-						<input type="password" name="password" id="password"/>
+						<input type="password" name="password" id="password" required/>
 					</div>
 					<div>
 						<label for="accept_rules">Я принимаю бла бла бла...</label>
