@@ -72,7 +72,7 @@ def get_insert_sql_query(tbl, columns, insert_data):
     """
     colvals = zip_values(columns, insert_data)
     fields = u", ".join([v[0] for v in colvals])
-    colvals = map(lambda x: (x[0], json.dumps(x[1]).replace(u'[', u'{').replace(u']', u'}')) if type(x[1]) in [list, dict, int] else x, colvals)
+    colvals = map(lambda x: (x[0], json.dumps(x[1]).replace(u'[', u'{').replace(u']', u'}')) if type(x[1]) in [list, dict, int, long] else x, colvals)
     values = u"'" + u"', '".join([v[1] for v in colvals]) + u"'" if len(colvals) > 1 else u"'{}'".format(colvals[0][1])
     values = values.replace(u'%', u'%%')
     sql_string = u'INSERT INTO {table_name} ({fields}) VALUES ({values}) RETURNING id'.format(table_name=tbl,

@@ -31,8 +31,11 @@ def insert_data():
             for item in country_names[1]:
                 if item[u'cid'] == i:
                     title_ru = item[u'title']
-            yield momoko.Op(conn.execute, u"""INSERT INTO countries (title_en, title_ru) VALUES
-                                        ('{0}', '{1}');""".format(title_en, title_ru))
+            table = u"countries"
+            columns = [u"title_en", u"title_ru"]
+            data = {u"title_en":title_en, u"title_ru":title_ru}
+            query = get_insert_sql_query(table, columns, data)
+            yield momoko.Op(conn.execute, query)
 
         #inserting all another data
         for i in range(1,234):
@@ -68,32 +71,37 @@ def insert_data():
                 city_title = city[u'title']
                 if "'" in city_title:
                     city_title = city_title.replace(r"'","''")
+                table = u"cities"
                 if not region and not area:
-                    city_id = yield momoko.Op(conn.execute, u"""INSERT INTO cities (country_id, title) VALUES
-                                        ({country_id}, '{title}') RETURNING id;""".format(country_id = i,
-                                                                                          title=city_title))
+                    columns = [u"country_id",u"title"]
+                    data = {u"country_id": i, u"title": city_title }
+                    query = get_insert_sql_query(table, columns, data)
+                    city_id = yield momoko.Op(conn.execute, query)
                 elif not region:
-                    city_id = yield momoko.Op(conn.execute, u"""INSERT INTO cities (country_id, area, title) VALUES
-                                        ({country_id},'{area}','{title}') RETURNING id;""".format(country_id = i,
-                                                                                       area=area, title=city_title))
+                    columns = [u"country_id", u"area", u"title"]
+                    data = {u"country_id": i, u"area": area, u"title": city_title }
+                    query = get_insert_sql_query(table, columns, data)
+                    city_id = yield momoko.Op(conn.execute, query)
                 elif not area:
-                    city_id = yield momoko.Op(conn.execute, u"""INSERT INTO cities (country_id, region, title) VALUES
-                                        ({country_id},'{region}', '{title}') RETURNING id;""".format(country_id = i,
-                                                                                    region=region, title=city_title))
+                    columns = [u"country_id", u"region", u"title"]
+                    data = {u"country_id": i, u"region": region, u"title": city_title }
+                    query = get_insert_sql_query(table, columns, data)
+                    city_id = yield momoko.Op(conn.execute, query)
                 else:
-                    city_id = yield momoko.Op(conn.execute, u"""INSERT INTO cities (country_id, region, area, title)
-                                         VALUES ({country_id},'{region}', '{area}', '{title}')
-                                         RETURNING id;""".format(country_id = i, region=region, area=area,
-                                                                title=city_title))
+                    columns = [u"country_id", u"region", u"area", u"title"]
+                    data = {u"country_id": i, u"region": region, u"area": area, u"title": city_title }
+                    query = get_insert_sql_query(table, columns, data)
+                    city_id = yield momoko.Op(conn.execute, query)
                 city_id = city_id.fetchone()[0]
-
 
                 #inserting main cities
                 for item in main_cities:
                     if city[u'cid'] == item[u'cid']:
-                        yield momoko.Op(conn.execute, u"""INSERT INTO main_cities (country_id, city_id, title) VALUES
-                                    ({country_id},{city_id}, '{title}');""".format(country_id = i, city_id = city_id,
-                                                                                      title=city_title))
+                        table = u"main_cities"
+                        columns = [u"country_id", u"city_id", u"title"]
+                        data = {u"country_id": i, u"city_id": city_id, u"title": city_title}
+                        query = get_insert_sql_query(table, columns, data)
+                        yield momoko.Op(conn.execute, query)
 
                 #inserting schools
                 if u'schools' in keys:
@@ -102,8 +110,11 @@ def insert_data():
                         school_title = school[u'title']
                         if "'" in school_title:
                             school_title = school_title.replace(r"'","''")
-                        yield momoko.Op(conn.execute, u"""INSERT INTO schools (city_id, title) VALUES
-                                    ({city_id}, '{title}');""".format(city_id = city_id, title=school_title))
+                            table = u"schools"
+                            columns = [u"city_id", u"title"]
+                            data = {u"city_id": city_id, u"title": school_title}
+                            query = get_insert_sql_query(table, columns, data)
+                            yield momoko.Op(conn.execute, query)
 
                 #inserting universities
                 if u'universities' in keys:
@@ -112,11 +123,12 @@ def insert_data():
                         university_title = university[u'title']
                         if "'" in university_title:
                             university_title = university_title.replace(r"'","''")
-                        university_id = yield momoko.Op(conn.execute, u"""INSERT INTO universities (city_id, title)
-                                        VALUES ({city_id}, '{title}')  RETURNING id;""".format(city_id=city_id,
-                                                                                               title=university_title))
+                        table = u"universities"
+                        columns = [u"city_id", u"title"]
+                        data = {u"city_id": city_id, u"title": university_title}
+                        query = get_insert_sql_query(table, columns, data)
+                        university_id = yield momoko.Op(conn.execute, query)
                         university_id = university_id.fetchone()[0]
-
 
                         #inserting faculties
                         uni_keys = university.keys()
@@ -126,9 +138,11 @@ def insert_data():
                                 faculty_title = faculty[u'title']
                                 if "'" in faculty_title:
                                     faculty_title = faculty_title.replace(r"'","''")
-                                faculty_id = yield momoko.Op(conn.execute, u"""INSERT INTO faculties (university_id, title)
-                                             VALUES ({university_id},'{title}')
-                                             RETURNING id;""".format(university_id=university_id, title=faculty_title))
+                                table = u"faculties"
+                                columns = [u"university_id", u"title"]
+                                data = {u"university_id": university_id, u"title": faculty_title}
+                                query = get_insert_sql_query(table, columns, data)
+                                faculty_id = yield momoko.Op(conn.execute, query)
                                 faculty_id = faculty_id.fetchone()[0]
 
                                 #inserting chairs
@@ -139,9 +153,11 @@ def insert_data():
                                         chair_title = chair[u'title']
                                         if "'" in chair_title:
                                             chair_title = chair_title.replace(r"'","''")
-                                        yield momoko.Op(conn.execute, u"""INSERT INTO chairs (faculty_id, title) VALUES
-                                            ({faculty_id}, '{title}');""".format(faculty_id=faculty_id,
-                                                                                      title=chair_title))
+                                        table = u"chairs"
+                                        columns = [u"faculty_id", u"title"]
+                                        data = {u"faculty_id": faculty_id, u"title":chair_title}
+                                        query = get_insert_sql_query(table, columns, data)
+                                        yield momoko.Op(conn.execute, query)
 
     except (psycopg2.Warning, psycopg2.Error) as error:
         raise Exception(str(error))

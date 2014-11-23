@@ -10,7 +10,7 @@ from common.connections import PSQLClient
 __author__ = 'mayns'
 
 TABLES = [u'countries', u'main_cities', u'cities', u'schools', u'universities', u'faculties',  u'chairs', u'scientists',
-          u'projects', u'languages']
+          u'projects', u'languages', u'charmed']
 
 
 def create_db():
@@ -45,7 +45,7 @@ def create_db():
 @gen.coroutine
 def create_relations():
     try:
-        # yield delete_tables()
+        yield delete_tables()
         yield create_scientists_relation()
         yield create_project_relation()
         yield create_country_relation()
