@@ -144,9 +144,8 @@
                             ( (field.checked && field.type === 'radio' || field.type === 'checkbox' ) || !rcheckableType.test(type) );
                     }
                     return field.getAttribute(attr) && !(field.disabled) &&
-                        rsubmittable.test( field.nodeName ) && !rsubmitterTypes.test( type ) &&
-                        ( field.checked || !rcheckableType.test( type ) );
-
+                            rsubmittable.test( field.nodeName ) && !rsubmitterTypes.test( type ) &&
+                                ( field.checked || !rcheckableType.test( type ) ) && (field.value !== "");
                 })
                 .map(function (field) {
                     //  Фильтруем нечекнутые чекбоксы и радио кнопки

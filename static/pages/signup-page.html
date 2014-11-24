@@ -4,132 +4,180 @@
 <polymer-element name="signup-page" noscript>
 	<template>
 		<style>
+			section {
+				color: #333;
+			}
 			h1, h2, h3 {
 				margin-top: 0;
+				font-weight: normal;
+			}
+			h2 {
+				font-size: 18px;
 			}
 			.photo {
 				background-color: #ccc;
 
+			}
+			form .row {
+				margin-bottom: 20px;
 			}
 		</style>
 		<section vertical layout>
 			<h1>Форма регистрации</h1>
 			<form is="ajax-json-form" action="/api/scientist/" method="post" enctype="multipart/form-data">
 				<h2>Общие сведения</h2>
-				<div layout horizontal>
-					<div layout vertical flex>
-						<div>
-							<label for="name">Имя</label>
-							<input type="text" id="name" name="name" flex/>
+				<div class="row">
+					<div class="col-lg-9">
+						<div class="row middle">
+							<label for="name" class="action col-lg-3">Имя</label>
+							<input type="text" id="name" name="name" class="col-lg-8"/>
 						</div>
-						<div>
-							<label for="surname">Фамилия</label>
-							<input type="text" id="surname" name="surname"/>
+						<div class="row middle">
+							<label for="surname" class="action col-lg-3">Фамилия</label>
+							<input type="text" id="surname" name="surname" class="col-lg-8"/>
 						</div>
-						<div>
-							<label for="middlename">Отчество</label>
-							<input type="text" id="middlename" name="middlename"/>
+						<div class="row middle">
+							<label for="middlename" class="action col-lg-3">Отчество</label>
+							<input type="text" id="middlename" name="middlename" class="col-lg-8"/>
 						</div>
-						<div>
-							<label for="sex">Пол</label>
+						<div class="row middle">
+							<label class="col-lg-3">Пол</label>
 							<div>
 								<input type="radio" value="m" name="sex"/>
 								<input type="radio" value="f" name="sex"/>
 							</div>
 						</div>
-						<div>
-							<label for="dateOfBirth">Дата рождения</label>
+						<div class="row middle">
+							<label for="dateOfBirth" class="col-lg-3">Дата рождения</label>
 							<input type="date" id="dateOfBirth" name="dateOfBirth"/>
 						</div>
-						<div>
-							<label for="placeOfLiving">Местро проживания</label>
+						<div class="row middle">
+							<label for="placeOfLiving" class="col-lg-3">Местро проживания</label>
 							<input type="text" id="placeOfLiving" name="placeOfLiving[country]"/>
 							<input type="text" id="" name="placeOfLiving[city]"/>
 						</div>
 					</div>
-					<input class="photo action" type="file" name="photo"/>
+					<div class="col-lg-3">
+						<input class="photo action" type="file" name="photo"/>
+					</div>
 				</div>
 				<h2>Сведения об образвания</h2>
+				<div class="row">
+					<h3 class="col-12">Среднее образование</h3>
+					<div class="col-lg-9">
+						<div class="row middle">
+							<label for="middle_education_country" class="col-lg-3 action">Страна</label>
+							<input type="text" name="middle_education[][country]" id="middle_education_country" class="col-lg-8"/>
+						</div>
+						<div class="row middle">
+							<label for="middle_education_city" class="col-lg-3">Город</label>
+							<input type="text" name="middle_education[][city]" id="middle_education_city" class="col-lg-8"/>
+						</div>
+						<div class="row middle">
+							<label for="middle_education_school" class="col-lg-3">Школа</label>
+							<input type="text" name="middle_education[][school]" id="middle_education_school" class="col-lg-8"/>
+						</div>
+						<div class="row">
+							<div class="col-lg-offset-3 col-lg-8">
+								<div class="row between">
+									<label for="middle_education_start_year" class="action">Год начала</label>
+									<input type="number" name="middle_education[][start_year]" id="middle_education_start_year"/>
+									<label for="middle_education_end_year" class="action">Год окончания</label>
+									<input type="number" name="middle_education[][end_year]" id="middle_education_end_year"/>
+								</div>
+							</div>
+						</div>
+					</div>
+					<h3 class="col-12">Высшее образование</h3>
+					<div class="col-lg-9">
+						<div class="row middle">
+							<label for="high_education_country" class="col-lg-3 action">Страна</label>
+							<input type="text" name="high_education[][country]" id="high_education_country" class="col-lg-8"/>
+						</div>
+						<div class="row middle">
+							<label for="high_education_city" class="col-lg-3 action">Город</label>
+							<input type="text" name="high_education[][city]" id="high_education_city" class="col-lg-8"/>
+						</div>
+						<div class="row middle">
+							<label for="high_education_university" class="col-lg-3 action">Университет</label>
+							<input type="text" name="high_education[][university]" id="high_education_university" class="col-lg-8"/>
+						</div>
+						<div class="row middle">
+							<label for="high_education_faculty" class="col-lg-3 action">Факультет</label>
+							<input type="text" name="high_education[][faculty]" id="high_education_faculty" class="col-lg-8"/>
+						</div>
+						<div class="row middle">
+							<label for="high_education_department" class="col-lg-3 action">Кафедра</label>
+							<input type="text" name="high_education[][department]" id="high_education_department" class="col-lg-8"/>
+						</div>
+						<div class="row middle">
+							<label for="high_education_degree" class="col-lg-3 action">Степень</label>
+							<input type="text" name="high_education[][degree]" id="high_education_degree" class="col-lg-8"/>
+						</div>
+						<div class="row">
+							<div class="col-lg-offset-3 col-lg-8">
+								<div class="row between">
+									<label for="high_education_start_year" class="action">Год начала</label>
+									<input type="number" name="high_education[][start_year]" id="high_education_start_year"/>
+									<label for="high_education_end_year" class="action">Год окончания</label>
+									<input type="number" name="high_education[][end_year]" id="high_education_end_year"/>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<h3>Публикации</h3>
+				<div class="col-lg-9">
+					<div class="row middle">
+						<label for="publicationName" class="action col-lg-3">Название</label>
+						<input type="text" name="publication[][name]" id="publicationName" class="col-lg-8"/>
+					</div>
+					<div class="row middle">
+						<label for="publishingHouse" class="action col-lg-3">Издательство</label>
+						<input type="text" name="publication[][house]" id="publishingHouse" class="col-lg-8"/>
+					</div>
+					<div class="row middle">
+						<label for="publicationYear" class="action col-lg-3">Год издания</label>
+						<input type="text" name="publication[][year]" id="publicationYear" class="col-lg-8"/>
+					</div>
+					<div class="row middle">
+						<label for="publicationLink" class="col-lg-3 action">Ссылка</label>
+						<input type="url" name="publication[][link]" id="publicationLink" class="col-lg-8"/>
+					</div>
+				</div>
+				<h3>
+					<label for="science_interests">Сфера научных интересов</label>
+				</h3>
+				<div class="col-9">
+					<textarea name="science_interests[]" id="science_interests" class="col-lg-11"></textarea>
+				</div>
+				<h3>
+					<label for="about">О себе</label>
+				</h3>
+				<div class="col-lg-9">
+					<textarea name="about" id="about" class="col-lg-11"></textarea>
+				</div>
+				<h3>Контакты</h3>
 				<div>
-					<h3>Среднее образование</h3>
-					<div>
-						<label for="middle_education_country">Страна</label>
-						<input type="text" name="middle_education[][country]" id="middle_education_country"/>
-						<label for="middle_education_city">Город</label>
-						<input type="text" name="middle_education[][city]" id="middle_education_city"/>
-						<label for="middle_education_school">Школа</label>
-						<input type="text" name="middle_education[][school]" id="middle_education_school"/>
-						<div>
-							<label for="middle_education_start_year">Год начала</label>
-							<input type="number" name="middle_education[][start_year]" id="middle_education_start_year"/>
-							<label for="middle_education_end_year">Год окончания</label>
-							<input type="number" name="middle_education[][end_year]" id="middle_education_end_year"/>
-						</div>
-					</div>
-					<h3>Высшее образование</h3>
-					<div>
-						<label for="high_education_country">Страна</label>
-						<input type="text" name="high_education[][country]" id="high_education_country"/>
-						<label for="high_education_city">Город</label>
-						<input type="text" name="high_education[][city]" id="high_education_city"/>
-						<label for="high_education_university">Университет</label>
-						<input type="text" name="high_education[][university]" id="high_education_university"/>
-						<label for="high_education_faculty">Факультет</label>
-						<input type="text" name="high_education[][faculty]" id="high_education_faculty"/>
-						<label for="high_education_department">Кафедра</label>
-						<input type="text" name="high_education[][department]" id="high_education_department"/>
-						<label for="high_education_degree">Степень</label>
-						<input type="text" name="high_education[][degree]" id="high_education_degree"/>
-						<div>
-							<label for="high_education_start_year">Год начала</label>
-							<input type="number" name="high_education[][start_year]" id="high_education_start_year"/>
-							<label for="high_education_end_year">Год окончания</label>
-							<input type="number" name="high_education[][end_year]" id="high_education_end_year"/>
-						</div>
-					</div>
-					<h3>Публикации</h3>
-					<div>
-						<label for="publicationName">Название</label>
-						<input type="text" name="publication[][name]" id="publicationName"/>
-						<label for="publishingHouse">Издательство</label>
-						<input type="text" name="publication[][house]" id="publishingHouse"/>
-						<label for="publicationYear">Год издания</label>
-						<input type="text" name="publication[][year]" id="publicationYear"/>
-						<label for="publicationLink">Ссылка</label>
-						<input type="url" name="publication[][link]" id="publicationLink"/>
-					</div>
-					<h3>
-						<label for="science_interests">Сфера научных интересов</label>
-					</h3>
-					<div>
-						<textarea name="science_interests[]" id="science_interests"></textarea>
-					</div>
-					<h3><label for="about">О себе</label></h3>
-					<div>
-						<textarea name="about" id="about"></textarea>
-					</div>
-					<h3>Контакты</h3>
-					<div>
-						<label for="email_public">Email (будет виден другим пользователям)</label>
-						<input type="email" name="contacts[email]" id="email_public"/>
-						<label for="phone">Телефон</label>
-						<input type="tel" name="contacts[phone][]" id="phone"/>
-						<label for="skype">Skype</label>
-						<input type="text" name="contacts[skype]" id="skype"/>
-					</div>
-					<div>
-						<label for="email">Email</label>
-						<input type="email" name="email" id="email" required/>
-						<label for="password">Пароль</label>
-						<input type="password" name="password" id="password" required/>
-					</div>
-					<div>
-						<label for="accept_rules">Я принимаю бла бла бла...</label>
-						<input type="checkbox" name="accept_rules" id="accept_rules"/>
-					</div>
-					<div>
-						<button type="submit">Вступаю</button>
-					</div>
+					<label for="email_public">Email (будет виден другим пользователям)</label>
+					<input type="email" name="contacts[email]" id="email_public"/>
+					<label for="phone">Телефон</label>
+					<input type="tel" name="contacts[phone][]" id="phone"/>
+					<label for="skype">Skype</label>
+					<input type="text" name="contacts[skype]" id="skype"/>
+				</div>
+				<div>
+					<label for="email">Email</label>
+					<input type="email" name="email" id="email" required/>
+					<label for="password">Пароль</label>
+					<input type="password" name="password" id="password" required/>
+				</div>
+				<div>
+					<label for="accept_rules">Я принимаю бла бла бла...</label>
+					<input type="checkbox" name="accept_rules" id="accept_rules"/>
+				</div>
+				<div>
+					<button type="submit">Вступаю</button>
 				</div>
 			</form>
 		</section>
