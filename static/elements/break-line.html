@@ -1,0 +1,23 @@
+<link rel="import" href="/static/elements/polymer/polymer/polymer.html"/>
+
+<polymer-element name="break-line" attributes="bgColor">
+	<template>
+		<style>
+			:host {
+				width: 100%;
+			}
+			div {
+				height: 1px;
+				margin: 0;
+				padding: 0;
+				width: 100%;
+			}
+		</style>
+		<div style="background-color:{{bgColor}}"></div>
+	</template>
+	<script>
+		Polymer({
+			backgroundColor: 'black'
+		});
+	</script>
+</polymer-element>

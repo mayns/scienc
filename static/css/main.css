@@ -1169,8 +1169,30 @@ a:active {
 html /deep/ [type="text"],
 html /deep/ [type="url"],
 html /deep/ [type="email"],
+html /deep/ [type="date"],
+html /deep/ [type="number"],
+html /deep/ [type="password"],
 html /deep/ [type="tel"] {
   padding: 5px;
+}
+
+/* line 1, ../scss/form/_buttons.scss */
+html /deep/ button {
+  cursor: pointer;
+  font-size: 16px;
+  font-weight: bold;
+}
+
+/* line 1, ../scss/form/_checkbox.scss */
+html /deep/ [type="checkbox"] {
+  width: 20px;
+  height: 20px;
+}
+
+/* line 1, ../scss/form/_radio.scss */
+html /deep/ [type="radio"] {
+  width: 20px;
+  height: 20px;
 }
 
 /* line 1, ../scss/layout/_page-header.scss */

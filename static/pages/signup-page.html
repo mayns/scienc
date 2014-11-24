@@ -1,4 +1,5 @@
 <link rel="import" href="/static/elements/polymer/polymer/polymer.html"/>
+<link rel="import" href="/static/elements/break-line.html"/>
 <link rel="import" href="/static/elements/ajax-json-form/ajax-json-form.html"/>
 
 <polymer-element name="signup-page" noscript>
@@ -16,10 +17,39 @@
 			}
 			.photo {
 				background-color: #ccc;
-
+				height: 250px;
+				width: 250px;
+				border-radius: 50%;
+			}
+			.photo:focus {
+				outline: none;
+			}
+			.photo:active {
+				outline: none;
+			}
+			.photo /deep/ input {
+				display: none;
+			}
+			form {
+				padding-bottom: 70px;
 			}
 			form .row {
 				margin-bottom: 20px;
+			}
+			form .row:last-child {
+				margin-bottom: 0;
+			}
+			textarea {
+				height: 100px;
+				resize: vertical;
+			}
+			[type="submit"] {
+				color: white;
+				background-color: #00A17D;
+				padding: 10px 50px;
+				outline: none;
+				border: none;
+				box-shadow: 2px 2px 0 2px #95CFC0;
 			}
 		</style>
 		<section vertical layout>
@@ -30,35 +60,43 @@
 					<div class="col-lg-9">
 						<div class="row middle">
 							<label for="name" class="action col-lg-3">Имя</label>
-							<input type="text" id="name" name="name" class="col-lg-8"/>
+							<input type="text" id="name" name="first_name" class="col-lg-8"/>
 						</div>
 						<div class="row middle">
 							<label for="surname" class="action col-lg-3">Фамилия</label>
-							<input type="text" id="surname" name="surname" class="col-lg-8"/>
+							<input type="text" id="surname" name="last_name" class="col-lg-8"/>
 						</div>
 						<div class="row middle">
 							<label for="middlename" class="action col-lg-3">Отчество</label>
-							<input type="text" id="middlename" name="middlename" class="col-lg-8"/>
+							<input type="text" id="middlename" name="middle_name" class="col-lg-8"/>
 						</div>
 						<div class="row middle">
 							<label class="col-lg-3">Пол</label>
-							<div>
-								<input type="radio" value="m" name="sex"/>
-								<input type="radio" value="f" name="sex"/>
+							<div class="col-lg-6">
+								<div class="row middle">
+									<label for="male">М</label>
+									<input type="radio" id="male" value="m" name="gender"/>
+									<label for="female">Ж</label>
+									<input type="radio" id="female" value="f" name="gender"/>
+								</div>
 							</div>
 						</div>
 						<div class="row middle">
 							<label for="dateOfBirth" class="col-lg-3">Дата рождения</label>
-							<input type="date" id="dateOfBirth" name="dateOfBirth"/>
+							<input type="date" id="dateOfBirth" name="dob"/>
 						</div>
 						<div class="row middle">
 							<label for="placeOfLiving" class="col-lg-3">Местро проживания</label>
-							<input type="text" id="placeOfLiving" name="placeOfLiving[country]"/>
-							<input type="text" id="" name="placeOfLiving[city]"/>
+							<div class="col-lg-5">
+								<div class="row between">
+									<input type="text" id="placeOfLiving" name="location_country" placeholder="Страна"/>
+									<input type="text" id="" name="location_city" placeholder="Город"/>
+								</div>
+							</div>
 						</div>
 					</div>
 					<div class="col-lg-3">
-						<input class="photo action" type="file" name="photo"/>
+						<input class="photo action" type="file" name="image"/>
 					</div>
 				</div>
 				<h2>Сведения об образвания</h2>
@@ -79,11 +117,11 @@
 						</div>
 						<div class="row">
 							<div class="col-lg-offset-3 col-lg-8">
-								<div class="row between">
+								<div class="row between middle">
 									<label for="middle_education_start_year" class="action">Год начала</label>
-									<input type="number" name="middle_education[][start_year]" id="middle_education_start_year"/>
+									<input type="date" name="middle_education[][start_year]" id="middle_education_start_year"/>
 									<label for="middle_education_end_year" class="action">Год окончания</label>
-									<input type="number" name="middle_education[][end_year]" id="middle_education_end_year"/>
+									<input type="date" name="middle_education[][end_year]" id="middle_education_end_year"/>
 								</div>
 							</div>
 						</div>
@@ -127,56 +165,89 @@
 					</div>
 				</div>
 				<h3>Публикации</h3>
-				<div class="col-lg-9">
-					<div class="row middle">
-						<label for="publicationName" class="action col-lg-3">Название</label>
-						<input type="text" name="publication[][name]" id="publicationName" class="col-lg-8"/>
-					</div>
-					<div class="row middle">
-						<label for="publishingHouse" class="action col-lg-3">Издательство</label>
-						<input type="text" name="publication[][house]" id="publishingHouse" class="col-lg-8"/>
-					</div>
-					<div class="row middle">
-						<label for="publicationYear" class="action col-lg-3">Год издания</label>
-						<input type="text" name="publication[][year]" id="publicationYear" class="col-lg-8"/>
-					</div>
-					<div class="row middle">
-						<label for="publicationLink" class="col-lg-3 action">Ссылка</label>
-						<input type="url" name="publication[][link]" id="publicationLink" class="col-lg-8"/>
+				<div class="row">
+					<div class="col-lg-9">
+						<div class="row middle">
+							<label for="publicationName" class="action col-lg-3">Название</label>
+							<input type="text" name="publications[][name]" id="publicationName" class="col-lg-8"/>
+						</div>
+						<div class="row middle">
+							<label for="publishingHouse" class="action col-lg-3">Издательство</label>
+							<input type="text" name="publications[][house]" id="publishingHouse" class="col-lg-8"/>
+						</div>
+						<div class="row middle">
+							<label for="publicationYear" class="action col-lg-3">Год издания</label>
+							<input type="text" name="publications[][year]" id="publicationYear" class="col-lg-8"/>
+						</div>
+						<div class="row middle">
+							<label for="publicationLink" class="col-lg-3 action">Ссылка</label>
+							<input type="url" name="publications[][link]" id="publicationLink" class="col-lg-8"/>
+						</div>
 					</div>
 				</div>
 				<h3>
 					<label for="science_interests">Сфера научных интересов</label>
 				</h3>
-				<div class="col-9">
-					<textarea name="science_interests[]" id="science_interests" class="col-lg-11"></textarea>
+				<div class="row">
+					<div class="col-lg-9">
+						<textarea name="interests[]" id="science_interests" class="col-lg-11"></textarea>
+					</div>
 				</div>
 				<h3>
 					<label for="about">О себе</label>
 				</h3>
-				<div class="col-lg-9">
-					<textarea name="about" id="about" class="col-lg-11"></textarea>
+				<div class="row">
+					<div class="col-lg-9">
+						<textarea name="about" id="about" class="col-lg-11"></textarea>
+					</div>
 				</div>
 				<h3>Контакты</h3>
-				<div>
-					<label for="email_public">Email (будет виден другим пользователям)</label>
-					<input type="email" name="contacts[email]" id="email_public"/>
-					<label for="phone">Телефон</label>
-					<input type="tel" name="contacts[phone][]" id="phone"/>
-					<label for="skype">Skype</label>
-					<input type="text" name="contacts[skype]" id="skype"/>
+				<div class="row">
+					<div class="col-lg-9">
+						<div class="row middle">
+							<label for="email_public" class="action col-lg-3">Email (будет виден другим пользователям)</label>
+							<input type="email" name="contacts[email]" id="email_public" class="col-lg-8"/>
+						</div>
+						<div class="row middle">
+							<label for="phone" class="action col-lg-3">Телефон</label>
+							<input type="tel" name="contacts[phone][]" id="phone" class="col-lg-8"/>
+						</div>
+						<div class="row middle">
+							<label for="skype" class="col-lg-3">Skype</label>
+							<input type="text" name="contacts[skype]" id="skype" class="col-lg-8"/>
+						</div>
+					</div>
 				</div>
-				<div>
-					<label for="email">Email</label>
-					<input type="email" name="email" id="email" required/>
-					<label for="password">Пароль</label>
-					<input type="password" name="password" id="password" required/>
+				<div class="row">
+					<div class="col-lg-9">
+						<div class="row">
+							<div class="col-lg-11">
+								<break-line bgColor="#ccc"></break-line>
+							</div>
+						</div>
+					</div>
 				</div>
-				<div>
-					<label for="accept_rules">Я принимаю бла бла бла...</label>
-					<input type="checkbox" name="accept_rules" id="accept_rules"/>
+				<div class="row">
+					<div class="col-lg-9">
+						<div class="row middle">
+							<label for="email" class="col-lg-3">Email</label>
+							<input type="email" name="email" id="email" required class="col-lg-5"/>
+						</div>
+						<div class="row middle">
+							<label for="password" class="col-lg-3">Пароль</label>
+							<input type="password" name="password" id="password" required class="col-lg-5"/>
+						</div>
+					</div>
 				</div>
-				<div>
+				<div class="row">
+					<div class="col-lg-9">
+						<div class="row middle">
+							<label for="accept_rules" class="col-lg-3">Я принимаю бла бла бла...</label>
+							<input type="checkbox" name="accept_rules" id="accept_rules"/>
+						</div>
+					</div>
+				</div>
+				<div class="row center">
 					<button type="submit">Вступаю</button>
 				</div>
 			</form>

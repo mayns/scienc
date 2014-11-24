@@ -1,6 +1,10 @@
 html /deep/ [type="text"],
 html /deep/ [type="url"],
 html /deep/ [type="email"],
+html /deep/ [type="date"],
+html /deep/ [type="number"],
+html /deep/ [type="password"],
 html /deep/ [type="tel"]  {
   padding: 5px;
 }
+
