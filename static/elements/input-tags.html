@@ -1,0 +1,52 @@
+<link rel="import" href="/static/elements/polymer/polymer/polymer.html"/>
+
+<polymer-element name="input-tags" attributes="name">
+	<template>
+		<style>
+			div {
+				border: 1px solid #ccc;
+				padding: 5px 5px 0;
+				display: flex;
+				flex-wrap: wrap;
+				align-items: center;
+			}
+			span {
+				padding: 1px 8px;
+				border-radius: 10px;
+				margin-right: 3px;
+				margin-bottom: 5px;
+				color: white;
+				background-color: #5bc0de;
+			}
+			#cursor {
+				border: none;
+				outline: none;
+				margin-bottom: 5px;
+			}
+		</style>
+		<div id="tagsContainer" on-keypress="{{onKeyPress}}">
+			<template id="tag" repeat="{{tag in value}}">
+				<span class="action" on-tap="{{onTagTap}}" data-value="{{tag}}">{{tag}}</span>
+			</template>
+			<input id="cursor" type="text" flex/>
+		</div>
+	</template>
+	<script>
+		Polymer({
+			onKeyPress: function(e, detail, sender) {
+				if (event.keyCode === 13) {
+					e.preventDefault();
+					this.value.push(this.$.cursor.value);
+					this.$.cursor.value = '';
+				}
+			},
+			onTagTap: function(e, detail, sender) {
+				var index = this.value.indexOf(e.target.dataset.value);
+				this.value.splice(index, 1);
+			},
+			publish: {
+				value: []
+			}
+		});
+	</script>
+</polymer-element>

@@ -93,6 +93,12 @@
 
         addPair: function(pair) {
             var self = this;
+            if (Array.isArray(pair)) {
+                pair.forEach(function(pair){
+                    self.addPair(pair);
+                });
+                return;
+            }
             if (!patterns.validate.test(pair.name)) return self;
             var obj = self._makeObject(pair.name, pair.value);
             self._data = $.mix({}, self._data, obj);

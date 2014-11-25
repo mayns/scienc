@@ -40,19 +40,33 @@
                 }
             });
         },
-        mix: function(objetToMix) {
+        mix: function(objectToMix) {
             var restObjects = [].slice.call(arguments, 1),
+                toStr = Object.prototype.toString,
+                arr = "[object Array]",
                 key;
 
             restObjects.forEach(function(mixin){
-                for (key in mixin) {
-                    if (mixin.hasOwnProperty(key)) {
-                        objetToMix[key] = mixin[key];
-                    }
-                }
+                clone(objectToMix, mixin);
             });
 
-            return objetToMix;
+            function clone(parent, mixin) {
+                for (key in mixin) {
+                    if (mixin.hasOwnProperty(key)) {
+                        if (typeof mixin[key] === "object") {
+                            if (typeof parent[key] !== "object") {
+                                parent[key] = (toStr.call(mixin[key]) === arr) ? [] : {};
+                            }
+                            clone(parent[key], mixin[key]);
+                        }
+                        else {
+                            parent[key] = mixin[key];
+                        }
+                    }
+                }
+            }
+
+            return objectToMix;
         },
         toArray: function(collection) {
             return [].slice.call(collection);
