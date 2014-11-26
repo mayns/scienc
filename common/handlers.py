@@ -33,7 +33,7 @@ class LoginHandler(BaseRequestHandler):
         passw = 'qwe'
         scientist_id = yield ScientistBL.check_scientist(email, passw)
         self.set_secure_cookie(u'scientist', scientist_id)
-        self.redirect(self.get_argument(u'next', u'/'))
+        self.redirect(u'/')
 
 
 class LogoutHandler(BaseRequestHandler):
