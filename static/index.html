@@ -22,24 +22,30 @@
             app-router {
                 width: 100%;
             }
+            html /deep/ .login {
+                background-color: white;
+                width: 500px;
+                height: 300px;
+            }
         </style>
     </head>
     <body unresolved fullbleed layout vertical>
-    <template>
-        <span>bla bla bla</span>
-    </template>
         <core-header-panel mode="seamed" flex>
             <div class="core-header page-header-wrapper">
                 <div class="page-header">
                     <div class="page-header-logo">
-                        <a is="html5-history-anchor" href="/" pushstate popstate><span class="color-yellow">Science</span><span class="color-grey">.im</span></a>
+                        <a is="html5-history-anchor" href="/" pushstate popstate>
+                            <span class="color-yellow">Science</span><span class="color-grey">.im</span>
+                        </a>
                     </div>
                     <div flex></div>
-                    <div class="color-white">Войти </div>
-                    <div class="color-white">
-                        <a is="html5-history-anchor" href="/signup" pushstate popstate>&nbsp;Регистрация</a>
-                    </div>
-                    <core-icon-button class="color-white" icon="search"></core-icon-button>
+                    <app-bar>
+                        <div class="color-white action">Войти</div>
+                        <div class="color-white">
+                            <a is="html5-history-anchor" href="/signup" pushstate popstate>&nbsp;Регистрация</a>
+                        </div>
+                        <core-icon-button class="color-white" icon="search"></core-icon-button>
+                    </app-bar>
                 </div>
             </div>
             <div class="content" layout vertical center>
@@ -52,11 +58,13 @@
                 </app-router>
             </div>
         </core-header-panel>
-        <core-overlay opened="{{toggleLoginDialog}}">
-            <h2>Dialog</h2>
-            <input placeholder="say something..." autofocus>
-            <div>I agree with this wholeheartedly.</div>
-            <button core-overlay-toggle>OK</button>
+        <core-overlay opened="true" layered="true" backdrop="true" autoclosedisabled="true">
+            <div class="login">
+                <h2>Dialog</h2>
+                <input placeholder="say something..." autofocus>
+                <div>I agree with this wholeheartedly.</div>
+                <button core-overlay-toggle>OK</button>
+            </div>
         </core-overlay>
     </body>
 </html>
