@@ -46,6 +46,10 @@ class ScientistHandler(BaseRequestHandler):
     @web.authenticated
     def get(self, scientist_id):
         print u'scientist get'
+        print self.current_user, type(self.current_user)
+        if not self.current_user:
+            print u'redirect'
+            self.redirect(u'/api/login')
         response = yield ScientistBL.get_scientist(scientist_id)
         response_data = yield self.get_response(response)
         self.finish(response_data)
