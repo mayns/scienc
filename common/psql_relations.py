@@ -45,18 +45,18 @@ def create_db():
 @gen.coroutine
 def create_relations():
     try:
-        # yield delete_tables()
+        yield delete_tables()
         yield create_scientists_relation()
-        # yield create_project_relation()
-        # yield create_country_relation()
-        # yield create_city_relation()
-        # yield create_main_city_relation()
-        # yield create_university_relation()
-        # yield create_faculty_relation()
-        # yield create_chair_relation()
-        # yield create_school_relation()
-        # yield create_charmed_relation()
-        # yield create_languages_relation()
+        yield create_project_relation()
+        yield create_country_relation()
+        yield create_city_relation()
+        yield create_main_city_relation()
+        yield create_university_relation()
+        yield create_faculty_relation()
+        yield create_chair_relation()
+        yield create_school_relation()
+        yield create_charmed_relation()
+        yield create_languages_relation()
         logging.info(u'done')
 
     except (psycopg2.Warning, psycopg2.Error) as error:
