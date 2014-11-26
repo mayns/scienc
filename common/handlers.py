@@ -30,7 +30,7 @@ class LoginHandler(BaseRequestHandler):
         # email = u'oksgorobets@gmail.com'
         email = u'qwe@qwe'
         # passw = self.get_argument(u'password')
-        passw = u'qwe'
+        passw = 'qwe'
         scientist_id = yield ScientistBL.check_scientist(email, passw)
         self.set_secure_cookie(u'scientist', scientist_id)
         self.redirect(self.get_argument(u'next', u'/'))

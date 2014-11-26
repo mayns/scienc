@@ -33,7 +33,8 @@ class BaseRequestHandler(web.RequestHandler):
         from scientist.scientist_bl import ScientistBL
         scientist_id = self.get_secure_cookie(u'scientist')
         print u'CURRENT USER!!!', scientist_id, type(scientist_id)
-        if not scientist_id or scientist_id is None:
+        if not scientist_id:
+            print u'fuck nope'
             return
         scientist = yield ScientistBL.get_scientist(scientist_id)
         raise gen.Return(scientist)
