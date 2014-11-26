@@ -23,7 +23,7 @@ __author__ = 'oks'
 class LoginHandler(BaseRequestHandler):
 
     @gen.coroutine
-    def get(self):
+    def post(self):
         print u'login'
         from scientist.scientist_bl import ScientistBL
         # email = self.get_argument(u'email')
