@@ -14,9 +14,11 @@ make
 make install
 cd ..
 
+apt-get install python-dev
+
 Необходимые пакеты
 ------------------
-pip install tornado momoko
+pip install tornado momoko psycopg2 django django.utils
 
 Генерим ssh ключ, если нет, иначе - пропускаем шаг
 ------------------
@@ -61,7 +63,7 @@ nginx -s stop
 sudo apt-get install postgresql-9.3 postgresql-contrib-9.3 postgresql-server-dev-9.3 pgadmin3
 
 Прописываем хосты
------------------
+----------------
 sudo -s
 nano /etc/hosts
 127.0.0.1       sciencemates.dev

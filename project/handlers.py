@@ -21,8 +21,8 @@ class ProjectsListHandler(BaseRequestHandler):
     @gen.coroutine
     def get(self, *args, **kwargs):
         print u'projects list get'
-        projects = TestProject.get_list_data()
-        # projects = yield ProjectBL.get_all_projects()
+        # projects = TestProject.get_list_data()
+        projects = yield ProjectBL.get_all_projects()
         cookie = self.get_secure_cookie(u'scientist')
         print cookie
         projects = projects if projects else []
