@@ -4,7 +4,7 @@ import json
 import urllib
 import hashlib
 from tornado import httpclient, httputil
-from tornado import gen
+from tornado import gen, web
 from base.handlers import BaseRequestHandler
 from scientist.scientist_bl import ScientistBL
 
@@ -27,17 +27,8 @@ class ScientistHandler(BaseRequestHandler):
     @gen.coroutine
     def post(self, *args, **kwargs):
         print u'scientist post'
-        # print self.request.body
-        # print self.get_body_arguments(u'name')
-        # print self.request.arguments
-        # email = self.get_body_arguments(u'email')
-        # password = self.get_body_arguments(u'password')
         scientist_dict = json.loads(self.get_argument(u'data', u'{}'))
-        # from tests.scientist_data import Scientist
-        # scientist_dict = Scientist.get_data(0)
-        # print login, passw
         scientist_id = yield ScientistBL.add_scientist(scientist_dict)
-        print scientist_id
         response = dict(id=str(scientist_id))
         response_data = yield self.get_response(response)
         self.set_secure_cookie(u'scientist', str(scientist_id))
@@ -52,24 +43,16 @@ class ScientistHandler(BaseRequestHandler):
         self.finish(response_data)
 
     @gen.coroutine
-    def get(self, *args, **kwargs):
+    @web.authenticated
+    def get(self, scientist_id):
         print u'scientist get'
-        from tests.scientist_data import Scientist
-        scientist_dict = Scientist.get_data(0)
-        response = yield httpclient.AsyncHTTPClient().fetch(u'http://sciencemates.dev:9090/api/scientist/1',
-                                                            body=urllib.urlencode(dict(data=json.dumps(scientist_dict))),
-                                                            method=u"POST")
-        json_response = json.loads(response.body)
-        print json_response
-        # scientist_dict = json.loads(self.get_argument(u'data', u'{}'))
-        # response = yield ScientistBL.get_project(scientist_dict[u'id'])
-        # response_data = yield self.get_response(response)
-        # self.finish(response_data)
+        response = yield ScientistBL.get_scientist(scientist_id)
+        response_data = yield self.get_response(response)
+        self.finish(response_data)
 
     @gen.coroutine
     def delete(self, scientist_id):
         print u'scientist delete'
-        scientist_dict = json.loads(self.get_argument(u'data', u'{}'))
-        yield ScientistBL.delete_scientist(scientist_dict[u'id'])
+        yield ScientistBL.delete_scientist(scientist_id)
         response_data = yield self.get_response(dict())
         self.finish(response_data)

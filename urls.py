@@ -10,14 +10,14 @@ __author__ = 'oks'
 
 url_handlers = [
     # common
-    (r"/", cm_handlers.HomeHandler),
-    (r"/login", cm_handlers.LoginHandler),
+    # (r"/", cm_handlers.HomeHandler),
+    (r"/api/login", cm_handlers.LoginHandler),
+    (r"/api/logout", cm_handlers.LogoutHandler),
     # (r"/not-found", cm_handlers.NotFoundHandler),
 
     # scientists
     (r"/api/scientist/(\w+)?", sc_handlers.ScientistHandler),
     (r"/api/scientists", sc_handlers.ScientistsListHandler),
-    (r"/ajax/scientist/login/", sc_ajax_handlers.AjaxScientistLoginHandler),
 
     # projects
     (r"/api/project/(\w+)", pr_handlers.ProjectHandler),

@@ -31,8 +31,8 @@ class BaseRequestHandler(web.RequestHandler):
     @gen.coroutine
     def get_current_user(self):
         from scientist.scientist_bl import ScientistBL
-        scientist_id = self.get_argument(u'scientist_id')
-        scientist_id = self.get_secure_cookie(str(scientist_id))
+        scientist_id = self.get_secure_cookie(u'scientist')
+        print u'CURRENT USER!!!', scientist_id
         if not scientist_id:
             return
         scientist = yield ScientistBL.get_scientist(scientist_id)

@@ -7,6 +7,7 @@ from common.utils import gen_hash, set_password
 from tornado import gen
 from base.models import PSQLModel, get_insert_sql_query, get_update_sql_query
 from common.decorators import psql_connection
+from datetime import date, datetime
 
 __author__ = 'oks'
 
@@ -16,9 +17,9 @@ class Scientist(PSQLModel):
     ENTITY = u'scientist'
     TABLE = u'scientists'
     COLUMNS = [u'email', u'first_name', u'last_name', u'middle_name', u'dob', u'gender',
-               u'image', u'location_country', u'location_city', u'middle_education', u'high_education',
-               u'publications', u'interests', u'project_ids', u'about', u'contacts', u'desired_project_ids',
-               u'managing_project_ids', u'dt_created', u'dt_last_visit']
+               u'image_small', u'image_medium', u'image_large', u'location_country', u'location_city',
+               u'middle_education', u'high_education', u'publications', u'interests', u'project_ids',
+               u'about', u'contacts', u'desired_projects_ids', u'managing_projects_ids', u'dt_created', u'dt_last_visit']
 
     CHARMED = u'charmed'
     CHARMED_COLUMNS = [u'id', u'val']
@@ -31,9 +32,11 @@ class Scientist(PSQLModel):
         self.first_name = u''
         self.last_name = u''
         self.middle_name = u''
-        self.dob = u''
+        self.dob = date
         self.gender = u''
-        self.image = u''
+        self.image_small = u''
+        self.image_medium = u''
+        self.image_large = u''
         self.location_country = u''
         self.location_city = u''
         self.middle_education = []
@@ -43,8 +46,8 @@ class Scientist(PSQLModel):
         self.project_ids = []  # participate project ids
         self.about = u''
         self.contacts = []
-        self.desired_project_ids = []
-        self.managing_project_ids = []
+        self.desired_projects_ids = []
+        self.managing_projects_ids = []
 
         self.dt_created = u''
         self.dt_last_visit = u''
@@ -52,12 +55,12 @@ class Scientist(PSQLModel):
     @gen.coroutine
     @psql_connection
     def encrypt(self, conn, data, update=False):
-        key = gen_hash(self.id, self.email)
+        key = self.email
         value = set_password(data[u'password'])
         if update:
             sqp_query, params = get_update_sql_query(self.CHARMED, dict(id=key[2], val=value))
         else:
-            sqp_query = get_insert_sql_query(self.CHARMED, self.CHARMED_COLUMNS, dict(id=key[2], val=value))
+            sqp_query = get_insert_sql_query(self.CHARMED, self.CHARMED_COLUMNS, dict(id=key, val=value))
         yield momoko.Op(conn.execute, sqp_query)
 
     @classmethod
@@ -82,8 +85,11 @@ class Scientist(PSQLModel):
         if not scientist_data:
             raise gen.Return((None, None))
         json_scientist = dict(zip(cls.COLUMNS, scientist_data))
-        scientist = yield cls.from_dict_data(json_scientist)
-        raise gen.Return((scientist, json_scientist))
+        dob = json_scientist.get(u'dob', None)
+        if dob:
+            json_scientist[u'dob'] = dob.strftime(u'%d-%m-%Y')
+        # scientist = yield cls.from_dict_data(json_scientist)
+        raise gen.Return(json_scientist)
 
     @gen.coroutine
     @psql_connection
