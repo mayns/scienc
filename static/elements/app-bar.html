@@ -2,6 +2,9 @@
 <link rel="import" href="/static/elements/app-router/app-router.html"/>
 <link rel="import" href="/static/elements/html5-history-anchor/html5-history-anchor.html"/>
 <link rel="import" href="/static/elements/polymer/core-icon-button/core-icon-button.html"/>
+<link rel="import" href="/static/elements/polymer/core-ajax/core-ajax.html"/>
+<link rel="import" href="/static/elements/polymer/core-overlay/core-overlay.html"/>
+
 
 <polymer-element name="app-bar" attributes="name" >
 	<template>
@@ -12,22 +15,21 @@
 				align-items: center;
 				justify-content: space-between;
 			}
-			html /deep/ .login-dialog {
-				background-color: #ffffff;
-			}
 		</style>
 		<div class="color-white action" id="signIn" on-tap="{{onSignInTap}}">Войти</div>
 		<div class="color-white">
 			<a is="html5-history-anchor" href="/signup" pushstate popstate>&nbsp;Регистрация</a>
 		</div>
 		<core-icon-button class="color-white" icon="search"></core-icon-button>
-		<core-overlay opened="false" layered="true" backdrop="true" autoclosedisabled="true" id="loginDialog">
+		<core-overlay opened="false" layered backdrop autoclosedisabled id="loginDialog" class="">
 			<div class="login-dialog">
 				<h2>Log in</h2>
-				<input type="email" id="email" placeholder="E-mail" autofocus value="{{email}}">
-				<input type="password" id="password" placeholder="Password" value="{{password}}">
-				<button id="login" on-tap="{{onLoginTap}}">Login</button>
-				<core-ajax method="POST" url="/api/login" headers='{"X-Requested-With": "XMLHttpRequest"}' id="ajax" body="{'email': {{email}}, 'password': {{password}} }"></core-ajax>
+				<form action="/api/login">
+					<input type="email" id="email" placeholder="E-mail" autofocus value="{{email}}" required>
+					<input type="password" id="password" placeholder="Password" value="{{password}}" required>
+					<button id="login" on-tap="{{onLoginTap}}">Login</button>
+				</form>
+				<core-ajax class="" method="POST" url="/api/login" headers='{"X-Requested-With": "XMLHttpRequest"}' id="ajax" body="{'email': {{email}}, 'password': {{password}} }"></core-ajax>
 			</div>
 		</core-overlay>
 	</template>
