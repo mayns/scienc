@@ -61,6 +61,9 @@ nginx -s stop
 Установка PostgreSQL
 ----------------
 sudo apt-get install postgresql-9.3 postgresql-contrib-9.3 postgresql-server-dev-9.3 pgadmin3
+sudo su postgres
+psql postgres
+ALTER USER postgres WITH PASSWORD 'postgres'
 
 Прописываем хосты
 ----------------
