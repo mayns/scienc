@@ -10,18 +10,19 @@ __author__ = 'oks'
 
 url_handlers = [
     # common
-    # (r"/", cm_handlers.HomeHandler),
     (r"/api/login", cm_handlers.LoginHandler),
     (r"/api/logout", cm_handlers.LogoutHandler),
-    # (r"/not-found", cm_handlers.NotFoundHandler),
+    (r"/api/not-found", cm_handlers.NotFoundHandler),
 
     # scientists
-    (r"/api/scientist/(\w+)?", sc_handlers.ScientistHandler),
+    (r"/api/scientist(/\w+)?", sc_handlers.ScientistHandler),
     (r"/api/scientists", sc_handlers.ScientistsListHandler),
 
     # projects
-    (r"/api/project/(\w+)", pr_handlers.ProjectHandler),
+    (r"/api/project(/\w+)", pr_handlers.ProjectHandler),
     (r"/api/projects", pr_handlers.ProjectsListHandler),
     # (r"/ckeditor/samples/", CkeditorSampleHandler),
+
+    (r"/api/.*", cm_handlers.NotFoundRedirectHandler),
 
 ]

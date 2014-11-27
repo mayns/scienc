@@ -1,23 +1,29 @@
 # -*- coding: utf-8 -*-
 
 
-from tornado import gen
+from tornado import gen, template
 from base.handlers import BaseRequestHandler
 
 __author__ = 'oks'
 
+# TODO: auth error
+# TODO: auth redirect
 
-# class HomeHandler(BaseRequestHandler):
-#     @gen.coroutine
-#     def get(self):
-#         # self.render(u'index.html')
-#         self.render(u'index.html')
-#
-#
-# class NotFoundHandler(BaseRequestHandler):
-#     @gen.coroutine
-#     def get(self):
-#         self.render(u'404.html')
+
+class NotFoundRedirectHandler(BaseRequestHandler):
+    @gen.coroutine
+    def get(self):
+        self.redirect(u'/api/not-found')
+
+
+class NotFoundHandler(BaseRequestHandler):
+
+    @gen.coroutine
+    def get(self, *args, **kwargs):
+        import random
+        colors = [u'192430', u'E29611', u'0A926A', u'2F75BE', u'CC2979']
+        i = random.randrange(5)
+        self.write("<html><div style='color: #{color};font-size: 500px; text-align: center; vertical-align: middle; font-family: Helvetica, Arial, Sans-serif'; >42</div></html>".format(color=colors[i]))
 
 
 class LoginHandler(BaseRequestHandler):
