@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-import momoko
+# import momoko
 import settings
 
 # TODO tests for connections

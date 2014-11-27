@@ -31,9 +31,21 @@ class LoginHandler(BaseRequestHandler):
         email = u'qwe@qwe'
         # passw = self.get_argument(u'password')
         passw = 'qwe'
-        scientist_id = yield ScientistBL.check_scientist(email, passw)
-        self.set_secure_cookie(u'scientist', scientist_id)
-        self.redirect(u'/')
+        scientist_id = 1
+        resp = yield self.get_response(dict(scientist_id=scientist_id))
+        print resp
+        # scientist_id = yield ScientistBL.check_scientist(email, passw)
+        print u'GET SCIENTIST', scientist_id
+        if not scientist_id:
+            self.write(u'LOGIN or PASSW NOT CORRECT')
+            self.finish(resp)
+            return
+        self.set_secure_cookie(u'scientist', str(scientist_id))
+        self.redirect(self.get_argument(u'next', u'/'))
+
+    @gen.coroutine
+    def get(self, *args, **kwargs):
+        self.redirect(self.get_argument(u'next', u'/'))
 
 
 class LogoutHandler(BaseRequestHandler):
