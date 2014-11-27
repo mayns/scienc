@@ -26,19 +26,11 @@ class LoginHandler(BaseRequestHandler):
     def post(self):
         print u'login'
         from scientist.scientist_bl import ScientistBL
-        # email = self.get_argument(u'email')
-        # email = u'oksgorobets@gmail.com'
-        email = u'qwe@qwe'
-        # passw = self.get_argument(u'password')
-        passw = 'qwe'
-        scientist_id = 1
-        resp = yield self.get_response(dict(scientist_id=scientist_id))
-        print resp
-        # scientist_id = yield ScientistBL.check_scientist(email, passw)
-        print u'GET SCIENTIST', scientist_id
+        email = self.get_argument(u'email')
+        passw = self.get_argument(u'password')
+        scientist_id = yield ScientistBL.check_scientist(email, passw)
         if not scientist_id:
-            self.write(u'LOGIN or PASSW NOT CORRECT')
-            self.finish(resp)
+            self.finish(u'LOGIN or PASSW NOT CORRECT')
             return
         self.set_secure_cookie(u'scientist', str(scientist_id))
         self.redirect(self.get_argument(u'next', u'/'))
