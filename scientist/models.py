@@ -1,8 +1,7 @@
 # -*- coding: utf-8 -*-
 
 import json
-# from momoko import Op
-# import momoko
+import momoko
 from common.utils import gen_hash, set_password
 from tornado import gen
 from base.models import PSQLModel, get_insert_sql_query, get_update_sql_query

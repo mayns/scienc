@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 import json
-# import momoko
+import momoko
 
 from tornado import gen
 from base.models import PSQLModel, get_insert_sql_query, get_update_sql_query
