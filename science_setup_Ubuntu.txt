@@ -22,7 +22,7 @@ apt-get install python-dev
 
 Необходимые пакеты
 ------------------
-pip install tornado psycopg2 momoko django django.utils
+pip install tornado psycopg2 momoko django django
 
 Генерим ssh ключ, если нет, иначе - пропускаем шаг
 ------------------
