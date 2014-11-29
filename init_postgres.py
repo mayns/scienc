@@ -23,14 +23,14 @@ if __name__ == "__main__":
     # from common.psql_relations import create_db
     # create_db()
 
-    from common.psql_relations import create_relations
-    _ioloop.run_sync(partial(create_relations))
+    # from common.psql_relations import create_relations
+    # _ioloop.run_sync(partial(create_relations))
 
-    # from postgres_fill import insert_data
-    # _ioloop.run_sync(partial(insert_data))
+    from postgres_fill import insert_data
+    _ioloop.run_sync(partial(insert_data))
 
-    # from postgres_fill import delete_kinder_garden
-    # _ioloop.run_sync(partial(delete_kinder_garden))
+    from postgres_fill import delete_kinder_garden
+    _ioloop.run_sync(partial(delete_kinder_garden))
 
-    # from postgres_fill import add_test_project
-    # _ioloop.run_sync(add_test_project)
+    from postgres_fill import add_test_project
+    _ioloop.run_sync(add_test_project)
