@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 
-from tornado import gen, template
+from tornado import gen
 from base.handlers import BaseRequestHandler
 
 __author__ = 'oks'
@@ -23,7 +23,8 @@ class NotFoundHandler(BaseRequestHandler):
         import random
         colors = [u'192430', u'E29611', u'0A926A', u'2F75BE', u'CC2979']
         i = random.randrange(5)
-        self.write("<html><div style='color: #{color};font-size: 500px; text-align: center; vertical-align: middle; font-family: Helvetica, Arial, Sans-serif'; >42</div></html>".format(color=colors[i]))
+        self.write("<html><div style='color: #{color};font-size: 500px; text-align: center; vertical-align: middle; "
+                   "font-family: Helvetica, Arial, Sans-serif'; >42</div></html>".format(color=colors[i]))
 
 
 class LoginHandler(BaseRequestHandler):
@@ -33,10 +34,10 @@ class LoginHandler(BaseRequestHandler):
         print u'login'
         from scientist.scientist_bl import ScientistBL
         email = self.get_argument(u'email')
-        passw = self.get_argument(u'password')
-        scientist_id = yield ScientistBL.check_scientist(email, passw)
+        password = self.get_argument(u'password')
+        scientist_id = yield ScientistBL.check_scientist(email, password)
         if not scientist_id:
-            self.finish(u'LOGIN or PASSW NOT CORRECT')
+            self.finish(u'LOGIN or PASSWORD NOT CORRECT')
             return
         self.set_secure_cookie(u'scientist', str(scientist_id))
         self.redirect(self.get_argument(u'next', u'/'))

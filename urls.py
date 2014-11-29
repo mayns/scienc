@@ -4,7 +4,6 @@
 from common import handlers as cm_handlers
 from project import handlers as pr_handlers
 from scientist import handlers as sc_handlers
-from scientist import ajax_handlers as sc_ajax_handlers
 
 __author__ = 'oks'
 
