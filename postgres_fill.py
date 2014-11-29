@@ -33,15 +33,15 @@ def insert_data():
                     title_ru = item[u'title']
             table = u"countries"
             columns = [u"title_en", u"title_ru"]
-            data = {u"title_en":title_en, u"title_ru":title_ru}
+            data = {u"title_en": title_en, u"title_ru": title_ru}
             query = get_insert_sql_query(table, columns, data)
             yield momoko.Op(conn.execute, query)
 
-        #inserting all another data
-        for i in range(1,234):
+        # inserting all another data
+        for i in range(1, 234):
             print "country No {}, time {} ".format(i, time.strftime("%c"))
             path = r'/opt/data/{}.pkl'.format(i)
-            f = open(path,'rb')
+            f = open(path, 'rb')
             cities = cPickle.load(f)
             f.close()
             try:
@@ -49,7 +49,8 @@ def insert_data():
                 f = open(path, 'rb')
                 main_cities = cPickle.load(f)
                 f.close()
-            except IOError:
+            except IOError, ex:
+                print u'IOError', ex
                 continue
 
             #inserting cities title, area and region
@@ -58,38 +59,38 @@ def insert_data():
                 if u'region' in keys:
                     region = city[u'region']
                     if "'" in region:
-                        region = region.replace(r"'","''")
+                        region = region.replace(r"'", "''")
                 else:
                     region = None
                 if u'area' in keys:
                     area = city[u'area']
                     if "'" in area:
-                        area = area.replace(r"'","''")
+                        area = area.replace(r"'", "''")
                 else:
                     area = None
 
                 city_title = city[u'title']
                 if "'" in city_title:
-                    city_title = city_title.replace(r"'","''")
+                    city_title = city_title.replace(r"'", "''")
                 table = u"cities"
                 if not region and not area:
-                    columns = [u"country_id",u"title"]
-                    data = {u"country_id": i, u"title": city_title }
+                    columns = [u"country_id", u"title"]
+                    data = {u"country_id": i, u"title": city_title}
                     query = get_insert_sql_query(table, columns, data)
                     city_id = yield momoko.Op(conn.execute, query)
                 elif not region:
                     columns = [u"country_id", u"area", u"title"]
-                    data = {u"country_id": i, u"area": area, u"title": city_title }
+                    data = {u"country_id": i, u"area": area, u"title": city_title}
                     query = get_insert_sql_query(table, columns, data)
                     city_id = yield momoko.Op(conn.execute, query)
                 elif not area:
                     columns = [u"country_id", u"region", u"title"]
-                    data = {u"country_id": i, u"region": region, u"title": city_title }
+                    data = {u"country_id": i, u"region": region, u"title": city_title}
                     query = get_insert_sql_query(table, columns, data)
                     city_id = yield momoko.Op(conn.execute, query)
                 else:
                     columns = [u"country_id", u"region", u"area", u"title"]
-                    data = {u"country_id": i, u"region": region, u"area": area, u"title": city_title }
+                    data = {u"country_id": i, u"region": region, u"area": area, u"title": city_title}
                     query = get_insert_sql_query(table, columns, data)
                     city_id = yield momoko.Op(conn.execute, query)
                 city_id = city_id.fetchone()[0]
@@ -109,7 +110,7 @@ def insert_data():
                     for school in schools:
                         school_title = school[u'title']
                         if "'" in school_title:
-                            school_title = school_title.replace(r"'","''")
+                            school_title = school_title.replace(r"'", "''")
                             table = u"schools"
                             columns = [u"city_id", u"title"]
                             data = {u"city_id": city_id, u"title": school_title}
@@ -122,7 +123,7 @@ def insert_data():
                     for university in universities:
                         university_title = university[u'title']
                         if "'" in university_title:
-                            university_title = university_title.replace(r"'","''")
+                            university_title = university_title.replace(r"'", "''")
                         table = u"universities"
                         columns = [u"city_id", u"title"]
                         data = {u"city_id": city_id, u"title": university_title}
@@ -137,7 +138,7 @@ def insert_data():
                             for faculty in faculties:
                                 faculty_title = faculty[u'title']
                                 if "'" in faculty_title:
-                                    faculty_title = faculty_title.replace(r"'","''")
+                                    faculty_title = faculty_title.replace(r"'", "''")
                                 table = u"faculties"
                                 columns = [u"university_id", u"title"]
                                 data = {u"university_id": university_id, u"title": faculty_title}
@@ -152,15 +153,16 @@ def insert_data():
                                     for chair in chairs:
                                         chair_title = chair[u'title']
                                         if "'" in chair_title:
-                                            chair_title = chair_title.replace(r"'","''")
+                                            chair_title = chair_title.replace(r"'", "''")
                                         table = u"chairs"
                                         columns = [u"faculty_id", u"title"]
-                                        data = {u"faculty_id": faculty_id, u"title":chair_title}
+                                        data = {u"faculty_id": faculty_id, u"title": chair_title}
                                         query = get_insert_sql_query(table, columns, data)
                                         yield momoko.Op(conn.execute, query)
 
     except (psycopg2.Warning, psycopg2.Error) as error:
         raise Exception(str(error))
+
 
 @gen.coroutine
 def delete_kinder_garden():
