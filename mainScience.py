@@ -6,8 +6,6 @@ from tornado import httpserver, ioloop, web
 from tornado.options import define, options
 import settings
 
-# from base.jinja import jinja_template_loader
-
 __author__ = 'oks'
 
 define("port", default=6600, help="run on the given port", type=int)
@@ -32,6 +30,6 @@ if __name__ == "__main__":
     application = ScienceApplication()
 
     http_server = httpserver.HTTPServer(application)
-    http_server.listen(options.port, u"sciencemates.dev")
+    http_server.listen(options.port)
 
     _ioLoop.start()
