@@ -4,6 +4,10 @@
 #                                        #
 ##########################################
 
+PCRE
+------------------
+apt-get install libpcre3 libpcre3-dev
+
 Устанавливаем nginx
 ------------------
 wget http://nginx.org/download/nginx-1.6.2.tar.gz
@@ -18,7 +22,7 @@ apt-get install python-dev
 
 Необходимые пакеты
 ------------------
-pip install tornado momoko psycopg2 django django.utils
+pip install tornado psycopg2 momoko django django.utils
 
 Генерим ssh ключ, если нет, иначе - пропускаем шаг
 ------------------
