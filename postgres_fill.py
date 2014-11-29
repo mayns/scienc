@@ -50,7 +50,6 @@ def insert_data():
                 main_cities = cPickle.load(f)
                 f.close()
             except IOError, ex:
-                print u'IOError', ex
                 continue
 
             #inserting cities title, area and region
@@ -111,13 +110,13 @@ def insert_data():
                         school_title = school[u'title']
                         if "'" in school_title:
                             school_title = school_title.replace(r"'", "''")
-                            table = u"schools"
-                            columns = [u"city_id", u"title"]
-                            data = {u"city_id": city_id, u"title": school_title}
-                            query = get_insert_sql_query(table, columns, data)
-                            yield momoko.Op(conn.execute, query)
+                        table = u"schools"
+                        columns = [u"city_id", u"title"]
+                        data = {u"city_id": city_id, u"title": school_title}
+                        query = get_insert_sql_query(table, columns, data)
+                        yield momoko.Op(conn.execute, query)
 
-                #inserting universities
+                # inserting universities
                 if u'universities' in keys:
                     universities = city[u'universities']
                     for university in universities:
