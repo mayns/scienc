@@ -40,12 +40,12 @@ def insert_data():
         #inserting all another data
         for i in range(1,234):
             print "country No {}, time {} ".format(i, time.strftime("%c"))
-            path = r'/countries/{}.pkl'.format(i)
+            path = r'/opt/data/{}.pkl'.format(i)
             f = open(path,'rb')
             cities = cPickle.load(f)
             f.close()
             try:
-                path = r'/main_cities/main_cities_{}.pkl'.format(i)
+                path = r'/opt/data/main_cities/main_cities_{}.pkl'.format(i)
                 f = open(path, 'rb')
                 main_cities = cPickle.load(f)
                 f.close()
