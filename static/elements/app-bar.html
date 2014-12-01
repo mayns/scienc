@@ -18,17 +18,36 @@
 		</style>
 		<div class="color-white action" id="signIn" on-tap="{{onSignInTap}}">Войти</div>
 		<div class="color-white">
-			<a is="html5-history-anchor" href="/signup" pushstate popstate>&nbsp;Регистрация</a>
+			<a is="html5-history-anchor" href="/signup" pushstate popstate>Регистрация</a>
 		</div>
 		<core-icon-button class="color-white" icon="search"></core-icon-button>
-		<core-overlay opened="false" layered backdrop autoclosedisabled id="loginDialog" class="">
+		<core-overlay opened="false" layered backdrop id="loginDialog" class="">
 			<div class="login-dialog">
-				<h2>Log in</h2>
-				<form action="/api/login">
-					<input type="email" id="email" placeholder="E-mail" autofocus value="{{email}}" required>
-					<input type="password" id="password" placeholder="Password" value="{{password}}" required>
-					<button id="login" on-tap="{{onLoginTap}}">Login</button>
+				<h2 class="login-dialog-header">Log in</h2>
+				<form action="/api/login" on-submit="{{onLoginFormSubmit}}" class="login-dialog-form">
+					<input class="login-dialog-input"
+						   type="email"
+						   id="email"
+						   placeholder="E-mail"
+						   autofocus value="{{email}}"
+						   required>
+					<input class="login-dialog-input"
+						   type="password"
+						   id="password"
+						   placeholder="Password"
+						   value="{{password}}"
+						   required>
+					<button class="button submit login-dialog-submit"
+							id="login"
+							type="submit">
+							Войти
+					</button>
 				</form>
+				<footer class="row between">
+					<a is="html5-history-anchor" href="/signup" pushstate popstate>Восстановить пароль</a>
+					<a is="html5-history-anchor" href="/signup" pushstate popstate>Зарегистрироваться</a>
+				</footer>
+				<div class="login-dialog-close action">X</div>
 				<core-ajax class="" method="POST" url="/api/login" headers='{"X-Requested-With": "XMLHttpRequest"}' id="ajax" body="{'email': {{email}}, 'password': {{password}} }"></core-ajax>
 			</div>
 		</core-overlay>
@@ -38,9 +57,10 @@
 			onSignInTap: function(event, detail, sender) {
 				this.$.loginDialog.open();
 			},
-			onLoginTap: function() {
+			onLoginFormSubmit: function(e) {
 				var self = this;
 				self.$.ajax.go();
+				e.preventDefault();
 			}
 		});
 	</script>

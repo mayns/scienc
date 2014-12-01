@@ -1,0 +1,16 @@
+@import "../variables";
+
+html /deep/ button {
+  cursor: pointer;
+  font-size: 16px;
+  font-weight: bold;
+}
+
+html /deep/ .button.submit {
+  color: $color-white;
+  background-color: $color-green;
+  padding: 10px 50px;
+  outline: none;
+  border: none;
+  box-shadow: 2px 2px 0 2px #95CFC0;
+}
