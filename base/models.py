@@ -24,21 +24,24 @@ class PSQLModel(object):
 
     @classmethod
     @gen.coroutine
-    def from_db_by_id(cls, *args):
-        # abstract method
-        raise NotImplementedError()
+    @psql_connection
+    def from_db_by_id(cls, conn, id, columns=None):
+        if not columns:
+            columns = cls.COLUMNS
+        cursor = yield momoko.Op(conn.execute, u"SELECT {columns} FROM {table_name} WHERE id={id}".format(
+            columns=u', '.join(columns),
+            table_name=cls.TABLE,
+            id=str(id)))
+        data = cursor.fetchone()
+        raise gen.Return(data)
 
     @classmethod
     @gen.coroutine
     @psql_connection
-    def get_all_json(cls, conn):
-        print cls.TABLE
-        cursor = yield momoko.Op(conn.execute, u'SELECT * FROM {table_name}'.format(table_name=cls.TABLE))
+    def get_all_json(cls, conn, columns):
+        cursor = yield momoko.Op(conn.execute, u'SELECT {columns} FROM {table_name}'.format(columns=columns, table_name=cls.TABLE))
         data = cursor.fetchall()
-        if not data:
-            raise gen.Return(None)
-        json_data = json.dumps({cls.ENTITY: [dict(zip(cls.COLUMNS, entity_data)) for entity_data in data]})
-        raise gen.Return(json_data)
+        raise gen.Return(data)
 
 
 def get_update_sql_query(tbl, update_params, where_params=None):

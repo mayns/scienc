@@ -22,7 +22,7 @@ class ProjectsListHandler(BaseRequestHandler):
     def get(self, *args, **kwargs):
         print u'projects list get'
         projects = TestProject.get_list_data()
-        # projects = yield ProjectBL.get_all_projects()
+        projects = yield ProjectBL.get_all_projects()
         projects = projects if projects else []
         projects = yield self.get_response(projects)
         self.finish(json.dumps(projects))
@@ -41,9 +41,9 @@ class ProjectHandler(BaseRequestHandler):
     @gen.coroutine
     def get(self, *args, **kwargs):
         project_data = json.loads(self.get_argument(u'data', u'{}'))
-        project = TestProject.get_project(int(project_data.get(u'id', 1)))
-        # response = yield ProjectBL.get_project(project_dict[u'id'])
-        project = yield self.get_response(project)
+        # project = TestProject.get_project(int(project_data.get(u'id', 1)))
+        response = yield ProjectBL.get_project(project_data.get(u'id', 1))
+        project = yield self.get_response(response)
         self.finish(project)
 
     @gen.coroutine
