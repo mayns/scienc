@@ -31,7 +31,13 @@
 					<a is="html5-history-anchor" href="/signup" pushstate popstate>Зарегистрироваться</a>
 				</footer>
 				<div class="login-dialog-close action" core-overlay-toggle>X</div>
-				<core-ajax on-core-response="{{onLoginFormResponse}}" method="POST" url="/api/login" headers='{"X-Requested-With": "XMLHttpRequest"}' id="ajax" body="{'email': {{email}}, 'password': {{password}} }"></core-ajax>
+				<core-ajax on-core-response="{{onLoginFormResponse}}"
+						   method="POST"
+						   url="/api/login"
+						   headers='{"X-Requested-With": "XMLHttpRequest"}'
+						   id="ajax"
+						   body='data: {"email": {{email}}, "password": {{password}} }'>
+				</core-ajax>
 			</div>
 		</core-overlay>
 	</template>
