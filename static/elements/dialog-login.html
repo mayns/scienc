@@ -1,0 +1,53 @@
+<link rel="import" href="/static/elements/polymer/polymer/polymer.html"/>
+<link rel="import" href="/static/elements/polymer/core-overlay/core-overlay.html"/>
+<link rel="import" href="/static/elements/polymer/core-ajax/core-ajax.html"/>
+
+<polymer-element name="dialog-login" attributes="">
+	<template>
+		<core-overlay opened="false" layered backdrop id="loginDialog">
+			<div class="login-dialog">
+				<h2 class="login-dialog-header">Log in</h2>
+				<form action="/api/login" on-submit="{{onLoginFormSubmit}}" class="login-dialog-form">
+					<input class="login-dialog-input"
+						   type="email"
+						   id="email"
+						   placeholder="E-mail"
+						   autofocus value="{{email}}"
+						   required>
+					<input class="login-dialog-input"
+						   type="password"
+						   id="password"
+						   placeholder="Password"
+						   value="{{password}}"
+						   required>
+					<button class="button submit login-dialog-submit"
+							id="login"
+							type="submit">
+						Войти
+					</button>
+				</form>
+				<footer class="row between">
+					<a is="html5-history-anchor" href="/signup" pushstate popstate>Восстановить пароль</a>
+					<a is="html5-history-anchor" href="/signup" pushstate popstate>Зарегистрироваться</a>
+				</footer>
+				<div class="login-dialog-close action" core-overlay-toggle>X</div>
+				<core-ajax on-core-response="{{onLoginFormResponse}}" method="POST" url="/api/login" headers='{"X-Requested-With": "XMLHttpRequest"}' id="ajax" body="{'email': {{email}}, 'password': {{password}} }"></core-ajax>
+			</div>
+		</core-overlay>
+	</template>
+	<script>
+		Polymer({
+			open: function() {
+				this.$.loginDialog.open();
+			},
+			onLoginFormSubmit: function(e) {
+				e.preventDefault();
+				var self = this;
+				self.$.ajax.go();
+			},
+			onLoginFormResponse: function(e) {
+				this.$.loginDialog.close();
+			}
+		});
+	</script>
+</polymer-element>
