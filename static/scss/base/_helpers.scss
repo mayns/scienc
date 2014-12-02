@@ -10,6 +10,10 @@ html /deep/ .action {
     COLORS
 */
 
+html /deep/ .colo-light-grey {
+  color: #DADADA;
+}
+
 html /deep/ .color-grey {
   color: #606972;
 }
@@ -24,4 +28,8 @@ html /deep/ .color-yellow {
 
 html /deep/ .color-white {
   color: #FFFFFF;
+}
+
+html /deep/ .color-green {
+  color: #00A17D;;
 }

@@ -62,21 +62,6 @@ class Project(PSQLModel):
                 setattr(project, key, value)
         raise gen.Return(project)
 
-    @classmethod
-    @gen.coroutine
-    @psql_connection
-    def from_db_by_id(cls, conn, project_id):
-        cursor = yield momoko.Op(conn.execute, u"SELECT {columns} FROM {table_name} WHERE id={id}".format(
-            columns=u', '.join(cls.COLUMNS),
-            table_name=cls.TABLE,
-            id=str(project_id)))
-        project_data = cursor.fetchone()
-        if not project_data:
-            raise gen.Return((None, None))
-        json_project = dict(zip(cls.COLUMNS, project_data))
-        project = yield cls.from_db_class_data(project_id, json_project)
-        raise gen.Return((project, json_project))
-
     @gen.coroutine
     @psql_connection
     def save(self, conn, update=True):

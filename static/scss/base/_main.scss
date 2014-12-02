@@ -2,16 +2,16 @@ body {
   font-family: 'Roboto', sans-serif;
 }
 
-a {
+html /deep/ a {
   text-decoration: none;
   color: inherit;
 }
 
-a:visited {
+html /deep/ a:visited {
   color: inherit;
 }
 
-a:active {
+html /deep/ a:active {
   color: inherit;
 }
 
