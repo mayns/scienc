@@ -34,9 +34,9 @@
 				<core-ajax on-core-response="{{onLoginFormResponse}}"
 						   method="POST"
 						   url="/api/login"
+						   contentType="multipart/form-data"
 						   headers='{"X-Requested-With": "XMLHttpRequest"}'
-						   id="ajax"
-						   body='data: {"email": {{email}}, "password": {{password}} }'>
+						   id="ajax">
 				</core-ajax>
 			</div>
 		</core-overlay>
@@ -49,6 +49,12 @@
 			onLoginFormSubmit: function(e) {
 				e.preventDefault();
 				var self = this;
+				var formData = new FormData();
+				formData.append('data', JSON.stringify({
+					email: self.$.email.value,
+					password: self.$.password.value
+				}));
+				self.$.ajax.body = formData;
 				self.$.ajax.go();
 			},
 			onLoginFormResponse: function(e) {
