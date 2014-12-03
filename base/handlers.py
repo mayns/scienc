@@ -36,9 +36,9 @@ class BaseRequestHandler(web.RequestHandler):
     def get_response(self, data):
         return data
 
-    @gen.coroutine
-    def prepare(self):
-        print u'In prepare'
-        x = self.xsrf_token
-        if not x:
-            yield self.xsrf_token()
+    # @gen.coroutine
+    # def prepare(self):
+    #     print u'In prepare'
+    #     x = self.xsrf_token
+    #     if not x:
+    #         yield self.xsrf_token()

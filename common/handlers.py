@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-
+import simplejson as json
 from tornado import gen
 from base.handlers import BaseRequestHandler
 
@@ -30,11 +30,12 @@ class NotFoundHandler(BaseRequestHandler):
 class LoginHandler(BaseRequestHandler):
 
     @gen.coroutine
-    def post(self):
-        print u'login'
+    def post(self, *args, **kwargs):
         from scientist.scientist_bl import ScientistBL
-        email = self.get_argument(u'email')
-        password = self.get_argument(u'password')
+        print u'login'
+        data = json.loads(self.get_argument(u'data', u'{}'))
+        email = data.get(u'email', u'')
+        password = data.get(u'password', u'')
         scientist_id = yield ScientistBL.check_scientist(email, password)
         if not scientist_id:
             self.finish(u'LOGIN or PASSWORD NOT CORRECT')

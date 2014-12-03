@@ -2,6 +2,7 @@
 
 import momoko
 from tornado import gen
+import datetime
 import settings
 from common.utils import set_password, check_password
 from common.decorators import psql_connection
@@ -53,8 +54,13 @@ class ScientistBL(object):
     @classmethod
     @gen.coroutine
     def get_scientist(cls, scientist_id):
-        json_scientist = yield Scientist.from_db_by_id(scientist_id)
-        raise gen.Return(json_scientist)
+        json_data = {}
+        scientist = yield Scientist.from_db_by_id(scientist_id)
+        if scientist:
+            json_data = dict(zip(Scientist.COLUMNS, scientist))
+            if json_data[u'dob'] and isinstance(json_data[u'dob'], datetime.date):
+                json_data[u'dob'] = json_data[u'dob'].strftime(u'%d-%m-%Y')
+        raise gen.Return(json_data)
 
     @classmethod
     @gen.coroutine

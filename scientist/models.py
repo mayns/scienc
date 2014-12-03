@@ -72,23 +72,23 @@ class Scientist(PSQLModel):
                 raise Exception(u'Unknown attribute: {}'.format(key))
         return scientist
 
-    @classmethod
-    @gen.coroutine
-    @psql_connection
-    def from_db_by_id(cls, conn, scientist_id):
-        cursor = yield momoko.Op(conn.execute, u"SELECT {columns} FROM {table_name} WHERE id={id}".format(
-            columns=u', '.join(cls.COLUMNS),
-            table_name=cls.TABLE,
-            id=str(scientist_id)))
-        scientist_data = cursor.fetchone()
-        if not scientist_data:
-            raise gen.Return((None, None))
-        json_scientist = dict(zip(cls.COLUMNS, scientist_data))
-        dob = json_scientist.get(u'dob', None)
-        if dob:
-            json_scientist[u'dob'] = dob.strftime(u'%d-%m-%Y')
-        # scientist = yield cls.from_dict_data(json_scientist)
-        raise gen.Return(json_scientist)
+    # @classmethod
+    # @gen.coroutine
+    # @psql_connection
+    # def from_db_by_id(cls, conn, scientist_id):
+    #     cursor = yield momoko.Op(conn.execute, u"SELECT {columns} FROM {table_name} WHERE id={id}".format(
+    #         columns=u', '.join(cls.COLUMNS),
+    #         table_name=cls.TABLE,
+    #         id=str(scientist_id)))
+    #     scientist_data = cursor.fetchone()
+    #     if not scientist_data:
+    #         raise gen.Return((None, None))
+    #     json_scientist = dict(zip(cls.COLUMNS, scientist_data))
+    #     dob = json_scientist.get(u'dob', None)
+    #     if dob and isinstance(dob, datetime):
+    #         json_scientist[u'dob'] = dob.strftime(u'%d-%m-%Y')
+    #     # scientist = yield cls.from_dict_data(json_scientist)
+    #     raise gen.Return(json_scientist)
 
     @gen.coroutine
     @psql_connection

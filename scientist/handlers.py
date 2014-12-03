@@ -27,7 +27,9 @@ class ScientistHandler(BaseRequestHandler):
     @gen.coroutine
     def post(self, *args, **kwargs):
         print u'scientist post'
+        print self.request.body
         scientist_dict = json.loads(self.get_argument(u'data', u'{}'))
+        print scientist_dict
         scientist_id = yield ScientistBL.add_scientist(scientist_dict)
         response = dict(id=str(scientist_id))
         response_data = yield self.get_response(response)
@@ -38,6 +40,7 @@ class ScientistHandler(BaseRequestHandler):
     def put(self):
         print u'scientist put'
         scientist_dict = json.loads(self.get_argument(u'data', u'{}'))
+
         yield ScientistBL.update_scientist(scientist_dict[u'scientist'])
         response_data = yield self.get_response(dict())
         self.finish(response_data)
@@ -45,8 +48,7 @@ class ScientistHandler(BaseRequestHandler):
     @web.authenticated
     @gen.coroutine
     def get(self, scientist_id):
-        # response = yield ScientistBL.get_scientist(scientist_id)
-        response = {u'YA': u'YA'}
+        response = yield ScientistBL.get_scientist(int(scientist_id.replace(u'/', u'')))
         response_data = yield self.get_response(response)
         self.finish(response_data)
 
