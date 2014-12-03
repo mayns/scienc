@@ -71,7 +71,7 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
         }
         return xhr;
       },
-    
+
       toQueryString: function(params) {
         var r = [];
         for (var n in params) {
@@ -85,10 +85,11 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
       isBodyMethod: function(method) {
         return this.bodyMethods[(method || '').toUpperCase()];
       },
-      
+
       bodyMethods: {
         POST: 1,
         PUT: 1,
+        PATCH: 1,
         DELETE: 1
       },
 
@@ -111,5 +112,5 @@ subject to an additional IP rights grant found at http://polymer.github.io/PATEN
     });
 
   </script>
-  
+
 </polymer-element>
