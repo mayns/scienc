@@ -76,7 +76,6 @@ def check_password(raw_password, enc_password):
     encryption formats behind the scenes.
     """
     try:
-        print enc_password
         algo, salt, hsh = enc_password.split('$')
     except:
         raise ValueError("You've mistakenly set the password directly. Please use set_password() instead.")
