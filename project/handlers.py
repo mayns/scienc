@@ -43,7 +43,7 @@ class ProjectHandler(BaseRequestHandler):
         # project_data = json.loads(self.get_argument(u'data', u'{}'))
         # project = TestProject.get_project(int(project_data.get(u'id', 1)))
         # response = yield ProjectBL.get_project(project_data.get(u'id', 1))
-        response = yield ProjectBL.get_project(project_id)
+        response = yield ProjectBL.get_project(int(project_id.replace(u'/', u'')))
         project = yield self.get_response(response)
         self.finish(project)
 
