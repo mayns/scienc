@@ -6,7 +6,7 @@
 
 
 
-<polymer-element name="app-bar" attributes="name" >
+<polymer-element name="app-bar">
 	<template>
 		<style>
 			:host {
@@ -16,12 +16,18 @@
 				justify-content: space-between;
 			}
 		</style>
-		<div class="color-white action" id="signIn" on-tap="{{onSignInTap}}">Войти</div>
-		<div class="color-white">
-			<a is="html5-history-anchor" href="/signup" pushstate popstate>Регистрация</a>
-		</div>
-		<core-icon-button class="color-white" icon="search"></core-icon-button>
-		<dialog-login id="dialogLogin"></dialog-login>
+		<template if="!{{userSignedIn}}">
+			<div class="color-white action" id="signIn" on-tap="{{onSignInTap}}">Войти</div>
+			<div class="color-white">
+				<a is="html5-history-anchor" href="/signup" pushstate popstate>Регистрация</a>
+			</div>
+			<core-icon-button class="color-white" icon="search"></core-icon-button>
+			<dialog-login id="dialogLogin"></dialog-login>
+		</template>
+		<template if="{{userSignedIn}}">
+
+			<div class="color-white action" id="signOut" on-tap="{{onSignOutTap}}">Войти</div>
+		</template>
 	</template>
 	<script>
 		Polymer({
