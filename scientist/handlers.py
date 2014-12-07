@@ -27,13 +27,14 @@ class ScientistHandler(BaseRequestHandler):
     @gen.coroutine
     def post(self, *args, **kwargs):
         print u'scientist post'
-        print self.request.body
         scientist_dict = json.loads(self.get_argument(u'data', u'{}'))
-        print scientist_dict
-        scientist_id = yield ScientistBL.add_scientist(scientist_dict)
-        response = dict(id=str(scientist_id))
+        scientist_anw = yield ScientistBL.add_scientist(scientist_dict)
+        if u'Error' in str(scientist_anw):
+            response = dict(message=scientist_anw)
+        else:
+            response = dict(id=str(scientist_anw))
+            self.set_secure_cookie(u'scientist', str(scientist_anw))
         response_data = yield self.get_response(response)
-        self.set_secure_cookie(u'scientist', str(scientist_id))
         self.finish(response_data)
 
     @gen.coroutine

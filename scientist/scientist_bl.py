@@ -7,6 +7,7 @@ import settings
 from common.utils import set_password, check_password
 from common.decorators import psql_connection
 from scientist.models import Scientist
+from base.exceptions import UserExistException
 
 __author__ = 'oks'
 
@@ -14,8 +15,16 @@ __author__ = 'oks'
 class ScientistBL(object):
 
     @classmethod
-    def validate_data(cls, data):
-        pass
+    @gen.coroutine
+    @psql_connection
+    def validate_data(cls, conn, data):
+        email = data.get(u'email')
+        cursor = yield momoko.Op(conn.execute, u"SELECT count(*) FROM {table_name} WHERE id='{id}'".format(
+            table_name=Scientist.CHARMED,
+            id=email))
+        count = cursor.fetchone()
+        if int(count[0]) > 0:
+            raise UserExistException(email)
 
     @classmethod
     @gen.coroutine
@@ -42,13 +51,17 @@ class ScientistBL(object):
     @gen.coroutine
     def add_scientist(cls, scientist_dict):
         password = scientist_dict.pop(u'password')
+        try:
+            yield cls.validate_data(scientist_dict)
+        except UserExistException, ex:
+            raise gen.Return(ex.message)
+
         scientist = Scientist.from_dict_data(scientist_dict)
         try:
             yield scientist.save(update=False)
             yield scientist.encrypt(dict(password=password))
         except Exception, ex:
-            print u'Exception! in add scientist'
-            print ex
+            print u'Exception! in add scientist', ex
         raise gen.Return(scientist.id)
 
     @classmethod

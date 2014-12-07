@@ -3,6 +3,7 @@
 import simplejson as json
 from tornado import gen
 from base.handlers import BaseRequestHandler
+from httplib import HTTPException
 
 __author__ = 'oks'
 
