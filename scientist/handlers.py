@@ -28,8 +28,11 @@ class ScientistHandler(BaseRequestHandler):
     def post(self, *args, **kwargs):
         print u'scientist post'
         scientist_dict = json.loads(self.get_argument(u'data', u'{}'))
+        scientist_photo = self.request.files
+        print scientist_dict
+        print scientist_photo
         scientist_anw = yield ScientistBL.add_scientist(scientist_dict)
-        if u'Error' in str(scientist_anw):
+        if not isinstance(scientist_anw, dict) and u'Error' in str(scientist_anw):
             response = dict(message=scientist_anw)
         else:
             response = dict(id=str(scientist_anw))

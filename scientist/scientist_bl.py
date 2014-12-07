@@ -62,7 +62,7 @@ class ScientistBL(object):
             yield scientist.encrypt(dict(password=password))
         except Exception, ex:
             print u'Exception! in add scientist', ex
-        raise gen.Return(scientist.id)
+        raise gen.Return(dict(id=scientist.id, first_name=scientist.first_name, image_small=scientist.image_small))
 
     @classmethod
     @gen.coroutine
