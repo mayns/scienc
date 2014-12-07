@@ -195,7 +195,7 @@
         }
     };
 
-    $.serializeObject = FormSerializer.serializeObject = function serializeObject(options) {
+    $$.serializeObject = FormSerializer.serializeObject = function serializeObject(options) {
         if (typeof options === "string") {
             options = {
                 attr: options
@@ -204,9 +204,9 @@
         return new FormSerializer(this, options).init();
     };
 
-    $.serializeArray =  FormSerializer.serializeJSON = function serializeJSON(options) {
+    $$.serializeArray =  FormSerializer.serializeJSON = function serializeJSON(options) {
         return JSON.stringify(new FormSerializer(this, options).init());
     };
 
 
-})(window.$);
+})(window.$$);

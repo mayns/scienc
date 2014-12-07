@@ -5,14 +5,14 @@
 (function(window, document){
     "use strict";
 
-     window.$ = {
+     window.$$ = {
         qs: function(selector, context) {
             context = context || document;
             return context.querySelector(selector);
         },
         qsa: function(selector, context) {
             context = context || document;
-            return $.toArray(context.querySelectorAll(selector));
+            return $$.toArray(context.querySelectorAll(selector));
         },
         on: function(el, type, callback, useCapture) {
             el.addEventListener(type, callback, Boolean(useCapture));
@@ -25,7 +25,7 @@
                 bubbles: true,
                 cancelable: true
             };
-            var event = new CustomEvent(type, $.mix({}, config, defaults));
+            var event = new CustomEvent(type, $$.mix({}, config, defaults));
             el.dispatchEvent(event);
         },
         delegate: function(el, type, selector, callback) {

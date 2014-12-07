@@ -1,4 +1,4 @@
-(function(window, document, $) {
+(function(window, document, $$) {
     "use strict";
 
     /***********************
@@ -16,6 +16,13 @@
                 xhr = new XMLHttpRequest();
 
             formData.append('data', JSON.stringify(jsonData));
+            $$.toArray(this.elements)
+            .filter(function(element){
+                return element.type === 'file';
+            })
+            .forEach(function(element){
+               formData.append(element.name, element.files[0]);
+            });
             xhr.open('POST', this.action, true);
             xhr.send(formData);
             xhr.onload = function() {
@@ -25,7 +32,7 @@
     };
 
     proto.serializeObject = function() {
-        return $.serializeObject.call(this);
+        return $$.serializeObject.call(this);
     };
 
     document.registerElement('ajax-json-form', {
@@ -33,4 +40,4 @@
         extends: 'form'
     });
 
-})(window, document, $);
+})(window, document, $$);
