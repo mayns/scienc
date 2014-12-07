@@ -57,3 +57,11 @@ class LogoutHandler(BaseRequestHandler):
             raise Exception(u'WTF???')
         self.clear_cookie(u'scientist')
         self.redirect(self.get_argument(u'next', u'/'))
+
+
+class CSRFHandler(BaseRequestHandler):
+    @gen.coroutine
+    def prepare(self):
+        x = self.xsrf_token
+        if not x:
+            yield self.xsrf_token()
