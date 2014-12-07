@@ -1,9 +1,47 @@
 <link rel="import" href="/static/elements/polymer/polymer/polymer.html"/>
-<link rel="import" href="/static/elements/app-router/app-router.html"/>
-<link rel="import" href="/static/elements/polymer/core-header-panel/core-header-panel.html"/>
+<link rel="import" href="/static/elements/polymer/core-ajax/core-ajax.html"/>
+<link rel="import" href="/static/elements/app-globals.html"/>
 
-<polymer-element name="science-app" noscript>
+<polymer-element name="science-app">
 	<template>
 		<content></content>
+		<core-ajax id="ajax" url="/api/xsrf" method="POST" on-core-response="{{onResponseSuccess}}" on-core-error="{{onResponseError}}"></core-ajax>
+		<app-globals id="globals"></app-globals>
 	</template>
+	<script>
+		(function(){
+			var counter = 0;
+
+			Polymer({
+				ready: function() {
+					var xsrfCookie = this.getCookie('_xsrf');
+
+					if (xsrfCookie) {
+						this.$.globals._xsrf = xsrfCookie;
+					}
+					else {
+						this.$.ajax.go();
+					}
+				},
+				getCookie: function(name) {
+					return document.cookie.match("\\b" + name + "=([^;]*)\\b");
+				},
+				onResponseSuccess: function(e, detail, sender) {
+					this.$.globals._xsrf = this.getCookie('_xsrf');
+				},
+				onResponseError: function(e, detail, sender) {
+					if (counter === 5) {
+						alert(detail);
+					}
+					else {
+						counter++;
+						setTimeout(function(){
+							this.$.ajax.go();
+						}.bind(this),5000);
+					}
+
+				}
+			});
+		})();
+	</script>
 </polymer-element>
