@@ -60,8 +60,9 @@ class LogoutHandler(BaseRequestHandler):
 
 
 class CSRFHandler(BaseRequestHandler):
+
     @gen.coroutine
-    def prepare(self):
+    def get(self):
         x = self.xsrf_token
         if not x:
             yield self.xsrf_token()
