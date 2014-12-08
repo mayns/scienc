@@ -81,16 +81,6 @@ html /deep/ a {
   color: inherit;
 }
 
-/* line 10, ../scss/base/_main.scss */
-html /deep/ a:visited {
-  color: inherit;
-}
-
-/* line 14, ../scss/base/_main.scss */
-html /deep/ a:active {
-  color: inherit;
-}
-
 /*
     CURSORS
 */
