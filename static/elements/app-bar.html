@@ -16,7 +16,7 @@
 				justify-content: space-between;
 			}
 		</style>
-		<template if="{{!userSignedIn}}">
+		<template if="{{!data.user}}">
 			<div class="color-white action" id="signIn" on-tap="{{onSignInTap}}">Войти</div>
 			<div class="color-white">
 				<a is="html5-history-anchor" href="/signup" pushstate popstate>Регистрация</a>
@@ -24,23 +24,27 @@
 			<core-icon-button class="color-white" icon="search"></core-icon-button>
 			<dialog-login id="dialogLogin"></dialog-login>
 		</template>
-		<template if="{{userSignedIn}}">
+		<template if="{{data.user}}">
 			<div class="color-white">Привет мир!</div>
 			<div class="color-white action" id="signOut" on-tap="{{onSignOutTap}}">Выйти</div>
 		</template>
 		<app-globals id="globals"></app-globals>
+		<app-ajax id="ajax" url="/api/logout" method="GET" on-core-response="{{onSignOutResponse}}"></app-ajax>
 	</template>
 	<script>
 		Polymer({
 			ready: function() {
 				var self = this;
-				self.userSignedIn = self.$.globals.data.user;
+				self.data = self.$.globals.data;
 			},
 			onSignInTap: function(event, detail, sender) {
 				this.$.dialogLogin.open();
 			},
 			onSignOutTap: function() {
-
+				this.$.ajax.makeRequest();
+			},
+			onSignOutResponse: function() {
+				this.$.globals.data.user = null;
 			}
 		});
 	</script>
