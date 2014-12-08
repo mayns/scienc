@@ -1,6 +1,7 @@
 <link rel="import" href="/static/elements/polymer/polymer/polymer.html"/>
 <link rel="import" href="/static/elements/polymer/core-overlay/core-overlay.html"/>
-<link rel="import" href="/static/elements/polymer/core-ajax/core-ajax.html"/>
+<link rel="import" href="/static/elements/app-ajax.html"/>
+<link rel="import" href="/static/elements/app-globals.html"/>
 
 <polymer-element name="dialog-login" attributes="">
 	<template>
@@ -31,12 +32,13 @@
 					<a is="html5-history-anchor" href="/signup" pushstate popstate>Зарегистрироваться</a>
 				</footer>
 				<div class="login-dialog-close action" core-overlay-toggle>X</div>
-				<core-ajax on-core-response="{{onLoginFormResponse}}"
+				<app-ajax on-core-response="{{onLoginFormResponse}}"
 						   method="POST"
 						   url="/api/login"
 						   headers='{"X-Requested-With": "XMLHttpRequest"}'
 						   id="ajax">
-				</core-ajax>
+				</app-ajax>
+				<app-globals id="globals"></app-globals>
 			</div>
 		</core-overlay>
 	</template>
@@ -53,11 +55,12 @@
 					email: self.$.email.value,
 					password: self.$.password.value
 				}));
-				self.$.ajax.body = formData;
-				self.$.ajax.go();
+				self.$.ajax.makeRequest(formData);
 			},
 			onLoginFormResponse: function(e) {
-				this.$.loginDialog.close();
+				var self = this;
+				self.$.globals.data.user = true;
+				self.$.loginDialog.close();
 			}
 		});
 	</script>

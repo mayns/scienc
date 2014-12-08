@@ -2,11 +2,16 @@
 
 <polymer-element name="app-globals">
 	<script>
+		(function(){
+			var data = {
+				_xsrf: null
+			};
+
 			Polymer({
 				ready: function() {
-					// copy global values into instance properties
-					this._xsrf = null;
+					this.data = data;
 				}
 			});
+		})();
 	</script>
 </polymer-element>

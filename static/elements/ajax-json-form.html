@@ -1,14 +1,15 @@
 <link rel="import" href="/static/elements/polymer/polymer/polymer.html"/>
 <link rel="import" href="/static/elements/app-ajax.html"/>
 
-<polymer-element name="ajax-json-form" extends="form" on-submit="{{onFormSubmit}}" attributes="action">
+<polymer-element name="ajax-json-form" extends="form" on-submit="{{onFormSubmit}}" attributes="action redirect">
 	<template>
 		<content></content>
-		<app-ajax url="{{action}}" method="POST"></app-ajax>
+		<app-ajax id="ajax" url="{{action}}" method="POST" on-core-response="{{onFormSuccess}}"></app-ajax>
 	</template>
 	<script>
 		Polymer({
 			onFormSubmit: function(e) {
+				console.log('submit');
 				e.preventDefault();
 				var jsonData = this.serializeObject(),
 					formData = new FormData();
@@ -16,14 +17,21 @@
 				formData.append('data', JSON.stringify(jsonData));
 				$$.toArray(this.elements)
 					.filter(function(element){
-						return element.type === 'file';
+						return (element.type === 'file' && element.files.length !== 0);
 					})
 					.forEach(function(element){
 						formData.append(element.name, element.files[0]);
 					});
+				this.$.ajax.makeRequest(formData);
 			},
 			serializeObject: function() {
 				return $$.serializeObject.call(this);
+			},
+			onFormSuccess: function() {
+				console.log('form success');
+				if (this.redirect) {
+					document.querySelector('app-router').go(this.redirect);
+				}
 			}
 		});
 	</script>

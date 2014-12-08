@@ -2,9 +2,9 @@
 <link rel="import" href="/static/elements/app-router/app-router.html"/>
 <link rel="import" href="/static/elements/html5-history-anchor/html5-history-anchor.html"/>
 <link rel="import" href="/static/elements/polymer/core-icon-button/core-icon-button.html"/>
-<link rel="import" href="/static/elements/dialog-login.html  "/>
-
-
+<link rel="import" href="/static/elements/dialog-login.html"/>
+<link rel="import" href="/static/elements/app-globals.html"/>
+<link rel="import" href="/static/elements/science-app.html"/>
 
 <polymer-element name="app-bar">
 	<template>
@@ -16,7 +16,7 @@
 				justify-content: space-between;
 			}
 		</style>
-		<template if="!{{userSignedIn}}">
+		<template if="{{!userSignedIn}}">
 			<div class="color-white action" id="signIn" on-tap="{{onSignInTap}}">Войти</div>
 			<div class="color-white">
 				<a is="html5-history-anchor" href="/signup" pushstate popstate>Регистрация</a>
@@ -25,14 +25,22 @@
 			<dialog-login id="dialogLogin"></dialog-login>
 		</template>
 		<template if="{{userSignedIn}}">
-
-			<div class="color-white action" id="signOut" on-tap="{{onSignOutTap}}">Войти</div>
+			<div class="color-white">Привет мир!</div>
+			<div class="color-white action" id="signOut" on-tap="{{onSignOutTap}}">Выйти</div>
 		</template>
+		<app-globals id="globals"></app-globals>
 	</template>
 	<script>
 		Polymer({
+			ready: function() {
+				var self = this;
+				self.userSignedIn = self.$.globals.data.user;
+			},
 			onSignInTap: function(event, detail, sender) {
 				this.$.dialogLogin.open();
+			},
+			onSignOutTap: function() {
+
 			}
 		});
 	</script>

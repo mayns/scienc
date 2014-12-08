@@ -25,7 +25,7 @@
 			makeRequest: function(formData) {
 				var ajax = this.$.ajax;
 
-				formData.append('_xsrf', this.$.globals._xsrf);
+				formData.append('_xsrf', this.$.globals.data._xsrf);
 				ajax.body = formData;
 				ajax.go();
 			}
