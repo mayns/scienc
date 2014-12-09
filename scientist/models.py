@@ -71,14 +71,3 @@ class Scientist(PSQLModel):
             else:
                 raise Exception(u'Unknown attribute: {}'.format(key))
         return scientist
-
-    @gen.coroutine
-    @psql_connection
-    def save(self, conn, update=True):
-        update_params = self.__dict__
-        if update:
-            sqp_query, params = get_update_sql_query(self.TABLE, self.COLUMNS, update_params, dict(id=self.id))
-        else:
-            sqp_query = get_insert_sql_query(self.TABLE, self.COLUMNS, update_params)
-        cursor = yield momoko.Op(conn.execute, sqp_query)
-        self.id = cursor.fetchone()[0]
