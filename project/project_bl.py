@@ -14,20 +14,12 @@ class ProjectBL(object):
     @classmethod
     @gen.coroutine
     def add_project(cls, project_dict):
-        project_id = 0
+        project = Project.from_dict_data(project_dict)
         try:
-            project_id = generate_id(21)
-            project = Project(project_id)
-            project.title = project_dict.get(u'title', u'')
-            project.objective = project_dict.get(u'objective', u'')
-            project.description = project_dict.get(u'description', u'')
-            project.results = project_dict.get(u'results', u'')
-            project.team = project_dict.get(u'team', u'')
             yield project.save(update=False)
         except Exception, ex:
-            print u'Exception!!'
-            print ex
-        raise gen.Return(project_id)
+            print u'Exception! in add project', ex
+        raise gen.Return(dict(id=project.id))
 
     @classmethod
     @gen.coroutine
@@ -42,7 +34,6 @@ class ProjectBL(object):
                 j[u'id'] = int(j[u'id'])
                 j[u'end_date'] = j[u'end_date'].strftime(u'%d-%m-%Y')
         raise gen.Return(json_data)
-
 
     @classmethod
     @gen.coroutine

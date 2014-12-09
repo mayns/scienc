@@ -50,7 +50,7 @@ class LoginHandler(BaseRequestHandler):
 
 
 class LogoutHandler(BaseRequestHandler):
-    def get(self, *args, **kwargs):
+    def post(self, *args, **kwargs):
         print u'logout'
         scientist_id = self.get_secure_cookie(u'scientist')
         if not scientist_id:

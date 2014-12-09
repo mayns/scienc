@@ -33,9 +33,11 @@ class ProjectHandler(BaseRequestHandler):
     @gen.coroutine
     def post(self, *args, **kwargs):
         project_dict = json.loads(self.get_argument(u'data', u'{}'))
+        print project_dict
         project_id = yield ProjectBL.add_project(project_dict)
         response = dict(id=project_id)
         response_data = yield self.get_response(response)
+        print response_data
         self.finish(response_data)
 
     @gen.coroutine

@@ -54,6 +54,16 @@ class Project(PSQLModel):
 
 
     @classmethod
+    def from_dict_data(cls, project_dict):
+        project = Project()
+        for key, value in project_dict.iteritems():
+            if hasattr(project, key):
+                setattr(project, key, value)
+            else:
+                raise Exception(u'Unknown attribute: {}'.format(key))
+        return project
+
+    @classmethod
     @gen.coroutine
     def from_db_class_data(cls, project_id, project_dict):
         project = Project(project_id)
@@ -69,6 +79,6 @@ class Project(PSQLModel):
         if update:
             sqp_query, params = get_update_sql_query(self.TABLE, update_params, dict(id=self.id))
         else:
-            update_params.update(dict(id=self.id))
-            sqp_query, params = get_insert_sql_query(self.TABLE, update_params)
-        yield momoko.Op(conn.execute, sqp_query, params)
+            sqp_query = get_insert_sql_query(self.TABLE, self.COLUMNS, update_params)
+        cursor = yield momoko.Op(conn.execute, sqp_query)
+        self.id = cursor.fetchone()[0]
