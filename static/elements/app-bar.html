@@ -1,10 +1,11 @@
 <link rel="import" href="/static/elements/polymer/polymer/polymer.html"/>
 <link rel="import" href="/static/elements/app-router/app-router.html"/>
 <link rel="import" href="/static/elements/html5-history-anchor/html5-history-anchor.html"/>
-<link rel="import" href="/static/elements/polymer/core-icon-button/core-icon-button.html"/>
+<link rel="import" href="/static/elements/polymer/core-icon/core-icon.html"/>
 <link rel="import" href="/static/elements/dialog-login.html"/>
 <link rel="import" href="/static/elements/app-globals.html"/>
 <link rel="import" href="/static/elements/science-app.html"/>
+<link rel="import" href="/static/elements/app-icons.html"/>
 
 <polymer-element name="app-bar">
 	<template>
@@ -15,21 +16,32 @@
 				align-items: center;
 				justify-content: space-between;
 			}
+			core-icon.big {
+				width: 50px;
+				height: 50px;
+			}
+			core-icon .man {
+				transition: all 0.2s ease;
+			}
+
+			core-icon:hover .man {
+				transform: translateX(10px);
+			}
 		</style>
 		<template if="{{!data.user}}">
 			<div class="color-white action" id="signIn" on-tap="{{onSignInTap}}">Войти</div>
 			<div class="color-white">
 				<a is="html5-history-anchor" href="/signup" pushstate popstate>Регистрация</a>
 			</div>
-			<core-icon-button class="color-white" icon="search"></core-icon-button>
 			<dialog-login id="dialogLogin"></dialog-login>
 		</template>
 		<template if="{{data.user}}">
 			<div class="color-white">Привет мир!</div>
-			<div class="color-white action" id="signOut" on-tap="{{onSignOutTap}}">Выйти</div>
+			<a class="color-white" is="html5-history-anchor" href="/project" pushstate popstate>Добавить проект</a>
+			<core-icon class="color-white big action" icon="app-icons:add-project" id="signOut" on-tap="{{onSignOutTap}}"></core-icon>
 		</template>
 		<app-globals id="globals"></app-globals>
-		<app-ajax id="ajax" url="/api/logout" method="GET" on-core-response="{{onSignOutResponse}}"></app-ajax>
+		<app-ajax id="ajax" url="/api/logout" method="POST" on-core-response="{{onSignOutResponse}}"></app-ajax>
 	</template>
 	<script>
 		Polymer({

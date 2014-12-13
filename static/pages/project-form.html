@@ -2,78 +2,153 @@
 
 <polymer-element name="project-form" attributes="data" noscript>
 	<template>
-		<article class="project">
-			<header class="project-header">
-				<h1>Добавить проект</h1>
-			</header>
-			<section class="project-properties">
-				<div>
-					<h2>Область науки</h2>
-					<areas-of-science id="project-areas-of-science" data="{{data.areas}}"></areas-of-science>
-				</div>
-				<div>
-					<h2 class="capitalized">Дата начала</h2><date-picker-calendar id="project-start-date" data="{{data.dt_start}}"></date-picker-calendar>
-					<h2 class="capitalized">Дата завершения</h2><date-picker-calendar id="project-end-date" data="{{data.ddt_end}}"></date-picker-calendar>
-				</div>
-				<div>
-					<h2>Название</h2>
-					<paper-input multiline id="project-title" data="{{data.title}}"></paper-input>
-				</div>
-				<div>
-					<h2>Короткое описание</h2>
-					<paper-input multiline id="project-short-description" data="{{data.description_short}}"></paper-input>
-				</div>
-				<div>
-					<h2>Тип проекта</h2>
-					<paper-radio-group selected="private" id="project-type" data={{data.type}}>
-						  <paper-radio-button name="private" label="Личный"></paper-radio-button>
-						  <paper-radio-button name="public" label="Групповой"></paper-radio-button>
-						  <paper-radio-button name="organizational" label="Под эгидой организации"></paper-radio-button>
-					</paper-radio-group>
-				</div>
-				<div>
-					<h2>Цели исследования</h2>
-					<paper-input multiline id="project-purpose" data="{{data.purpose}}"></paper-input>
-				</div>
-				<div>
-					<h2>Полное описание</h2>
-					<paper-input multiline id="project-full-description" data="{{data.description_full}}"></paper-input>
-				</div>
-				<div>
-					<h2>Возможности применения результатов</h2>
-					<paper-input multiline id="project-potential" data="{{data.potential}}"></paper-input>
-				</div>
-				<div>
-					<h2>Достигнутые результаты</h2>
-					<paper-input multiline id="project-achievements" data="{{data.achievements}}"></paper-input>
-				</div>
-				<div>
-					<h2>Руководитель проекта</h2>
-					<paper-input id="project-manager" data="{{data.manager}}"></paper-input>
-				</div>
-				<div>
-					<h2>Участники проекта</h2>
-					<div>
-						<project-members-list data="{{data.members}}"></project-members-list>
+		<style>
+			section {
+				color: #333;
+			}
+			h1, h2, h3 {
+				margin-top: 0;
+				font-weight: normal;
+			}
+			h2 {
+				font-size: 18px;
+			}
+			form {
+				padding-bottom: 70px;
+			}
+			form .row {
+				margin-bottom: 20px;
+			}
+			form .row:last-child {
+				margin-bottom: 0;
+			}
+		</style>
+		<section vertical layout>
+			<h1>Добавить проект</h1>
+			<form is="ajax-json-form" action="/api/project" redirect="/">
+				<h2>Область науки</h2>
+				<div class="row">
+					<div class="col-lg-6">
+						<div class="row middle">
+							<label for="math" class="action col-lg-10">Математика, информатика, механика</label>
+							<input type="checkbox" id="math" name="research_fields"/>
+						</div>
+						<div class="row middle">
+							<label for="physics" class="action col-lg-10">Физика и астрономия</label>
+							<input type="checkbox" id="physics" name="research_fields"/>
+						</div>
+						<div class="row middle">
+							<label for="chemistry" class="action col-lg-10">Химия</label>
+							<input type="checkbox" id="chemistry" name="research_fields"/>
+						</div>
+						<div class="row middle">
+							<label for="it_science" class="action col-lg-10">Информационные технологии и вычеслительные системы</label>
+							<input type="checkbox" id="it_science" name="research_fields"/>
+						</div>
 					</div>
-					<h3>~WANTED~</h3>
-					<div>
-						<project-members-list data="{{data.wanted}}" wanted></project-members-list>
+					<div class="col-lg-6">
+						<div class="row middle">
+							<label for="biology" class="action col-lg-10">Биология и медицинская наука</label>
+							<input type="checkbox" id="biology" name="research_fields"/>
+						</div>
+						<div class="row middle">
+							<label for="earth" class="action col-lg-10">Науки о Земле</label>
+							<input type="checkbox" id="earth" name="research_fields"/>
+						</div>
+						<div class="row middle">
+							<label for="engeneering" class="action col-lg-10">Инженерные науки</label>
+							<input type="checkbox" id="engeneering" name="research_fields"/>
+						</div>
+
 					</div>
 				</div>
-				<div>
-					<h2>Теги</h2>
-					<project-tags data="{{data.tags}}"></project-tags>
+				<div class="row">
+					<div class="col-lg-4">
+						<div class="row middle">
+							<label for="project_start_date" class="action col-lg-6">Дата начала</label>
+							<input type="date" id="project_start_date" name="start_date" />
+						</div>
+					</div>
+					<div class="col-lg-4">
+						<div class="row middle">
+							<label for="project_end_date" class="action col-lg-6">Дата окончания</label>
+							<input type="date" id="project_end_date" name="end_date"/>
+						</div>
+					</div>
 				</div>
-				<div>
-					<h2>Контактное лицо</h2>
-					<paper-input id="project-contact" data="{{data.contact}}"></paper-input>
+				<h2>Название проекта</h2>
+				<div class="row">
+					<input type="text" name="title" id="title" class="col-lg-12"/>
 				</div>
-				<div>
-					<h2>Контакты</h2>
-					<project-contacts data="{{data.contacts}}"></project-contacts>
+				<h2>Короткое описание</h2>
+				<div class="row">
+					<textarea name="description_short" id="" class="col-lg-12"></textarea>
 				</div>
-			</section>
-		</article>
+				<h2>Тип проекта</h2>
+				<div class="row">
+					<label for="">Личный</label>
+					<input type="checkbox" name="organization_type"/>
+					<label for="">Групповой</label>
+					<input type="checkbox" name="organization_type"/>
+					<label for="">Под эгидой организации</label>
+					<input type="checkbox" name="organization_type"/>
+				</div>
+				<h2>Цели исследования</h2>
+				<div class="row">
+					<textarea name="objective" id="objective" cols="30"></textarea>
+				</div>
+				<h2>Полное описание</h2>
+				<div class="row">
+					<textarea name="description_full" id="description_full" cols="30"></textarea>
+				</div>
+				<h2>Возможности применения резултатов</h2>
+				<div class="row">
+					<textarea name="usage_possibilities" id="usage_possibilities" rows="10"></textarea>
+				</div>
+				<h2>Достигнуты результаты</h2>
+				<div class="row">
+					<textarea name="results" id="results" rows="10"></textarea>
+				</div>
+				<h2>Руководитель проекта</h2>
+				<div class="row">
+					<textarea name="leader" id="leader" rows="10"></textarea>
+				</div>
+				<h2>Учатники проекта</h2>
+				<div class="row">
+					<div class="col-lg-5">
+						<input type="text" placeholder="ФИО"/>
+					</div>
+					<div class="col-lg-5">
+						<input type="text" placeholder="Роль в проекте"/>
+					</div>
+				</div>
+				<h2>Разыскиваются</h2>
+				<div class="row">
+					<div class="col-lg-12">
+						<div class="row">
+							<label for="">Должность</label>
+						</div>
+						<div class="row">
+							<input type="text"/>
+						</div>
+						<div class="row">
+							<label for="">Описание</label>
+						</div>
+						<div class="row">
+							<textarea name="" id=""rows="10"></textarea>
+						</div>
+					</div>
+				</div>
+				<h2>Тэги</h2>
+				<div class="row">
+					<textarea name="" id="" rows="10"></textarea>
+				</div>
+				<h2>Контактное лицо</h2>
+				<div class="row">
+					<input type="text"/>
+				</div>
+
+			</form>
+		</section>
 	</template>
 </polymer-element>

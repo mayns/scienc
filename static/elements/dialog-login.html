@@ -3,9 +3,10 @@
 <link rel="import" href="/static/elements/app-ajax.html"/>
 <link rel="import" href="/static/elements/app-globals.html"/>
 
+
 <polymer-element name="dialog-login" attributes="">
 	<template>
-		<core-overlay opened="false" layered backdrop id="loginDialog">
+		<core-overlay opened="false" layered backdrop id="loginDialog" autoCloseDisabled>
 			<div class="login-dialog">
 				<h2 class="login-dialog-header">Log in</h2>
 				<form action="/api/login" on-submit="{{onLoginFormSubmit}}" class="login-dialog-form">
