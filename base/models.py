@@ -18,20 +18,16 @@ class PSQLModel(object):
     def __init__(self):
         self.id = None
 
-    @property
-    def type(self):
-        return self.__class__.__name__
-
     @classmethod
     @gen.coroutine
     @psql_connection
-    def from_db_by_id(cls, conn, id, columns=None):
+    def from_db_by_id(cls, conn, _id, columns=None):
         if not columns:
             columns = cls.COLUMNS
         cursor = yield momoko.Op(conn.execute, u"SELECT {columns} FROM {table_name} WHERE id={id}".format(
             columns=u', '.join(columns),
             table_name=cls.TABLE,
-            id=str(id)))
+            id=str(_id)))
         data = cursor.fetchone()
         raise gen.Return(data)
 
