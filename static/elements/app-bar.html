@@ -1,7 +1,7 @@
-<link rel="import" href="/static/elements/polymer/polymer/polymer.html"/>
+<link rel="import" href="/static/elements/polymer/polymer.html"/>
 <link rel="import" href="/static/elements/app-router/app-router.html"/>
 <link rel="import" href="/static/elements/html5-history-anchor/html5-history-anchor.html"/>
-<link rel="import" href="/static/elements/polymer/core-icon/core-icon.html"/>
+<link rel="import" href="/static/elements/core-icon/core-icon.html"/>
 <link rel="import" href="/static/elements/dialog-login.html"/>
 <link rel="import" href="/static/elements/app-globals.html"/>
 <link rel="import" href="/static/elements/science-app.html"/>
@@ -50,7 +50,7 @@
 				self.data = self.$.globals.data;
 			},
 			onSignInTap: function(event, detail, sender) {
-				this.$.dialogLogin.open();
+				document.querySelector('#dialogLogin').open();
 			},
 			onSignOutTap: function() {
 				this.$.ajax.makeRequest();

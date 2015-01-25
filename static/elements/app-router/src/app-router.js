@@ -1,7 +1,9 @@
+// @license Copyright (C) 2014 Erik Ringsmuth - MIT license
 (function(window, document) {
   var utilities = {};
   var importedURIs = {};
   var isIE = 'ActiveXObject' in window;
+  var previousUrl = {};
 
   // <app-router [init="auto|manual"] [mode="auto|hash|pushstate"] [trailingSlash="strict|ignore"] [shadow]></app-router>
   var AppRouter = Object.create(HTMLElement.prototype);
@@ -36,6 +38,11 @@
     // mode="auto|hash|pushstate"
     if (!router.hasAttribute('mode')) {
       router.setAttribute('mode', 'auto');
+    }
+
+    // typecast="auto|string"
+    if (!router.hasAttribute('typecast')) {
+      router.setAttribute('typecast', 'auto');
     }
 
     // <app-router core-animated-pages transitions="hero-transition cross-fade">
@@ -103,15 +110,36 @@
   // }
   AppRouter.go = function(path, options) {
     if (this.getAttribute('mode') !== 'pushstate') {
-      // mode = auto or hash
+      // mode == auto or hash
       path = '#' + path;
     }
-    if (options && options.replace !== true) {
-      window.history.pushState(null, null, path);
-    } else {
+    if (options && options.replace === true) {
       window.history.replaceState(null, null, path);
+    } else {
+      window.history.pushState(null, null, path);
     }
-    stateChange(this);
+
+    // dispatch a popstate event
+    try {
+      var popstateEvent = new PopStateEvent('popstate', {
+        bubbles: false,
+        cancelable: false,
+        state: {}
+      });
+
+      if ('dispatchEvent_' in window) {
+        // FireFox with polyfill
+        window.dispatchEvent_(popstateEvent);
+      } else {
+        // normal
+        window.dispatchEvent(popstateEvent);
+      }
+    } catch(error) {
+      // Internet Exploder
+      var fallbackEvent = document.createEvent('CustomEvent');
+      fallbackEvent.initCustomEvent('popstate', false, false, { state: {} });
+      window.dispatchEvent(fallbackEvent);
+    }
   };
 
   // fire(type, detail, node) - Fire a new CustomEvent(type, detail) on the node
@@ -133,11 +161,18 @@
   // Find the first <app-route> that matches the current URL and change the active route
   function stateChange(router) {
     var url = utilities.parseUrl(window.location.href, router.getAttribute('mode'));
+
+    // don't load a new route if only the hash fragment changed
+    if (url.hash !== previousUrl.hash && url.path === previousUrl.path && url.search === previousUrl.search && url.isHashPath === previousUrl.isHashPath) {
+      scrollToHash(url.hash);
+      return;
+    }
+    previousUrl = url;
+
+    // fire a state-change event on the app-router and return early if the user called event.preventDefault()
     var eventDetail = {
       path: url.path
     };
-
-    // fire a state-change event on the app-router and return early if the user called event.preventDefault()
     if (!fire('state-change', eventDetail, router)) {
       return;
     }
@@ -197,17 +232,7 @@
     }
     // inline template
     else if (route.firstElementChild && route.firstElementChild.tagName === 'TEMPLATE') {
-      activeElement(router, stampTemplate(route.firstElementChild), eventDetail);
-    }
-  }
-
-  // Create an instance of the template
-  function stampTemplate(template) {
-    if ('createInstance' in template) {
-      // the Polymer way (see issue https://github.com/erikringsmuth/app-router/issues/19)
-      return template.createInstance();
-    } else {
-      return document.importNode(template.content, true);
+      activeTemplate(router, route.firstElementChild, route, url, eventDetail);
     }
   }
 
@@ -245,7 +270,7 @@
     if (route.hasAttribute('active')) {
       if (route.hasAttribute('template')) {
         // template
-        activeElement(router, stampTemplate(importLink.import.querySelector('template')), eventDetail);
+        activeTemplate(router, importLink.import.querySelector('template'), route, url, eventDetail);
       } else {
         // custom element
         activateCustomElement(router, route.getAttribute('element') || importUri.split('/').slice(-1)[0].replace('.html', ''), route, url, eventDetail);
@@ -256,20 +281,49 @@
   // Data bind the custom element then activate it
   function activateCustomElement(router, elementName, route, url, eventDetail) {
     var customElement = document.createElement(elementName);
-    var routeArgs = utilities.routeArguments(route.getAttribute('path'), url.path, url.search, route.hasAttribute('regex'));
-    for (var arg in routeArgs) {
-      if (routeArgs.hasOwnProperty(arg)) {
-        customElement[arg] = routeArgs[arg];
+    var model = createModel(router, route, url, eventDetail);
+    for (var property in model) {
+      if (model.hasOwnProperty(property)) {
+        customElement[property] = model[property];
       }
     }
-    activeElement(router, customElement, eventDetail);
+    activeElement(router, customElement, url, eventDetail);
+  }
+
+  // Create an instance of the template
+  function activeTemplate(router, template, route, url, eventDetail) {
+    var templateInstance;
+    if ('createInstance' in template) {
+      // template.createInstance(model) is a Polymer method that binds a model to a template and also fixes
+      // https://github.com/erikringsmuth/app-router/issues/19
+      var model = createModel(router, route, url, eventDetail);
+      templateInstance = template.createInstance(model);
+    } else {
+      templateInstance = document.importNode(template.content, true);
+    }
+    activeElement(router, templateInstance, url, eventDetail);
+  }
+
+  // Create the route's model
+  function createModel(router, route, url, eventDetail) {
+    var model = utilities.routeArguments(route.getAttribute('path'), url.path, url.search, route.hasAttribute('regex'), router.getAttribute('typecast') === 'auto');
+    if (route.hasAttribute('bindRouter') || router.hasAttribute('bindRouter')) {
+      model.router = router;
+    }
+    eventDetail.model = model;
+    fire('before-data-binding', eventDetail, router);
+    fire('before-data-binding', eventDetail, eventDetail.route);
+    return eventDetail.model;
   }
 
   // Replace the active route's content with the new element
-  function activeElement(router, element, eventDetail) {
+  function activeElement(router, element, url, eventDetail) {
     // core-animated-pages temporarily needs the old and new route in the DOM at the same time to animate the transition,
     // otherwise we can remove the old route's content right away.
-    if (!router.hasAttribute('core-animated-pages')) {
+    // UNLESS
+    // if the route we're navigating to matches the same app-route (ex: path="/article/:id" navigating from /article/0 to
+    // /article/1), then we have to simply replace the route's content instead of animating a transition.
+    if (!router.hasAttribute('core-animated-pages') || eventDetail.route === eventDetail.oldRoute) {
       removeRouteContent(router.previousRoute);
     }
 
@@ -286,6 +340,11 @@
       if (router.previousRoute) {
         router.previousRoute.transitionAnimationInProgress = true;
       }
+    }
+
+    // scroll to the URL hash if it's present
+    if (url.hash && !router.hasAttribute('core-animated-pages')) {
+      scrollToHash(url.hash);
     }
 
     fire('activate-route-end', eventDetail, router);
@@ -314,27 +373,57 @@
     }
   }
 
+  // scroll to the element with id="hash" or name="hash"
+  function scrollToHash(hash) {
+    if (!hash) return;
+
+    // wait for the browser's scrolling to finish before we scroll to the hash
+    // ex: http://example.com/#/page1#middle
+    // the browser will scroll to an element with id or name `/page1#middle` when the page finishes loading. if it doesn't exist
+    // it will scroll to the top of the page. let the browser finish the current event loop and scroll to the top of the page
+    // before we scroll to the element with id or name `middle`.
+    setTimeout(function() {
+      var hashElement = document.querySelector('html /deep/ ' + hash) || document.querySelector('html /deep/ [name="' + hash.substring(1) + '"]');
+      if (hashElement && hashElement.scrollIntoView) {
+        hashElement.scrollIntoView(true);
+      }
+    }, 0);
+  }
+
   // parseUrl(location, mode) - Augment the native URL() constructor to get info about hash paths
   //
-  // Example parseUrl('http://domain.com/other/path?queryParam3=false#/example/path?queryParam1=true&queryParam2=example%20string', 'auto')
+  // Example parseUrl('http://domain.com/other/path?queryParam3=false#/example/path?queryParam1=true&queryParam2=example%20string#middle', 'auto')
   //
   // returns {
   //   path: '/example/path',
-  //   hash: '#/example/path?queryParam1=true&queryParam2=example%20string'
+  //   hash: '#middle'
   //   search: '?queryParam1=true&queryParam2=example%20string',
   //   isHashPath: true
   // }
   //
   // Note: The location must be a fully qualified URL with a protocol like 'http(s)://'
   utilities.parseUrl = function(location, mode) {
-    var nativeUrl = new URL(location);
-
     var url = {
-      path: nativeUrl.pathname,
-      hash: nativeUrl.hash,
-      search: nativeUrl.search,
       isHashPath: mode === 'hash'
     };
+
+    if (typeof URL === 'function') {
+      // browsers that support `new URL()`
+      var nativeUrl = new URL(location);
+      url.path = nativeUrl.pathname;
+      url.hash = nativeUrl.hash;
+      url.search = nativeUrl.search;
+    } else {
+      // IE
+      var anchor = document.createElement('a');
+      anchor.href = location;
+      url.path = anchor.pathname;
+      if (url.path.charAt(0) !== '/') {
+        url.path = '/' + url.path;
+      }
+      url.hash = anchor.hash;
+      url.search = anchor.search;
+    }
 
     if (mode !== 'pushstate') {
       // auto or hash
@@ -357,8 +446,17 @@
         }
       }
 
-      // hash paths get the search from the hash if it exists
       if (url.isHashPath) {
+        url.hash = '';
+
+        // hash paths might have an additional hash in the hash path for scrolling to a specific part of the page #/hash/path#elementId
+        var secondHashIndex = url.path.indexOf('#');
+        if (secondHashIndex !== -1) {
+          url.hash = url.path.substring(secondHashIndex);
+          url.path = url.path.substring(0, secondHashIndex);
+        }
+
+        // hash paths get the search from the hash if it exists
         var searchIndex = url.path.indexOf('?');
         if (searchIndex !== -1) {
           url.search = url.path.substring(searchIndex);
@@ -430,7 +528,7 @@
   };
 
   // routeArguments(routePath, urlPath, search, isRegExp) - Gets the path variables and query parameter values from the URL
-  utilities.routeArguments = function(routePath, urlPath, search, isRegExp) {
+  utilities.routeArguments = function(routePath, urlPath, search, isRegExp, typecast) {
     var args = {};
 
     // regular expressions can't have path variables
@@ -464,9 +562,11 @@
       args[queryParameterParts[0]] = queryParameterParts.splice(1, queryParameterParts.length - 1).join('=');
     }
 
-    // parse the arguments into unescaped strings, numbers, or booleans
-    for (var arg in args) {
-      args[arg] = utilities.typecast(args[arg]);
+    if (typecast) {
+      // parse the arguments into unescaped strings, numbers, or booleans
+      for (var arg in args) {
+        args[arg] = utilities.typecast(args[arg]);
+      }
     }
 
     return args;
