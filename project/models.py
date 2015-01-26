@@ -24,7 +24,7 @@ class Project(PSQLModel):
         self.scientist_id = None     # person added the project
         self.lang = u'Ru'
         self.research_fields = []  # области науки
-        self.title = u''
+        self.title = u'' # название проекта
         self.description_short = u''  # краткое описание для обложки
         self.views = 0  # количество просмотров
         self.likes = 0  # количество лайков

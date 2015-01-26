@@ -1,4 +1,7 @@
 <link rel="import" href="/static/elements/polymer/polymer.html"/>
+<link rel="import" href="/static/elements/break-line.html"/>
+<link rel="import" href="/static/elements/ajax-json-form.html"/>
+<link rel="import" href="/static/elements/input-tags.html"/>
 
 <polymer-element name="project-form" attributes="data" noscript>
 	<template>
@@ -26,38 +29,42 @@
 		<section vertical layout>
 			<h1>Добавить проект</h1>
 			<form is="ajax-json-form" action="/api/project" redirect="/">
+				<h2>Название проекта</h2>
+				<div class="row">
+					<input type="text" name="title" id="title" class="col-lg-12"/>
+				</div>
 				<h2>Область науки</h2>
 				<div class="row">
 					<div class="col-lg-6">
 						<div class="row middle">
 							<label for="math" class="action col-lg-10">Математика, информатика, механика</label>
-							<input type="checkbox" id="math" name="research_fields"/>
+							<input type="checkbox" id="math" name="research_fields[]"/>
 						</div>
 						<div class="row middle">
 							<label for="physics" class="action col-lg-10">Физика и астрономия</label>
-							<input type="checkbox" id="physics" name="research_fields"/>
+							<input type="checkbox" id="physics" name="research_fields[]"/>
 						</div>
 						<div class="row middle">
 							<label for="chemistry" class="action col-lg-10">Химия</label>
-							<input type="checkbox" id="chemistry" name="research_fields"/>
+							<input type="checkbox" id="chemistry" name="research_fields[]"/>
 						</div>
 						<div class="row middle">
 							<label for="it_science" class="action col-lg-10">Информационные технологии и вычеслительные системы</label>
-							<input type="checkbox" id="it_science" name="research_fields"/>
+							<input type="checkbox" id="it_science" name="research_fields[]"/>
 						</div>
 					</div>
 					<div class="col-lg-6">
 						<div class="row middle">
 							<label for="biology" class="action col-lg-10">Биология и медицинская наука</label>
-							<input type="checkbox" id="biology" name="research_fields"/>
+							<input type="checkbox" id="biology" name="research_fields[]"/>
 						</div>
 						<div class="row middle">
 							<label for="earth" class="action col-lg-10">Науки о Земле</label>
-							<input type="checkbox" id="earth" name="research_fields"/>
+							<input type="checkbox" id="earth" name="research_fields[]"/>
 						</div>
 						<div class="row middle">
 							<label for="engeneering" class="action col-lg-10">Инженерные науки</label>
-							<input type="checkbox" id="engeneering" name="research_fields"/>
+							<input type="checkbox" id="engeneering" name="research_fields[]"/>
 						</div>
 
 					</div>
@@ -66,7 +73,7 @@
 					<div class="col-lg-4">
 						<div class="row middle">
 							<label for="project_start_date" class="action col-lg-6">Дата начала</label>
-							<input type="date" id="project_start_date" name="start_date" />
+							<input type="date" id="project_start_date" name="start_date"/>
 						</div>
 					</div>
 					<div class="col-lg-4">
@@ -75,10 +82,6 @@
 							<input type="date" id="project_end_date" name="end_date"/>
 						</div>
 					</div>
-				</div>
-				<h2>Название проекта</h2>
-				<div class="row">
-					<input type="text" name="title" id="title" class="col-lg-12"/>
 				</div>
 				<h2>Короткое описание</h2>
 				<div class="row">
@@ -95,31 +98,31 @@
 				</div>
 				<h2>Цели исследования</h2>
 				<div class="row">
-					<textarea name="objective" id="objective" cols="30"></textarea>
+					<textarea name="objective" id="objective" class="col-lg-12"></textarea>
 				</div>
 				<h2>Полное описание</h2>
 				<div class="row">
-					<textarea name="description_full" id="description_full" cols="30"></textarea>
+					<textarea name="description_full" id="description_full" class="col-lg-12"></textarea>
 				</div>
-				<h2>Возможности применения резултатов</h2>
+				<h2>Возможности применения результатов</h2>
 				<div class="row">
-					<textarea name="usage_possibilities" id="usage_possibilities" rows="10"></textarea>
+					<textarea name="usage_possibilities" id="usage_possibilities" class="col-lg-12"></textarea>
 				</div>
 				<h2>Достигнуты результаты</h2>
 				<div class="row">
-					<textarea name="results" id="results" rows="10"></textarea>
+					<textarea name="results" id="results" class="col-lg-12"></textarea>
 				</div>
 				<h2>Руководитель проекта</h2>
 				<div class="row">
-					<textarea name="leader" id="leader" rows="10"></textarea>
+					<textarea name="leader" id="leader" class="col-lg-12"></textarea>
 				</div>
 				<h2>Учатники проекта</h2>
 				<div class="row">
 					<div class="col-lg-5">
-						<input type="text" placeholder="ФИО"/>
+						<input type="text" placeholder="ФИО" name="participants[][name]"/>
 					</div>
-					<div class="col-lg-5">
-						<input type="text" placeholder="Роль в проекте"/>
+					<div class="col-lg-5 col-lg-offset-1">
+						<input type="text" placeholder="Роль в проекте" name="participants[][role]"/>
 					</div>
 				</div>
 				<h2>Разыскиваются</h2>
@@ -129,25 +132,37 @@
 							<label for="">Должность</label>
 						</div>
 						<div class="row">
-							<input type="text"/>
+							<input type="text" class="col-lg-12" name="missed_participants[][role]"/>
 						</div>
 						<div class="row">
 							<label for="">Описание</label>
 						</div>
 						<div class="row">
-							<textarea name="" id=""rows="10"></textarea>
+							<textarea id="" class="col-lg-12" name="missed_participants[][description]"></textarea>
 						</div>
 					</div>
 				</div>
 				<h2>Тэги</h2>
 				<div class="row">
-					<textarea name="" id="" rows="10"></textarea>
+					<textarea id="" class="col-lg-12" name="tags"></textarea>
+				</div>
+				<h2>Контактные данные</h2>
+				<div class="row">
+					<input type="text" class="col-lg-3" name="contacts[][email]" placeholder="email"/>
+				</div>
+				<div class="row">
+					<input type="text" class="col-lg-3" name="contacts[][phone]" placeholder="телефон"/>
+				</div>
+				<div class="row">
+					<input type="text" class="col-lg-3" name="contacts[][skype]" placeholder="skype"/>
 				</div>
 				<h2>Контактное лицо</h2>
 				<div class="row">
-					<input type="text"/>
+					<input type="text" class="col-lg-12" name="contact_manager"/>
 				</div>
-
+				<div class="row center">
+					<button type="submit" class="button submit">Вступаю</button>
+				</div>
 			</form>
 		</section>
 	</template>
