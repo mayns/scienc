@@ -32,7 +32,8 @@ class ProjectBL(object):
             json_data = [dict(zip(c_columns, entity_data)) for entity_data in projects]
             for j in json_data:
                 j[u'id'] = int(j[u'id'])
-                j[u'end_date'] = j[u'end_date'].strftime(u'%d-%m-%Y')
+                if j.get(u'end_date'):
+                    j[u'end_date'] = j[u'end_date'].strftime(u'%d-%m-%Y')
         raise gen.Return(json_data)
 
     @classmethod
