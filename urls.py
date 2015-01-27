@@ -19,7 +19,7 @@ url_handlers = [
     (r"/api/scientists", sc_handlers.ScientistsListHandler),
 
     # projects
-    (r"/api/project(/\w+)", pr_handlers.ProjectHandler),
+    (r"/api/project(/\w+)?", pr_handlers.ProjectHandler),
     (r"/api/projects", pr_handlers.ProjectsListHandler),
     # (r"/ckeditor/samples/", CkeditorSampleHandler),
 
