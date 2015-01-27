@@ -2,6 +2,7 @@
 <link rel="import" href="/static/elements/break-line.html"/>
 <link rel="import" href="/static/elements/ajax-json-form.html"/>
 <link rel="import" href="/static/elements/input-tags.html"/>
+<link rel="import" href="/static/elements/app-repeat.html"/>
 
 <polymer-element name="project-form" attributes="data" noscript>
 	<template>
@@ -146,6 +147,12 @@
 				<div class="row">
 					<textarea id="" class="col-lg-12" name="tags"></textarea>
 				</div>
+				<h2>Test</h2>
+				<template bind repeat="[1, 1, 1]">
+					<div class="row">
+						<input type="text"/>
+					</div>
+				</template>
 				<h2>Контактные данные</h2>
 				<div class="row">
 					<input type="text" class="col-lg-3" name="contacts[][email]" placeholder="email"/>
