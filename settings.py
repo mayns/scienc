@@ -15,7 +15,12 @@ COOKIE_SECRET = unicode(hash(u"Alice was beginning to get very tired of sitting 
 SESSION_SECRET = unicode(hash(u"However, this bottle was not marked `poison,' so Alice ventured to taste it"))
 
 
-# -------- POSTGRESQL ---------- #
+# -------- MEDIA SERVER ---------- #
+
+MEDIA_SERVER_HOST = u'media-science.dev'
+
+
+# --------- POSTGRESQL ----------- #
 
 PSQL_ROOT_USER = u'postgres'
 PSQL_ROOT_PASSWORD = u'postgres'

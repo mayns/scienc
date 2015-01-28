@@ -58,6 +58,14 @@ class LogoutHandler(BaseRequestHandler):
         self.redirect(self.get_argument(u'next', u'/'))
 
 
+class UploadHandler(BaseRequestHandler):
+
+    def post(self, *args, **kwargs):
+        print u'UPLOAD HANDLER'
+        print args, kwargs
+        print u'UPLOAD HANDLER'
+
+
 class CSRFHandler(BaseRequestHandler):
 
     @gen.coroutine

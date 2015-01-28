@@ -26,6 +26,8 @@ class ScientistHandler(BaseRequestHandler):
 
     @gen.coroutine
     def post(self, *args, **kwargs):
+        # create folder with user id
+        # create folder /avatars in it
         print u'scientist post'
         scientist_dict = json.loads(self.get_argument(u'data', u'{}'))
         scientist_photo = self.request.files
