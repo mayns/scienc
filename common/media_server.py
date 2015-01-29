@@ -6,14 +6,14 @@ from tornado.httpclient import AsyncHTTPClient
 
 __author__ = 'mayns'
 
-MEDIA_SERVER_UPLOAD_URL = u"http://{host}/uploads/{entity}/{filename}"
+MEDIA_SERVER_UPLOAD_URL = u"http://{host}/uploads/{filepath}/{filename}"
 
 
 @gen.coroutine
-def upload(body, entity, filename):
+def upload(body, filepath, filename):
     params = dict(
         host=settings.MEDIA_SERVER_HOST,
-        entity=entity,
+        filepath=filepath,
         filename=filename
     )
     url = MEDIA_SERVER_UPLOAD_URL.format(**params)

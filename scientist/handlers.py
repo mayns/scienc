@@ -48,6 +48,7 @@ class ScientistHandler(BaseRequestHandler):
             self.finish(response_data)
             return
 
+        sc_id = scientist_anw[u'id']
         scientist_photo = self.request.files['photo'][0]
         img = Image.open(cStringIO.StringIO(scientist_photo.body))
         w, h = img.size
@@ -58,16 +59,15 @@ class ScientistHandler(BaseRequestHandler):
             img = img.crop((0, 0, w, w))
         for size in environment.AVATAR_SIZES:
             new_img = img.resize((size, size), Image.ANTIALIAS)
-            filename = u'{size}omg.jpg'.format(size=size)
-            # new_img = new_img.tobytes()
-            new_img.save('out.jpg')
-            with open('out.jpg', 'rb') as f:
-                # print f
-                yield upload(f.read(), u'a', filename)
-            os.remove('out.jpg')
+            filepath = u'{sc_id}/a'.format(sc_id=hash(str(sc_id)))
+            filename = u'{size}.jpg'.format(size=size)
+            new_img.save(u'out.jpg')
+            with open(u'out.jpg', 'rb') as f:
+                yield upload(f.read(), filepath, filename)
+            os.remove(u'out.jpg')
 
         # print type(scientist_photo.body)
-        yield upload(scientist_photo.body, u'a', u'test_mg.jpg')
+        # yield upload(scientist_photo.body, u'a', u'test_mg.jpg')
         response_data = yield self.get_response(response)
         self.set_secure_cookie(u'scientist', str(scientist_anw))
         self.finish(response_data)
