@@ -8,6 +8,7 @@ from PIL import Image
 from base.handlers import BaseRequestHandler
 from scientist.scientist_bl import ScientistBL
 from common.media_server import upload
+import os
 
 __author__ = 'oks'
 
@@ -57,11 +58,16 @@ class ScientistHandler(BaseRequestHandler):
             img = img.crop((0, 0, w, w))
         for size in environment.AVATAR_SIZES:
             new_img = img.resize((size, size), Image.ANTIALIAS)
-            filename = u'{size}.bmp'.format(size=size)
-            new_img = new_img.convert()
-            yield upload(new_img.tobitmap(), u'a', filename)
+            filename = u'{size}omg.jpg'.format(size=size)
+            # new_img = new_img.tobytes()
+            new_img.save('out.jpg')
+            with open('out.jpg', 'rb') as f:
+                # print f
+                yield upload(f.read(), u'a', filename)
+            os.remove('out.jpg')
 
-        # yield upload(scientist_photo.body, u'a', u'test.bmp')
+        # print type(scientist_photo.body)
+        yield upload(scientist_photo.body, u'a', u'test_mg.jpg')
         response_data = yield self.get_response(response)
         self.set_secure_cookie(u'scientist', str(scientist_anw))
         self.finish(response_data)
