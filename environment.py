@@ -33,3 +33,8 @@ SKYPE = u'skype'
 EMAIL = u'email'
 
 CONTACT_TYPES = [PHONE, SKYPE, EMAIL]
+
+
+#------------ IMAGE SIZES ------------#
+
+AVATAR_SIZES = [50, 100, 300]
