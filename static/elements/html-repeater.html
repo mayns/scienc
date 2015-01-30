@@ -1,0 +1,36 @@
+<script type="text/javascript">
+	(function () {
+		var htmlRepeaterProto = Object.create(HTMLDivElement.prototype);
+
+		htmlRepeaterProto.attachedCallback = function () {
+			this.addEventListener('click', this.onHtmlRepeaterClick, false);
+			this.template = this.firstElementChild.cloneNode(true);
+		};
+		htmlRepeaterProto.detachedCallback = function () {
+			this.removeEventListener('click', this.repeatInnerHTML, false);
+		};
+		htmlRepeaterProto.onHtmlRepeaterClick = function (e) {
+			var target = e.target;
+
+			e.preventDefault();
+			if (e.target.hasAttribute('add')) {
+				this.appendChild(this.template.cloneNode(true));
+			}
+			if (e.target.hasAttribute('delete')) {
+				while (target !== this) {
+					if (target.hasAttribute('container')) {
+						target.remove();
+						break;
+					}
+					else {
+						target = target.parentNode;
+					}
+				}
+			}
+		};
+
+		document.registerElement('html-repeater', {
+			prototype: htmlRepeaterProto
+		});
+	})();
+</script>

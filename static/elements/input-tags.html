@@ -1,6 +1,6 @@
 <link rel="import" href="/static/elements/polymer/polymer.html"/>
 
-<polymer-element name="input-tags" attributes="name">
+<polymer-element name="input-tags" attributes="name value">
 	<template>
 		<style>
 			div {
@@ -34,18 +34,24 @@
 	<script>
 		Polymer({
 			onKeyPress: function(e, detail, sender) {
+				var tag;
+
 				if (event.keyCode === 13) {
+					tag = this.$.cursor.value;
+
 					e.preventDefault();
-					this.value.push(this.$.cursor.value);
-					this.$.cursor.value = '';
+					if (tag.length !== 0) {
+						this.value.push(tag);
+						this.$.cursor.value = '';
+					}
 				}
 			},
 			onTagTap: function(e, detail, sender) {
 				var index = this.value.indexOf(e.target.dataset.value);
 				this.value.splice(index, 1);
 			},
-			publish: {
-				value: []
+			created: function() {
+				this.value = [];
 			}
 		});
 	</script>

@@ -3,6 +3,7 @@
 <link rel="import" href="/static/elements/ajax-json-form.html"/>
 <link rel="import" href="/static/elements/input-tags.html"/>
 <link rel="import" href="/static/elements/app-repeat.html"/>
+<link rel="import" href="/static/elements/html-repeater.html"/>
 
 <polymer-element name="project-form" attributes="data" noscript>
 	<template>
@@ -39,33 +40,33 @@
 					<div class="col-lg-6">
 						<div class="row middle">
 							<label for="math" class="action col-lg-10">Математика, информатика, механика</label>
-							<input type="checkbox" id="math" name="research_fields[]"/>
+							<input type="checkbox" value="math" id="math" name="research_fields[]"/>
 						</div>
 						<div class="row middle">
 							<label for="physics" class="action col-lg-10">Физика и астрономия</label>
-							<input type="checkbox" id="physics" name="research_fields[]"/>
+							<input type="checkbox" value="physics" id="physics" name="research_fields[]"/>
 						</div>
 						<div class="row middle">
 							<label for="chemistry" class="action col-lg-10">Химия</label>
-							<input type="checkbox" id="chemistry" name="research_fields[]"/>
+							<input type="checkbox" value="chemistry" id="chemistry" name="research_fields[]"/>
 						</div>
 						<div class="row middle">
 							<label for="it_science" class="action col-lg-10">Информационные технологии и вычеслительные системы</label>
-							<input type="checkbox" id="it_science" name="research_fields[]"/>
+							<input type="checkbox" value="it_science" id="it_science" name="research_fields[]"/>
 						</div>
 					</div>
 					<div class="col-lg-6">
 						<div class="row middle">
 							<label for="biology" class="action col-lg-10">Биология и медицинская наука</label>
-							<input type="checkbox" id="biology" name="research_fields[]"/>
+							<input type="checkbox" value="biology" id="biology" name="research_fields[]"/>
 						</div>
 						<div class="row middle">
 							<label for="earth" class="action col-lg-10">Науки о Земле</label>
-							<input type="checkbox" id="earth" name="research_fields[]"/>
+							<input type="checkbox" value="earth" id="earth" name="research_fields[]"/>
 						</div>
 						<div class="row middle">
 							<label for="engeneering" class="action col-lg-10">Инженерные науки</label>
-							<input type="checkbox" id="engeneering" name="research_fields[]"/>
+							<input type="checkbox" value="engeneering" id="engeneering" name="research_fields[]"/>
 						</div>
 
 					</div>
@@ -118,51 +119,67 @@
 					<textarea name="leader" id="leader" class="col-lg-12"></textarea>
 				</div>
 				<h2>Учатники проекта</h2>
-				<div class="row">
-					<div class="col-lg-5">
-						<input type="text" placeholder="ФИО" name="participants[][name]"/>
+				<html-repeater>
+					<div class="row" container>
+						<div class="col-lg-4">
+							<input type="text" placeholder="ФИО" name="participants[][name]"/>
+						</div>
+						<div class="col-lg-4 col-lg-offset-1">
+							<input type="text" placeholder="Роль в проекте" name="participants[][role]"/>
+						</div>
+						<button add class="col-lg-1">Add</button>
+						<button delete class="col-lg-1">Delete</button>
 					</div>
-					<div class="col-lg-5 col-lg-offset-1">
-						<input type="text" placeholder="Роль в проекте" name="participants[][role]"/>
-					</div>
-				</div>
+				</html-repeater>
 				<h2>Разыскиваются</h2>
-				<div class="row">
-					<div class="col-lg-12">
-						<div class="row">
-							<label for="">Должность</label>
-						</div>
-						<div class="row">
-							<input type="text" class="col-lg-12" name="missed_participants[][role]"/>
-						</div>
-						<div class="row">
-							<label for="">Описание</label>
-						</div>
-						<div class="row">
-							<textarea id="" class="col-lg-12" name="missed_participants[][description]"></textarea>
+				<html-repeater>
+					<div class="row" container>
+						<div class="col-lg-12">
+							<div class="row">
+								<label for="">Должность</label>
+							</div>
+							<div class="row">
+								<input type="text" class="col-lg-12" name="missed_participants[][role]"/>
+							</div>
+							<div class="row">
+								<label for="">Описание</label>
+							</div>
+							<div class="row">
+								<textarea id="" class="col-lg-12" name="missed_participants[][description]"></textarea>
+							</div>
+							<div class="row">
+								<button add>Add</button>
+								<button delete>Delete</button>
+							</div>
 						</div>
 					</div>
-				</div>
+				</html-repeater>
 				<h2>Тэги</h2>
 				<div class="row">
-					<textarea id="" class="col-lg-12" name="tags"></textarea>
+					<input-tags id="" class="col-lg-12" name="tags[]"></input-tags>
 				</div>
-				<h2>Test</h2>
-				<template bind repeat="[1, 1, 1]">
-					<div class="row">
-						<input type="text"/>
-					</div>
-				</template>
 				<h2>Контактные данные</h2>
-				<div class="row">
-					<input type="text" class="col-lg-3" name="contacts[][email]" placeholder="email"/>
-				</div>
-				<div class="row">
-					<input type="text" class="col-lg-3" name="contacts[][phone]" placeholder="телефон"/>
-				</div>
-				<div class="row">
-					<input type="text" class="col-lg-3" name="contacts[][skype]" placeholder="skype"/>
-				</div>
+				<html-repeater>
+					<div class="row" container>
+						<input type="text" class="col-lg-3" name="contacts[][email]" placeholder="email"/>
+						<button add>Add</button>
+						<button delete>Delete</button>
+					</div>
+				</html-repeater>
+				<html-repeater>
+					<div class="row" container>
+						<input type="text" class="col-lg-3" name="contacts[][phone]" placeholder="телефон"/>
+						<button add>Add</button>
+						<button delete>Delete</button>
+					</div>
+				</html-repeater>
+				<html-repeater>
+					<div class="row" container>
+						<input type="text" class="col-lg-3" name="contacts[][skype]" placeholder="skype"/>
+						<button add>Add</button>
+						<button delete>Delete</button>
+					</div>
+				</html-repeater>
 				<h2>Контактное лицо</h2>
 				<div class="row">
 					<input type="text" class="col-lg-12" name="contact_manager"/>
