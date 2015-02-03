@@ -36,9 +36,8 @@
 					this.$.globals.data._xsrf = this.getCookie('_xsrf');
 				},
 				onResponseError: function(e, detail, sender) {
-					console.log(arguments);
 					if (counter === 5) {
-						alert(detail.response);
+						// alert(detail.response);
 					}
 					else {
 						counter++;

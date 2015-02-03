@@ -1,7 +1,7 @@
 <!doctype html>
 <html lang="ru">
     <head>
-        <meta charset="utf-8"/>
+        <meta charset="utf-16"/>
         <title>Science.im</title>
         <meta name="viewport" content="width=device-width, initial-scale=1"/>
         <link rel="stylesheet" href="/static/css/main.css"/>
@@ -27,6 +27,7 @@
         <link rel="import" href="/static/pages/project-form.html"/>
         <link rel="import" href="/static/pages/scientist-form.html"/>
         <link rel="import" href="/static/pages/scientist-page.html"/>
+        <link rel="import" href="/static/pages/scientists-list.html"/>
     </head>
     <body unresolved fullbleed layout vertical>
         <science-app layout vertical flex>
@@ -46,6 +47,7 @@
                     <app-router mode="pushstate">
                         <app-route path="/" element="home-page"></app-route>
                         <app-route path="/scientist" element="scientist-form"></app-route>
+                        <app-route path="/scientists" element="scientists-list"></app-route>
                         <app-route path="/scientist/:id" element="scientist-page"></app-route>
                         <app-route path="/project/:id" element="project-page"></app-route>
                         <app-route path="/project" element="project-form"></app-route>

@@ -29,6 +29,7 @@
 			}
 		</style>
 		<template if="{{!data.user}}">
+		    <a class="color-white" is="html5-history-anchor" href="/scientists" pushstate popstate>Участники</a>
 			<div class="color-white action" id="signIn" on-tap="{{onSignInTap}}">Войти</div>
 			<div class="color-white">
 				<a is="html5-history-anchor" href="/signup" pushstate popstate>Регистрация</a>
@@ -36,8 +37,8 @@
 			<dialog-login id="dialogLogin"></dialog-login>
 		</template>
 		<template if="{{data.user}}">
-			<div class="color-white">Привет мир!</div>
 			<a class="color-white" is="html5-history-anchor" href="/project" pushstate popstate>Добавить проект</a>
+			<a class="color-white" is="html5-history-anchor" href="/scientists" pushstate popstate>Участники</a>
 			<core-icon class="color-white big action" icon="app-icons:add-project" id="signOut" on-tap="{{onSignOutTap}}"></core-icon>
 		</template>
 		<app-globals id="globals"></app-globals>
