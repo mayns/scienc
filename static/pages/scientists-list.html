@@ -2,43 +2,12 @@
 <link rel="import" href="/static/elements/core-ajax/core-ajax.html"/>
 <link rel="import" href="/static/elements/scientist-item.html"/>
 
-<polymer-element name="scientists-list"  horizontal layout justified wrap>
+<polymer-element name="scientists-list"  horizontal layout justified wrap noscript>
 	<template>
-		<template repeat="{{ scientist in scientists }}">
+        <core-ajax auto id="ajax" url="/api/scientists" method="GET" handleAs="json" response="{{ scientists }}"></core-ajax>
+		<template repeat="{{ scientist in scientists.data }}">
 			<scientist-item data="{{ scientist }}"></scientist-item>
 		</template>
+
 	</template>
-<!--	<core-ajax auto id="ajax" url="/api/scientists" method="GET" handleAs="json" response="{{ scientists }}"></core-ajax>-->
-	<script>
-		Polymer({
-            ready: function() {
-                this.scientists = [{
-                    full_name: 'Миша Ломик',
-                    education: 'Арх гимн 10',
-                    projects: '777',
-                    photo: '/static/lomonosov.jpg'
-                },{
-                    full_name: 'Миша Ломик',
-                    education: 'Арх гимн 10',
-                    projects: '777',
-                    photo: '/static/lomonosov.jpg'
-                },{
-                    full_name: 'Миша Ломик',
-                    education: 'Арх гимн 10',
-                    projects: '777',
-                    photo: '/static/lomonosov.jpg'
-                },{
-                    full_name: 'Миша Ломик',
-                    education: 'Арх гимн 10',
-                    projects: '777',
-                    photo: '/static/lomonosov.jpg'
-                },{
-                    full_name: 'Миша Ломик',
-                    education: 'Арх гимн 10',
-                    projects: '777',
-                    photo: '/static/lomonosov.jpg'
-                }];
-            }
-        });
-	</script>
 </polymer-element>

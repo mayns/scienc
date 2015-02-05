@@ -46,7 +46,8 @@ class PSQLModel(object):
     @gen.coroutine
     @psql_connection
     def get_all_json(cls, conn, columns):
-        cursor = yield momoko.Op(conn.execute, u'SELECT {columns} FROM {table_name}'.format(columns=columns, table_name=cls.TABLE))
+        cursor = yield momoko.Op(conn.execute, u'SELECT {columns} FROM {table_name}'.format(columns=u', '.join(columns),
+                                                                                            table_name=cls.TABLE))
         data = cursor.fetchall()
         raise gen.Return(data)
 

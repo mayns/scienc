@@ -17,10 +17,10 @@ class ScientistsListHandler(BaseRequestHandler):
     @gen.coroutine
     def get(self):
         print u'scientists list get'
-        scientists = yield ScientistBL.get_all_scientists()
-        if scientists is None:
-            scientists = json.dumps({u'scientists': []})
-        self.finish(scientists)
+        scientists = yield ScientistBL.get_all()
+        scientists = yield self.get_response(scientists)
+        print scientists
+        self.finish(json.dumps(scientists))
 
 
 class ScientistHandler(BaseRequestHandler):

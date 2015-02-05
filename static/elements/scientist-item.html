@@ -20,21 +20,21 @@
                 margin-top: 0;
             }
         </style>
-        <div>
+        <article>
             <div class="card row middle around">
                 <div class="card-photo">
-                    <img src="{{ data.photo }}" alt="{{ data.full_name }}">
+                    <img src="/static/lomonosov.jpg">
                 </div>
                 <div class="card-details">
                     <h2 class="card-name">{{ data.full_name }}</h2>
-                    <div class="card-education">{{ data.education }}</div>
+                    <div class="card-education">{{ data.location }}</div>
                     <div class="card-projects">
                         <span class="card-projects-label">Проектов</span>
                         <span class="card-projects-count">{{ data.projects }}</span>
                     </div>
                 </div>
             </div>
-        </div>
+        </article>
     </template>
     <script>
         Polymer({});

@@ -77,14 +77,24 @@ class ScientistBL(object):
 
     @classmethod
     @gen.coroutine
-    def get_all_scientists(cls):
-        scientists = None
+    def get_all(cls):
+        json_data = []
+        columns = [u'id', u'first_name', u'middle_name', u'last_name', u'project_ids', u'location_city',
+                   u'location_country']
         try:
-            scientists = yield Scientist.get_all_json()
-
+            scientists = yield Scientist.get_all_json(columns)
+            if not scientists:
+                raise gen.Return([])
+            json_data = [dict(zip(columns, entity_data)) for entity_data in scientists]
+            print json_data
+            for j in json_data:
+                j[u'id'] = int(j[u'id'])
+                j[u'full_name'] = j.pop(u'first_name') + ' ' + j.pop(u'middle_name') + ' ' + j.pop(u'last_name')
+                j[u'location'] = j.pop(u'location_city') + ', ' + j.pop(u'location_country')
+                j[u'projects'] = len(j.pop(u'project_ids') or [])
         except Exception, ex:
             print u'Exception', ex
-        raise gen.Return(scientists)
+        raise gen.Return(json_data)
 
     @classmethod
     @gen.coroutine
