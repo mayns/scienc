@@ -8,13 +8,27 @@
 		<style>
 			section {
 				color: #333;
-			}
-			h1, h2, h3 {
-				margin-top: 0;
-				font-weight: normal;
-			}
-			h2 {
-				font-size: 18px;
+			}  
+            fieldset {
+                padding: 20px 20px 30px;
+                margin-bottom: 40px;
+            }
+            .fieldblock {
+                padding-left: 40px;
+            }
+            legend {
+                font-size: 30px;
+            }
+            input, textarea {
+                border: none;
+                border-bottom: 1px solid #eee;
+            }
+            input:focus, textarea:focus {
+                outline: none;
+            }
+            textarea {
+				height: 100px;
+				resize: vertical;
 			}
 			.photo {
 				background-color: #ccc;
@@ -40,60 +54,61 @@
 			form .row:last-child {
 				margin-bottom: 0;
 			}
-			textarea {
-				height: 100px;
-				resize: vertical;
-			}
+			
 		</style>
 		<section vertical layout>
-			<h1>Форма регистрации</h1>
 			<form is="ajax-json-form" action="/api/scientist" redirect="/">
-				<h2>Общие сведения</h2>
-				<div class="row">
-					<div class="col-lg-9">
-						<div class="row middle">
-							<label for="name" class="action col-lg-3">Имя</label>
-							<input type="text" id="name" name="first_name" class="col-lg-8"/>
-						</div>
-						<div class="row middle">
-							<label for="surname" class="action col-lg-3">Фамилия</label>
-							<input type="text" id="surname" name="last_name" class="col-lg-8"/>
-						</div>
-						<div class="row middle">
-							<label for="middlename" class="action col-lg-3">Отчество</label>
-							<input type="text" id="middlename" name="middle_name" class="col-lg-8"/>
-						</div>
-						<div class="row middle">
-							<label class="col-lg-3">Пол</label>
-							<div class="col-lg-6">
-								<div class="row middle">
-									<label for="male">М</label>
-									<input type="radio" id="male" value="m" name="gender"/>
-									<label for="female">Ж</label>
-									<input type="radio" id="female" value="f" name="gender"/>
-								</div>
-							</div>
-						</div>
-						<div class="row middle">
-							<label for="dateOfBirth" class="col-lg-3">Дата рождения</label>
-							<input type="date" id="dateOfBirth" name="dob"/>
-						</div>
-						<div class="row middle">
-							<label for="placeOfLiving" class="col-lg-3">Местро проживания</label>
-							<div class="col-lg-5">
-								<div class="row between">
-									<input type="text" id="placeOfLiving" name="location_country" placeholder="Страна"/>
-									<input type="text" id="" name="location_city" placeholder="Город"/>
-								</div>
-							</div>
-						</div>
+<!--			    <h2>Общие сведения</h2>-->
+				<fieldset>
+				    <legend>Общие сведения</legend>
+				    <div class="row fieldblock">
+                        <div class="col-lg-9">
+                            <div class="row middle">
+                                <label for="name" class="action col-lg-3">Имя</label>
+                                <input type="text" id="name" name="first_name" class="col-lg-8" required/>
+                            </div>
+                            <div class="row middle">
+                                <label for="surname" class="action col-lg-3">Фамилия</label>
+                                <input type="text" id="surname" name="last_name" class="col-lg-8" required/>
+                            </div>
+                            <div class="row middle">
+                                <label for="middlename" class="action col-lg-3">Отчество</label>
+                                <input type="text" id="middlename" name="middle_name" class="col-lg-8" required/>
+                            </div>
+                            <div class="row middle">
+                                <label class="col-lg-3">Пол</label>
+                                <div class="col-lg-6">
+                                    <div class="row middle">
+                                        <label for="male">М</label>
+                                        <input type="radio" id="male" value="m" name="gender"/>
+                                        <label for="female">Ж</label>
+                                        <input type="radio" id="female" value="f" name="gender"/>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row middle">
+                                <label for="dateOfBirth" class="col-lg-3">Дата рождения</label>
+                                <input type="date" id="dateOfBirth" name="dob"/>
+                            </div>
+                            <div class="row middle">
+                                <label for="placeOfLiving" class="col-lg-3">Местро проживания</label>
+                                <div class="col-lg-5">
+                                    <div class="row between">
+                                        <input type="text" id="placeOfLiving" name="location_country" placeholder="Страна"/>
+                                        <input type="text" id="" name="location_city" placeholder="Город"/>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-3">
+                            <input class="photo action" type="file" name="photo"/>
+                        </div>
 					</div>
-					<div class="col-lg-3">
-						<input class="photo action" type="file" name="photo"/>
-					</div>
-				</div>
-				<h2>Сведения об образвания</h2>
-				<div class="row">
+				</fieldset>
+<!--				<h2>Сведения об образвания</h2>-->
+                <fieldset>
+                <legend>Сведения об образовании</legend>
+				<div class="row fieldblock">
 					<h3 class="col-12">Среднее образование</h3>
 					<div class="col-lg-9">
 						<div class="row middle">
@@ -157,43 +172,46 @@
 						</div>
 					</div>
 				</div>
-				<h3>Публикации</h3>
-				<div class="row">
-					<div class="col-lg-9">
-						<div class="row middle">
-							<label for="publicationName" class="action col-lg-3">Название</label>
-							<input type="text" name="publications[][name]" id="publicationName" class="col-lg-8"/>
-						</div>
-						<div class="row middle">
-							<label for="publishingHouse" class="action col-lg-3">Издательство</label>
-							<input type="text" name="publications[][house]" id="publishingHouse" class="col-lg-8"/>
-						</div>
-						<div class="row middle">
-							<label for="publicationYear" class="action col-lg-3">Год издания</label>
-							<input type="text" name="publications[][year]" id="publicationYear" class="col-lg-8"/>
-						</div>
-						<div class="row middle">
-							<label for="publicationLink" class="col-lg-3 action">Ссылка</label>
-							<input type="url" name="publications[][link]" id="publicationLink" class="col-lg-8"/>
-						</div>
-					</div>
-				</div>
-				<h3>
-					<label for="science_interests">Сфера научных интересов</label>
-				</h3>
-				<div class="row">
-					<div class="col-lg-9">
-						<input-tags name="interests[]" id="science_interests" class="col-lg-11"></input-tags>
-					</div>
-				</div>
-				<h3>
-					<label for="about">О себе</label>
-				</h3>
-				<div class="row">
-					<div class="col-lg-9">
-						<textarea name="about" id="about" class="col-lg-11"></textarea>
-					</div>
-				</div>
+                </fieldset>
+                <fieldset>
+                    <legend>Научная деятельность</legend>
+                    <div class="row">
+                        <div class="col-lg-9">
+                            <div class="row middle">
+                                <label for="publicationName" class="action col-lg-3">Название</label>
+                                <input type="text" name="publications[][name]" id="publicationName" class="col-lg-8"/>
+                            </div>
+                            <div class="row middle">
+                                <label for="publishingHouse" class="action col-lg-3">Издательство</label>
+                                <input type="text" name="publications[][house]" id="publishingHouse" class="col-lg-8"/>
+                            </div>
+                            <div class="row middle">
+                                <label for="publicationYear" class="action col-lg-3">Год издания</label>
+                                <input type="text" name="publications[][year]" id="publicationYear" class="col-lg-8"/>
+                            </div>
+                            <div class="row middle">
+                                <label for="publicationLink" class="col-lg-3 action">Ссылка</label>
+                                <input type="url" name="publications[][link]" id="publicationLink" class="col-lg-8"/>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <label for="about" class="col-lg-12">О себе</label>
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-9">
+                            <textarea name="about" id="about" class="col-lg-11"></textarea>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <label for="science_interests" class="col-lg-12">Сфера научных интересов</label>
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-9">
+                            <input-tags name="interests[]" id="science_interests" class="col-lg-11"></input-tags>
+                        </div>
+                    </div>
+                </fieldset>
 				<h3>Контакты</h3>
 				<div class="row">
 					<div class="col-lg-9">

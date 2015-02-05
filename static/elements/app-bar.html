@@ -11,7 +11,6 @@
 	<template>
 		<style>
 			:host {
-				width: 220px;
 				display: flex;
 				align-items: center;
 				justify-content: space-between;
@@ -27,12 +26,18 @@
 			core-icon:hover .man {
 				transform: translateX(10px);
 			}
+            .app-bar-item {
+                margin-right: 20px;
+            }
+            .app-bar-item:last-child {
+                margin-right: 0;
+            }
 		</style>
 		<template if="{{!data.user}}">
-		    <a class="color-white" is="html5-history-anchor" href="/scientists" pushstate popstate>Участники</a>
-			<div class="color-white action" id="signIn" on-tap="{{onSignInTap}}">Войти</div>
+		    <a class="color-white app-bar-item" is="html5-history-anchor" href="/scientists" pushstate popstate>Участники</a>
+			<div class="color-white action app-bar-item" id="signIn" on-tap="{{onSignInTap}}">Войти</div>
 			<div class="color-white">
-				<a is="html5-history-anchor" href="/signup" pushstate popstate>Регистрация</a>
+				<a  class="app-bar-item" is="html5-history-anchor" href="/signup" pushstate popstate>Регистрация</a>
 			</div>
 			<dialog-login id="dialogLogin"></dialog-login>
 		</template>
