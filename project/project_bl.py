@@ -42,8 +42,10 @@ class ProjectBL(object):
         project = yield Project.from_db_by_id(id)
         if project:
             json_data = dict(zip(Project.COLUMNS, project))
-            json_data[u'start_date'] = json_data[u'start_date'].strftime(u'%d-%m-%Y')
-            json_data[u'end_date'] = json_data[u'end_date'].strftime(u'%d-%m-%Y')
+            if json_data[u'start_date']:
+                json_data[u'start_date'] = json_data[u'start_date'].strftime(u'%d-%m-%Y')
+            if json_data[u'end_date']:
+                json_data[u'end_date'] = json_data[u'end_date'].strftime(u'%d-%m-%Y')
         print json_data
         raise gen.Return(json_data)
 
