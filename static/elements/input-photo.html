@@ -6,8 +6,8 @@
     </template>
     <script>
         Polymer({
-            onFileUpload: function() {
-                
+            onFileUpload: function(event, detail, sender) {
+                console.log(detail);
             }
         });
     </script>

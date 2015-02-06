@@ -3,7 +3,7 @@
 <link rel="import" href="/static/elements/ajax-json-form.html"/>
 <link rel="import" href="/static/elements/input-tags.html"/>
 
-<polymer-element name="signup-page" noscript>
+<polymer-element name="signup-page">
 	<template>
 		<style>
 			section {
@@ -22,6 +22,11 @@
             }
             .fieldblock {
                 padding-left: 40px;
+            }
+            .fieldblock + .fieldblock {
+                padding-top: 40px;
+                border-top: 1px solid #ccc;
+                margin-top: 40px;
             }
             legend {
                 font-size: 30px;
@@ -142,68 +147,72 @@
                         </fieldset>
                         <fieldset>
                             <legend>Высшее образование</legend>
-                            <div class="fieldblock">
-                                <div class="row middle">
-                                    <label for="high_education_country" class="col-lg-2 action">Страна</label>
-                                    <input type="text" name="high_education[][country]" id="high_education_country" class="col-lg-10"/>
-                                </div>
-                                <div class="row middle">
-                                    <label for="high_education_city" class="col-lg-2 action">Город</label>
-                                    <input type="text" name="high_education[][city]" id="high_education_city" class="col-lg-10"/>
-                                </div>
-                                <div class="row middle">
-                                    <label for="high_education_university" class="col-lg-2 action">Университет</label>
-                                    <input type="text" name="high_education[][university]" id="high_education_university" class="col-lg-10"/>
-                                </div>
-                                <div class="row middle">
-                                    <label for="high_education_faculty" class="col-lg-2 action">Факультет</label>
-                                    <input type="text" name="high_education[][faculty]" id="high_education_faculty" class="col-lg-10"/>
-                                </div>
-                                <div class="row middle">
-                                    <label for="high_education_department" class="col-lg-2 action">Кафедра</label>
-                                    <input type="text" name="high_education[][department]" id="high_education_department" class="col-lg-10"/>
-                                </div>
-                                <div class="row middle">
-                                    <label for="high_education_degree" class="col-lg-2 action">Степень</label>
-                                    <input type="text" name="high_education[][degree]" id="high_education_degree" class="col-lg-10"/>
-                                </div>
-                                <div class="row">
-                                    <div class="col-lg-offset-2 col-lg-10">
-                                        <div class="row between">
-                                            <label for="high_education_start_year" class="action">Год начала</label>
-                                            <input type="number" name="high_education[][start_year]" id="high_education_start_year"/>
-                                            <label for="high_education_end_year" class="action">Год окончания</label>
-                                            <input type="number" name="high_education[][end_year]" id="high_education_end_year"/>
+                            <template repeat="{{ high_educations }}">
+                                <div class="fieldblock">
+                                    <div class="row middle">
+                                        <label for="high_education_country" class="col-lg-2 action">Страна</label>
+                                        <input type="text" name="high_education[][country]" id="high_education_country" class="col-lg-10"/>
+                                    </div>
+                                    <div class="row middle">
+                                        <label for="high_education_city" class="col-lg-2 action">Город</label>
+                                        <input type="text" name="high_education[][city]" id="high_education_city" class="col-lg-10"/>
+                                    </div>
+                                    <div class="row middle">
+                                        <label for="high_education_university" class="col-lg-2 action">Университет</label>
+                                        <input type="text" name="high_education[][university]" id="high_education_university" class="col-lg-10"/>
+                                    </div>
+                                    <div class="row middle">
+                                        <label for="high_education_faculty" class="col-lg-2 action">Факультет</label>
+                                        <input type="text" name="high_education[][faculty]" id="high_education_faculty" class="col-lg-10"/>
+                                    </div>
+                                    <div class="row middle">
+                                        <label for="high_education_department" class="col-lg-2 action">Кафедра</label>
+                                        <input type="text" name="high_education[][department]" id="high_education_department" class="col-lg-10"/>
+                                    </div>
+                                    <div class="row middle">
+                                        <label for="high_education_degree" class="col-lg-2 action">Степень</label>
+                                        <input type="text" name="high_education[][degree]" id="high_education_degree" class="col-lg-10"/>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-lg-offset-2 col-lg-10">
+                                            <div class="row between">
+                                                <label for="high_education_start_year" class="action">Год начала</label>
+                                                <input type="number" name="high_education[][start_year]" id="high_education_start_year"/>
+                                                <label for="high_education_end_year" class="action">Год окончания</label>
+                                                <input type="number" name="high_education[][end_year]" id="high_education_end_year"/>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
-                            </div>
-                        </fieldset>	
-                    </div>
-                </fieldset>
-                <fieldset>
-                    <legend>Научная деятельность</legend>
-                    <div class="fieldblock">
-                        <fieldset>
-                            <legend>Публикации</legend>
-                             <div class="fieldblock">
-                                <div class="row middle">
-                                    <label for="publicationName" class="action col-lg-3">Название</label>
-                                    <input type="text" name="publications[][name]" id="publicationName" class="col-lg-8"/>
-                                </div>
-                                <div class="row middle">
-                                    <label for="publishingHouse" class="action col-lg-3">Издательство</label>
-                                    <input type="text" name="publications[][house]" id="publishingHouse" class="col-lg-8"/>
-                                </div>
-                                <div class="row middle">
-                                    <label for="publicationYear" class="action col-lg-3">Год издания</label>
-                                    <input type="text" name="publications[][year]" id="publicationYear" class="col-lg-8"/>
-                                </div>
-                                <div class="row middle">
-                                    <label for="publicationLink" class="col-lg-3 action">Ссылка</label>
-                                    <input type="url" name="publications[][link]" id="publicationLink" class="col-lg-8"/>
-                                </div>
-                            </div>
+                                </template>
+                            </fieldset>	
+                        </div>
+                    </fieldset>
+                    <fieldset>
+                        <legend>Научная деятельность</legend>
+                        <div class="fieldblock">
+                            <fieldset>
+                                <legend>Публикации <span on-click="{{ addPublication }}" class="action"> + </span></legend>
+                                <template repeat="{{ publications }}">
+                                    <div class="fieldblock">
+                                        <div class="row middle">
+                                            <label for="publicationName" class="action col-lg-3">Название</label>
+                                            <input type="text" name="publications[][name]" id="publicationName" class="col-lg-8"/>
+                                        </div>
+                                        <div class="row middle">
+                                            <label for="publishingHouse" class="action col-lg-3">Издательство</label>
+                                            <input type="text" name="publications[][house]" id="publishingHouse" class="col-lg-8"/>
+                                        </div>
+                                        <div class="row middle">
+                                            <label for="publicationYear" class="action col-lg-3">Год издания</label>
+                                            <input type="text" name="publications[][year]" id="publicationYear" class="col-lg-8"/>
+                                        </div>
+                                        <div class="row middle">
+                                            <label for="publicationLink" class="col-lg-3 action">Ссылка</label>
+                                            <input type="url" name="publications[][link]" id="publicationLink" class="col-lg-8"/>
+                                        </div>
+                                    </div>
+                             </template>
                         </fieldset>
                         <fieldset>
                             <legend>О себе</legend>
@@ -253,7 +262,7 @@
 				<div class="row">
 					<div class="col-lg-9">
 						<div class="row middle">
-							<label for="accept_rules" class="col-lg-3">Я жирав</label>
+							<label for="accept_rules" class="col-lg-3">Я жираф</label>
 							<input type="checkbox" name="accept_rules" id="accept_rules"/>
 						</div>
 					</div>
@@ -264,4 +273,15 @@
 			</form>
 		</section>
 	</template>
+	<script>
+        Polymer({
+            ready: function() {
+                this.publications = [1];
+                this.high_educations = [1];
+            },
+            addPublication: function(event, detail, sender) {
+                this.publications.push(1);
+            }
+        });
+    </script>
 </polymer-element>
