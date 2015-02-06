@@ -62,7 +62,7 @@ class ScientistHandler(BaseRequestHandler):
             filename = u'{size}.png'.format(size=size)
             out_im = cStringIO.StringIO()
             new_img.save(out_im, 'PNG')
-            yield upload(out_im.getvalue(), filepath, filename)
+            url = yield upload(out_im.getvalue(), filepath, filename)
 
         # print type(scientist_photo.body)
         # yield upload(out_im.getvalue(), u'a', u'test_mg.jpg')

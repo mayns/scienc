@@ -66,6 +66,12 @@ class ScientistBL(object):
 
     @classmethod
     @gen.coroutine
+    def update_scientist(cls, scientist_id, fields=None):
+        scientist = yield Scientist.from_db_by_id(scientist_id)
+
+
+    @classmethod
+    @gen.coroutine
     def get_scientist(cls, scientist_id):
         json_data = {}
         scientist = yield Scientist.from_db_by_id(scientist_id)
