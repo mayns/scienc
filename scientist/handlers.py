@@ -17,10 +17,10 @@ class ScientistsListHandler(BaseRequestHandler):
     @gen.coroutine
     def get(self):
         print u'scientists list get'
-        scientists = yield ScientistBL.get_all_scientists()
-        if scientists is None:
-            scientists = json.dumps({u'scientists': []})
-        self.finish(scientists)
+        scientists = yield ScientistBL.get_all()
+        scientists = yield self.get_response(scientists)
+        print scientists
+        self.finish(json.dumps(scientists))
 
 
 class ScientistHandler(BaseRequestHandler):
@@ -62,7 +62,7 @@ class ScientistHandler(BaseRequestHandler):
             filename = u'{size}.png'.format(size=size)
             out_im = cStringIO.StringIO()
             new_img.save(out_im, 'PNG')
-            yield upload(out_im.getvalue(), filepath, filename)
+            url = yield upload(out_im.getvalue(), filepath, filename)
 
         # print type(scientist_photo.body)
         # yield upload(out_im.getvalue(), u'a', u'test_mg.jpg')

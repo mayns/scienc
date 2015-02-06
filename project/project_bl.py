@@ -24,12 +24,11 @@ class ProjectBL(object):
     @classmethod
     @gen.coroutine
     def get_all_projects(cls):
-        json_data = {}
-        c_columns = ['id', 'title', 'description_short', 'views', 'likes', 'organization_structure', 'end_date']
-        columns = ",".join(c_columns)
+        json_data = []
+        columns = [u'id', u'title', u'description_short', u'views', u'likes', u'organization_structure', u'end_date']
         projects = yield Project.get_all_json(columns)
         if projects:
-            json_data = [dict(zip(c_columns, entity_data)) for entity_data in projects]
+            json_data = [dict(zip(columns, entity_data)) for entity_data in projects]
             for j in json_data:
                 j[u'id'] = int(j[u'id'])
                 if j.get(u'end_date'):
@@ -43,8 +42,10 @@ class ProjectBL(object):
         project = yield Project.from_db_by_id(id)
         if project:
             json_data = dict(zip(Project.COLUMNS, project))
-            json_data[u'start_date'] = json_data[u'start_date'].strftime(u'%d-%m-%Y')
-            json_data[u'end_date'] = json_data[u'end_date'].strftime(u'%d-%m-%Y')
+            if json_data[u'start_date']:
+                json_data[u'start_date'] = json_data[u'start_date'].strftime(u'%d-%m-%Y')
+            if json_data[u'end_date']:
+                json_data[u'end_date'] = json_data[u'end_date'].strftime(u'%d-%m-%Y')
         print json_data
         raise gen.Return(json_data)
 
