@@ -27,24 +27,57 @@
 				transform: translateX(10px);
 			}
             .app-bar-item {
-                margin-right: 20px;
+                margin-right: 30px;
             }
             .app-bar-item:last-child {
                 margin-right: 0;
             }
+            img.loginIcon {
+                width: 50px;
+            }
+            img.membersIcon {
+                width: 70px;
+            }
+            img.registerIcon {
+                width: 50px;
+            }
+            img.addProjectIcon {
+                width: 70px;
+            }
+            img.logoutIcon {
+                width: 150px;
+            }
+            img.profileIcon {
+                width: 70px;
+            }
 		</style>
 		<template if="{{!data.user}}">
-		    <a class="color-white app-bar-item" is="html5-history-anchor" href="/scientists" pushstate popstate>Участники</a>
-			<div class="color-white action app-bar-item" id="signIn" on-tap="{{onSignInTap}}">Войти</div>
+		    <a class="app-bar-item" is="html5-history-anchor" href="/scientists" pushstate popstate>
+                <img src="/static/images/members.svg" alt="" class="membersIcon"/>
+            </a>
+			<div class="action app-bar-item" id="signIn" on-tap="{{onSignInTap}}">
+                <img src="/static/images/login.svg" alt="" class="loginIcon"/>
+            </div>
 			<div class="color-white">
-				<a  class="app-bar-item" is="html5-history-anchor" href="/signup" pushstate popstate>Регистрация</a>
+				<a  class="app-bar-item" is="html5-history-anchor" href="/signup" pushstate popstate>
+                    <img src="/static/images/register.svg" alt="" class="registerIcon"/>
+                </a>
 			</div>
 			<dialog-login id="dialogLogin"></dialog-login>
 		</template>
 		<template if="{{data.user}}">
-			<a class="color-white" is="html5-history-anchor" href="/project" pushstate popstate>Добавить проект</a>
-			<a class="color-white" is="html5-history-anchor" href="/scientists" pushstate popstate>Участники</a>
-			<core-icon class="color-white big action" icon="app-icons:add-project" id="signOut" on-tap="{{onSignOutTap}}"></core-icon>
+            <a class="app-bar-item" is="html5-history-anchor" href="/scientist" pushstate popstate>
+                <img src="/static/images/profile.svg" alt="" class="profileIcon"/>
+            </a>
+			<a class="app-bar-item" is="html5-history-anchor" href="/project" pushstate popstate>
+                <img src="/static/images/add_project.svg" alt="" class="addProjectIcon"/>
+            </a>
+			<a class="app-bar-item" is="html5-history-anchor" href="/scientists" pushstate popstate>
+                <img src="/static/images/members.svg" alt="" class="membersIcon"/>
+            </a>
+            <div class="action app-bar-item" id="signOut" on-tap="{{onSignOutTap}}">
+                <img src="/static/images/logout.svg" alt="" class="logoutIcon"/>
+            </div>
 		</template>
 		<app-globals id="globals"></app-globals>
 		<app-ajax id="ajax" url="/api/logout" method="POST" on-core-response="{{onSignOutResponse}}"></app-ajax>

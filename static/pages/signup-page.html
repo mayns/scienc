@@ -32,6 +32,13 @@
             legend {
                 font-size: 30px;
             }
+            legend .icon {
+                vertical-align: middle;
+            }
+            .icon {
+                width: 20px;
+                height: 20px;
+            }
             input, textarea, input-tags {
                 border: none;
                 border-bottom: 1px solid #eee;
@@ -66,12 +73,11 @@
 			form .row:last-child {
 				margin-bottom: 0;
 			}
-			.deletePublication {
+			.deleteItem {
                 position: absolute;
-                font-size: 40px;
                 top: 50%;
                 left: 0;
-                margin-top: -20px;
+                margin-top: -10px;
             }
 		</style>
 		<section vertical layout>
@@ -153,7 +159,12 @@
                             </div>
                         </fieldset>
                         <fieldset>
-                            <legend>Высшее образование</legend>
+                            <legend>
+                                <span>Высшее образовани</span>
+                                <img on-click="{{ addItem }}" data-itemtype="high_educations" class="action icon"
+                                     src="/static/images/plus.svg"
+                                     alt="" />
+                            </legend>
                             <template repeat="{{ high_educations }}">
                                 <div class="fieldblock">
                                     <div class="row middle">
@@ -190,16 +201,25 @@
                                             </div>
                                         </div>
                                     </div>
+                                    <img class="deleteItem icon action"
+                                         data-itemtype="high_educations"
+                                         on-click="{{ deleteItem }}"
+                                         src="/static/images/minus.svg" alt=""/>
                                 </div>
-                                </template>
-                            </fieldset>	
+                            </template>
+                        </fieldset>
                         </div>
                     </fieldset>
                     <fieldset>
                         <legend>Научная деятельность</legend>
                         <div class="fieldblock">
                             <fieldset>
-                                <legend>Публикации <span on-click="{{ addItem }}" data-itemtype="publications" class="action"> + </span></legend>
+                                <legend>
+                                    <span>Публикации</span>
+                                    <img on-click="{{ addItem }}" data-itemtype="publications" class="action icon"
+                                         src="/static/images/plus.svg"
+                                         alt="" />
+                                </legend>
                                 <template repeat="{{ publications }}">
                                     <div class="fieldblock">
                                         <div class="row middle">
@@ -218,7 +238,11 @@
                                             <label for="publicationLink" class="col-lg-3 action">Ссылка</label>
                                             <input type="url" name="publications[][link]" id="publicationLink" class="col-lg-8"/>
                                         </div>
-                                        <div class="deletePublication"  data-itemtype="publications" on-click="{{ deleteItem }}">-</div>
+                                        <img class="deleteItem icon action"
+                                             data-itemtype="publications"
+                                             on-click="{{ deleteItem }}"
+                                             src="/static/images/minus.svg" alt=""/>
+
                                     </div>
                              </template>
                         </fieldset>
@@ -293,7 +317,8 @@
             },
             deleteItem: function(event, detail, sender) {
                 var type = event.target.dataset.itemtype;
-                var index = this[type].indexOf(detail);
+                var id = event.target.templateInstance.model;
+                var index = this[type].indexOf(id);
                 this[type].splice(index, 1);
             }
         });
