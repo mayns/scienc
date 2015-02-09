@@ -6,7 +6,8 @@
 
 PCRE
 ------------------
-apt-get install libpcre3 libpcre3-dev
+apt-get install libpcre3 libpcre3-dev zlib1g-dev libgcrypt11-dev python-dev 
+python-pip libpq-dev libjpeg-dev libpng-dev
 
 Устанавливаем nginx
 ------------------
@@ -18,11 +19,24 @@ make
 make install
 cd ..
 
-apt-get install python-dev
+Установка PostgreSQL
+----------------
+apt-get install postgresql-9.3 postgresql-contrib-9.3 postgresql-server-dev-9.3 pgadmin3
+sudo su postgres
+psql postgres
+ALTER USER postgres WITH PASSWORD 'postgres'
+
+Прописываем хосты
+----------------
+sudo -s
+nano /etc/hosts
+127.0.0.1       sciencemates.dev
 
 Необходимые пакеты
 ------------------
-pip install tornado psycopg2 momoko django django
+pip install tornado psycopg2 momoko django simplejson 
+pip install PIL --allow-unverified PIL --allow-all-external
+pip install pillow -upgrade
 
 Генерим ssh ключ, если нет, иначе - пропускаем шаг
 ------------------
@@ -42,14 +56,14 @@ git clone git@github.com:mayns/scienc.git
 
 Настраиваем Nginx
 ----------------
-mkdir /usr/local/nginx
-ln -s /usr/loca/nginx/sbin/nginx /usr/local/bin/nginx
+ln -s /usr/local/nginx/sbin/nginx /usr/local/bin/nginx
 cd /gen/scienc
 В configs/dev/nginx.conf заменить kqueue на epoll
 cp -R configs/dev/nginx.conf /usr/local/nginx/conf
 
 В scienc.conf проверить все пути, чтобы ссылались на папку проекта
 mkdir /var/log/nginx/
+mkdir /var/log/nginx/science
 mkdir /usr/local/nginx/sites-enabled
 cp configs/dev/scienc.conf /usr/local/nginx/sites-enabled
 ln -s /usr/local/nginx/sbin/nginx /usr/bin/
@@ -61,19 +75,6 @@ nginx
 Остановка Nginx
 ----------------
 nginx -s stop
-
-Установка PostgreSQL
-----------------
-sudo apt-get install postgresql-9.3 postgresql-contrib-9.3 postgresql-server-dev-9.3 pgadmin3
-sudo su postgres
-psql postgres
-ALTER USER postgres WITH PASSWORD 'postgres'
-
-Прописываем хосты
-----------------
-sudo -s
-nano /etc/hosts
-127.0.0.1       sciencemates.dev
 
 Настройка IDE
 ----------------
