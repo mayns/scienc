@@ -13,15 +13,22 @@
 			}
 			h1 {
 				margin: 0 0 10px 0;
+                font-family: 'Roboto Slab';
 			}
             a {
                 text-decoration: none;
                 color: inherit;
             }
+            .short-descr {
+                font-family: 'Roboto Slab';
+                font-size: 16px;
+                font-weight: bold;
+            }
 			.project-holder {
 				background-color: #21303F;
 				color: white;
-				padding: 5px;
+				padding: 3px 5px 3px 5px;
+                font-size: 14px;
 			}
 			.project-like-icon {
 				cursor: pointer;
@@ -48,16 +55,14 @@
 				<h1>
 					<a is="html5-history-anchor" href="/project/{{data.id}}" pushstate popstate>{{data.title}}</a>
 				</h1>
-				<div horizontal layout justified center>
-					<div class="project-holder">{{data.organization}}</div>
-					<div class="project-end-date">
-						дата окончания
-						<span>{{data.dt_updated}}</span>
-					</div>
-				</div>
+                <template if="{{ data.organization_structure }}">
+                    <div horizontal layout justified center>
+                        <div class="project-holder">{{data.organization_structure[0].university}}</div>
+                    </div>
+                </template>
 			</header>
 			<p>
-				<b>Краткое описание: </b>{{data.description_short}}
+				<span class="short-descr">Краткое описание: </span>{{data.description_short}}
 			</p>
 			<core-icon class="project-like-icon" icon="favorite" on-tap="{{onFavIconTap}}"></core-icon>
 		</article>

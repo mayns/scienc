@@ -45,10 +45,13 @@
                 width: 60px;
             }
             img.logoutIcon {
-                width: 60px;
+                width: 80px;
             }
             img.profileIcon {
                 width: 60px;
+            }
+            img.searchIcon {
+                width: 100px;
             }
 		</style>
 		<template if="{{!data.user}}">
@@ -58,22 +61,26 @@
 			<div class="action app-bar-item" id="signIn" on-tap="{{onSignInTap}}">
                 <img src="/static/images/login.svg" alt="" class="loginIcon"/>
             </div>
-			<div class="color-white">
-				<a  class="app-bar-item" is="html5-history-anchor" href="/signup" pushstate popstate>
-                    <img src="/static/images/register.svg" alt="" class="registerIcon"/>
-                </a>
-			</div>
+            <a  class="app-bar-item" is="html5-history-anchor" href="/signup" pushstate popstate>
+                <img src="/static/images/register.svg" alt="" class="registerIcon"/>
+            </a>
+            <a class="app-bar-item" href="#" pushstate popstate>
+                <img src="/static/images/search.svg" alt="" class="searchIcon"/>
+            </a>
 			<dialog-login id="dialogLogin"></dialog-login>
 		</template>
 		<template if="{{data.user}}">
+            <a class="app-bar-item" is="html5-history-anchor" href="/project" pushstate popstate>
+                <img src="/static/images/add_project.svg" alt="" class="addProjectIcon"/>
+            </a>
+            <a class="app-bar-item" is="html5-history-anchor" href="/scientists" pushstate popstate>
+                <img src="/static/images/members.svg" alt="" class="membersIcon"/>
+            </a>
             <a class="app-bar-item" is="html5-history-anchor" href="/scientist" pushstate popstate>
                 <img src="/static/images/profile.svg" alt="" class="profileIcon"/>
             </a>
-			<a class="app-bar-item" is="html5-history-anchor" href="/project" pushstate popstate>
-                <img src="/static/images/add_project.svg" alt="" class="addProjectIcon"/>
-            </a>
-			<a class="app-bar-item" is="html5-history-anchor" href="/scientists" pushstate popstate>
-                <img src="/static/images/members.svg" alt="" class="membersIcon"/>
+            <a class="app-bar-item" href="#" pushstate popstate>
+                <img src="/static/images/search.svg" alt="" class="searchIcon"/>
             </a>
             <div class="action app-bar-item" id="signOut" on-tap="{{onSignOutTap}}">
                 <img src="/static/images/logout.svg" alt="" class="logoutIcon"/>
