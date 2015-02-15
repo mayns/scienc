@@ -1,18 +1,13 @@
 # -*- coding: utf-8 -*-
 
-import json
-import momoko
-
 from tornado import gen
-from base.models import PSQLModel, get_insert_sql_query, get_update_sql_query
-from common.decorators import psql_connection
+from base.models import PSQLModel
 
 __author__ = 'oks'
 
 
 class Project(PSQLModel):
 
-    ENTITY = u'project'
     TABLE = u'projects'
     COLUMNS = [u'scientist_id', u'lang', u'research_fields', u'title', u'description_short', u'views', u'likes', u'responses',
                u'organization_type', u'organization_structure', u'start_date', u'end_date', u'objective',

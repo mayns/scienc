@@ -16,6 +16,26 @@ class ScientistBL(object):
 
     @classmethod
     @gen.coroutine
+    def modify(cls, scientist_dict):
+        # TODO: check updated fields
+        scientist_id = scientist_dict.get(u'id', 0)
+        scientist = None
+
+        try:
+            if not scientist_id:
+                scientist = Scientist(**scientist_dict)
+                yield scientist.save(update=False)
+            else:
+                scientist = yield Scientist.get_by_id(scientist_id)
+                scientist.populate_attrs(scientist_dict)
+                yield scientist.save()
+        except Exception, ex:
+            print u'EXCEPTION IN MODIFY SCIENTIST: {}'.format(scientist_id), ex
+
+        raise gen.Return(scientist)
+
+    @classmethod
+    @gen.coroutine
     @psql_connection
     def validate_data(cls, conn, data):
         email = data.get(u'email')
@@ -51,10 +71,10 @@ class ScientistBL(object):
     @gen.coroutine
     def add_scientist(cls, scientist_dict):
         password = scientist_dict.pop(u'password')
-        try:
-            yield cls.validate_data(scientist_dict)
-        except UserExistException, ex:
-            raise gen.Return(ex.message)
+        # try:
+            # yield cls.validate_data(scientist_dict)
+        # except UserExistException, ex:
+        #     raise gen.Return(ex.message)
 
         scientist = Scientist.from_dict_data(scientist_dict)
         try:
@@ -63,12 +83,6 @@ class ScientistBL(object):
         except Exception, ex:
             print u'Exception! in add scientist', ex
         raise gen.Return(dict(id=scientist.id, first_name=scientist.first_name, image_small=scientist.image_small))
-
-    @classmethod
-    @gen.coroutine
-    def update_scientist(cls, scientist_id, fields=None):
-        scientist = yield Scientist.from_db_by_id(scientist_id)
-
 
     @classmethod
     @gen.coroutine

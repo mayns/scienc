@@ -31,7 +31,7 @@ class ScientistHandler(BaseRequestHandler):
         # create folder /avatars in it
         print u'scientist post'
         scientist_dict = json.loads(self.get_argument(u'data', u'{}'))
-        scientist_anw = yield ScientistBL.add_scientist(scientist_dict)
+        scientist = yield ScientistBL.modify(scientist_dict)
         if not isinstance(scientist_anw, dict) and u'Error' in str(scientist_anw):
             response = dict(message=scientist_anw)
             print response
