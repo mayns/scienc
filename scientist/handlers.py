@@ -84,6 +84,7 @@ class ScientistHandler(BaseRequestHandler):
     def get(self, scientist_id):
         response = yield ScientistBL.get_scientist(int(scientist_id.replace(u'/', u'')))
         response_data = yield self.get_response(response)
+        print response_data
         self.finish(response_data)
 
     @gen.coroutine
