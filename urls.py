@@ -15,12 +15,12 @@ url_handlers = [
     (r"/api/xsrf", cm_handlers.CSRFHandler),
 
     # scientists
-    (r"/api/scientist(/\w+)?", sc_handlers.ScientistHandler),
+    (r"/api/scientist(/\d+)?", sc_handlers.ScientistHandler),
     (r"/images/upload", cm_handlers.UploadHandler),
     (r"/api/scientists", sc_handlers.ScientistsListHandler),
 
     # projects
-    (r"/api/project(/\w+)?", pr_handlers.ProjectHandler),
+    (r"/api/project(/\d+)?", pr_handlers.ProjectHandler),
     (r"/api/projects", pr_handlers.ProjectsListHandler),
     # (r"/ckeditor/samples/", CkeditorSampleHandler),
 
