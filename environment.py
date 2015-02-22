@@ -40,5 +40,18 @@ CONTACT_TYPES = [PHONE, SKYPE, EMAIL]
 AVATAR_SIZES = [50, 100, 300]
 
 
-TIMESTAMP_FORMAT = u'%Y-%d-%m %H:%M:%S'
-HUMAN_TIMESTAMP_FORMAT = u'%d-%m-%Y %H:%M:%S'
+DATETIME_FORMAT = dict(
+    date=dict(
+        DB=u'%Y-%d-%m',
+        HUMAN=u'%d-%m-%Y'
+    ),
+    timestamp=dict(
+        DB=u'%Y-%d-%m %H:%M:%S',
+        HUMAN=u'%d-%m-%Y %H:%M:%S'
+    )
+)
+
+ROLES_TABLE = u'roles'
+
+ROLE_ADMIN = 1
+ROLE_USER = 2

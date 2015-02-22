@@ -2,15 +2,18 @@
 
 __author__ = 'nyash myash'
 
+import time
+import cPickle
+
 from tornado import gen
 import momoko
 import psycopg2
-import time
-from common.connections import PSQLClient
+
+from db.connections import PSQLClient
 from base.models import get_insert_sql_query
 from project.models import Project
-import cPickle
 from tests.project_data import TestProject
+
 
 # TODO new tables
 @gen.coroutine

@@ -1,13 +1,21 @@
 # -*- coding: utf-8 -*-
 
+import cStringIO
+
 import momoko
 from tornado import gen
-import datetime
+from PIL import Image
+
 import settings
+import environment
+from db.orm import MODELS
+from base.models import get_insert_sql_query
+from common.media_server import upload, get_url
 from common.utils import set_password, check_password
 from common.decorators import psql_connection
 from scientist.models import Scientist
-from base.exceptions import UserExistException
+from common.exceptions import UserExistException
+
 
 __author__ = 'oks'
 
@@ -16,18 +24,33 @@ class ScientistBL(object):
 
     @classmethod
     @gen.coroutine
-    def modify(cls, scientist_dict):
+    def modify(cls, scientist_dict=None, scientist_photo=None):
+
         # TODO: check updated fields
+        # TODO: delete avatar marker
         scientist_id = scientist_dict.get(u'id', 0)
         scientist = None
 
         try:
             if not scientist_id:
                 scientist = Scientist(**scientist_dict)
-                yield scientist.save(update=False)
+                yield cls.validate_data(scientist_dict)
+                yield cls.update_roles(scientist_dict)
+                print scientist_dict
+                scientist_id = yield scientist.save(update=False)
+                if scientist_photo:
+                    image_url = yield cls.upload_avatar(scientist_id, scientist_photo)
+                    scientist = yield Scientist.get_by_id(scientist_id)
+                    scientist.image_url = image_url
+                    yield scientist.save(fields=[u'image_url'])
             else:
                 scientist = yield Scientist.get_by_id(scientist_id)
-                scientist.populate_attrs(scientist_dict)
+                if scientist_photo:
+                    image_url = yield cls.upload_avatar(scientist_id, scientist_photo)
+                    scientist_dict.update(dict(
+                        image_url=image_url
+                    ))
+                scientist.populate_fields(scientist_dict)
                 yield scientist.save()
         except Exception, ex:
             print u'EXCEPTION IN MODIFY SCIENTIST: {}'.format(scientist_id), ex
@@ -36,12 +59,43 @@ class ScientistBL(object):
 
     @classmethod
     @gen.coroutine
+    def upload_avatar(cls, scientist_id, scientist_photo):
+
+        file_path = u'{sc_id}/a'.format(sc_id=str(scientist_id))
+        url_path = get_url(file_path)
+
+        img = Image.open(cStringIO.StringIO(scientist_photo.body))
+        w, h = img.size
+        diff = w - h
+        if diff > 0:
+            img = img.crop((diff / 2, 0, diff / 2 + h, h))
+        if diff < 0:
+            img = img.crop((0, 0, w, w))
+        for size in environment.AVATAR_SIZES:
+            new_img = img.resize((size, size), Image.ANTIALIAS)
+            filename = u'{size}.png'.format(size=size)
+            out_im = cStringIO.StringIO()
+            new_img.save(out_im, 'PNG')
+            yield upload(out_im.getvalue(), file_path, filename)
+        raise gen.Return(url_path)
+
+    @classmethod
+    @gen.coroutine
+    def remove_avatar(cls, scientist_id):
+        pass
+
+    @classmethod
+    @gen.coroutine
     @psql_connection
     def validate_data(cls, conn, data):
         email = data.get(u'email')
-        cursor = yield momoko.Op(conn.execute, u"SELECT count(*) FROM {table_name} WHERE id='{id}'".format(
-            table_name=Scientist.CHARMED,
-            id=email))
+        pwd = data.get(u'pwd')
+        if not all([email, pwd]):
+            raise Exception(u'Email or password is missing')
+
+        cursor = yield momoko.Op(conn.execute, u"SELECT count(*) FROM {table_name} WHERE email='{email}'".format(
+            table_name=environment.ROLES_TABLE,
+            email=email))
         count = cursor.fetchone()
         if int(count[0]) > 0:
             raise UserExistException(email)
@@ -50,7 +104,7 @@ class ScientistBL(object):
     @gen.coroutine
     @psql_connection
     def check_scientist(cls, conn, email, passw):
-        # print set_password(passw)
+
         cursor = yield momoko.Op(conn.execute, u"SELECT {columns} FROM {table_name} WHERE id='{id}'".format(
             columns=u', '.join(Scientist.CHARMED_COLUMNS),
             table_name=Scientist.CHARMED,
@@ -69,52 +123,26 @@ class ScientistBL(object):
 
     @classmethod
     @gen.coroutine
-    def add_scientist(cls, scientist_dict):
-        password = scientist_dict.pop(u'password')
-        # try:
-            # yield cls.validate_data(scientist_dict)
-        # except UserExistException, ex:
-        #     raise gen.Return(ex.message)
+    @psql_connection
+    def update_roles(cls, conn, scientist_dict):
+        pwd = set_password(scientist_dict.pop(u'pwd'))
 
-        scientist = Scientist.from_dict_data(scientist_dict)
-        try:
-            yield scientist.save(update=False)
-            yield scientist.encrypt(dict(password=password))
-        except Exception, ex:
-            print u'Exception! in add scientist', ex
-        raise gen.Return(dict(id=scientist.id, first_name=scientist.first_name, image_small=scientist.image_small))
+        params = dict(
+            email=scientist_dict.get(u'email'),
+            pwd=pwd,
+            role=scientist_dict.pop(u'role', environment.ROLE_USER)
+        )
+        sqp_query = get_insert_sql_query(MODELS[environment.ROLES_TABLE], params)
+
+        yield momoko.Op(conn.execute, sqp_query)
 
     @classmethod
     @gen.coroutine
-    def get_scientist(cls, scientist_id):
-        json_data = {}
-        scientist = yield Scientist.from_db_by_id(scientist_id)
-        if scientist:
-            json_data = dict(zip(Scientist.COLUMNS, scientist))
-            if json_data[u'dob'] and isinstance(json_data[u'dob'], datetime.date):
-                json_data[u'dob'] = json_data[u'dob'].strftime(u'%d-%m-%Y')
-        raise gen.Return(json_data)
-
-    @classmethod
-    @gen.coroutine
-    def get_all(cls):
-        json_data = []
-        columns = [u'id', u'first_name', u'middle_name', u'last_name', u'project_ids', u'location_city',
-                   u'location_country']
-        try:
-            scientists = yield Scientist.get_all_json(columns)
-            if not scientists:
-                raise gen.Return([])
-            json_data = [dict(zip(columns, entity_data)) for entity_data in scientists]
-            print json_data
-            for j in json_data:
-                j[u'id'] = int(j[u'id'])
-                j[u'full_name'] = j.pop(u'first_name') + ' ' + j.pop(u'middle_name') + ' ' + j.pop(u'last_name')
-                j[u'location'] = j.pop(u'location_city') + ', ' + j.pop(u'location_country')
-                j[u'projects'] = len(j.pop(u'project_ids') or [])
-        except Exception, ex:
-            print u'Exception', ex
-        raise gen.Return(json_data)
+    @psql_connection
+    def remove_role(cls, conn, scientist_email):
+        sqp_query = u"DELETE FROM {table_name} WHERE id='{id}'".format(table_name=environment.ROLES_TABLE,
+                                                                       id=scientist_email)
+        yield momoko.Op(conn.execute, sqp_query)
 
     @classmethod
     @gen.coroutine
