@@ -12,12 +12,6 @@
   font-style: italic;
 }
 @font-face {
-  font-family: 'Roboto Slab';
-  src: url("/static/fonts/roboto-slab/RobotoSlab-Bold.ttf") format("truetype");
-  font-weight: 700;
-  font-style: normal;
-}
-@font-face {
   font-family: 'fontello';
   src: url("../fonts/fontello.eot?6749488");
   src: url("../fonts/fontello.eot?6749488#iefix") format("embedded-opentype"), url("../fonts/fontello.woff?6749488") format("woff"), url("../fonts/fontello.ttf?6749488") format("truetype"), url("../fonts/fontello.svg?6749488#fontello") format("svg");
@@ -135,7 +129,7 @@ html /deep/ .grid {
 }
 
 /* line 5, ../scss/base/_grid.scss */
-html /deep/ .row {
+html /deep/ .row-flex {
   box-sizing: border-box;
   display: flex;
   flex-direction: row;
@@ -1297,10 +1291,9 @@ app-router {
 /* line 1, ../scss/layout/_page-header.scss */
 .page-header-wrapper {
   background-color: #21303F;
-  border-bottom: 5px solid #637686;
 }
 
-/* line 6, ../scss/layout/_page-header.scss */
+/* line 5, ../scss/layout/_page-header.scss */
 .page-header {
   margin: 0 auto;
   height: 100px;
@@ -1310,18 +1303,18 @@ app-router {
 }
 
 @media screen and (min-width: 1280px) {
-  /* line 15, ../scss/layout/_page-header.scss */
+  /* line 14, ../scss/layout/_page-header.scss */
   .page-header {
     width: 1280px;
   }
 }
-/* line 20, ../scss/layout/_page-header.scss */
+/* line 19, ../scss/layout/_page-header.scss */
 .page-header-logo {
   color: #E9A611;
   font-size: 48px;
 }
 
-/* line 25, ../scss/layout/_page-header.scss */
+/* line 24, ../scss/layout/_page-header.scss */
 .page-header-controls {
   color: white;
   display: flex;
@@ -1329,7 +1322,7 @@ app-router {
   width: 250px;
 }
 
-/* line 32, ../scss/layout/_page-header.scss */
+/* line 31, ../scss/layout/_page-header.scss */
 .page-header-search {
   font-size: 24px;
 }
@@ -1363,9 +1356,9 @@ html /deep/ .login-dialog-form {
 
 /* line 27, ../scss/components/_dialogs.scss */
 html /deep/ .login-dialog-input {
-  font-size: 18px;
-  /*padding: 15px;*/
-  /*margin-bottom: 20px;*/
+  font-size: 16px;
+  padding: 15px;
+  margin-bottom: 20px;
 }
 
 /* line 33, ../scss/components/_dialogs.scss */

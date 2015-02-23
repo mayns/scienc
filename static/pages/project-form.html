@@ -2,7 +2,6 @@
 <link rel="import" href="/static/elements/break-line.html"/>
 <link rel="import" href="/static/elements/ajax-json-form.html"/>
 <link rel="import" href="/static/elements/input-tags.html"/>
-<link rel="import" href="/static/elements/html-repeater.html"/>
 
 <polymer-element name="project-form" attributes="data" noscript>
 	<template>
@@ -33,162 +32,206 @@
             input:focus, textarea:focus {
                 outline: none;
             }
+            fieldset {
+                padding: 20px 20px 30px;
+                margin-bottom: 40px;
+            }
+            fieldset fieldset {
+                border: none;
+                margin-bottom: 0;
+            }
+            fieldset fieldset legend {
+                font-size: 22px;
+            }
+            .fieldblock {
+                padding-left: 40px;
+                position: relative;
+            }
+            .fieldblock + .fieldblock {
+                padding-top: 40px;
+                border-top: 1px solid #ccc;
+                margin-top: 40px;
+            }
+            legend {
+                font-size: 30px;
+            }
 		</style>
 		<section vertical layout>
 			<form is="ajax-json-form" action="/api/project" redirect="/">
-				<h2>Название проекта</h2>
-				<div class="row">
-					<input type="text" name="title" id="title" class="col-lg-12" required/>
-				</div>
-				<h2>Область науки</h2>
-				<div class="row">
-					<div class="col-lg-6">
-						<div class="row middle">
-							<label for="math" class="action col-lg-10">Математика, информатика, механика</label>
-							<input type="checkbox" value="math" id="math" name="research_fields[]"/>
-						</div>
-						<div class="row middle">
-							<label for="physics" class="action col-lg-10">Физика и астрономия</label>
-							<input type="checkbox" value="physics" id="physics" name="research_fields[]"/>
-						</div>
-						<div class="row middle">
-							<label for="chemistry" class="action col-lg-10">Химия</label>
-							<input type="checkbox" value="chemistry" id="chemistry" name="research_fields[]"/>
-						</div>
-						<div class="row middle">
-							<label for="it_science" class="action col-lg-10">Информационные технологии и вычеслительные системы</label>
-							<input type="checkbox" value="it_science" id="it_science" name="research_fields[]"/>
-						</div>
-					</div>
-					<div class="col-lg-6">
-						<div class="row middle">
-							<label for="biology" class="action col-lg-10">Биология и медицинская наука</label>
-							<input type="checkbox" value="biology" id="biology" name="research_fields[]"/>
-						</div>
-						<div class="row middle">
-							<label for="earth" class="action col-lg-10">Науки о Земле</label>
-							<input type="checkbox" value="earth" id="earth" name="research_fields[]"/>
-						</div>
-						<div class="row middle">
-							<label for="engeneering" class="action col-lg-10">Инженерные науки</label>
-							<input type="checkbox" value="engeneering" id="engeneering" name="research_fields[]"/>
-						</div>
+                <fieldset>
+                    <legend>Общие сведения</legend>
+                    <div class="row fieldblock">
+                        <div class="col-lg-12">
+                            <div class="row middle">
+                                <label for="title" class="action col-lg-3">Название проекта</label>
+                            </div>
+                            <div class="row">
+                                <input type="text" id="title" name="title" class="col-lg-8" required/>
+                            </div>
+                            <div class="row middle">
+                                <label for="" class="action row col-lg-12">Область науки</label>
+                                <div class="row col-lg-12">
+                                    <div class="col-lg-6 col-lg-offset-1">
+                                        <div class="row middle">
+                                            <label for="math" class="action col-lg-10">Математика, информатика, механика</label>
+                                            <input type="checkbox" value="math" id="math" name="research_fields[]"/>
+                                        </div>
+                                        <div class="row middle">
+                                            <label for="physics" class="action col-lg-10">Физика и астрономия</label>
+                                            <input type="checkbox" value="physics" id="physics" name="research_fields[]"/>
+                                        </div>
+                                        <div class="row middle">
+                                            <label for="chemistry" class="action col-lg-10">Химия</label>
+                                            <input type="checkbox" value="chemistry" id="chemistry" name="research_fields[]"/>
+                                        </div>
+                                        <div class="row middle">
+                                            <label for="it_science" class="action col-lg-10">Информационные технологии и вычеслительные системы</label>
+                                            <input type="checkbox" value="it_science" id="it_science" name="research_fields[]"/>
+                                        </div>
+                                        <div class="row middle">
+                                            <label for="biology" class="action col-lg-10">Биология и медицинская наука</label>
+                                            <input type="checkbox" value="biology" id="biology" name="research_fields[]"/>
+                                        </div>
+                                        <div class="row middle">
+                                            <label for="earth" class="action col-lg-10">Науки о Земле</label>
+                                            <input type="checkbox" value="earth" id="earth" name="research_fields[]"/>
+                                        </div>
+                                        <div class="row middle">
+                                            <label for="engeneering" class="action col-lg-10">Инженерные науки</label>
+                                            <input type="checkbox" value="engeneering" id="engeneering" name="research_fields[]"/>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-lg-4">
+                                    <div class="row middle">
+                                        <label for="project_start_date" class="action col-lg-6">Дата начала</label>
+                                        <div class="col-lg-6">
+                                            <input type="date" id="project_start_date" name="start_date"/>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-4">
+                                    <div class="row middle">
+                                        <label for="project_end_date" class="action col-lg-6">Дата окончания</label>
+                                        <div class="col-lg-6">
+                                            <input type="date" id="project_end_date" name="end_date"/>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <label for="">Тип проекта</label>
+                            </div>
+                            <div class="row">
+                                <div class="col-lg-6 col-lg-offset-1">
+                                    <div class="row between">
+                                        <label for="">Личный</label>
+                                        <input type="checkbox" name="organization_type"/>
+                                        <label for="">Групповой</label>
+                                        <input type="checkbox" name="organization_type"/>
+                                        <label for="">Под эгидой организации</label>
+                                        <input type="checkbox" name="organization_type"/>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <label for="description_short">Краткое описание</label>
+                            </div>
+                            <div class="row">
+                                <textarea name="description_short" id="description_short" class="col-lg-12" required></textarea>
+                            </div>
 
-					</div>
-				</div>
-				<div class="row">
-					<div class="col-lg-4">
-						<div class="row middle">
-							<label for="project_start_date" class="action col-lg-6">Дата начала</label>
-							<input type="date" id="project_start_date" name="start_date"/>
-						</div>
-					</div>
-					<div class="col-lg-4">
-						<div class="row middle">
-							<label for="project_end_date" class="action col-lg-6">Дата окончания</label>
-							<input type="date" id="project_end_date" name="end_date"/>
-						</div>
-					</div>
-				</div>
-				<h2>Короткое описание</h2>
-				<div class="row">
-					<textarea name="description_short" id="" class="col-lg-12" required></textarea>
-				</div>
-				<h2>Тип проекта</h2>
-				<div class="row">
-					<label for="">Личный</label>
-					<input type="checkbox" name="organization_type"/>
-					<label for="">Групповой</label>
-					<input type="checkbox" name="organization_type"/>
-					<label for="">Под эгидой организации</label>
-					<input type="checkbox" name="organization_type"/>
-				</div>
-				<h2>Цели исследования</h2>
-				<div class="row">
-					<textarea name="objective" id="objective" class="col-lg-12"></textarea>
-				</div>
-				<h2>Полное описание</h2>
-				<div class="row">
-					<textarea name="description_full" id="description_full" class="col-lg-12"></textarea>
-				</div>
-				<h2>Возможности применения результатов</h2>
-				<div class="row">
-					<textarea name="usage_possibilities" id="usage_possibilities" class="col-lg-12"></textarea>
-				</div>
-				<h2>Достигнуты результаты</h2>
-				<div class="row">
-					<textarea name="results" id="results" class="col-lg-12"></textarea>
-				</div>
-				<h2>Руководитель проекта</h2>
-				<div class="row">
-					<input name="leader" id="leader" class="col-lg-12">
-				</div>
-				<h2>Учатники проекта</h2>
-				<html-repeater>
-					<div class="row" container>
-						<div class="col-lg-4">
-							<input type="text" placeholder="ФИО" name="participants[][name]"/>
-						</div>
-						<div class="col-lg-4 col-lg-offset-1">
-							<input type="text" placeholder="Роль в проекте" name="participants[][role]"/>
-						</div>
-						<button add class="col-lg-1">Add</button>
-						<button delete class="col-lg-1">Delete</button>
-					</div>
-				</html-repeater>
-				<h2>Разыскиваются</h2>
-				<html-repeater>
-					<div class="row" container>
-						<div class="col-lg-12">
-							<div class="row">
-								<label for="">Должность</label>
-							</div>
-							<div class="row">
-								<input type="text" class="col-lg-12" name="missed_participants[][role]"/>
-							</div>
-							<div class="row">
-								<label for="">Описание</label>
-							</div>
-							<div class="row">
-								<textarea id="" class="col-lg-12" name="missed_participants[][description]"></textarea>
-							</div>
-							<div class="row">
-								<button add>Add</button>
-								<button delete>Delete</button>
-							</div>
-						</div>
-					</div>
-				</html-repeater>
-				<h2>Тэги</h2>
-				<div class="row">
-					<input-tags id="" class="col-lg-12" name="tags[]" required></input-tags>
-				</div>
-				<h2>Контактные данные</h2>
-				<html-repeater>
-					<div class="row" container>
-						<input type="text" class="col-lg-3" name="contacts[][email]" placeholder="email"/>
-						<button add>Add</button>
-						<button delete>Delete</button>
-					</div>
-				</html-repeater>
-				<html-repeater>
-					<div class="row" container>
-						<input type="text" class="col-lg-3" name="contacts[][phone]" placeholder="телефон"/>
-						<button add>Add</button>
-						<button delete>Delete</button>
-					</div>
-				</html-repeater>
-				<html-repeater>
-					<div class="row" container>
-						<input type="text" class="col-lg-3" name="contacts[][skype]" placeholder="skype"/>
-						<button add>Add</button>
-						<button delete>Delete</button>
-					</div>
-				</html-repeater>
-				<h2>Контактное лицо</h2>
-				<div class="row">
-					<input type="text" class="col-lg-12" name="contact_manager"/>
-				</div>
+                        </div>
+                    </div>
+                </fieldset>
+				<!--<h2>Цели исследования</h2>-->
+				<!--<div class="row">-->
+					<!--<textarea name="objective" id="objective" class="col-lg-12"></textarea>-->
+				<!--</div>-->
+				<!--<h2>Полное описание</h2>-->
+				<!--<div class="row">-->
+					<!--<textarea name="description_full" id="description_full" class="col-lg-12"></textarea>-->
+				<!--</div>-->
+				<!--<h2>Возможности применения результатов</h2>-->
+				<!--<div class="row">-->
+					<!--<textarea name="usage_possibilities" id="usage_possibilities" class="col-lg-12"></textarea>-->
+				<!--</div>-->
+				<!--<h2>Достигнуты результаты</h2>-->
+				<!--<div class="row">-->
+					<!--<textarea name="results" id="results" class="col-lg-12"></textarea>-->
+				<!--</div>-->
+				<!--<h2>Руководитель проекта</h2>-->
+				<!--<div class="row">-->
+					<!--<input name="leader" id="leader" class="col-lg-12">-->
+				<!--</div>-->
+				<!--<h2>Учатники проекта</h2>-->
+				<!--<html-repeater>-->
+					<!--<div class="row" container>-->
+						<!--<div class="col-lg-4">-->
+							<!--<input type="text" placeholder="ФИО" name="participants[][name]"/>-->
+						<!--</div>-->
+						<!--<div class="col-lg-4 col-lg-offset-1">-->
+							<!--<input type="text" placeholder="Роль в проекте" name="participants[][role]"/>-->
+						<!--</div>-->
+						<!--<button add class="col-lg-1">Add</button>-->
+						<!--<button delete class="col-lg-1">Delete</button>-->
+					<!--</div>-->
+				<!--</html-repeater>-->
+				<!--<h2>Разыскиваются</h2>-->
+				<!--<html-repeater>-->
+					<!--<div class="row" container>-->
+						<!--<div class="col-lg-12">-->
+							<!--<div class="row">-->
+								<!--<label for="">Должность</label>-->
+							<!--</div>-->
+							<!--<div class="row">-->
+								<!--<input type="text" class="col-lg-12" name="missed_participants[][role]"/>-->
+							<!--</div>-->
+							<!--<div class="row">-->
+								<!--<label for="">Описание</label>-->
+							<!--</div>-->
+							<!--<div class="row">-->
+								<!--<textarea id="" class="col-lg-12" name="missed_participants[][description]"></textarea>-->
+							<!--</div>-->
+							<!--<div class="row">-->
+								<!--<button add>Add</button>-->
+								<!--<button delete>Delete</button>-->
+							<!--</div>-->
+						<!--</div>-->
+					<!--</div>-->
+				<!--</html-repeater>-->
+				<!--<h2>Тэги</h2>-->
+				<!--<div class="row">-->
+					<!--<input-tags id="" class="col-lg-12" name="tags[]" required></input-tags>-->
+				<!--</div>-->
+				<!--<h2>Контактные данные</h2>-->
+				<!--<html-repeater>-->
+					<!--<div class="row" container>-->
+						<!--<input type="text" class="col-lg-3" name="contacts[][email]" placeholder="email"/>-->
+						<!--<button add>Add</button>-->
+						<!--<button delete>Delete</button>-->
+					<!--</div>-->
+				<!--</html-repeater>-->
+				<!--<html-repeater>-->
+					<!--<div class="row" container>-->
+						<!--<input type="text" class="col-lg-3" name="contacts[][phone]" placeholder="телефон"/>-->
+						<!--<button add>Add</button>-->
+						<!--<button delete>Delete</button>-->
+					<!--</div>-->
+				<!--</html-repeater>-->
+				<!--<html-repeater>-->
+					<!--<div class="row" container>-->
+						<!--<input type="text" class="col-lg-3" name="contacts[][skype]" placeholder="skype"/>-->
+						<!--<button add>Add</button>-->
+						<!--<button delete>Delete</button>-->
+					<!--</div>-->
+				<!--</html-repeater>-->
+				<!--<h2>Контактное лицо</h2>-->
+				<!--<div class="row">-->
+					<!--<input type="text" class="col-lg-12" name="contact_manager"/>-->
+				<!--</div>-->
 				<div class="row center">
 					<button type="submit" class="button submit">Добавить</button>
 				</div>

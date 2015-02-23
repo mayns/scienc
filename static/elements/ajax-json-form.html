@@ -11,21 +11,18 @@
 			onFormSubmit: function(e) {
 				console.log('submit');
 				e.preventDefault();
-				var jsonData = this.serializeObject(),
+				var jsonData = this.serializeObject('data-json'),
 					formData = new FormData();
 
-				formData.append('data', JSON.stringify(jsonData));
-				$$.toArray(this.elements)
-					.filter(function(element){
-						return (element.type === 'file' && element.files.length !== 0);
-					})
-					.forEach(function(element){
-						formData.append(element.name, element.files[0]);
-					});
+                this.addCustomFields(jsonData, formData);
+                formData.append('data', JSON.stringify(jsonData));
 				this.$.ajax.makeRequest(formData);
 			},
+            addCustomFields: function(jsonData, formData) {
+
+            },
 			serializeObject: function() {
-				return $$.serializeObject.call(this);
+				return $$.serializeObject.apply(this, arguments);
 			},
 			onFormSuccess: function() {
 				console.log('form success');
