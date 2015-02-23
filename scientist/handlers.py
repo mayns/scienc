@@ -25,7 +25,8 @@ class ScientistHandler(BaseRequestHandler):
     def post(self, *args, **kwargs):
         print u'scientist post'
         scientist_dict = json.loads(self.get_argument(u'data', u'{}'))
-        scientist_photo = self.request.files.get('photo', [])
+        scientist_photo = self.request.files.get('raw_image', [])
+        print scientist_photo
         try:
             scientist_data = yield ScientistBL.modify(scientist_dict=scientist_dict, scientist_photo=scientist_photo)
             print scientist_data

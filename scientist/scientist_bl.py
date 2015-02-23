@@ -36,11 +36,13 @@ class ScientistBL(object):
                 yield cls.update_roles(scientist_dict)
                 scientist_id = yield scientist.save(update=False)
                 if scientist_photo:
-                    image_url = yield cls.upload_avatar(scientist_id, scientist_photo[0])
+                    raw_image_coords = scientist_dict.pop(u'raw_image_coords')
+                    image_url = yield cls.upload_avatar(scientist_id, scientist_photo[0], raw_image_coords)
                     scientist = yield Scientist.get_by_id(scientist_id)
                     scientist.image_url = image_url
                     yield scientist.save(fields=[u'image_url'])
                     image_url += u'50.png'
+                    print image_url
             else:
                 scientist = yield Scientist.get_by_id(scientist_id)
                 image_url = scientist.image_url + u'50.png'
@@ -59,18 +61,17 @@ class ScientistBL(object):
 
     @classmethod
     @gen.coroutine
-    def upload_avatar(cls, scientist_id, scientist_photo):
+    def upload_avatar(cls, scientist_id, scientist_photo, raw_image_coords):
 
         file_path = u'{sc_id}/a'.format(sc_id=str(scientist_id))
         url_path = get_url(file_path)
 
         img = Image.open(cStringIO.StringIO(scientist_photo.body))
-        w, h = img.size
-        diff = w - h
-        if diff > 0:
-            img = img.crop((diff / 2, 0, diff / 2 + h, h))
-        if diff < 0:
-            img = img.crop((0, 0, w, w))
+        # "x1":0,"y1":0,"x2":800,"y2":800
+        print raw_image_coords
+        img = img.crop((int(raw_image_coords.get(u'x1')), int(raw_image_coords.get(u'y1')), int(raw_image_coords.get(u'x2')),
+                        int(raw_image_coords.get(u'y2'))))
+        print img
         for size in environment.AVATAR_SIZES:
             new_img = img.resize((size, size), Image.ANTIALIAS)
             filename = u'{size}.png'.format(size=size)
