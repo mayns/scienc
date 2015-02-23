@@ -159,5 +159,12 @@ class ScientistBL(object):
     @classmethod
     @gen.coroutine
     def get_all_scientists(cls):
-        scientist_data = yield Scientist.get_all_json(columns=Scientist.OVERVIEW_FIELDS)
-        raise gen.Return(scientist_data)
+        data = yield Scientist.get_all_json(columns=Scientist.OVERVIEW_FIELDS)
+        scientists = []
+        for d in data:
+            scientists.append(dict(
+                full_name='{} {} {}'.format(d.get(u'first_name', u''), d.get(u'middle_name', u''), d.get(u'last_name', u'')),
+                location='{} {}'.format(d.get(u'city', u''), d.get(u'country', u'')),
+                projects=len(d.get(u'participating_projects', []))
+            ))
+        raise gen.Return(scientists)

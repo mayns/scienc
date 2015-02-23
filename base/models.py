@@ -81,6 +81,7 @@ class PSQLModel(object):
             table_name=cls.TABLE,
             id=str(_id)))
         data = cursor.fetchone()
+        data = dict(zip(columns, data))
         raise gen.Return(data)
 
     @classmethod
@@ -92,4 +93,12 @@ class PSQLModel(object):
         cursor = yield momoko.Op(conn.execute, u'SELECT {columns} FROM {table_name}'.format(columns=u', '.join(columns),
                                                                                             table_name=cls.TABLE))
         data = cursor.fetchall()
-        raise gen.Return(data)
+        data_list = []
+        for d in data:
+            data_dict = {}
+            for i, k in enumerate(columns):
+                if not d[i]:
+                    continue
+                data_dict[k] = d[i]
+            data_list.append(data_dict)
+        raise gen.Return(data_list)
