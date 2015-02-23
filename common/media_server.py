@@ -9,7 +9,7 @@ __author__ = 'mayns'
 MEDIA_SERVER_UPLOAD_URL = u"http://{host}/uploads/{filepath}/{filename}"
 
 MEDIA_SERVER_GET_URL = lambda file_path, file_name=u'', host=settings.MEDIA_SERVER_HOST: \
-    u"http://{host}/uploads/{file_path}/{filename}".format(host=host, file_path=file_path, file_name=file_name)
+    u"http://{host}/uploads/{file_path}/{file_name}".format(host=host, file_path=file_path, file_name=file_name)
 
 
 @gen.coroutine

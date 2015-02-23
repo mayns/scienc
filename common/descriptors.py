@@ -139,8 +139,10 @@ class Datetime(FieldDescriptor):
 
         self.store = lambda value: value.strftime(environment.DATETIME_FORMAT[db_type]['DB']) \
             if value and not isinstance(value, basestring) else value
-        self.restore = lambda value: datetime.datetime.strptime(value, environment.DATETIME_FORMAT[db_type]['HUMAN']) \
-            if value else u''
+        self.restore = lambda value: value.strftime(environment.DATETIME_FORMAT[db_type]['DB']) \
+            if value and not isinstance(value, basestring) else value
+        # self.restore = lambda value: datetime.datetime.strptime(value, environment.DATETIME_FORMAT[db_type]['HUMAN']) \
+        #     if value else u''
         self.type = datetime.date
         self.db_type = db_type or 'timestamp'
         self.default = default or u''

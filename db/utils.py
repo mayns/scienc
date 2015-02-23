@@ -16,19 +16,21 @@ def get_update_sql_query(tbl, update_params, where_params=None):
         where_params = {}
 
     sql_string = u"UPDATE {table_name} SET".format(table_name=tbl)
-    for i, title in enumerate(update_params.keys()):
-        sql_string = u"{prefix} {title}=%({title})s".format(prefix=sql_string, title=title)
+    for i, k in enumerate(update_params.keys()):
+        sql_string = u"{prefix} {title}='{value}'".format(prefix=sql_string, title=k, value=update_params[k])
         if i < len(update_params.keys()) - 1:
             sql_string += ','
 
     sql_string = u"{prefix} WHERE".format(prefix=sql_string)
-    for i, title in enumerate(where_params.keys()):
-        sql_string = u"{prefix} {title}=%({title})s".format(prefix=sql_string, title=title)
+    for i, k in enumerate(where_params.keys()):
+        store = ALL_TABLES[tbl][k].store
+        v = where_params[k] if not store else store(where_params[k])
+        sql_string = u"{prefix} {title}='{value}'".format(prefix=sql_string, title=k, value=v)
         if i < len(where_params.keys()) - 1:
             sql_string += u' AND '
 
-    update_params.update(where_params)
-    return sql_string, update_params
+    sql_string += ' RETURNING id'
+    return sql_string
 
 
 def get_insert_sql_query(tbl, insert_data):

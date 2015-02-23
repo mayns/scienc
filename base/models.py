@@ -31,15 +31,14 @@ class PSQLModel(object):
         else:
             data = self.__dict__
 
-        print data
         if update:
-            sqp_query, params = get_update_sql_query(self.TABLE, data, dict(id=self.id))
+            print self.id
+            sqp_query = get_update_sql_query(self.TABLE, data, dict(id=self.id))
         else:
             sqp_query = get_insert_sql_query(self.TABLE, data)
         cursor = yield momoko.Op(conn.execute, sqp_query)
         self.id = cursor.fetchone()[0]
 
-        print self.id
         raise gen.Return(self.id)
 
     def populate_fields(self, data_dict):
@@ -59,13 +58,16 @@ class PSQLModel(object):
             table_name=cls.TABLE,
             id=str(_id)))
         data = cursor.fetchone()
+        data = dict(zip(columns, data))
         instance = cls()
         for k, v in data.iteritems():
             if not v:
                 continue
-            setattr(instance, k, MODELS[cls.TABLE][k].restore)
+            restore = MODELS[cls.TABLE][k].restore
+            if restore:
+                v = restore(v)
+            setattr(instance, k, v)
 
-        print instance
         raise gen.Return(instance)
 
     @classmethod
