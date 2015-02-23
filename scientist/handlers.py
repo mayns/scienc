@@ -23,23 +23,19 @@ class ScientistHandler(BaseRequestHandler):
 
     @gen.coroutine
     def post(self, *args, **kwargs):
-        # create folder with user id
-        # create folder /avatars in it
         print u'scientist post'
         scientist_dict = json.loads(self.get_argument(u'data', u'{}'))
-        scientist_photo = self.request.files['photo'][0]
-
-        scientist = yield ScientistBL.modify(scientist_dict=scientist_dict, scientist_photo=scientist_photo)
-
-        if not isinstance(scientist_anw, dict) and u'Error' in str(scientist_anw):
-            response = dict(message=scientist_anw)
-            print response
-            response_data = yield self.get_response(response)
-            self.finish(response_data)
+        scientist_photo = self.request.files.get('photo', [])
+        scientist_id = 0
+        try:
+            scientist_id = yield ScientistBL.modify(scientist_dict=scientist_dict, scientist_photo=scientist_photo)
+            print scientist_id
+        except Exception, ex:
+            self.send_error(status_code=403)
             return
 
-        response_data = yield self.get_response(response)
-        self.set_secure_cookie(u'scientist', str(scientist_anw))
+        response_data = yield self.get_response(dict(scientist_id=scientist_id))
+        self.set_secure_cookie(u'scientist', str(scientist_id))
         self.finish(response_data)
 
     @gen.coroutine

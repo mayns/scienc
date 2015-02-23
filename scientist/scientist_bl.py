@@ -29,7 +29,6 @@ class ScientistBL(object):
         # TODO: check updated fields
         # TODO: delete avatar marker
         scientist_id = scientist_dict.get(u'id', 0)
-        scientist = None
 
         try:
             if not scientist_id:
@@ -39,14 +38,14 @@ class ScientistBL(object):
                 print scientist_dict
                 scientist_id = yield scientist.save(update=False)
                 if scientist_photo:
-                    image_url = yield cls.upload_avatar(scientist_id, scientist_photo)
+                    image_url = yield cls.upload_avatar(scientist_id, scientist_photo[0])
                     scientist = yield Scientist.get_by_id(scientist_id)
                     scientist.image_url = image_url
                     yield scientist.save(fields=[u'image_url'])
             else:
                 scientist = yield Scientist.get_by_id(scientist_id)
                 if scientist_photo:
-                    image_url = yield cls.upload_avatar(scientist_id, scientist_photo)
+                    image_url = yield cls.upload_avatar(scientist_id, scientist_photo[0])
                     scientist_dict.update(dict(
                         image_url=image_url
                     ))
@@ -54,8 +53,9 @@ class ScientistBL(object):
                 yield scientist.save()
         except Exception, ex:
             print u'EXCEPTION IN MODIFY SCIENTIST: {}'.format(scientist_id), ex
+            raise ex
 
-        raise gen.Return(scientist)
+        raise gen.Return(scientist_id)
 
     @classmethod
     @gen.coroutine
