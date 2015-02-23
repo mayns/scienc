@@ -26,16 +26,15 @@ class ScientistHandler(BaseRequestHandler):
         print u'scientist post'
         scientist_dict = json.loads(self.get_argument(u'data', u'{}'))
         scientist_photo = self.request.files.get('photo', [])
-        print scientist_dict
         try:
-            scientist_id = yield ScientistBL.modify(scientist_dict=scientist_dict, scientist_photo=scientist_photo)
-            print scientist_id
+            scientist_data = yield ScientistBL.modify(scientist_dict=scientist_dict, scientist_photo=scientist_photo)
+            print scientist_data
         except Exception, ex:
             self.send_error(status_code=403)
             return
-        print scientist_id
-        response_data = yield self.get_response(dict(scientist_id=scientist_id))
-        self.set_secure_cookie(u'scientist', str(scientist_id))
+
+        response_data = yield self.get_response(scientist_data)
+        self.set_secure_cookie(u'scientist', str(scientist_data[u'scientist_id']))
         self.finish(response_data)
 
     @gen.coroutine

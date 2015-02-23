@@ -8,7 +8,6 @@ from PIL import Image
 
 import settings
 import environment
-from db.tables import TABLES
 from db.utils import get_insert_sql_query
 from common.media_server import upload, get_url
 from common.utils import set_password, check_password
@@ -29,22 +28,22 @@ class ScientistBL(object):
         # TODO: check updated fields
         # TODO: delete avatar marker
         scientist_id = scientist_dict.get(u'id', 0)
-
+        image_url = u''
         try:
             if not scientist_id:
                 scientist = Scientist(**scientist_dict)
                 yield cls.validate_data(scientist_dict)
-                print 'updating roles'
                 yield cls.update_roles(scientist_dict)
-                print scientist_dict
                 scientist_id = yield scientist.save(update=False)
                 if scientist_photo:
                     image_url = yield cls.upload_avatar(scientist_id, scientist_photo[0])
                     scientist = yield Scientist.get_by_id(scientist_id)
                     scientist.image_url = image_url
                     yield scientist.save(fields=[u'image_url'])
+                    image_url += u'50.png'
             else:
                 scientist = yield Scientist.get_by_id(scientist_id)
+                image_url = scientist.image_url + u'50.png'
                 if scientist_photo:
                     image_url = yield cls.upload_avatar(scientist_id, scientist_photo[0])
                     scientist_dict.update(dict(
@@ -56,7 +55,7 @@ class ScientistBL(object):
             print u'EXCEPTION IN MODIFY SCIENTIST: {}'.format(scientist_id), ex
             raise ex
 
-        raise gen.Return(scientist_id)
+        raise gen.Return(dict(scientist_id=scientist_id, image_url=image_url))
 
     @classmethod
     @gen.coroutine
