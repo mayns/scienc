@@ -154,3 +154,9 @@ class ScientistBL(object):
             yield momoko.Op(conn.execute, sqp_query)
         except Exception, ex:
             print u'Exception in delete scientist', ex
+
+    @classmethod
+    @gen.coroutine
+    def get_all_scientists(cls):
+        scientist_data = yield Scientist.get_all_json(columns=Scientist.OVERVIEW_FIELDS)
+        raise gen.Return(scientist_data)

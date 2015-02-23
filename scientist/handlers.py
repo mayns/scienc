@@ -14,7 +14,7 @@ class ScientistsListHandler(BaseRequestHandler):
     @gen.coroutine
     def get(self):
         print u'scientists list get'
-        scientists = yield ScientistBL.get_all()
+        scientists = yield ScientistBL.get_all_scientists()
         scientists = yield self.get_response(scientists)
         self.finish(json.dumps(scientists))
 

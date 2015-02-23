@@ -3,9 +3,9 @@
 import momoko
 from tornado import gen
 
-from common.utils import zip_values
 from common.decorators import psql_connection
 from db.orm import MODELS
+from db.utils import get_update_sql_query, get_insert_sql_query
 
 
 __author__ = 'oks'

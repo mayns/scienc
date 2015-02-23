@@ -11,7 +11,7 @@ class Scientist(PSQLModel):
     TABLE = u'scientists'
 
     OVERVIEW_FIELDS = [u'id', u'first_name', u'middle_name', u'last_name', u'image_url',
-                       u'participating_in_projects', u'location']
+                       u'participating_projects', u'location']
 
     @classmethod
     @gen.coroutine

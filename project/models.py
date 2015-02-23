@@ -11,7 +11,7 @@ class Project(PSQLModel):
     TABLE = u'projects'
 
     OVERVIEW_FIELDS = [u'id', u'research_fields', u'title', u'description_short', u'university_connection',
-                       u'likes', u'location']
+                       u'likes']
 
 
     @classmethod
