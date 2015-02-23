@@ -24,16 +24,8 @@ class ProjectBL(object):
     @classmethod
     @gen.coroutine
     def get_all_projects(cls):
-        json_data = []
-        columns = [u'id', u'title', u'description_short', u'views', u'likes', u'organization_structure', u'end_date']
-        projects = yield Project.get_all_json(columns)
-        if projects:
-            json_data = [dict(zip(columns, entity_data)) for entity_data in projects]
-            for j in json_data:
-                j[u'id'] = int(j[u'id'])
-                if j.get(u'end_date'):
-                    j[u'end_date'] = j[u'end_date'].strftime(u'%d-%m-%Y')
-        raise gen.Return(json_data)
+        projects_data = yield Project.get_all_json(columns=Project.OVERVIEW_FIELDS)
+        raise gen.Return(projects_data)
 
     @classmethod
     @gen.coroutine
