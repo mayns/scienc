@@ -43,13 +43,13 @@ def get_insert_sql_query(tbl, insert_data):
     column_values = zip_values(ALL_TABLES[tbl].keys(), insert_data)
     fields = u", ".join([v[0] for v in column_values])
     values = []
+
     for value in column_values:
-        store = MODELS[tbl][value[0]].store
+        store = ALL_TABLES[tbl][value[0]].store
         if not store:
             values.append(value[1])
             continue
         values.append(store(value[1]))
-
     values = u"'" + u"', '".join([v for v in values]) + u"'" if len(values) > 1 else u"'{}'".format(values[0])
     values = values.replace(u'%', u'%%')
 

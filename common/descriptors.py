@@ -99,6 +99,7 @@ class Integer(FieldDescriptor):
         """:rtype: int"""
         super(Integer, self).__init__(default=default, db_type=db_type, **kwargs)
 
+        self.store = str
         self.restore = int
         self.type = int
         self.db_type = db_type or 'bigint'
@@ -111,6 +112,7 @@ class ID(FieldDescriptor):
         """:rtype: int"""
         super(ID, self).__init__(default=default, db_type=db_type, **kwargs)
 
+        self.store = str
         self.restore = int
         self.type = int
         self.db_type = db_type or 'bigserial'
@@ -135,7 +137,8 @@ class Datetime(FieldDescriptor):
         """:rtype: datetime"""
         super(Datetime, self).__init__(default=default, db_type=db_type, **kwargs)
 
-        self.store = lambda value: value.strftime(environment.DATETIME_FORMAT[db_type]['DB']) if value else u''
+        self.store = lambda value: value.strftime(environment.DATETIME_FORMAT[db_type]['DB']) \
+            if value and not isinstance(value, basestring) else value
         self.restore = lambda value: datetime.datetime.strptime(value, environment.DATETIME_FORMAT[db_type]['HUMAN']) \
             if value else u''
         self.type = datetime.date

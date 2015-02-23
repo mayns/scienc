@@ -9,7 +9,7 @@ MODELS = dict(
     scientists = {
 
         # common info
-        u'id': ID(),
+        u'id': ID(db_references='roles(id)'),
         u'email': Text(required=True),
         u'first_name': Text(required=True),
         u'last_name': Text(required=True),

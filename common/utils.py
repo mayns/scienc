@@ -84,7 +84,7 @@ def check_password(raw_password, enc_password):
     return hsh == get_hexdigest(algo, salt, raw_password)
 
 
-def zip_values(iterable, dict2, no_empty=False):
+def zip_values(iterable, dict2):
     """
 
     :type iterable: iter

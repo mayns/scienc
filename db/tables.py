@@ -8,7 +8,7 @@ __author__ = 'mayns'
 TABLES = dict(
 
     roles = {
-        u'id': ID(db_references='scientists(id)'),
+        u'id': ID(),
         u'email': Text(),
         u'pwd': Text(),
         u'role': Integer()

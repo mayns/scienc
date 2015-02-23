@@ -54,9 +54,9 @@ def create_db():
 def create_relations():
     try:
         yield delete_tables()
+        yield create_relation_roles()
         yield create_relation_scientists()
         yield create_relation_projects()
-        yield create_relation_roles()
         yield create_relation_countries()
         yield create_relation_cities()
         yield create_relation_main_cities()
