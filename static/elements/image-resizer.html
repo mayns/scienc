@@ -1,0 +1,135 @@
+<link rel="import" href="polymer/polymer.html"/>
+
+<polymer-element name="image-resizer" hidden attributes="imageSize coords">
+    <script>
+        (function(){
+            Polymer({
+                resize: function (imageUrl) {
+                    var self = this,
+                        sourceImage = new Image(),
+                        imageType = self._getImageType(imageUrl),
+                        options = {
+                            sourceImage: sourceImage,
+                            imageSize: self.imageSize,
+                            coords: self.coords,
+                            imageType: imageType
+                        };
+
+                    sourceImage.crossOrigin = "anonymous";
+                    sourceImage.src = imageUrl;
+
+                    if (sourceImage.complete) {
+                       self._onImageLoad(options);
+                    }
+                    else {
+                        sourceImage.addEventListener('load', function(e){
+                            self._onImageLoad(options);
+                        });
+                    }
+                },
+                getDefaultCoords: function (imageSize, sourceImage) {
+                    var self,
+                        sourceWidth = sourceImage.width,
+                        sourceHeight = sourceImage.height,
+                        formatAspectRatio = imageSize.width / imageSize.height,
+                        imageAspectRatio = sourceWidth / sourceHeight,
+                        sourceY = 0,
+                        sourceX = 0;
+
+                    if (formatAspectRatio !== imageAspectRatio) {
+                        if (formatAspectRatio === 1) {
+                            sourceWidth = sourceHeight = Math.min(sourceImage.width, sourceImage.height);
+                            sourceX = (sourceImage.width / 2) - (sourceWidth / 2);
+                            sourceY = (sourceImage.height / 2) - (sourceHeight / 2);
+                        }
+                        else {
+                            if (imageAspectRatio > formatAspectRatio) {
+                                sourceWidth = sourceImage.height * formatAspectRatio;
+                                sourceX = (sourceImage.width / 2) - (sourceWidth / 2);
+                            }
+                            else {
+                                sourceHeight = sourceImage.width / formatAspectRatio;
+                                sourceY = (sourceImage.height / 2) - (sourceHeight / 2);
+                            }
+                        }
+                    }
+
+                    return {
+                        x1: sourceX,
+                        y1: sourceY,
+                        x2: sourceX + sourceWidth,
+                        y2: sourceY + sourceHeight
+                    };
+                },
+                _getImageType: function (url) {
+                    var match = url.match(/image\/(.*?);|\.(png|gif|jpg|jpeg)$/i);
+                    return match[1] || match[2];
+                },
+                _onImageLoad: function (options) {
+                    var self = this;
+                    if (!options.coords) {
+                        options.coords = self.getDefaultCoords(options.imageSize , options.sourceImage);
+                    }
+                    return self._resizeImage(options);
+                },
+                _resizeImage: function (options) {
+                    var self = this,
+                        canvas = document.createElement('canvas'),
+                        context = canvas.getContext("2d"),
+                        sourceImage = options.sourceImage,
+                        imageSize = options.imageSize,
+                        coords = options.coords,
+                        imageType = options.imageType,
+                        sourceX = coords.x1,
+                        sourceY = coords.y1,
+                        sourceWidth = Math.abs(coords.x1 - coords.x2),
+                        sourceHeight = Math.abs(coords.y1 - coords.y2),
+                        destX = 0,
+                        destY = 0,
+                        destWidth = imageSize.width,
+                        destHeight = imageSize.height,
+                        aspectRatio = imageSize.width / imageSize.height;
+
+                    if (aspectRatio === 1) {
+                        if (sourceWidth > imageSize.width) {
+
+                        }
+                        else {
+                            destWidth = sourceWidth;
+                            destHeight = sourceHeight;
+                        }
+                    }
+                    else {
+                        if (aspectRatio > 1) {
+                            if (sourceWidth > imageSize.width) {
+                                destHeight = imageSize.width / aspectRatio;
+                            }
+                            else {
+                                destWidth = sourceWidth;
+                                destHeight = sourceHeight;
+                            }
+                        }
+                        else {
+                            if (sourceImage.height > imageSize.height) {
+                                destWidth = imageSize.width * aspectRatio;
+                            }
+                            else {
+                                destWidth = sourceWidth;
+                                destHeight = sourceHeight;
+                            }
+                        }
+                    }
+                    canvas.width = destWidth;
+                    canvas.height = destHeight;
+//			Interface drawImage
+//			context.drawImage(sourceImage, sourceX, sourceY, sourceWidth, sourceHeight, destX, destY, destWidth, destHeight);
+                    context.drawImage(sourceImage, sourceX, sourceY, sourceWidth, sourceHeight, destX, destY, destWidth, destHeight);
+                    self.fire('resize', {
+                        imageUri: canvas.toDataURL('image/' + imageType),
+                        coords: options.coords
+                    });
+                }
+            });
+        })()
+    </script>
+</polymer-element>

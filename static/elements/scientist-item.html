@@ -1,4 +1,5 @@
-<link rel="import" href="/static/elements/polymer/polymer.html"/>   
+<link rel="import" href="/static/elements/polymer/polymer.html"/>
+
 
 <polymer-element name="scientist-item" attributes="data">
     <template>
@@ -26,7 +27,9 @@
                     <img src="/static/lomonosov.jpg">
                 </div>
                 <div class="card-details">
-                    <h2 class="card-name">{{ data.full_name }}</h2>
+                    <h2 class="card-name">
+                        <a href="/scientist/{{ data.id }}" is="html5-history-anchor" pushstate popstate>{{ data.full_name }}</a>
+                    </h2>
                     <div class="card-education">{{ data.location }}</div>
                     <div class="card-projects">
                         <span class="card-projects-label">Проектов</span>

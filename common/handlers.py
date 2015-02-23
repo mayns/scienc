@@ -38,7 +38,7 @@ class LoginHandler(BaseRequestHandler):
         password = data.get(u'password', u'')
         scientist_id = yield ScientistBL.check_scientist(email, password)
         if not scientist_id:
-            self.finish(u'LOGIN or PASSWORD NOT CORRECT')
+            self.send_error(status_code=403)
             return
         self.set_secure_cookie(u'scientist', str(scientist_id))
         self.redirect(self.get_argument(u'next', u'/'))

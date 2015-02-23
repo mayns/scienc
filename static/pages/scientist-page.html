@@ -1,11 +1,65 @@
 <link rel="import" href="/static/elements/polymer/polymer.html"/>
+<link rel="import" href="/static/elements/core-ajax/core-ajax.html"/>
 
 <polymer-element name="scientist-page">
 	<template>
 		<style>
-
+            h1, h2, h3 {
+                margin: 0;
+            }
+            h1 {
+                margin-bottom: 20px;
+                font-size: 30px;
+            }
+            section {
+                width: 960px;
+                margin: 0 auto;
+            }
+            label {
+                font-weight: bold;
+            }
+            .photo {
+                height: 250px;
+                width: 250px;
+            }
+            .row {
+                margin-bottom: 20px;
+            }
+            .row:last-child {
+                margin-bottom: 0;
+            }
+            .block {
+                padding-left: 20px;
+            }
 		</style>
-
+        <core-ajax auto url="/api/scientist/{{id}}" method="GET" handleAs="json" response="{{ json }}"></core-ajax>
+        <template bind="{{ json.data as data }}">
+            <section>
+                <div class="row-flex">
+                    <div flex>
+                        <h1>{{ data.first_name }} {{ data.middle_name}}  {{ data.last_name }}</h1>
+                        <div class="row">
+                            <label for="">Дата рождения:</label>
+                            <span>{{ data.dob }}</span>
+                        </div>
+                        <div class="row">
+                            <label for="">Локация:</label>
+                            <span>{{ data.location_country }}, {{ data.location_city }}</span>
+                        </div>
+                        <div class="row">
+                            <label for="">Контакты:</label>
+                            <div class="block">
+                                <label for="">Email:</label>
+                                <span>{{ data.email }}</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div>
+                        <img src="{{ data.image_large || '/static/images/profile.svg' }}" alt="" class="photo"/>
+                    </div>
+                </div>
+            </section>
+        </template>
 	</template>
 	<script>
 		Polymer({});

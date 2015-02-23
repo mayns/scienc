@@ -2,6 +2,7 @@
 <link rel="import" href="/static/elements/break-line.html"/>
 <link rel="import" href="/static/elements/ajax-json-form.html"/>
 <link rel="import" href="/static/elements/input-tags.html"/>
+<link rel="import" href="/static/elements/input-photo.html"/>
 
 <polymer-element name="signup-page">
 	<template>
@@ -67,10 +68,10 @@
 			form {
 				padding-bottom: 70px;
 			}
-			form .row {
+			form .row-flex {
 				margin-bottom: 20px;
 			}
-			form .row:last-child {
+			form .row-flex:last-child {
 				margin-bottom: 0;
 			}
 			.deleteItem {
@@ -81,50 +82,52 @@
             }
 		</style>
 		<section vertical layout>
-			<form is="ajax-json-form" action="/api/scientist" redirect="/">
+			<form id="form"
+                  is="ajax-json-form"
+                  action="/api/scientist" redirect="/">
 				<fieldset>
 				    <legend>Общие сведения</legend>
-				    <div class="row fieldblock">
+				    <div class="row-flex fieldblock">
                         <div class="col-lg-9">
-                            <div class="row middle">
+                            <div class="row-flex middle">
                                 <label for="name" class="action col-lg-3">Имя</label>
-                                <input type="text" id="name" name="first_name" class="col-lg-8" required/>
+                                <input type="text" id="name" data-json="first_name" class="col-lg-8" required/>
                             </div>
-                            <div class="row middle">
+                            <div class="row-flex middle">
                                 <label for="surname" class="action col-lg-3">Фамилия</label>
-                                <input type="text" id="surname" name="last_name" class="col-lg-8" required/>
+                                <input type="text" id="surname" data-json="last_name" class="col-lg-8" required/>
                             </div>
-                            <div class="row middle">
+                            <div class="row-flex middle">
                                 <label for="middlename" class="action col-lg-3">Отчество</label>
-                                <input type="text" id="middlename" name="middle_name" class="col-lg-8" required/>
+                                <input type="text" id="middlename" data-json="middle_name" class="col-lg-8" required/>
                             </div>
-                            <div class="row middle">
+                            <div class="row-flex middle">
                                 <label class="col-lg-3">Пол</label>
                                 <div class="col-lg-2">
-                                    <div class="row middle between">
+                                    <div class="row-flex middle between">
                                         <label for="male">М</label>
-                                        <input type="radio" id="male" value="m" name="gender"/>
+                                        <input type="radio" id="male" value="m" data-json="gender"/>
                                         <label for="female">Ж</label>
-                                        <input type="radio" id="female" value="f" name="gender"/>
+                                        <input type="radio" id="female" value="f" data-json="gender"/>
                                     </div>
                                 </div>
                             </div>
-                            <div class="row middle">
+                            <div class="row-flex middle">
                                 <label for="dateOfBirth" class="col-lg-3">Дата рождения</label>
-                                <input type="date" id="dateOfBirth" name="dob"/>
+                                <input type="date" id="dateOfBirth" data-json="dob"/>
                             </div>
-                            <div class="row middle">
+                            <div class="row-flex middle">
                                 <label for="placeOfLiving" class="col-lg-3">Местро проживания</label>
                                 <div class="col-lg-5">
-                                    <div class="row between">
-                                        <input type="text" id="placeOfLiving" name="location_country" placeholder="Страна"/>
-                                        <input type="text" id="" name="location_city" placeholder="Город"/>
+                                    <div class="row-flex between">
+                                        <input type="text" id="placeOfLiving" data-json="location_country" placeholder="Страна"/>
+                                        <input type="text" id="" data-json="location_city" placeholder="Город"/>
                                     </div>
                                 </div>
                             </div>
                         </div>
                         <div class="col-lg-3">
-                            <input class="photo action" type="file" name="photo"/>
+                            <input-photo size='{"width": 250, "height": 250}' id="photo"></input-photo>
                         </div>
 					</div>
 				</fieldset>
@@ -134,25 +137,25 @@
                         <fieldset>
                             <legend>Среднее образование</legend>
                             <div class="fieldblock">
-                                <div class="row middle">
+                                <div class="row-flex middle">
                                     <label for="middle_education_country" class="col-lg-2 action">Страна</label>
-                                    <input type="text" name="middle_education[][country]" id="middle_education_country" class="col-lg-10"/>
+                                    <input type="text" data-json="middle_education[][country]" id="middle_education_country" class="col-lg-10"/>
                                 </div>
-                                <div class="row middle">
+                                <div class="row-flex middle">
                                     <label for="middle_education_city" class="col-lg-2">Город</label>
-                                    <input type="text" name="middle_education[][city]" id="middle_education_city" class="col-lg-10"/>
+                                    <input type="text" data-json="middle_education[][city]" id="middle_education_city" class="col-lg-10"/>
                                 </div>
-                                <div class="row middle">
+                                <div class="row-flex middle">
                                     <label for="middle_education_school" class="col-lg-2">Школа</label>
-                                    <input type="text" name="middle_education[][school]" id="middle_education_school" class="col-lg-10"/>
+                                    <input type="text" data-json="middle_education[][school]" id="middle_education_school" class="col-lg-10"/>
                                 </div>
-                                <div class="row">
+                                <div class="row-flex">
                                     <div class="col-lg-offset-2 col-lg-10">
-                                        <div class="row between middle">
+                                        <div class="row-flex between middle">
                                             <label for="middle_education_start_year" class="action">Год начала</label>
-                                            <input type="date" name="middle_education[][start_year]" id="middle_education_start_year"/>
+                                            <input type="date" data-json="middle_education[][start_year]" id="middle_education_start_year"/>
                                             <label for="middle_education_end_year" class="action">Год окончания</label>
-                                            <input type="date" name="middle_education[][end_year]" id="middle_education_end_year"/>
+                                            <input type="date" data-json="middle_education[][end_year]" id="middle_education_end_year"/>
                                         </div>
                                     </div>
                                 </div>
@@ -167,37 +170,37 @@
                             </legend>
                             <template repeat="{{ high_educations }}">
                                 <div class="fieldblock">
-                                    <div class="row middle">
+                                    <div class="row-flex middle">
                                         <label for="high_education_country" class="col-lg-2 action">Страна</label>
-                                        <input type="text" name="high_education[][country]" id="high_education_country" class="col-lg-10"/>
+                                        <input type="text" data-json="high_education[][country]" id="high_education_country" class="col-lg-10"/>
                                     </div>
-                                    <div class="row middle">
+                                    <div class="row-flex middle">
                                         <label for="high_education_city" class="col-lg-2 action">Город</label>
-                                        <input type="text" name="high_education[][city]" id="high_education_city" class="col-lg-10"/>
+                                        <input type="text" data-json="high_education[][city]" id="high_education_city" class="col-lg-10"/>
                                     </div>
-                                    <div class="row middle">
+                                    <div class="row-flex middle">
                                         <label for="high_education_university" class="col-lg-2 action">Университет</label>
-                                        <input type="text" name="high_education[][university]" id="high_education_university" class="col-lg-10"/>
+                                        <input type="text" data-json="high_education[][university]" id="high_education_university" class="col-lg-10"/>
                                     </div>
-                                    <div class="row middle">
+                                    <div class="row-flex middle">
                                         <label for="high_education_faculty" class="col-lg-2 action">Факультет</label>
-                                        <input type="text" name="high_education[][faculty]" id="high_education_faculty" class="col-lg-10"/>
+                                        <input type="text" data-json="high_education[][faculty]" id="high_education_faculty" class="col-lg-10"/>
                                     </div>
-                                    <div class="row middle">
+                                    <div class="row-flex middle">
                                         <label for="high_education_department" class="col-lg-2 action">Кафедра</label>
-                                        <input type="text" name="high_education[][department]" id="high_education_department" class="col-lg-10"/>
+                                        <input type="text" data-json="high_education[][department]" id="high_education_department" class="col-lg-10"/>
                                     </div>
-                                    <div class="row middle">
+                                    <div class="row-flex middle">
                                         <label for="high_education_degree" class="col-lg-2 action">Степень</label>
-                                        <input type="text" name="high_education[][degree]" id="high_education_degree" class="col-lg-10"/>
+                                        <input type="text" data-json="high_education[][degree]" id="high_education_degree" class="col-lg-10"/>
                                     </div>
-                                    <div class="row">
+                                    <div class="row-flex">
                                         <div class="col-lg-offset-2 col-lg-10">
-                                            <div class="row between">
+                                            <div class="row-flex between">
                                                 <label for="high_education_start_year" class="action">Год начала</label>
-                                                <input type="number" name="high_education[][start_year]" id="high_education_start_year"/>
+                                                <input type="number" data-json="high_education[][start_year]" id="high_education_start_year"/>
                                                 <label for="high_education_end_year" class="action">Год окончания</label>
-                                                <input type="number" name="high_education[][end_year]" id="high_education_end_year"/>
+                                                <input type="number" data-json="high_education[][end_year]" id="high_education_end_year"/>
                                             </div>
                                         </div>
                                     </div>
@@ -222,21 +225,21 @@
                                 </legend>
                                 <template repeat="{{ publications }}">
                                     <div class="fieldblock">
-                                        <div class="row middle">
+                                        <div class="row-flex middle">
                                             <label for="publicationName" class="action col-lg-3">Название</label>
-                                            <input type="text" name="publications[][name]" id="publicationName" class="col-lg-8"/>
+                                            <input type="text" data-json="publications[][name]" id="publicationName" class="col-lg-8"/>
                                         </div>
-                                        <div class="row middle">
+                                        <div class="row-flex middle">
                                             <label for="publishingHouse" class="action col-lg-3">Издательство</label>
-                                            <input type="text" name="publications[][house]" id="publishingHouse" class="col-lg-8"/>
+                                            <input type="text" data-json="publications[][house]" id="publishingHouse" class="col-lg-8"/>
                                         </div>
-                                        <div class="row middle">
+                                        <div class="row-flex middle">
                                             <label for="publicationYear" class="action col-lg-3">Год издания</label>
-                                            <input type="text" name="publications[][year]" id="publicationYear" class="col-lg-8"/>
+                                            <input type="text" data-json="publications[][year]" id="publicationYear" class="col-lg-8"/>
                                         </div>
-                                        <div class="row middle">
+                                        <div class="row-flex middle">
                                             <label for="publicationLink" class="col-lg-3 action">Ссылка</label>
-                                            <input type="url" name="publications[][link]" id="publicationLink" class="col-lg-8"/>
+                                            <input type="url" data-json="publications[][link]" id="publicationLink" class="col-lg-8"/>
                                         </div>
                                         <img class="deleteItem icon action"
                                              data-itemtype="publications"
@@ -248,14 +251,14 @@
                         </fieldset>
                         <fieldset>
                             <legend>О себе</legend>
-                            <div class="fieldblock row">
-                                <textarea name="about" id="about" class="col-lg-12"></textarea>
+                            <div class="fieldblock row-flex">
+                                <textarea data-json="about" id="about" class="col-lg-12"></textarea>
                             </div>
                         </fieldset>
                         <fieldset>
                             <legend>Сфера научных интересов</legend>
                             <div class="fieldblock">
-                                <input-tags name="interests[]" id="science_interests" class="col-lg-12"></input-tags>
+                                <input-tags data-json="interests[]" id="science_interests" class="col-lg-12"></input-tags>
                             </div>
                         </fieldset>
                     </div>
@@ -264,42 +267,42 @@
                     <legend>Контакты</legend>
                     <div class="fieldblock">
                         <div class="col-lg-9">
-						<div class="row middle">
+						<div class="row-flex middle">
 							<label for="email_public" class="action col-lg-3">Email (публичный)</label>
-							<input type="email" name="contacts[email]" id="email_public" class="col-lg-8"/>
+							<input type="email" data-json="contacts[email]" id="email_public" class="col-lg-8"/>
 						</div>
-						<div class="row middle">
+						<div class="row-flex middle">
 							<label for="phone" class="action col-lg-3">Телефон</label>
-							<input type="tel" name="contacts[phone][]" id="phone" class="col-lg-8"/>
+							<input type="tel" data-json="contacts[phone][]" id="phone" class="col-lg-8"/>
 						</div>
-						<div class="row middle">
+						<div class="row-flex middle">
 							<label for="skype" class="col-lg-3">Skype</label>
-							<input type="text" name="contacts[skype]" id="skype" class="col-lg-8"/>
+							<input type="text" data-json="contacts[skype]" id="skype" class="col-lg-8"/>
 						</div>
 					</div>
                     </div>
                 </fieldset>
-				<div class="row">
+				<div class="row-flex">
 					<div class="col-lg-9">
-						<div class="row middle">
+						<div class="row-flex middle">
 							<label for="email" class="col-lg-3">Email</label>
-							<input type="email" name="email" id="email" required class="col-lg-5"/>
+							<input type="email" data-json="email" id="email" required class="col-lg-5"/>
 						</div>
 						<div class="row middle">
 							<label for="pwd" class="col-lg-3">Пароль</label>
-							<input type="password" name="pwd" id="pwd" required class="col-lg-5"/>
+							<input type="password" data-json="pwd" id="pwd" required class="col-lg-5"/>
 						</div>
 					</div>
 				</div>
-				<div class="row">
+				<div class="row-flex">
 					<div class="col-lg-9">
-						<div class="row middle">
+						<div class="row-flex middle">
 							<label for="accept_rules" class="col-lg-3">Я жираф</label>
-							<input type="checkbox" name="accept_rules" id="accept_rules"/>
+							<input type="checkbox" data-json="accept_rules" id="accept_rules"/>
 						</div>
 					</div>
 				</div>
-				<div class="row center">
+				<div class="row-flex center">
 					<button type="submit" class="button submit">Вступаю</button>
 				</div>
 			</form>
@@ -308,8 +311,17 @@
 	<script>
         Polymer({
             ready: function() {
+                var self = this;
                 this.publications = [Date.now()];
                 this.high_educations = [Date.now()];
+
+                this.$.form.addCustomFields = function(jsonData, formData) {
+                    var photo = self.$.photo;
+                    if (photo.file !== null) {
+                        formData.append('raw_image', photo.file);
+                        jsonData.raw_image_coords = photo.coords;
+                    }
+                };
             },
             addItem: function(event, detail, sender) {
                 var type = event.target.dataset.itemtype;

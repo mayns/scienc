@@ -26,7 +26,7 @@
 				margin-bottom: 5px;
 			}
 		</style>
-		<div id="tagsContainer" on-keypress="{{onKeyPress}}">
+		<div id="tagsContainer" on-keyup="{{ onKeyup }}">
 			<template id="tag" repeat="{{tag in value}}">
 				<span class="action" on-tap="{{onTagTap}}" data-value="{{tag}}">{{tag}}</span>
 			</template>
@@ -35,10 +35,10 @@
 	</template>
 	<script>
 		Polymer({
-			onKeyPress: function(e, detail, sender) {
+            onKeyup: function(e, detail, sender) {
 				var tag;
 
-				if (event.keyCode === 13) {
+				if (event.keyCode === 13) { // Enter
 					tag = this.$.cursor.value;
 
 					e.preventDefault();
@@ -47,6 +47,13 @@
 						this.$.cursor.value = '';
 					}
 				}
+                if (event.keyCode === 8) {
+                    tag = this.$.cursor.value;
+
+                    if (tag.length === 0) {
+                        this.value.pop();
+                    }
+                }
 			},
 			onTagTap: function(e, detail, sender) {
 				var index = this.value.indexOf(e.target.dataset.value);
