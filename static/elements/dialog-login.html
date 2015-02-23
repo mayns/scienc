@@ -21,7 +21,7 @@
                     <paper-input-decorator label="Password">
     					<input class="login-dialog-input"
     						   type="password"
-    						   id="password"
+    						   id="pwd"
     						   required>
                     </paper-input-decorator>
 					<button class="button submit login-dialog-submit"
@@ -56,7 +56,7 @@
 				var formData = new FormData();
 				formData.append('data', JSON.stringify({
 					email: self.$.email.value,
-					password: self.$.password.value
+					pwd: self.$.pwd.value
 				}));
 				self.$.ajax.makeRequest(formData);
 			},

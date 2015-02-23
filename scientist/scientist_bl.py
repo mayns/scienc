@@ -8,7 +8,7 @@ from PIL import Image
 
 import settings
 import environment
-from db.orm import MODELS
+from db.tables import TABLES
 from db.utils import get_insert_sql_query
 from common.media_server import upload, get_url
 from common.utils import set_password, check_password
@@ -34,6 +34,7 @@ class ScientistBL(object):
             if not scientist_id:
                 scientist = Scientist(**scientist_dict)
                 yield cls.validate_data(scientist_dict)
+                print 'updating roles'
                 yield cls.update_roles(scientist_dict)
                 print scientist_dict
                 scientist_id = yield scientist.save(update=False)
@@ -132,8 +133,8 @@ class ScientistBL(object):
             pwd=pwd,
             role=scientist_dict.pop(u'role', environment.ROLE_USER)
         )
-        sqp_query = get_insert_sql_query(MODELS[environment.ROLES_TABLE], params)
-
+        sqp_query = get_insert_sql_query(environment.ROLES_TABLE, params)
+        print sqp_query
         yield momoko.Op(conn.execute, sqp_query)
 
     @classmethod

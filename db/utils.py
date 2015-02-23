@@ -1,6 +1,14 @@
 # -*- coding: utf-8 -*-
 
+import copy
+from db.orm import MODELS
+from db.tables import TABLES
+from common.utils import zip_values
+
 __author__ = 'mayns'
+
+ALL_TABLES = copy.deepcopy(MODELS)
+ALL_TABLES.update(TABLES)
 
 
 def get_update_sql_query(tbl, update_params, where_params=None):
@@ -32,7 +40,7 @@ def get_insert_sql_query(tbl, insert_data):
     :return: valid SQL request query
     :rtype: unicode
     """
-    column_values = zip_values(MODELS[tbl].keys(), insert_data)
+    column_values = zip_values(ALL_TABLES[tbl].keys(), insert_data)
     fields = u", ".join([v[0] for v in column_values])
     values = []
     for value in column_values:
