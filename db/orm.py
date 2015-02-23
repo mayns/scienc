@@ -45,9 +45,8 @@ MODELS = dict(
         u'research_fields': JsonArray(required=True, db_type=''),   # области науки
         u'title': Text(required=True),                              # название проекта
         u'description_short': Text(required=True),                  # краткое описание для обложки
-        u'views': Integer(),                                        # количество просмотров
         u'likes': Integer(),                                        # количество лайков
-        u'responses': JsonArray(db_type='bigint[]'),                # ids отклкнувшихся юзеров
+        u'responses': JsonArray(db_type='json'),                    # [{scientist_id, vacancy_id}]
         u'university_connection': JsonObject(),                     # {country, city, university, faculty, chair}
 
         # project info

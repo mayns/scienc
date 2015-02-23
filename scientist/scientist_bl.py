@@ -9,7 +9,7 @@ from PIL import Image
 import settings
 import environment
 from db.orm import MODELS
-from base.models import get_insert_sql_query
+from db.utils import get_insert_sql_query
 from common.media_server import upload, get_url
 from common.utils import set_password, check_password
 from common.decorators import psql_connection
