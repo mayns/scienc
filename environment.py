@@ -39,6 +39,10 @@ CONTACT_TYPES = [PHONE, SKYPE, EMAIL]
 
 AVATAR_SIZES = [60, 100, 250]
 
+IMAGE_URL_MENU = lambda img_url: u'{}60.png'.format(img_url)
+IMAGE_URL_LIST = lambda img_url: u'{}100.png'.format(img_url)
+IMAGE_URL_PROFILE = lambda img_url: u'{}250.png'.format(img_url)
+
 
 DATETIME_FORMAT = dict(
     date=dict(
