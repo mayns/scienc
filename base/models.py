@@ -4,6 +4,7 @@ import momoko
 from tornado import gen
 
 from common.decorators import psql_connection
+from common.exceptions import PSQLException
 from db.orm import MODELS
 from db.utils import get_update_sql_query, get_insert_sql_query
 
@@ -36,8 +37,12 @@ class PSQLModel(object):
             sqp_query = get_update_sql_query(self.TABLE, data, dict(id=self.id))
         else:
             sqp_query = get_insert_sql_query(self.TABLE, data)
-        cursor = yield momoko.Op(conn.execute, sqp_query)
-        self.id = cursor.fetchone()[0]
+
+        try:
+            cursor = yield momoko.Op(conn.execute, sqp_query)
+            self.id = cursor.fetchone()[0]
+        except Exception, ex:
+            raise PSQLException(ex)
 
         raise gen.Return(self.id)
 
@@ -53,19 +58,24 @@ class PSQLModel(object):
     def get_by_id(cls, conn, _id, columns=None):
         if not columns:
             columns = MODELS[cls.TABLE].keys()
-        cursor = yield momoko.Op(conn.execute, u"SELECT {columns} FROM {table_name} WHERE id={id}".format(
-            columns=u', '.join(columns),
-            table_name=cls.TABLE,
-            id=str(_id)))
-        data = cursor.fetchone()
+        try:
+            cursor = yield momoko.Op(conn.execute, u"SELECT {columns} FROM {table_name} WHERE id={id}".format(
+                columns=u', '.join(columns),
+                table_name=cls.TABLE,
+                id=str(_id)))
+            data = cursor.fetchone()
+        except Exception, ex:
+            raise PSQLException(ex)
+
         data = dict(zip(columns, data))
         instance = cls()
         for k, v in data.iteritems():
             if not v:
                 continue
-            restore = MODELS[cls.TABLE][k].restore
-            if restore:
-                v = restore(v)
+            # restore = MODELS[cls.TABLE][k].restore
+            # if restore:
+            #     v = restore(v)
+            # if v:
             setattr(instance, k, v)
 
         raise gen.Return(instance)

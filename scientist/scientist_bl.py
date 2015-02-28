@@ -13,7 +13,7 @@ from common.media_server import upload, get_url
 from common.utils import set_password, check_password
 from common.decorators import psql_connection
 from scientist.models import Scientist
-from common.exceptions import UserExistException
+from common.exceptions import UserExistException, RequiredFields
 
 
 __author__ = 'oks'
@@ -23,61 +23,61 @@ class ScientistBL(object):
 
     @classmethod
     @gen.coroutine
-    def modify(cls, scientist_dict=None, scientist_photo=None):
+    def create(cls, scientist_dict=None, scientist_photo=None):
 
-        # TODO: check updated fields
-        # TODO: delete avatar marker
-        scientist_id = scientist_dict.get(u'id', 0)
-        image_url = u''
-        try:
-            if not scientist_id:
-                scientist = Scientist(**scientist_dict)
-                yield cls.validate_data(scientist_dict)
-                yield cls.update_roles(scientist_dict)
-                scientist_id = yield scientist.save(update=False)
-                if scientist_photo:
-                    raw_image_coords = scientist_dict.pop(u'raw_image_coords')
-                    image_url = yield cls.upload_avatar(scientist_id, scientist_photo[0], raw_image_coords)
-                    scientist = yield Scientist.get_by_id(scientist_id)
-                    scientist.image_url = image_url
-                    yield scientist.save(fields=[u'image_url'])
-                    image_url += u'50.png'
-                    print image_url
-            else:
-                scientist = yield Scientist.get_by_id(scientist_id)
-                image_url = scientist.image_url + u'50.png'
-                if scientist_photo:
-                    image_url = yield cls.upload_avatar(scientist_id, scientist_photo[0])
-                    scientist_dict.update(dict(
-                        image_url=image_url
-                    ))
-                scientist.populate_fields(scientist_dict)
-                yield scientist.save()
-        except Exception, ex:
-            print u'EXCEPTION IN MODIFY SCIENTIST: {}'.format(scientist_id), ex
-            raise ex
+        # check if user can save email/pwd and save it if he can
+        yield cls.validate_data(scientist_dict)
+        yield cls.update_roles(scientist_dict)
 
-        raise gen.Return(dict(scientist_id=scientist_id, image_url=image_url))
+        scientist = Scientist(**scientist_dict)
+        scientist_id = yield scientist.save(update=False)
+
+        image_url = yield cls.upload_avatar(scientist_id, scientist_photo)
+        if image_url:
+            scientist = yield Scientist.get_by_id(scientist_id)
+            scientist.image_url = image_url
+            yield scientist.save(fields=[u'image_url'])
+
+        raise gen.Return(dict(scientist_id=scientist_id, image_url=environment.IMAGE_URL_MENU(image_url)))
+
 
     @classmethod
     @gen.coroutine
-    def upload_avatar(cls, scientist_id, scientist_photo, raw_image_coords):
+    def update(cls, scientist_id, scientist_dict, scientist_photo):
+        scientist = yield Scientist.get_by_id(scientist_id)
+        image_url = scientist.image_url + u'50.png'
+        if scientist_photo:
+            image_url = yield cls.upload_avatar(scientist_id, scientist_photo[0])
+            scientist_dict.update(dict(
+                image_url=image_url
+            ))
+        scientist.populate_fields(scientist_dict)
+        yield scientist.save()
+
+    @classmethod
+    @gen.coroutine
+    def upload_avatar(cls, scientist_id, scientist_photo):
+
+        if not scientist_photo.get(u'raw_image'):
+            raise gen.Return(u'')
 
         file_path = u'{sc_id}/a'.format(sc_id=str(scientist_id))
         url_path = get_url(file_path)
 
-        img = Image.open(cStringIO.StringIO(scientist_photo.body))
-        # "x1":0,"y1":0,"x2":800,"y2":800
-        print raw_image_coords
-        img = img.crop((int(raw_image_coords.get(u'x1')), int(raw_image_coords.get(u'y1')), int(raw_image_coords.get(u'x2')),
-                        int(raw_image_coords.get(u'y2'))))
-        print img
+        img = Image.open(cStringIO.StringIO(scientist_photo[u'raw_image'][0].body))
+        c = scientist_photo.get(u'raw_image_coords', {})
+
+        # crop by coordinates from client or default from the top 250x250 --- ? make square as before
+        img = img.crop((int(c.get(u'x1', 0)), int(c.get(u'y1', 0)), int(c.get(u'x2', 250)),
+                        int(c.get(u'y2', 250))))
+
         for size in environment.AVATAR_SIZES:
             new_img = img.resize((size, size), Image.ANTIALIAS)
             filename = u'{size}.png'.format(size=size)
             out_im = cStringIO.StringIO()
             new_img.save(out_im, 'PNG')
             yield upload(out_im.getvalue(), file_path, filename)
+
         raise gen.Return(url_path)
 
     @classmethod
@@ -91,8 +91,10 @@ class ScientistBL(object):
     def validate_data(cls, conn, data):
         email = data.get(u'email')
         pwd = data.get(u'pwd')
-        if not all([email, pwd]):
-            raise Exception(u'Email or password is missing')
+
+        both_fields = email and pwd
+        if not both_fields:
+            raise RequiredFields([u'Email', u'Password'])
 
         cursor = yield momoko.Op(conn.execute, u"SELECT count(*) FROM {table_name} WHERE email='{email}'".format(
             table_name=environment.ROLES_TABLE,
@@ -134,7 +136,7 @@ class ScientistBL(object):
             role=scientist_dict.pop(u'role', environment.ROLE_USER)
         )
         sqp_query = get_insert_sql_query(environment.ROLES_TABLE, params)
-        print sqp_query
+
         yield momoko.Op(conn.execute, sqp_query)
 
     @classmethod
