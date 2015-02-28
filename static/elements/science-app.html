@@ -3,10 +3,10 @@
 <link rel="import" href="/static/elements/app-globals.html"/>
 
 
-<polymer-element name="science-app">
+<polymer-element name="science-app" on-logged-in="{{ onLoggedIn }}">
 	<template>
 		<content></content>
-		<core-ajax id="ajax" url="/api/xsrf" method="GET" on-core-response="{{onResponseSuccess}}" on-core-error="{{onResponseError}}"></core-ajax>
+		<core-ajax id="ajax" url="/api/xsrf" method="GET" on-core-response="{{onXSRFSuccess}}" on-core-error="{{onXSRFError}}"></core-ajax>
 		<app-globals id="globals"></app-globals>
 	</template>
 	<script>
@@ -32,10 +32,10 @@
 
 					return match ? match[1] : match;
 				},
-				onResponseSuccess: function(e, detail, sender) {
+                onXSRFSuccess: function(e, detail, sender) {
 					this.$.globals.data._xsrf = this.getCookie('_xsrf');
 				},
-				onResponseError: function(e, detail, sender) {
+                onXSRFError: function(e, detail, sender) {
 					if (counter === 5) {
 						// alert(detail.response);
 					}
@@ -45,8 +45,10 @@
 							this.$.ajax.go();
 						}.bind(this),5000);
 					}
+				},
+                onLoggedIn: function(e, detail ,sender) {
 
-				}
+                }
 			});
 		})();
 	</script>

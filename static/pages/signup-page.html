@@ -84,6 +84,7 @@
 		<section vertical layout>
 			<form id="form"
                   is="ajax-json-form"
+                  on-form-response="{{ onFormResponse }}"
                   action="/api/scientist" redirect="/">
 				<fieldset>
 				    <legend>Общие сведения</legend>
@@ -332,6 +333,9 @@
                 var id = event.target.templateInstance.model;
                 var index = this[type].indexOf(id);
                 this[type].splice(index, 1);
+            },
+            onFormResponse: function(e, detail, sender) {
+                this.fire('logged-in', detail)
             }
         });
     </script>
