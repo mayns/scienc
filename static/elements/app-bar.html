@@ -78,7 +78,7 @@
                 <img src="/static/images/members.svg" alt="" class="membersIcon"/>
             </a>
             <a class="app-bar-item" is="html5-history-anchor" href="/scientist/{{ data.user.id }}" pushstate popstate>
-                <img src="{{ data.user.img || '/static/images/profile.svg' }}" alt="" class="profileIcon"/>
+                <img src="{{ data.user.image_url || '/static/images/profile.svg' }}" alt="" class="profileIcon"/>
             </a>
             <a class="app-bar-item" href="#" pushstate popstate>
                 <img src="/static/images/search.svg" alt="" class="searchIcon"/>
