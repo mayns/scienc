@@ -11,6 +11,7 @@
             }
             .card-photo {
                 margin-right: 20px;
+                flex: 0 0 100px;
             }
             .card-photo img {
                 border-radius: 50%;
@@ -22,7 +23,7 @@
             }
         </style>
         <article>
-            <div class="card row-flex middle around">
+            <div class="card" layout horizontal>
                 <div class="card-photo">
                     <img src="{{ data.image_url || '/static/images/profile.svg' }}">
                 </div>
