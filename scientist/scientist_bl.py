@@ -121,8 +121,9 @@ class ScientistBL(object):
                 columns=u'id',
                 table_name=Scientist.TABLE,
                 email=email))
-        _id = cursor.fetchone()[0]
-        raise gen.Return(int(_id))
+            _id = cursor.fetchone()[0]
+            raise gen.Return(int(_id))
+        raise Exception(u'Incorrect pwd')
 
     @classmethod
     @gen.coroutine
