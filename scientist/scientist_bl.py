@@ -165,8 +165,15 @@ class ScientistBL(object):
         scientists = []
         for d in data:
             scientists.append(dict(
+                id=d[u'id'],
                 full_name='{} {} {}'.format(d.get(u'first_name', u''), d.get(u'middle_name', u''), d.get(u'last_name', u'')),
                 location='{} {}'.format(d.get(u'city', u''), d.get(u'country', u'')),
                 projects=len(d.get(u'participating_projects', []))
             ))
         raise gen.Return(scientists)
+
+    @classmethod
+    @gen.coroutine
+    def get_scientist(cls, scientist_id):
+        data = yield Scientist.get_json_by_id(scientist_id)
+        raise gen.Return(data)
