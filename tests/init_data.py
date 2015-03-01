@@ -25,6 +25,184 @@ class Scientist(object):
             last_name=u'Pie',
             middle_name=u'Cherry',
             image_url=u'http://www.gravatar.com/avatar/0feef2db09551df83e7bf61d2d1de25e.png',
+        ),
+
+        2: dict(
+            email=u'oksgorobets@gmail.com',
+            pwd=u'alice',
+            first_name=u'Оксана',
+            last_name=u'Горобец',
+            middle_name=u'Валерьевна',
+            dob=u'1986-10-13',
+            gender=u'f',
+            location={u'country': u'Russia', u'city': u'Moscow'},
+            image_url=u'http://www.gravatar.com/avatar/0feef2db09551df83e7bf61d2d1de25e.png',
+            middle_education=[
+                dict(
+                    country=u'Россия',
+                    city=u'Тверь',
+                    school=u'Гимназия 8',
+                    graduation_year=u'2004'
+                )
+            ],
+            high_education=[
+                dict(
+                    country=u'Россия',
+                    city=u'Тверь',
+                    university=u'ТвГУ',
+                    faculty=u'Филологический',
+                    chair=u'Издательское дело и редактирование',
+                    degree=u'специалист',
+                    graduation_year=u'2011'
+                ),
+                dict(
+                    country=u'Россия',
+                    city=u'Москва',
+                    university=u'МГУ им. Ломоносова',
+                    faculty=u'ВМиК',
+                    chair=u'ПМ и ПО',
+                    degree=u'bachelor',
+                    graduation_year=u'2015'
+                )
+            ],
+            publications=[
+                dict(
+                    title=u'How I stopped procrastinating ',
+                    metadata=u'I did NOT!',
+                    link=u'http://geektimes.ru/post/166369/'
+                )
+            ],
+            interests=[u'лингвистика', u'искусственный интеллект', u'алгоритмы'],
+            about=u'Oh, Enough!',
+
+            contacts=[
+                dict(
+                    connection=u'Phone',
+                    number=u'89104714456'
+                ),
+                dict(
+                    connection=u'email',
+                    number=u'ifine13@gmail.com'
+                ),
+                dict(
+                    connection=u'Skype',
+                    number=u'leff_mayns'
+                ),
+                dict(
+                    connection=u'Instagram',
+                    number=u'@leff_mayns'
+                )
+            ],
+
+            participating_projects=[
+                dict(
+                    project_id=0,
+                    role_id=0
+                ),
+
+                dict(
+                    project_id=1,
+                    role_id=0
+                )
+            ],
+            desired_vacancies=[
+                dict(
+                    project_id=666,
+                    vacancy_id=0
+                )
+            ],
+            managing_project_ids=[0, 1],
+
+            achievements=[0],
+        ),
+
+        3: dict(
+            email=u'losogudok@yandex.ru',
+            pwd=u'qwe',
+            first_name=u'Андрей',
+            last_name=u'Костин',
+            middle_name=u'Васильевич',
+            dob=u'1989-12-19',
+            gender=u'm',
+            location={u'country': u'Russia', u'city': u'Moscow'},
+            image_url=u'http://www.gravatar.com/avatar/0feef2db09551df83e7bf61d2d1de25e.png',
+            middle_education=[
+                dict(
+                    country=u'Россия',
+                    city=u'Москва',
+                    school=u'Гимназия 1551',
+                    graduation_year=u'2007'
+                )
+            ],
+            high_education=[
+                dict(
+                    country=u'Россия',
+                    city=u'Москва',
+                    university=u'МГУ им. Ломоносова',
+                    faculty=u'Психологии',
+                    chair=u'Общая психология',
+                    degree=u'bachelor',
+                    graduation_year=u'2012'
+                ),
+                dict(
+                    country=u'Россия',
+                    city=u'Москва',
+                    university=u'МГУ им. Ломоносова',
+                    faculty=u'Экономики',
+                    chair=u'Агроэкономики',
+                    degree=u'магистр',
+                    graduation_year=u'2015'
+                )
+            ],
+            publications=[
+                dict(
+                    title=u'Корпускулярно-кинетическая теория',
+                    metadata=u'Питер, 2012',
+                    link=u'"https://www.rsl.ru/datadocs/doc_4677je.pdf"'
+                )
+            ],
+            interests=[u'javasript', u'nodejs', u'60fps'],
+            about=u'Я вообще парень огого!',
+
+            contacts=[
+                dict(
+                    connection=u'Phone',
+                    number=u'89263031827'
+                ),
+                dict(
+                    connection=u'email',
+                    number=u'losogudok@yandex.ru'
+                ),
+                dict(
+                    connection=u'Skype',
+                    number=u'losogudok'
+                ),
+                dict(
+                    connection=u'Instagram',
+                    number=u'@leff_mayns'
+                )
+            ],
+
+            participating_projects=[
+                dict(
+                    project_id=0,
+                    role_id=1
+                ),
+
+                dict(
+                    project_id=1,
+                    role_id=1
+                )
+            ],
+            desired_vacancies=[
+                dict(
+                    project_id=666,
+                    vacancy_id=1
+                )
+            ],
+            managing_project_ids=[1],
+
+            achievements=[0],
         )
 
     }

@@ -17,11 +17,11 @@ MODELS = dict(
         u'dob': Datetime(db_type='date'),
         u'gender': Text(),
         u'image_url': Text(),
-        u'location': JsonObject(),
+        u'location': JsonObject(),                                                  # {country, city}
 
         # professional info
         u'middle_education': JsonArray(db_type='json'),
-        u'high_education': JsonArray(db_type='json'),                               # [{country, city, university, faculty, chair, graduation_year, graduation_level}]
+        u'high_education': JsonArray(db_type='json'),                               # [{country, city, university, faculty, chair, degree, graduation_year}]
         u'publications': JsonArray(db_type='json'),
         u'interests': JsonArray(db_type='text[]'),
         u'about': Text(),
