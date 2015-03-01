@@ -69,7 +69,7 @@ class UserHandler(BaseRequestHandler):
         image_url = scientist.image_url + u'60.png' if scientist.image_url else u''
         scientist_data = dict(
             id=scientist.id,
-            photo=image_url
+            image_url=image_url
         )
         response = yield self.get_response(scientist_data)
         self.finish(response)
