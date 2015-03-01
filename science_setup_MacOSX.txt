@@ -48,6 +48,11 @@ mkdir /usr/local/nginx/sites-enabled
 cp configs/dev/scienc.conf /usr/local/nginx/sites-enabled
 ln -s /usr/local/nginx/sbin/nginx /usr/bin/
 
+mkdir /opt/science/media/
+chmod -R 777 /opt/science/media/
+cp -f /gen/scienc/configs/dev/scmedia.conf /usr/local/nginx/sites-enabled
+nano /etc/hosts — > 127.0.0.1 media-science.dev
+
 Запуск Nginx
 ----------------
 nginx
