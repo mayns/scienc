@@ -6,7 +6,7 @@
 <polymer-element name="science-app" on-logged-in="{{ onLoggedIn }}">
 	<template>
 		<content></content>
-		<core-ajax id="ajax" url="/api/user" method="GET" on-core-response="{{ onXSRFSuccess }}" on-core-error="{{ onXSRFError }}"></core-ajax>
+		<core-ajax id="ajax" url="/api/user" method="GET" on-core-response="{{ onResponse }}" on-core-error="{{ onError }}" auto></core-ajax>
 		<app-globals id="globals"></app-globals>
 	</template>
 	<script>
@@ -19,12 +19,11 @@
 						xsrfCookie = self.getCookie('_xsrf'),
 						userCookie = self.getCookie('scientist');
 
-
 					if (userCookie) {
-						this.getUserData();
+						return this.getUserData();
 					}
                     if (!xsrfCookie) {
-
+                        this.getXSRFCookie();
                     }
 				},
 				getCookie: function(name) {
@@ -32,10 +31,15 @@
 
 					return match ? match[1] : match;
 				},
-                onUserSuccess: function(e, detail, sender) {
-					this.$.globals.data._xsrf = this.getCookie('_xsrf');
+                onResponse: function(e, detail, sender) {
+                    var data = this.$.globals.data;
+
+					data._xsrf = this.getCookie('_xsrf');
+                    if (detail.response) {
+                        data.user = detail.response;
+                    }
 				},
-                onUserError: function(e, detail, sender) {
+                onError: function(e, detail, sender) {
 					if (counter === 5) {
 						// alert(detail.response);
 					}
@@ -46,8 +50,11 @@
 						}.bind(this),5000);
 					}
 				},
+                getXSRFCookie: function() {
+                    this.$.ajax.url = "/api/xsrf";
+                },
                 getUserData: function() {
-                    this.$.ajax.go();
+                    this.$.ajax.url = "/api/user";
                 },
                 onLoggedIn: function() {
                     this.getUserData();
