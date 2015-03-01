@@ -11,26 +11,24 @@
 			<div class="login-dialog">
                 <h2 class="login-dialog-header">Log in</h2>
                 <form action="/api/login" on-submit="{{onLoginFormSubmit}}" class="login-dialog-form">
-                    <paper-input-decorator label="E-mail">
-                        <input class="login-dialog-input"
-                               type="email"
-                               id="email"
-                               autofocus
-                               required>
-                    </paper-input-decorator>
-                    <paper-input-decorator label="Password">
-    					<input class="login-dialog-input"
-    						   type="password"
-    						   id="pwd"
-    						   required>
-                    </paper-input-decorator>
+					<input class="login-dialog-input"
+						   type="email"
+						   id="email"
+						   placeholder="E-mail"
+						   autofocus
+						   required>
+					<input class="login-dialog-input"
+						   type="password"
+						   id="password"
+						   placeholder="Password"
+						   required>
 					<button class="button submit login-dialog-submit"
 							id="login"
 							type="submit">
 						Войти
 					</button>
 				</form>
-				<footer class="row between">
+				<footer class="row-flex between">
 					<a is="html5-history-anchor" href="/signup" pushstate popstate>Восстановить пароль</a>
 					<a is="html5-history-anchor" href="/signup" pushstate popstate>Зарегистрироваться</a>
 				</footer>
@@ -56,14 +54,14 @@
 				var formData = new FormData();
 				formData.append('data', JSON.stringify({
 					email: self.$.email.value,
-					pwd: self.$.pwd.value
+					pwd: self.$.password.value
 				}));
 				self.$.ajax.makeRequest(formData);
 			},
 			onLoginFormResponse: function(e) {
 				var self = this;
-				self.$.globals.data.user = true;
 				self.$.loginDialog.close();
+                self.fire('logged-in');
 			}
 		});
 	</script>

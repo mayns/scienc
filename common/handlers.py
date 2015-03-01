@@ -66,6 +66,17 @@ class UploadHandler(BaseRequestHandler):
         print u'UPLOAD HANDLER'
 
 
+class UserHandler(BaseRequestHandler):
+
+    @gen.coroutine
+    def get(self):
+        from scientist.models import Scientist
+        scientist_id = self.get_secure_cookie(u'scientist')
+        scientist_data = yield Scientist.get_json_by_id(scientist_id)
+        if not scientist_data:
+            raise gen.Return({})
+        raise gen.Return(scientist_data)
+
 class CSRFHandler(BaseRequestHandler):
 
     @gen.coroutine

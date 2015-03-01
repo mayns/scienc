@@ -6,7 +6,7 @@
 <polymer-element name="science-app" on-logged-in="{{ onLoggedIn }}">
 	<template>
 		<content></content>
-		<core-ajax id="ajax" url="/api/xsrf" method="GET" on-core-response="{{onXSRFSuccess}}" on-core-error="{{onXSRFError}}"></core-ajax>
+		<core-ajax id="ajax" url="/api/user" method="GET" on-core-response="{{ onXSRFSuccess }}" on-core-error="{{ onXSRFError }}"></core-ajax>
 		<app-globals id="globals"></app-globals>
 	</template>
 	<script>
@@ -17,25 +17,25 @@
 				ready: function() {
 					var self = this,
 						xsrfCookie = self.getCookie('_xsrf'),
-						userCookie = self.getCookie('scientist'),
-						globalData = self.$.globals.data;
+						userCookie = self.getCookie('scientist');
 
-					globalData._xsrf = xsrfCookie;
-					globalData.user = userCookie;
 
-					if (!xsrfCookie) {
-						this.$.ajax.go();
+					if (userCookie) {
+						this.getUserData();
 					}
+                    if (!xsrfCookie) {
+
+                    }
 				},
 				getCookie: function(name) {
 					var match = document.cookie.match("\\b" + name + "=([^;]*)\\b");
 
 					return match ? match[1] : match;
 				},
-                onXSRFSuccess: function(e, detail, sender) {
+                onUserSuccess: function(e, detail, sender) {
 					this.$.globals.data._xsrf = this.getCookie('_xsrf');
 				},
-                onXSRFError: function(e, detail, sender) {
+                onUserError: function(e, detail, sender) {
 					if (counter === 5) {
 						// alert(detail.response);
 					}
@@ -46,8 +46,11 @@
 						}.bind(this),5000);
 					}
 				},
-                onLoggedIn: function(e, detail ,sender) {
-
+                getUserData: function() {
+                    this.$.ajax.go();
+                },
+                onLoggedIn: function() {
+                    this.getUserData();
                 }
 			});
 		})();

@@ -13,6 +13,7 @@
             fieldset {
                 padding: 20px 20px 30px;
                 margin-bottom: 40px;
+                border: 1px solid #cccccc;
             }
             fieldset fieldset {
                 border: none;
@@ -40,7 +41,15 @@
                 width: 20px;
                 height: 20px;
             }
-            input, textarea, input-tags {
+            [type="text"],
+            [type="date"],
+            [type="number"],
+            [type="url"],
+            [type="email"],
+            [type="tel"],
+            [type="password"],
+            textarea,
+            input-tags {
                 border: none;
                 border-bottom: 1px solid #eee;
             }
@@ -283,26 +292,30 @@
 					</div>
                     </div>
                 </fieldset>
-				<div class="row-flex">
-					<div class="col-lg-9">
-						<div class="row-flex middle">
-							<label for="email" class="col-lg-3">Email</label>
-							<input type="email" data-json="email" id="email" required class="col-lg-5"/>
-						</div>
-						<div class="row middle">
-							<label for="pwd" class="col-lg-3">Пароль</label>
-							<input type="password" data-json="pwd" id="pwd" required class="col-lg-5"/>
-						</div>
-					</div>
-				</div>
-				<div class="row-flex">
-					<div class="col-lg-9">
-						<div class="row-flex middle">
-							<label for="accept_rules" class="col-lg-3">Я жираф</label>
-							<input type="checkbox" data-json="accept_rules" id="accept_rules"/>
-						</div>
-					</div>
-				</div>
+                <fieldset>
+                    <div class="row-flex fieldblock">
+                        <div class="col-lg-9">
+                            <div class="row-flex middle">
+                                <label for="email" class="col-lg-3">Email</label>
+                                <input type="email" data-json="email" id="email" required class="col-lg-5"/>
+                            </div>
+                            <div class="row-flex middle">
+                                <label for="pwd" class="col-lg-3">Пароль</label>
+                                <input type="password" data-json="pwd" id="pwd" required class="col-lg-5"/>
+                            </div>
+                        </div>
+                    </div>
+                    <div></div>
+                    <div class="row-flex fieldblock">
+                        <div class="col-lg-9">
+                            <div class="row-flex middle">
+                                <label for="accept_rules" class="col-lg-3">Я жираф</label>
+                                <input type="checkbox" data-json="accept_rules" id="accept_rules"/>
+                            </div>
+                        </div>
+                    </div>
+                </fieldset>
+
 				<div class="row-flex center">
 					<button type="submit" class="button submit">Вступаю</button>
 				</div>
@@ -335,7 +348,7 @@
                 this[type].splice(index, 1);
             },
             onFormResponse: function(e, detail, sender) {
-                this.fire('logged-in', detail)
+                this.fire('logged-in');
             }
         });
     </script>

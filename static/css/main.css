@@ -1257,6 +1257,7 @@ html /deep/ [type="tel"] {
 html /deep/ [type="checkbox"] {
   width: 20px;
   height: 20px;
+  appearance: none;
 }
 
 /* line 1, ../scss/controls/_radio.scss */
@@ -1359,22 +1360,34 @@ html /deep/ .login-dialog-input {
   font-size: 16px;
   padding: 15px;
   margin-bottom: 20px;
+  border: none;
+  border-bottom: 1px solid #cccccc;
 }
 
-/* line 33, ../scss/components/_dialogs.scss */
+/* line 35, ../scss/components/_dialogs.scss */
+html /deep/ .login-dialog-input:focus {
+  outline: none;
+}
+
+/* line 39, ../scss/components/_dialogs.scss */
+html /deep/ .login-dialog-input:-webkit-autofill {
+  background-color: transparent;
+}
+
+/* line 43, ../scss/components/_dialogs.scss */
 html /deep/ .login-dialog-submit {
   width: 50%;
   align-self: center;
   margin-bottom: 30px;
 }
 
-/* line 39, ../scss/components/_dialogs.scss */
+/* line 49, ../scss/components/_dialogs.scss */
 html /deep/ .login-dialog footer a {
   color: #7A9FC2;
   font-size: 12px;
 }
 
-/* line 44, ../scss/components/_dialogs.scss */
+/* line 54, ../scss/components/_dialogs.scss */
 html /deep/ .login-dialog-close {
   border-radius: 50%;
   position: absolute;

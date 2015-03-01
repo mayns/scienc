@@ -12,7 +12,7 @@ url_handlers = [
     (r"/api/login", cm_handlers.LoginHandler),
     (r"/api/logout", cm_handlers.LogoutHandler),
     (r"/api/not-found", cm_handlers.NotFoundHandler),
-    (r"/api/xsrf", cm_handlers.CSRFHandler),
+    (r"/api/user", cm_handlers.UserHandler),
 
     # scientists
     (r"/api/scientist(/\d+)?", sc_handlers.ScientistHandler),
