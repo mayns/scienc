@@ -1292,6 +1292,7 @@ app-router {
 /* line 1, ../scss/layout/_page-header.scss */
 .page-header-wrapper {
   background-color: #21303F;
+  border-bottom: 5px solid #637686;
 }
 
 /* line 5, ../scss/layout/_page-header.scss */
