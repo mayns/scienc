@@ -55,7 +55,7 @@
                 vertical-align: top;
             }
 		</style>
-		<template if="{{!data.user}}">
+		<template if="{{ !data.user }}">
 		    <a class="app-bar-item" is="html5-history-anchor" href="/scientists" pushstate popstate>
                 <img src="/static/images/members.svg" alt="" class="membersIcon"/>
             </a>
@@ -70,15 +70,15 @@
             </a>
 			<dialog-login id="dialogLogin"></dialog-login>
 		</template>
-		<template if="{{data.user}}">
+		<template if="{{ data.user }}">
             <a class="app-bar-item" is="html5-history-anchor" href="/project" pushstate popstate>
                 <img src="/static/images/add_project.svg" alt="" class="addProjectIcon"/>
             </a>
             <a class="app-bar-item" is="html5-history-anchor" href="/scientists" pushstate popstate>
                 <img src="/static/images/members.svg" alt="" class="membersIcon"/>
             </a>
-            <a class="app-bar-item" is="html5-history-anchor" href="/scientist" pushstate popstate>
-                <img src="/static/images/profile.svg" alt="" class="profileIcon"/>
+            <a class="app-bar-item" is="html5-history-anchor" href="/scientist/{{ data.user.id }}" pushstate popstate>
+                <img src="{{ data.user.img || '/static/images/profile.svg' }}" alt="" class="profileIcon"/>
             </a>
             <a class="app-bar-item" href="#" pushstate popstate>
                 <img src="/static/images/search.svg" alt="" class="searchIcon"/>

@@ -6,7 +6,7 @@
 <polymer-element name="science-app" on-logged-in="{{ onLoggedIn }}">
 	<template>
 		<content></content>
-		<core-ajax id="ajax" url="/api/user" method="GET" on-core-response="{{ onResponse }}" on-core-error="{{ onError }}" auto></core-ajax>
+		<core-ajax id="ajax" method="GET" on-core-response="{{ onResponse }}" on-core-error="{{ onError }}"></core-ajax>
 		<app-globals id="globals"></app-globals>
 	</template>
 	<script>
@@ -33,10 +33,10 @@
 				},
                 onResponse: function(e, detail, sender) {
                     var data = this.$.globals.data;
-
+                    console.log(detail);
 					data._xsrf = this.getCookie('_xsrf');
                     if (detail.response) {
-                        data.user = detail.response;
+                        data.user = JSON.parse(detail.response).data;
                     }
 				},
                 onError: function(e, detail, sender) {
@@ -52,9 +52,11 @@
 				},
                 getXSRFCookie: function() {
                     this.$.ajax.url = "/api/xsrf";
+                    this.$.ajax.go();
                 },
                 getUserData: function() {
                     this.$.ajax.url = "/api/user";
+                    this.$.ajax.go();
                 },
                 onLoggedIn: function() {
                     this.getUserData();
