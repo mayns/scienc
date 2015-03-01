@@ -2,8 +2,15 @@
 <link rel="import" href="/static/elements/core-ajax/core-ajax.html"/>
 <link rel="import" href="/static/elements/scientist-item.html"/>
 
-<polymer-element name="scientists-list"  horizontal layout justified wrap noscript>
+<polymer-element name="scientists-list"  horizontal layout wrap noscript>
 	<template>
+        <style>
+            scientist-item {
+                width: 400px;
+                box-sizing: border-box;
+                margin-right: 20px;
+            }
+        </style>
         <core-ajax auto id="ajax" url="/api/scientists" method="GET" handleAs="json" response="{{ scientists }}"></core-ajax>
 		<template repeat="{{ scientist in scientists.data }}">
 			<scientist-item data="{{ scientist }}"></scientist-item>
