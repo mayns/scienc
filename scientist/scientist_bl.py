@@ -106,16 +106,16 @@ class ScientistBL(object):
     @classmethod
     @gen.coroutine
     @psql_connection
-    def check_scientist(cls, conn, email, passw):
+    def check_scientist(cls, conn, email, pwd):
 
-        cursor = yield momoko.Op(conn.execute, u"SELECT {columns} FROM {table_name} WHERE id='{id}'".format(
-            columns=u', '.join(Scientist.CHARMED_COLUMNS),
-            table_name=Scientist.CHARMED,
-            id=email))
-        enc_passw = cursor.fetchone()
-        if not enc_passw:
-            raise gen.Return()
-        exists = check_password(passw, enc_passw[1])
+        cursor = yield momoko.Op(conn.execute, u"SELECT {columns} FROM {table_name} WHERE email='{email}'".format(
+            columns=u'pwd',
+            table_name=environment.ROLES_TABLE,
+            email=email))
+        enc_pwd = cursor.fetchone()[0]
+        if not enc_pwd:
+            raise gen.Return(u'')
+        exists = check_password(pwd, enc_pwd)
         if exists:
             cursor = yield momoko.Op(conn.execute, u"SELECT {columns} FROM {table_name} WHERE email='{email}'".format(
                 columns=u'id',

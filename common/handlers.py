@@ -3,6 +3,7 @@
 import simplejson as json
 from tornado import gen
 from base.handlers import BaseRequestHandler
+from tornado import web
 
 __author__ = 'oks'
 
@@ -35,8 +36,8 @@ class LoginHandler(BaseRequestHandler):
         print u'login'
         data = json.loads(self.get_argument(u'data', u'{}'))
         email = data.get(u'email', u'')
-        password = data.get(u'password', u'')
-        scientist_id = yield ScientistBL.check_scientist(email, password)
+        pwd = data.get(u'pwd', u'')
+        scientist_id = yield ScientistBL.check_scientist(email, pwd)
         if not scientist_id:
             self.send_error(status_code=403)
             return
@@ -58,29 +59,26 @@ class LogoutHandler(BaseRequestHandler):
         self.redirect(self.get_argument(u'next', u'/'))
 
 
-class UploadHandler(BaseRequestHandler):
-
-    def post(self, *args, **kwargs):
-        print u'UPLOAD HANDLER'
-        print args, kwargs
-        print u'UPLOAD HANDLER'
-
-
 class UserHandler(BaseRequestHandler):
 
     @gen.coroutine
     def get(self):
-        from scientist.models import Scientist
-        scientist_id = self.get_secure_cookie(u'scientist')
-        scientist_data = yield Scientist.get_json_by_id(scientist_id)
-        if not scientist_data:
+        self.prepare()
+        scientist = yield self.get_current_user()
+        if not scientist:
             raise gen.Return({})
-        raise gen.Return(scientist_data)
+        image_url = scientist.image_url + u'60.png' if scientist.image_url else u''
+        scientist_data = dict(
+            id=scientist.id,
+            photo=image_url
+        )
+        response = yield self.get_response(scientist_data)
+        self.finish(response)
+        # raise gen.Return(json.dumps(scientist_data))
+
 
 class CSRFHandler(BaseRequestHandler):
 
     @gen.coroutine
     def get(self):
-        x = self.xsrf_token
-        if not x:
-            yield self.xsrf_token()
+        self.prepare()

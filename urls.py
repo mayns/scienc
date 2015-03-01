@@ -17,7 +17,6 @@ url_handlers = [
 
     # scientists
     (r"/api/scientist(/\d+)?", sc_handlers.ScientistHandler),
-    (r"/images/upload", cm_handlers.UploadHandler),
     (r"/api/scientists", sc_handlers.ScientistsListHandler),
 
     # projects

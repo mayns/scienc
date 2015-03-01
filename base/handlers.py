@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 
 from tornado import web, gen
+from scientist.models import Scientist
 
 __author__ = 'oks'
 
@@ -29,16 +30,20 @@ class BaseRequestHandler(web.RequestHandler):
         self.payload = dict()
         super(BaseRequestHandler, self).__init__(*args, **kwargs)
 
+    @gen.coroutine
     def get_current_user(self):
-        return self.get_secure_cookie(u'scientist')
+        user = None
+        user_id = self.get_secure_cookie(u'scientist')
+        if user_id:
+            user = yield Scientist.get_by_id(user_id)
+        raise gen.Return(user)
 
     @gen.coroutine
     @base_request
     def get_response(self, data):
         return data
 
-    @gen.coroutine
     def prepare(self):
         x = self.xsrf_token
         if not x:
-            yield self.xsrf_token()
+            self.xsrf_token()
