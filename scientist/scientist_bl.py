@@ -58,7 +58,7 @@ class ScientistBL(object):
     @gen.coroutine
     def upload_avatar(cls, scientist_id, scientist_photo):
 
-        if not scientist_photo.get(u'raw_image'):
+        if not scientist_photo or (not scientist_photo.get(u'raw_image')):
             raise gen.Return(u'')
 
         file_path = u'{sc_id}/a'.format(sc_id=str(scientist_id))

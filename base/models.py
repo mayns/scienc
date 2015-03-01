@@ -67,7 +67,11 @@ class PSQLModel(object):
         except Exception, ex:
             raise PSQLException(ex)
 
+        if not data:
+            raise gen.Return()
+
         data = dict(zip(columns, data))
+
         instance = cls()
         for k, v in data.iteritems():
             if not v:

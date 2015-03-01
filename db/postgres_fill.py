@@ -15,6 +15,9 @@ from project.models import Project
 from tests.project_data import TestProject
 
 
+INIT_TABLES = [u'roles', u'scientists', u'projects']
+
+
 # TODO new tables
 @gen.coroutine
 def insert_data():
@@ -183,3 +186,25 @@ def add_test_project():
     test = TestProject.get_project(3)
     query = get_insert_sql_query(Project.TABLE, Project.COLUMNS, test)
     yield momoko.Op(conn.execute, query)
+
+
+@gen.coroutine
+def truncate_init_tables():
+    conn = PSQLClient.get_client()
+    query = """TRUNCATE {tables} CASCADE""".format(tables=', '.join(INIT_TABLES))
+    try:
+        yield momoko.Op(conn.execute, query)
+    except Exception, ex:
+        print ex
+
+
+@gen.coroutine
+def fill_init_data():
+    from tests.init_data import Scientist
+    from scientist.scientist_bl import ScientistBL
+    entity_data = Scientist.get_scientist()
+    try:
+        for k, val in entity_data.iteritems():
+            yield ScientistBL.create(scientist_dict=val)
+    except Exception, ex:
+        print ex
