@@ -31,7 +31,7 @@ class ScientistHandler(BaseRequestHandler):
         )
 
         try:
-            id_url = yield ScientistBL.create(scientist_dict=scientist_dict, image_url=scientist_photo)
+            id_url = yield ScientistBL.create(scientist_dict=scientist_dict, scientist_photo=scientist_photo)
             print id_url
         except Exception, ex:
             print ex
