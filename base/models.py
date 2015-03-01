@@ -2,6 +2,7 @@
 
 import momoko
 from tornado import gen
+import datetime
 
 from common.decorators import psql_connection
 from common.exceptions import PSQLException
@@ -76,11 +77,13 @@ class PSQLModel(object):
         for k, v in data.iteritems():
             if not v:
                 continue
-            # restore = MODELS[cls.TABLE][k].restore
-            # if restore:
-            #     v = restore(v)
-            # if v:
-            setattr(instance, k, v)
+            if isinstance(v, datetime.date):
+
+                restore = MODELS[cls.TABLE][k].restore
+                if restore:
+                    v = restore(v)
+            if v:
+                setattr(instance, k, v)
 
         raise gen.Return(instance)
 
@@ -96,6 +99,16 @@ class PSQLModel(object):
             id=int(_id)))
         data = cursor.fetchone()
         data = dict(zip(columns, data))
+
+        for k, v in data.iteritems():
+            if isinstance(v, datetime.date):
+
+                store = MODELS[cls.TABLE][k].store
+                if store:
+                    v = store(v)
+            if v:
+                data.update({k: v})
+
         raise gen.Return(data)
 
     @classmethod
