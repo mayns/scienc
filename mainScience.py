@@ -12,7 +12,7 @@ define("port", default=6600, help="run on the given port", type=int)
 
 
 class ScienceApplication(web.Application):
-    def __init__(self, xsrf_cookies=True):
+    def __init__(self, xsrf_cookies=False):
         handlers = url_handlers
         settings_app = dict(
             debug=True,
