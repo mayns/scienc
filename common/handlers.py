@@ -66,7 +66,7 @@ class UserHandler(BaseRequestHandler):
         self.prepare()
         scientist = yield self.get_current_user()
         if not scientist:
-            raise gen.Return({})
+            return
         image_url = scientist.image_url + u'60.png' if scientist.image_url else u''
         scientist_data = dict(
             id=scientist.id,
@@ -74,7 +74,6 @@ class UserHandler(BaseRequestHandler):
         )
         response = yield self.get_response(scientist_data)
         self.finish(response)
-        # raise gen.Return(json.dumps(scientist_data))
 
 
 class CSRFHandler(BaseRequestHandler):
