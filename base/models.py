@@ -66,7 +66,7 @@ class PSQLModel(object):
             data = cursor.fetchone()
         except Exception, ex:
             raise PSQLException(ex)
-
+        print data
         data = dict(zip(columns, data))
         instance = cls()
         for k, v in data.iteritems():

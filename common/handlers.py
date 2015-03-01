@@ -32,7 +32,6 @@ class LoginHandler(BaseRequestHandler):
     @gen.coroutine
     def post(self, *args, **kwargs):
         from scientist.scientist_bl import ScientistBL
-        print u'login'
         data = json.loads(self.get_argument(u'data', u'{}'))
         email = data.get(u'email', u'')
         pwd = data.get(u'pwd', u'')
@@ -62,7 +61,8 @@ class UserHandler(BaseRequestHandler):
 
     @gen.coroutine
     def get(self):
-        self.prepare()
+        print 'user handler'
+        print self.xsrf_token, self.get_cookie(u'_xsrf')
         scientist = yield self.get_current_user()
         if not scientist:
             return
