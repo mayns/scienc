@@ -164,8 +164,10 @@ class ScientistBL(object):
         data = yield Scientist.get_all_json(columns=Scientist.OVERVIEW_FIELDS)
         scientists = []
         for d in data:
+            image_url = d.get(u'image_url', u'') and d.get(u'image_url', u'') + u'100.png'
             scientists.append(dict(
                 id=d[u'id'],
+                image_url=image_url,
                 full_name='{} {} {}'.format(d.get(u'first_name', u''), d.get(u'middle_name', u''), d.get(u'last_name', u'')),
                 location='{} {}'.format(d.get(u'city', u''), d.get(u'country', u'')),
                 projects=len(d.get(u'participating_projects', []))
