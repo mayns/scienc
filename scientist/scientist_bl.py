@@ -109,20 +109,20 @@ class ScientistBL(object):
     def check_scientist(cls, conn, email, pwd):
 
         cursor = yield momoko.Op(conn.execute, u"SELECT {columns} FROM {table_name} WHERE email='{email}'".format(
-            columns=u'pwd',
+            columns='pwd',
             table_name=environment.ROLES_TABLE,
             email=email))
-        enc_pwd = cursor.fetchone()[0]
+        enc_pwd = cursor.fetchone()
         if not enc_pwd:
-            raise gen.Return(u'')
-        exists = check_password(pwd, enc_pwd)
+            raise Exception(u'Incorrect pwd')
+        exists = check_password(pwd, enc_pwd[0])
         if exists:
             cursor = yield momoko.Op(conn.execute, u"SELECT {columns} FROM {table_name} WHERE email='{email}'".format(
                 columns=u'id',
                 table_name=Scientist.TABLE,
                 email=email))
-        id = cursor.fetchone()[0]
-        raise gen.Return(unicode(id))
+        _id = cursor.fetchone()[0]
+        raise gen.Return(int(_id))
 
     @classmethod
     @gen.coroutine

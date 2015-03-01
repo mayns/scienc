@@ -62,7 +62,6 @@ class UserHandler(BaseRequestHandler):
     @gen.coroutine
     def get(self):
         print 'user handler'
-        print self.xsrf_token, self.get_cookie(u'_xsrf')
         scientist = yield self.get_current_user()
         if not scientist:
             return

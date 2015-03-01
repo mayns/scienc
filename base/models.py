@@ -66,7 +66,7 @@ class PSQLModel(object):
             data = cursor.fetchone()
         except Exception, ex:
             raise PSQLException(ex)
-        print data
+
         data = dict(zip(columns, data))
         instance = cls()
         for k, v in data.iteritems():
@@ -89,7 +89,7 @@ class PSQLModel(object):
         cursor = yield momoko.Op(conn.execute, u"SELECT {columns} FROM {table_name} WHERE id={id}".format(
             columns=u', '.join(columns),
             table_name=cls.TABLE,
-            id=str(_id)))
+            id=int(_id)))
         data = cursor.fetchone()
         data = dict(zip(columns, data))
         raise gen.Return(data)
