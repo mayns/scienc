@@ -47,11 +47,11 @@ IMAGE_URL_PROFILE = lambda img_url: u'{}250.png'.format(img_url)
 DATETIME_FORMAT = dict(
     date=dict(
         DB=u'%Y-%d-%m',
-        HUMAN=u'%d-%m-%Y'
+        HUMAN=u'%d.%m.%Y'
     ),
     timestamp=dict(
         DB=u'%Y-%d-%m %H:%M:%S',
-        HUMAN=u'%d-%m-%Y %H:%M:%S'
+        HUMAN=u'%d.%m.%Y %H:%M:%S'
     )
 )
 

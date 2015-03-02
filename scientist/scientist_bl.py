@@ -43,7 +43,11 @@ class ScientistBL(object):
 
     @classmethod
     @gen.coroutine
-    def update(cls, scientist_id, scientist_dict, scientist_photo):
+    def update(cls, scientist_dict, scientist_photo):
+        scientist_id = scientist_dict.pop(u'scientist_id')
+        if not scientist_id:
+            raise Exception(u'No scientist id on update')
+
         scientist = yield Scientist.get_by_id(scientist_id)
         image_url = scientist.image_url + u'50.png'
         if scientist_photo:

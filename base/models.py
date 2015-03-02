@@ -77,13 +77,13 @@ class PSQLModel(object):
         for k, v in data.iteritems():
             if not v:
                 continue
-            if isinstance(v, datetime.date):
-
-                restore = MODELS[cls.TABLE][k].restore
-                if restore:
-                    v = restore(v)
-            if v:
-                setattr(instance, k, v)
+            # if isinstance(v, datetime.date):
+            #
+            #     restore = MODELS[cls.TABLE][k].restore
+            #     if restore:
+            #         v = restore(v)
+            # if v:
+            setattr(instance, k, v)
 
         raise gen.Return(instance)
 
@@ -101,13 +101,11 @@ class PSQLModel(object):
         data = dict(zip(columns, data))
 
         for k, v in data.iteritems():
-            if isinstance(v, datetime.date):
 
-                store = MODELS[cls.TABLE][k].store
-                if store:
-                    v = store(v)
-            if v:
-                data.update({k: v})
+            to_json = MODELS[cls.TABLE][k].to_json
+            if to_json:
+                v = to_json(v)
+            data.update({k: v})
 
         raise gen.Return(data)
 
@@ -126,6 +124,9 @@ class PSQLModel(object):
             for i, k in enumerate(columns):
                 if not d[i]:
                     continue
-                data_dict[k] = d[i]
+                to_json = MODELS[cls.TABLE][k].to_json
+                if to_json:
+                    d[i] = to_json(d[i])
+                data_dict.update({k: d[i]})
             data_list.append(data_dict)
         raise gen.Return(data_list)

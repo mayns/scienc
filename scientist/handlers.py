@@ -47,8 +47,18 @@ class ScientistHandler(BaseRequestHandler):
         print u'scientist put'
         scientist_dict = json.loads(self.get_argument(u'data', u'{}'))
 
-        yield ScientistBL.update_scientist(scientist_dict[u'scientist'])
-        response_data = yield self.get_response(dict())
+        scientist_photo = dict(
+            raw_image=self.request.files.get('raw_image', []),
+            raw_image_coords=scientist_dict.pop(u'raw_image_coords', {})
+        )
+        try:
+            id_url = yield ScientistBL.update(scientist_dict=scientist_dict, scientist_photo=scientist_photo)
+        except Exception, ex:
+            print ex
+            self.send_error(status_code=403)
+            return
+
+        response_data = yield self.get_response(id_url)
         self.finish(response_data)
 
     @gen.coroutine
