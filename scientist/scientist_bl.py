@@ -49,7 +49,9 @@ class ScientistBL(object):
             raise Exception(u'No scientist id on update')
 
         scientist = yield Scientist.get_by_id(scientist_id)
-        image_url = scientist.image_url + u'50.png'
+
+        image_url = scientist.image_url and environment.GET_IMG(scientist.image_url, environment.IMG_S)
+
         if scientist_photo:
             image_url = yield cls.upload_avatar(scientist_id, scientist_photo[0])
             scientist_dict.update(dict(
@@ -169,7 +171,7 @@ class ScientistBL(object):
         data = yield Scientist.get_all_json(columns=Scientist.OVERVIEW_FIELDS)
         scientists = []
         for d in data:
-            image_url = d.get(u'image_url', u'') and d.get(u'image_url', u'') + u'100.png'
+            image_url = d.get(u'image_url', u'') and environment.GET_IMG(d.get(u'image_url', u''), environment.IMG_L)
             scientists.append(dict(
                 id=d[u'id'],
                 image_url=image_url,
@@ -183,4 +185,6 @@ class ScientistBL(object):
     @gen.coroutine
     def get_scientist(cls, scientist_id):
         data = yield Scientist.get_json_by_id(scientist_id)
+        image_url = data.get(u'image_url', u'') and environment.GET_IMG(data.get(u'image_url', u''), environment.IMG_L)
+        data.update(image_url=image_url)
         raise gen.Return(data)

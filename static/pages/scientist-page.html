@@ -37,7 +37,7 @@
             <section>
                 <div class="row-flex">
                     <div flex>
-                        <h1>{{ data.first_name }} {{ data.middle_name}}  {{ data.last_name }}</h1>
+                        <h1>{{ data.first_name }} {{ data.middle_name}} {{ data.last_name }}</h1>
                         <div class="row">
                             <label for="">Дата рождения:</label>
                             <span>{{ data.dob }}</span>
@@ -55,7 +55,7 @@
                         </div>
                     </div>
                     <div>
-                        <img src="{{ data.image_large || '/static/images/profile.svg' }}" alt="" class="photo"/>
+                        <img src="{{ data.image_url || '/static/images/profile.svg' }}" alt="" class="photo"/>
                     </div>
                 </div>
             </section>

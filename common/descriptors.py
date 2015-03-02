@@ -6,12 +6,6 @@ import environment
 
 __author__ = 'mayns'
 
-# TODO: -----------------------
-# column_values = map(lambda x: (x[0], json.dumps(x[1]).replace(u'[', u'{').replace(u']', u'}').
-# replace(u'{{', u'[{').replace(u'}}', u'}]'))
-# if type(x[1]) in [list, dict, int, long] else x, column_values)
-# -----------------------------
-
 
 class FieldDescriptor(object):
 

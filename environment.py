@@ -39,6 +39,13 @@ CONTACT_TYPES = [PHONE, SKYPE, EMAIL]
 
 AVATAR_SIZES = [60, 100, 250]
 
+IMG_S = 60
+IMG_M = 100
+IMG_L = 250
+
+GET_IMG = lambda url, size: u'{url}{size}.png'.format(url=url, size=size) if not u'gravatar' in url \
+    else u'{url}?size={size}'.format(url=url, size=size)
+
 IMAGE_URL_MENU = lambda img_url: u'{}60.png'.format(img_url)
 IMAGE_URL_LIST = lambda img_url: u'{}100.png'.format(img_url)
 IMAGE_URL_PROFILE = lambda img_url: u'{}250.png'.format(img_url)
