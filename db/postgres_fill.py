@@ -203,6 +203,7 @@ def fill_init_data():
     from tests.init_data import Scientist
     from scientist.scientist_bl import ScientistBL
     entity_data = Scientist.get_scientist()
+    print 'Creating init scientists'
     try:
         for k, val in entity_data.iteritems():
             yield ScientistBL.create(scientist_dict=val)

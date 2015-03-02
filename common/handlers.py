@@ -3,6 +3,7 @@
 import simplejson as json
 from tornado import gen
 from base.handlers import BaseRequestHandler
+import environment
 
 __author__ = 'oks'
 
@@ -65,7 +66,7 @@ class UserHandler(BaseRequestHandler):
         scientist = yield self.get_current_user()
         if not scientist:
             return
-        image_url = scientist.image_url + u'60.png' if scientist.image_url else u''
+        image_url = scientist.image_url and environment.GET_IMG(scientist.image_url, environment.IMG_S)
         scientist_data = dict(
             id=scientist.id,
             image_url=image_url

@@ -38,8 +38,7 @@ class ScientistBL(object):
             scientist.image_url = image_url
             yield scientist.save(fields=[u'image_url'])
 
-        raise gen.Return(dict(scientist_id=scientist_id, image_url=environment.IMAGE_URL_MENU(image_url)))
-
+        raise gen.Return(dict(scientist_id=scientist_id, image_url=environment.GET_IMG(scientist.image_url, environment.IMG_S)))
 
     @classmethod
     @gen.coroutine
@@ -53,12 +52,15 @@ class ScientistBL(object):
         image_url = scientist.image_url and environment.GET_IMG(scientist.image_url, environment.IMG_S)
 
         if scientist_photo:
-            image_url = yield cls.upload_avatar(scientist_id, scientist_photo[0])
-            scientist_dict.update(dict(
-                image_url=image_url
-            ))
+            new_image_url = yield cls.upload_avatar(scientist_id, scientist_photo[0])
+            if not image_url:
+                scientist_dict.update(dict(
+                    image_url=new_image_url
+                ))
         scientist.populate_fields(scientist_dict)
+
         yield scientist.save()
+        raise gen.Return(dict(scientist_id=scientist_id, image_url=environment.GET_IMG(image_url, environment.IMG_S)))
 
     @classmethod
     @gen.coroutine
@@ -158,7 +160,6 @@ class ScientistBL(object):
     @gen.coroutine
     @psql_connection
     def delete_scientist(cls, conn, scientist_id):
-        conn = conn.get_client(partition=settings.SCIENCE_DB)
         try:
             sqp_query = u"DELETE FROM {table_name} WHERE id = '{id}'".format(table_name=u'scientists', id=scientist_id)
             yield momoko.Op(conn.execute, sqp_query)

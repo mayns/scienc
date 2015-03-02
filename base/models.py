@@ -2,7 +2,6 @@
 
 import momoko
 from tornado import gen
-import datetime
 
 from common.decorators import psql_connection
 from common.exceptions import PSQLException
