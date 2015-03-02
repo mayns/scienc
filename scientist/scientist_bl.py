@@ -161,7 +161,7 @@ class ScientistBL(object):
     @psql_connection
     def delete_scientist(cls, conn, scientist_id):
         try:
-            sqp_query = u"DELETE FROM {table_name} WHERE id = '{id}'".format(table_name=u'scientists', id=scientist_id)
+            sqp_query = u"DELETE FROM {table_name} WHERE id = '{id}' CASCADE".format(table_name=u'roles', id=scientist_id)
             yield momoko.Op(conn.execute, sqp_query)
         except Exception, ex:
             print u'Exception in delete scientist', ex
