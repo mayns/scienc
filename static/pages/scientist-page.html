@@ -4,61 +4,110 @@
 <polymer-element name="scientist-page">
 	<template>
 		<style>
-            h1, h2, h3 {
-                margin: 0;
+            ol {
+                margin: 0 0 10px 0;
             }
-            h1 {
-                margin-bottom: 20px;
-                font-size: 30px;
+            .section {
+                color: #333;
             }
-            section {
-                width: 960px;
-                margin: 0 auto;
+            .section-header {
+                margin: 0 0 10px 0;
             }
-            label {
-                font-weight: bold;
+            .section-block {
+                padding-left: 40px;
+                position: relative;
             }
             .photo {
+                background-color: #ccc;
                 height: 250px;
                 width: 250px;
+                border-radius: 50%;
             }
-            .row {
-                margin-bottom: 20px;
+            .photo:focus {
+                outline: none;
             }
-            .row:last-child {
+            .photo:active {
+                outline: none;
+            }
+            .photo /deep/ input {
+                display: none;
+            }
+            .row-flex {
+                margin-bottom: 5px;
+            }
+            .row-flex:last-child {
                 margin-bottom: 0;
-            }
-            .block {
-                padding-left: 20px;
             }
 		</style>
         <core-ajax auto url="/api/scientist/{{id}}" method="GET" handleAs="json" response="{{ json }}"></core-ajax>
         <template bind="{{ json.data as data }}">
-            <section>
-                <div class="row-flex">
-                    <div flex>
-                        <h1>{{ data.first_name }} {{ data.middle_name}} {{ data.last_name }}</h1>
-                        <div class="row">
-                            <label for="">Дата рождения:</label>
-                            <span>{{ data.dob }}</span>
-                        </div>
-                        <div class="row">
-                            <label for="">Локация:</label>
-                            <span>{{ data.location.country }}, {{ data.location.city }}</span>
-                        </div>
-                        <div class="row">
-                            <label for="">Контакты:</label>
-                            <div class="block">
-                                <label for="">Email:</label>
-                                <span>{{ data.email }}</span>
+                <section class="section">
+                    <h1 class="section-header">{{ data.first_name }} {{ data.middle_name}} {{ data.last_name }}</h1>
+                    <div class="row-flex">
+                        <div class="col-lg-9">
+                            <div class="row-flex middle">
+                                <label class="col-lg-3">Дата рождения</label>
+                                <div>{{ data.dob }}</div>
+                            </div>
+                            <div class="row-flex middle">
+                                <label for="placeOfLiving" class="col-lg-3">Местро проживания</label>
+                                <div>{{ data.location.country }}, {{ data.location.city }}</div>
+                            </div>
+                            <div>
+                                <div>
+                                    <div>
+                                        Контакты:
+                                    </div>
+                                    <div class="fieldblock">
+                                        <template repeat="{{ contact in data.contacts }}">
+                                            <div class="row-flex">
+                                                <label class="col-lg-3">{{ contact.connection }}:</label>
+                                                <span>{{ contact.number }}</span>
+                                            </div>
+                                        </template>
+                                    </div>
+                                </div>
                             </div>
                         </div>
+                        <div class="col-lg-3">
+                            <img src="{{ data.image_url || '/static/images/profile.svg' }}" alt="" class="photo"/>
+                        </div>
                     </div>
-                    <div>
-                        <img src="{{ data.image_url || '/static/images/profile.svg' }}" alt="" class="photo"/>
+                </section>
+                <section class="section">
+                    <h1 class="section-header">Сведения об образовании</h1>
+                    <div class="section-block">
+                        <section>
+                            <h2 class="section-header">Среднее образование</h2>
+                            <div>
+                                <div class="row-flex middle">
+                                    <ol>
+                                        <template repeat="{{ education in data.middle_education }}">
+                                            <li>{{ education.school }}, {{ education.country }}, {{ education.city }}</li>
+                                        </template>
+                                    </ol>
+                                </div>
+                            </div>
+                        </section>
+                        <section>
+                            <h2 class="section-header">
+                                Высшее образованиe
+                            </h2>
+                            <div>
+                                <div class="row-flex middle">
+                                    <ol>
+                                        <template repeat="{{ education in data.high_education }}">
+                                            <li>
+                                                <div>{{ education.university }}, {{ education.country }}, {{ education.city }}</div>
+                                                <div>Факультет: {{ education.faculty }}, {{ education.degree }}</div>
+                                            </li>
+                                        </template>
+                                    </ol>
+                                </div>
+                            </div>
+                        </section>
                     </div>
-                </div>
-            </section>
+                </section>
         </template>
 	</template>
 	<script>
