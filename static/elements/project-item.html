@@ -55,9 +55,9 @@
 				<h1>
 					<a is="html5-history-anchor" href="/project/{{data.id}}" pushstate popstate>{{data.title}}</a>
 				</h1>
-                <template if="{{ data.organization_structure }}">
+                <template if="{{ data.university_connection }}">
                     <div horizontal layout justified center>
-                        <div class="project-holder">{{data.organization_structure[0].university}}</div>
+                        <div class="project-holder">{{data.university_connection[0].university}}</div>
                     </div>
                 </template>
 			</header>
