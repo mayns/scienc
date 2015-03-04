@@ -12,14 +12,20 @@ __author__ = 'oks'
 
 class ProjectBL(object):
     @classmethod
-    @gen.coroutine
-    def add_project(cls, project_dict):
-        project = Project.from_dict_data(project_dict)
-        try:
-            yield project.save(update=False)
-        except Exception, ex:
-            print u'Exception! in add project', ex
-        raise gen.Return(dict(id=project.id))
+    def create(cls):
+        pass
+
+    @classmethod
+    def update(cls):
+        pass
+
+    @classmethod
+    def delete(cls, project_id):
+        pass
+
+    @classmethod
+    def validate_data(cls):
+        pass
 
     @classmethod
     @gen.coroutine
@@ -29,16 +35,8 @@ class ProjectBL(object):
 
     @classmethod
     @gen.coroutine
-    def get_project(cls, id):
+    def get_project(cls, project_id):
         json_data = {}
-        project = yield Project.from_db_by_id(id)
-        if project:
-            json_data = dict(zip(Project.COLUMNS, project))
-            if json_data[u'start_date']:
-                json_data[u'start_date'] = json_data[u'start_date'].strftime(u'%d-%m-%Y')
-            if json_data[u'end_date']:
-                json_data[u'end_date'] = json_data[u'end_date'].strftime(u'%d-%m-%Y')
-        print json_data
         raise gen.Return(json_data)
 
 

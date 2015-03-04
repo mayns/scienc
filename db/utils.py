@@ -11,7 +11,7 @@ ALL_TABLES = copy.deepcopy(MODELS)
 ALL_TABLES.update(TABLES)
 
 
-def get_update_sql_query(tbl, update_params, where_params=None):
+def get_update_query(tbl, update_params, where_params=None):
     if where_params is None:
         where_params = {}
 
@@ -33,7 +33,7 @@ def get_update_sql_query(tbl, update_params, where_params=None):
     return sql_string
 
 
-def get_insert_sql_query(tbl, insert_data):
+def get_insert_query(tbl, insert_data):
     # TODO: check all PostgreSQL rules on storage data types and symbols
 
     """
@@ -58,4 +58,25 @@ def get_insert_sql_query(tbl, insert_data):
     sql_string = u'INSERT INTO {table_name} ({fields}) VALUES ({values}) RETURNING id'.format(table_name=tbl,
                                                                                               fields=fields,
                                                                                               values=values)
+    return sql_string
+
+
+def get_select_query(tbl, columns=None, where=None, functions=None):
+    if not columns:
+        columns = [u'*']
+    sql_string = u"SELECT {columns} FROM {table_name}".format(table_name=tbl,
+                                                              columns=functions if functions else u', '.join(columns))
+    if not where:
+        return sql_string
+    sql_string += u"WHERE {column} = {value}".format(column=where['column'],
+                                                     value=where['value'])
+    return sql_string
+
+
+def get_delete_query(tbl, where, resolve_constraints='CASCADE'):
+
+    sql_string = u"DELETE FROM {table_name} WHERE {column} = '{value}' {resolve}".format(table_name=tbl,
+                                                                                         column=where['column'],
+                                                                                         value=where['value'],
+                                                                                         resolve=resolve_constraints)
     return sql_string

@@ -176,10 +176,6 @@ class Scientist(object):
                 dict(
                     connection=u'Skype',
                     number=u'losogudok'
-                ),
-                dict(
-                    connection=u'Instagram',
-                    number=u'@leff_mayns'
                 )
             ],
 

@@ -6,9 +6,8 @@ import momoko
 from tornado import gen
 from PIL import Image
 
-import settings
 import environment
-from db.utils import get_insert_sql_query
+from db.utils import get_select_query, get_delete_query
 from common.media_server import upload, get_url
 from common.utils import set_password, check_password
 from common.decorators import psql_connection
@@ -104,9 +103,9 @@ class ScientistBL(object):
         if not both_fields:
             raise RequiredFields([u'Email', u'Password'])
 
-        cursor = yield momoko.Op(conn.execute, u"SELECT count(*) FROM {table_name} WHERE email='{email}'".format(
-            table_name=environment.ROLES_TABLE,
-            email=email))
+        sql_query = get_select_query(environment.ROLES_TABLE, functions="count(*)", where=dict(column=u'email',
+                                                                                               value=email))
+        cursor = yield momoko.Op(conn.execute, sql_query)
         count = cursor.fetchone()
         if int(count[0]) > 0:
             raise UserExistException(email)
@@ -116,19 +115,17 @@ class ScientistBL(object):
     @psql_connection
     def check_scientist(cls, conn, email, pwd):
 
-        cursor = yield momoko.Op(conn.execute, u"SELECT {columns} FROM {table_name} WHERE email='{email}'".format(
-            columns='pwd',
-            table_name=environment.ROLES_TABLE,
-            email=email))
+        sql_query = get_select_query(environment.ROLES_TABLE, columns=['pwd'], where=dict(column='email',
+                                                                                          value=email))
+        cursor = yield momoko.Op(conn.execute, sql_query)
         enc_pwd = cursor.fetchone()
         if not enc_pwd:
             raise Exception(u'Incorrect pwd')
         exists = check_password(pwd, enc_pwd[0])
         if exists:
-            cursor = yield momoko.Op(conn.execute, u"SELECT {columns} FROM {table_name} WHERE email='{email}'".format(
-                columns=u'id',
-                table_name=Scientist.TABLE,
-                email=email))
+            sql_query = get_select_query(Scientist.TABLE, columns=['id'], where=dict(column='email',
+                                                                                     value=email))
+            cursor = yield momoko.Op(conn.execute, sql_query)
             _id = cursor.fetchone()[0]
             raise gen.Return(int(_id))
         raise Exception(u'Incorrect pwd')
@@ -151,17 +148,10 @@ class ScientistBL(object):
     @classmethod
     @gen.coroutine
     @psql_connection
-    def remove_role(cls, conn, scientist_email):
-        sqp_query = u"DELETE FROM {table_name} WHERE id='{id}'".format(table_name=environment.ROLES_TABLE,
-                                                                       id=scientist_email)
-        yield momoko.Op(conn.execute, sqp_query)
-
-    @classmethod
-    @gen.coroutine
-    @psql_connection
     def delete_scientist(cls, conn, scientist_id):
         try:
-            sqp_query = u"DELETE FROM {table_name} WHERE id = '{id}' CASCADE".format(table_name=u'roles', id=scientist_id)
+            sqp_query = get_delete_query(environment.ROLES_TABLE, where=dict(column='id',
+                                                                             value=scientist_id))
             yield momoko.Op(conn.execute, sqp_query)
         except Exception, ex:
             print u'Exception in delete scientist', ex
