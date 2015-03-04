@@ -6,7 +6,7 @@ from tornado import gen
 from common.decorators import psql_connection
 from common.exceptions import PSQLException
 from db.orm import MODELS
-from db.utils import get_update_query, get_insert_query, get_select_query
+from db.utils import get_update_query, get_insert_query, get_select_query, get_delete_query
 
 
 __author__ = 'oks'
@@ -74,12 +74,6 @@ class PSQLModel(object):
         for k, v in data.iteritems():
             if not v:
                 continue
-            # if isinstance(v, datetime.date):
-            #
-            #     restore = MODELS[cls.TABLE][k].restore
-            #     if restore:
-            #         v = restore(v)
-            # if v:
             setattr(instance, k, v)
 
         raise gen.Return(instance)
@@ -129,3 +123,16 @@ class PSQLModel(object):
                 data_dict.update({k: d[i]})
             data_list.append(data_dict)
         raise gen.Return(data_list)
+
+    @classmethod
+    @gen.coroutine
+    @psql_connection
+    def delete(cls, conn, _id, tbl):
+
+        if not tbl:
+            tbl = cls.TABLE
+        try:
+            sqp_query = get_delete_query(tbl, where=dict(column='id', value=_id))
+            yield momoko.Op(conn.execute, sqp_query)
+        except Exception, ex:
+            raise PSQLException(ex)

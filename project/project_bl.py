@@ -1,31 +1,35 @@
 # -*- coding: utf-8 -*-
 
-import json
-
 from tornado import gen
-from common.utils import generate_id
 from project.models import Project
-from time import strftime
 
 __author__ = 'oks'
 
 
 class ProjectBL(object):
     @classmethod
-    def create(cls):
-        pass
+    @gen.coroutine
+    def create(cls, project_dict):
+
+        project = Project(**project_dict)
+        project_id = yield project.save(update=False)
+        raise gen.Return(dict(id=project_id))
 
     @classmethod
-    def update(cls):
-        pass
+    @gen.coroutine
+    def update(cls, project_dict):
+        project_id = project_dict.pop(u'project_id')
+        if not project_id:
+            raise Exception(u'No project id provided')
+        project = yield Project.get_by_id(project_id)
+        project.populate_fields(project_dict)
+        yield project.save()
+        raise gen.Return(dict(project_id=project_id))
 
     @classmethod
+    @gen.coroutine
     def delete(cls, project_id):
-        pass
-
-    @classmethod
-    def validate_data(cls):
-        pass
+        yield cls.delete(project_id)
 
     @classmethod
     @gen.coroutine
@@ -36,7 +40,5 @@ class ProjectBL(object):
     @classmethod
     @gen.coroutine
     def get_project(cls, project_id):
-        json_data = {}
-        raise gen.Return(json_data)
-
-
+        project_data = yield Project.get_json_by_id(project_id)
+        raise gen.Return(project_data)

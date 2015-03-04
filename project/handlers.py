@@ -21,42 +21,80 @@ class ProjectsListHandler(BaseRequestHandler):
     @gen.coroutine
     def get(self, *args, **kwargs):
         print u'projects list get'
-        projects = yield ProjectBL.get_all_projects()
-        projects = yield self.get_response(projects)
-        self.finish(json.dumps(projects))
+
+        try:
+            response = yield ProjectBL.get_all_projects()
+        except Exception, ex:
+            print 'Exc on get all projects:', ex
+            response = dict(
+                message=ex.message
+            )
+
+        response_data = yield self.get_response(response)
+        self.finish(response_data)
 
 
 class ProjectHandler(BaseRequestHandler):
 
     @gen.coroutine
-    def post(self, *args, **kwargs):
-        project_dict = json.loads(self.get_argument(u'data', u'{}'))
-        print project_dict
-        project_id = yield ProjectBL.add_project(project_dict)
-        response = dict(id=project_id)
-        response_data = yield self.get_response(response)
-        print response_data
-        self.finish(response_data)
-
-    @gen.coroutine
     def get(self, project_id):
-        # project_data = json.loads(self.get_argument(u'data', u'{}'))
-        # project = TestProject.get_project(int(project_data.get(u'id', 1)))
-        # response = yield ProjectBL.get_project(project_data.get(u'id', 1))
-        response = yield ProjectBL.get_project(int(project_id.replace(u'/', u'')))
+        print u'get project:', project_id
+
+        try:
+            response = yield ProjectBL.get_project(int(project_id.replace(u'/', u'')))
+        except Exception, ex:
+            print 'Exc on get project:', project_id, ex
+            response = dict(
+                message=ex.message
+            )
+
         project = yield self.get_response(response)
         self.finish(project)
 
     @gen.coroutine
-    def put(self, *args, **kwargs):
+    def post(self):
+        print u'create project'
         project_dict = json.loads(self.get_argument(u'data', u'{}'))
-        yield ProjectBL.update_project(project_dict)
-        response_data = yield self.get_response(dict())
+
+        try:
+            response = yield ProjectBL.create(project_dict)
+        except Exception, ex:
+            print 'Exc on create project:', ex
+            response = dict(
+                message=ex.message
+            )
+
+        response_data = yield self.get_response(response)
         self.finish(response_data)
 
     @gen.coroutine
-    def delete(self, *args, **kwargs):
+    def put(self):
+        print u'update project'
         project_dict = json.loads(self.get_argument(u'data', u'{}'))
-        yield ProjectBL.delete_project(project_dict[u'id'])
-        response_data = yield self.get_response(project_dict)
+
+        try:
+            response = yield ProjectBL.update(project_dict)
+        except Exception, ex:
+            print 'Exc on update project:', ex
+            response = dict(
+                message=ex.message
+            )
+
+        response_data = yield self.get_response(response)
+        self.finish(response_data)
+
+    @gen.coroutine
+    def delete(self, project_id):
+        print u'delete project:', project_id
+        response = {}
+
+        try:
+            yield ProjectBL.delete(project_id)
+        except Exception, ex:
+            print 'Exc on delete project:', project_id, ex
+            response = dict(
+                message=ex.message
+            )
+
+        response_data = yield self.get_response(response)
         self.finish(response_data)

@@ -14,12 +14,35 @@ class ScientistsListHandler(BaseRequestHandler):
     @gen.coroutine
     def get(self):
         print u'scientists list get'
-        scientists = yield ScientistBL.get_all_scientists()
-        scientists = yield self.get_response(scientists)
+
+        try:
+            response = yield ScientistBL.get_all_scientists()
+        except Exception, ex:
+            print 'Exc on get all scientists:', ex
+            response = dict(
+                message=ex.message
+            )
+
+        scientists = yield self.get_response(response)
         self.finish(json.dumps(scientists))
 
 
 class ScientistHandler(BaseRequestHandler):
+
+    @gen.coroutine
+    def get(self, scientist_id):
+        print u'get scientist:', scientist_id
+
+        try:
+            response = yield ScientistBL.get_scientist(int(scientist_id.replace(u'/', u'')))
+        except Exception, ex:
+            print 'Exc on get scientist:', scientist_id, ex
+            response = dict(
+                message=ex.message
+            )
+
+        response_data = yield self.get_response(response)
+        self.finish(response_data)
 
     @gen.coroutine
     def post(self, *args, **kwargs):
@@ -31,15 +54,16 @@ class ScientistHandler(BaseRequestHandler):
         )
 
         try:
-            id_url = yield ScientistBL.create(scientist_dict=scientist_dict, scientist_photo=scientist_photo)
-            print id_url
+            response = yield ScientistBL.create(scientist_dict=scientist_dict, scientist_photo=scientist_photo)
         except Exception, ex:
-            print ex
+            print 'Exc on create scientist:', ex
             self.send_error(status_code=403)
-            return
+            response = dict(
+                message=ex.message
+            )
 
-        response_data = yield self.get_response(id_url)
-        self.set_secure_cookie(u'scientist', str(id_url[u'scientist_id']))
+        response_data = yield self.get_response(response)
+        self.set_secure_cookie(u'scientist', str(response[u'scientist_id']))
         self.finish(response_data)
 
     @gen.coroutine
@@ -52,26 +76,28 @@ class ScientistHandler(BaseRequestHandler):
             raw_image_coords=scientist_dict.pop(u'raw_image_coords', {})
         )
         try:
-            id_url = yield ScientistBL.update(scientist_dict=scientist_dict, scientist_photo=scientist_photo)
+            response = yield ScientistBL.update(scientist_dict=scientist_dict, scientist_photo=scientist_photo)
         except Exception, ex:
-            print ex
+            print 'Exc on update scientist:', ex
             self.send_error(status_code=403)
-            return
+            response = dict(
+                message=ex.message
+            )
 
-        response_data = yield self.get_response(id_url)
-        self.finish(response_data)
-
-    @gen.coroutine
-    def get(self, scientist_id):
-        print 'get scientist', scientist_id
-        response = yield ScientistBL.get_scientist(int(scientist_id.replace(u'/', u'')))
         response_data = yield self.get_response(response)
-        print response_data
         self.finish(response_data)
 
     @gen.coroutine
     def delete(self, scientist_id):
-        print u'scientist delete'
-        yield ScientistBL.delete_scientist(scientist_id)
-        response_data = yield self.get_response(dict())
+        print u'scientist delete: ', scientist_id
+        response = {}
+        try:
+            yield ScientistBL.delete(scientist_id)
+        except Exception, ex:
+            print 'Exc on delete scientist:', scientist_id, ex
+            response = dict(
+                message=ex.message
+            )
+
+        response_data = yield self.get_response(response)
         self.finish(response_data)

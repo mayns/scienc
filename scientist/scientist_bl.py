@@ -7,7 +7,7 @@ from tornado import gen
 from PIL import Image
 
 import environment
-from db.utils import get_select_query, get_delete_query
+from db.utils import get_select_query, get_insert_query
 from common.media_server import upload, get_url
 from common.utils import set_password, check_password
 from common.decorators import psql_connection
@@ -141,20 +141,14 @@ class ScientistBL(object):
             pwd=pwd,
             role=scientist_dict.pop(u'role', environment.ROLE_USER)
         )
-        sqp_query = get_insert_sql_query(environment.ROLES_TABLE, params)
+        sqp_query = get_insert_query(environment.ROLES_TABLE, params)
 
         yield momoko.Op(conn.execute, sqp_query)
 
     @classmethod
     @gen.coroutine
-    @psql_connection
-    def delete_scientist(cls, conn, scientist_id):
-        try:
-            sqp_query = get_delete_query(environment.ROLES_TABLE, where=dict(column='id',
-                                                                             value=scientist_id))
-            yield momoko.Op(conn.execute, sqp_query)
-        except Exception, ex:
-            print u'Exception in delete scientist', ex
+    def delete(cls, scientist_id):
+        yield cls.delete(scientist_id, tbl=environment.ROLES_TABLE)
 
     @classmethod
     @gen.coroutine
