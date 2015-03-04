@@ -108,7 +108,7 @@ class PSQLModel(object):
         if not columns:
             columns = MODELS[cls.TABLE].keys()
 
-        sql_query = get_select_query(cls.TABLE)
+        sql_query = get_select_query(cls.TABLE, columns)
         cursor = yield momoko.Op(conn.execute, sql_query)
         data = cursor.fetchall()
         data_list = []

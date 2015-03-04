@@ -4,7 +4,6 @@ from tornado import gen
 from base.handlers import BaseRequestHandler
 import json
 from project.project_bl import ProjectBL
-from tests.project_data import TestProject
 
 __author__ = 'oks'
 

@@ -47,7 +47,7 @@ MODELS = dict(
         u'description_short': Text(required=True),                                  # краткое описание для обложки
         u'likes': Integer(),                                                        # количество лайков
         u'responses': JsonArray(db_type='json'),                                    # [{scientist_id, vacancy_id}]
-        u'university_connection': JsonObject(),                                     # {country, city, university, faculty, chair}
+        u'university_connection': JsonArray(db_type='json'),                        # [{country, city, university, faculty, chair}]
 
         # project info
         u'in_progress': Boolean(),                                                  # закончен / не закончен
@@ -55,13 +55,13 @@ MODELS = dict(
         u'description_full': Text(),                                                # полное описание
         u'usage_possibilities': Text(),                                             # возможности применения результатов
         u'results': Text(),                                                         # достигнутые результаты и практическое применение
-        u'related_data': JsonArray(db_type='json'),                                 # [{'id', 'source', 'description'}]
-        u'leader': JsonArray(db_type='json'),                                       # [{id, full_name}]
+        u'related_data': JsonArray(db_type='json'),                                 # [{id, title, project_id, source_link, description}]
+        u'leaders': JsonArray(db_type='json'),                                      # [{id, scientist_id, full_name}]
         u'participants': JsonArray(db_type='json'),                                 # [{role_id, role_name, scientist_id, full_name}]
-        u'missed_participants': JsonArray(db_type='json'),                          # [{vacancy_id, vacancy_name, description}]
+        u'missed_participants': JsonArray(db_type='json'),                          # [{vacancy_id, vacancy_name, description, difficulty}]
         u'tags': JsonArray(db_type='text[]'),                                       # тэги
         u'project_site': Text(),
-        u'contacts': JsonArray(db_type='json'),                                     # [{name, type, number/login}]
+        u'contacts': JsonArray(db_type='json'),                                     # [{type, id}]
 
         # system info
         u'dt_created': Datetime(db_type='timestamp'),

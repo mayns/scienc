@@ -68,15 +68,15 @@ def get_select_query(tbl, columns=None, where=None, functions=None):
                                                               columns=functions if functions else u', '.join(columns))
     if not where:
         return sql_string
-    sql_string += u"WHERE {column} = {value}".format(column=where['column'],
-                                                     value=where['value'])
+    sql_string += u" WHERE {column}='{value}'".format(column=where['column'],
+                                                      value=where['value'])
     return sql_string
 
 
 def get_delete_query(tbl, where, resolve_constraints='CASCADE'):
 
-    sql_string = u"DELETE FROM {table_name} WHERE {column} = '{value}' {resolve}".format(table_name=tbl,
-                                                                                         column=where['column'],
-                                                                                         value=where['value'],
-                                                                                         resolve=resolve_constraints)
+    sql_string = u"DELETE FROM {table_name} WHERE {column}='{value}' {resolve}".format(table_name=tbl,
+                                                                                       column=where['column'],
+                                                                                       value=where['value'],
+                                                                                       resolve=resolve_constraints)
     return sql_string
