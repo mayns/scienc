@@ -148,7 +148,7 @@ class ScientistBL(object):
     @classmethod
     @gen.coroutine
     def delete(cls, scientist_id):
-        yield cls.delete(scientist_id, tbl=environment.ROLES_TABLE)
+        yield Scientist.delete(scientist_id, tbl=environment.ROLES_TABLE)
 
     @classmethod
     @gen.coroutine

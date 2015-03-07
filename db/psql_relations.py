@@ -92,7 +92,7 @@ def prepare_creation(table):
         if isinstance(v, ID):
             query_table += ' primary key'
         if v.db_references:
-            query_table += ' REFERENCES %s' % v.db_references
+            query_table += ' REFERENCES %s ON DELETE CASCADE' % v.db_references
         if v.db_default:
             query_table += ' DEFAULT %s' % v.db_default
         query_table += ', '

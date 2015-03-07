@@ -88,7 +88,7 @@ class ProjectHandler(BaseRequestHandler):
         response = {}
 
         try:
-            yield ProjectBL.delete(project_id)
+            yield ProjectBL.delete(int(project_id.replace(u'/', u'')))
         except Exception, ex:
             print 'Exc on delete project:', project_id, ex
             response = dict(

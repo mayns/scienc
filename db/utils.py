@@ -73,7 +73,7 @@ def get_select_query(tbl, columns=None, where=None, functions=None):
     return sql_string
 
 
-def get_delete_query(tbl, where, resolve_constraints='CASCADE'):
+def get_delete_query(tbl, where, resolve_constraints=''):
 
     sql_string = u"DELETE FROM {table_name} WHERE {column}='{value}' {resolve}".format(table_name=tbl,
                                                                                        column=where['column'],

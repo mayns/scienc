@@ -92,7 +92,7 @@ class ScientistHandler(BaseRequestHandler):
         print u'scientist delete: ', scientist_id
         response = {}
         try:
-            yield ScientistBL.delete(scientist_id)
+            yield ScientistBL.delete(int(scientist_id.replace(u'/', u'')))
         except Exception, ex:
             print 'Exc on delete scientist:', scientist_id, ex
             response = dict(
