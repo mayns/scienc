@@ -12,6 +12,18 @@
   font-style: italic;
 }
 @font-face {
+  font-family: 'Roboto Slab';
+  src: url("/static/fonts/roboto-slab/RobotoSlab-Regular.ttf") format("truetype");
+  font-weight: 400;
+  font-style: normal;
+}
+@font-face {
+  font-family: 'Roboto Slab';
+  src: url("/static/fonts/roboto-slab/RobotoSlab-Bold.ttf") format("truetype");
+  font-weight: 700;
+  font-style: normal;
+}
+@font-face {
   font-family: 'fontello';
   src: url("../fonts/fontello.eot?6749488");
   src: url("../fonts/fontello.eot?6749488#iefix") format("embedded-opentype"), url("../fonts/fontello.woff?6749488") format("woff"), url("../fonts/fontello.ttf?6749488") format("truetype"), url("../fonts/fontello.svg?6749488#fontello") format("svg");
@@ -1292,7 +1304,6 @@ app-router {
 /* line 1, ../scss/layout/_page-header.scss */
 .page-header-wrapper {
   background-color: #21303F;
-  border-bottom: 5px solid #637686;
 }
 
 /* line 5, ../scss/layout/_page-header.scss */
