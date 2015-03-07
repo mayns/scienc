@@ -169,6 +169,13 @@ class ScientistBL(object):
     @classmethod
     @gen.coroutine
     def get_scientist(cls, scientist_id):
+
+        """
+
+        :param scientist_id:
+        :type scientist_id: int
+        :rtype: dict
+        """
         data = yield Scientist.get_json_by_id(scientist_id)
         image_url = data.get(u'image_url', u'') and environment.GET_IMG(data.get(u'image_url', u''), environment.IMG_L)
         data.update(image_url=image_url)
