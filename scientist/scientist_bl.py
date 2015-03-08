@@ -43,13 +43,14 @@ class ScientistBL(object):
     @gen.coroutine
     def update(cls, scientist_dict, scientist_photo):
         scientist_id = scientist_dict.pop(u'scientist_id')
+        print scientist_id
         if not scientist_id:
             raise Exception(u'No scientist id on update')
 
         scientist = yield Scientist.get_by_id(scientist_id)
-
+        print scientist
         image_url = scientist.image_url and environment.GET_IMG(scientist.image_url, environment.IMG_S)
-
+        print image_url
         if scientist_photo:
             new_image_url = yield cls.upload_avatar(scientist_id, scientist_photo[0])
             if not image_url:
@@ -57,7 +58,7 @@ class ScientistBL(object):
                     image_url=new_image_url
                 ))
         scientist.populate_fields(scientist_dict)
-
+        print scientist.__dict__
         yield scientist.save()
         raise gen.Return(dict(scientist_id=scientist_id, image_url=environment.GET_IMG(image_url, environment.IMG_S)))
 
