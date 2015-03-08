@@ -12,7 +12,7 @@ def psql_connection(function):
     def call(self, *args, **kwargs):
         from db.connections import PSQLClient
         conn = PSQLClient.get_client()
-        psycopg2.extensions.register_type(psycopg2.extensions.UNICODEARRAY, conn)
+        # psycopg2.extensions.register_type(psycopg2.extensions.UNICODEARRAY, conn)
         return function(self, conn, *args, **kwargs)
     return call
 
