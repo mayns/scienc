@@ -160,7 +160,7 @@ class Scientist(object):
                     title=u'Корпускулярно-кинетическая теория',
                     source=u'Питер',
                     year=2012,
-                    link=u'"https://www.rsl.ru/datadocs/doc_4677je.pdf"'
+                    link=u'https://www.rsl.ru/datadocs/doc_4677je.pdf'
                 )
             ],
             interests=[u'javasript', u'nodejs', u'60fps'],
