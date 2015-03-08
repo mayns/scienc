@@ -37,14 +37,12 @@ class Scientist(object):
             gender=u'f',
             location={u'country': u'Russia', u'city': u'Moscow'},
             image_url=u'https://en.gravatar.com/userimage/39116033/0b1c1ef31de9d584943a47db3a03143a.jpg',
-            middle_education=[
-                dict(
-                    country=u'Россия',
-                    city=u'Тверь',
-                    school=u'Гимназия 8',
-                    graduation_year=u'2004'
-                )
-            ],
+            middle_education=dict(
+                country=u'Россия',
+                city=u'Тверь',
+                school=u'Гимназия 8',
+                graduation_year=u'2004'
+            ),
             high_education=[
                 dict(
                     country=u'Россия',
@@ -127,14 +125,12 @@ class Scientist(object):
             gender=u'm',
             location={u'country': u'Russia', u'city': u'Moscow'},
             image_url=u'https://en.gravatar.com/userimage/39116033/0b1c1ef31de9d584943a47db3a03143a.jpg',
-            middle_education=[
-                dict(
-                    country=u'Россия',
-                    city=u'Москва',
-                    school=u'Гимназия 1551',
-                    graduation_year=u'2007'
-                )
-            ],
+            middle_education=dict(
+                country=u'Россия',
+                city=u'Москва',
+                school=u'Гимназия 1551',
+                graduation_year=u'2007'
+            ),
             high_education=[
                 dict(
                     country=u'Россия',
