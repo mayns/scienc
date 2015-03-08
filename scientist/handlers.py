@@ -70,11 +70,15 @@ class ScientistHandler(BaseRequestHandler):
     def put(self, *args, **kwargs):
         print u'scientist put'
         scientist_dict = json.loads(self.get_argument(u'data', u'{}'))
+        scientist_photo = {}
 
-        scientist_photo = dict(
-            raw_image=self.request.files.get('raw_image', []),
-            raw_image_coords=scientist_dict.pop(u'raw_image_coords', {})
-        )
+        files = self.request.files.get('raw_image', [])
+
+        if files:
+            scientist_photo = dict(
+                raw_image=files,
+                raw_image_coords=scientist_dict.pop(u'raw_image_coords', {})
+            )
         try:
             response = yield ScientistBL.update(scientist_dict=scientist_dict, scientist_photo=scientist_photo)
         except Exception, ex:
