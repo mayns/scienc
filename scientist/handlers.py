@@ -67,7 +67,7 @@ class ScientistHandler(BaseRequestHandler):
         self.finish(response_data)
 
     @gen.coroutine
-    def put(self):
+    def put(self, *args, **kwargs):
         print u'scientist put'
         scientist_dict = json.loads(self.get_argument(u'data', u'{}'))
 
