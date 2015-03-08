@@ -40,7 +40,8 @@ class PSQLModel(object):
 
         try:
             cursor = yield momoko.Op(conn.execute, sqp_query)
-            self.id = cursor.fetchone()[0]
+            self.id = cursor.fetchone()
+            print self.id,
         except Exception, ex:
             raise PSQLException(ex)
 
