@@ -22,10 +22,10 @@ MODELS = dict(
         # professional info
         u'middle_education': JsonArray(db_type='json'),
         u'high_education': JsonArray(db_type='json'),                               # [{country, city, university, faculty, chair, degree, graduation_year}]
-        u'publications': JsonArray(db_type='json'),
+        u'publications': JsonArray(db_type='json'),                                 # [{id, title, source, year, link}]
         u'interests': JsonArray(db_type='text[]'),
         u'about': Text(),
-        u'contacts': JsonArray(db_type='json'),
+        u'contacts': JsonArray(db_type='json'),                                     # [{type, id}]
 
         # app activity
         u'participating_projects': JsonArray(db_type='json'),                       # [{project_id, role_id}]

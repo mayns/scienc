@@ -68,7 +68,8 @@ class Scientist(object):
             publications=[
                 dict(
                     title=u'How I stopped procrastinating ',
-                    metadata=u'I did NOT!',
+                    source=u'I did NOT!',
+                    year=2004,
                     link=u'http://geektimes.ru/post/166369/'
                 )
             ],
@@ -157,7 +158,8 @@ class Scientist(object):
             publications=[
                 dict(
                     title=u'Корпускулярно-кинетическая теория',
-                    metadata=u'Питер, 2012',
+                    source=u'Питер',
+                    year=2012,
                     link=u'"https://www.rsl.ru/datadocs/doc_4677je.pdf"'
                 )
             ],
