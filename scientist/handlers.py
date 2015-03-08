@@ -79,7 +79,6 @@ class ScientistHandler(BaseRequestHandler):
             response = yield ScientistBL.update(scientist_dict=scientist_dict, scientist_photo=scientist_photo)
         except Exception, ex:
             print 'Exc on update scientist:', ex
-            self.send_error(status_code=403)
             response = dict(
                 message=ex.message
             )
