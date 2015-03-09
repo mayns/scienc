@@ -33,7 +33,6 @@ class PSQLModel(object):
             data = self.__dict__
 
         if update:
-            print self.id
             sqp_query = get_update_query(self.TABLE, data, dict(id=self.id))
             print sqp_query
         else:
@@ -42,7 +41,6 @@ class PSQLModel(object):
         try:
             cursor = yield momoko.Op(conn.execute, sqp_query)
             self.id = cursor.fetchone()
-            print self.id,
         except Exception, ex:
             raise PSQLException(ex)
 
@@ -62,7 +60,6 @@ class PSQLModel(object):
             columns = MODELS[cls.TABLE].keys()
         try:
             sql_query = get_select_query(cls.TABLE, columns=columns, where=dict(column=u'id', value=str(_id)))
-            print sql_query
             cursor = yield momoko.Op(conn.execute, sql_query)
             data = cursor.fetchone()
         except Exception, ex:
@@ -77,7 +74,6 @@ class PSQLModel(object):
         for k, v in data.iteritems():
             if not v:
                 continue
-            print k, v
             setattr(instance, k, v)
 
         raise gen.Return(instance)
