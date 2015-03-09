@@ -1,10 +1,6 @@
 # -*- coding: utf-8 -*-
 
-import logging
-
 from tornado import gen
-import momoko
-import psycopg2
 import copy
 
 import settings
@@ -13,6 +9,8 @@ from db.connections import PSQLClient
 from db.orm import MODELS
 from db.tables import TABLES
 
+import psycopg2
+import momoko
 
 __author__ = 'mayns'
 
@@ -28,6 +26,7 @@ def create_db():
     dbs_param = settings.SCIENCE_DB
     root_con = connect(dbname=u'postgres', user=settings.PSQL_ROOT_USER, host=dbs_param[u'host'],
                        port=dbs_param[u'port'], password=settings.PSQL_ROOT_PASSWORD)
+    root_con.set_client_encoding('UTF-8')
     root_cursor = root_con.cursor()
     root_cursor.execute(u"SELECT 1 FROM pg_roles WHERE rolname='{}'".format(dbs_param[u'user']))
     exist_user = root_cursor.fetchone()
