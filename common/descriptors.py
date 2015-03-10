@@ -41,7 +41,7 @@ class JsonArray(FieldDescriptor):
     def __init__(self, default=None, db_type=None, **kwargs):
         """:rtype: list"""
         super(JsonArray, self).__init__(default=default, db_type=db_type, **kwargs)
-        self.store = lambda x: json.dumps(x).replace(u'[', u'{').replace(u']', u'}').replace(u'{{', u'[{').replace(u'}}', u'}]').replace('\'', '\"')
+        self.store = lambda x: json.dumps(x).replace(u'[', u'{').replace(u']', u'}').replace(u'{{', u'[{').replace(u'}}', u'}]')
         self.restore = json.loads
         self.type = list
         self.db_type = db_type or 'text[]'

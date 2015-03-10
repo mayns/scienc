@@ -55,9 +55,9 @@ def get_insert_query(tbl, insert_data):
     values = u"'" + u"', '".join([v for v in values]) + u"'" if len(values) > 1 else u"'{}'".format(values[0])
     values = values.replace(u'%', u'%%')
 
-    sql_string = u'INSERT INTO {table_name} ({fields}) VALUES ({values}) RETURNING id'.format(table_name=tbl,
-                                                                                              fields=fields,
-                                                                                              values=values)
+    sql_string = u'INSERT INTO {table_name} ({fields}) VALUES (E{values}) RETURNING id'.format(table_name=tbl,
+                                                                                               fields=fields,
+                                                                                               values=values)
     return sql_string
 
 
@@ -74,9 +74,8 @@ def get_select_query(tbl, columns=None, where=None, functions=None):
 
 
 def get_delete_query(tbl, where, resolve_constraints=''):
-
-    sql_string = u"DELETE FROM {table_name} WHERE {column}='{value}' {resolve}".format(table_name=tbl,
-                                                                                       column=where['column'],
-                                                                                       value=where['value'],
-                                                                                       resolve=resolve_constraints)
+    sql_string = "DELETE FROM {table_name} WHERE {column}='{value}' {resolve}".format(table_name=tbl,
+                                                                                      column=where['column'],
+                                                                                      value=where['value'],
+                                                                                      resolve=resolve_constraints)
     return sql_string
