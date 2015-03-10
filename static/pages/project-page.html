@@ -1,7 +1,26 @@
 <link rel="import" href="/static/elements/polymer/polymer.html"/>
+<link rel="import" href="/static/elements/core-ajax/core-ajax.html"/>
 
 <polymer-element name="project-page" noscript>
     <template>
-
+        <style>
+            h1, h2 {
+                margin-top: 0;
+            }
+        </style>
+		<core-ajax auto url="/api/project/{{ id }}" method="GET" handleAs="json" response="{{ json }}"></core-ajax>
+        <template bind="{{ json.data }}">
+            <section>
+                <h1>{{ title }}</h1>
+                <template repeat="{{ university_connection }}">
+                    <div>{{ university }} {{ faculty }} {{ chair }}</div>
+                </template>
+                <div layout horizontal justified>
+                    <div>{{ in_progress === 'true' ? 'В процессе' : 'Завершен' }}</div>
+                    <div>{{ likes }}</div>
+                </div>
+                <h2>Цели исследованиея</h2>
+            </section>
+        </template>
     </template>
 </polymer-element>

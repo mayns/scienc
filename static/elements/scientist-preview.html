@@ -1,0 +1,157 @@
+<link rel="import" href="/static/elements/polymer/polymer.html"/>
+
+<polymer-element name="scientist-preview" attributes="data">
+    <template>
+        <style>
+            h1 {
+                font-size: 2em;;
+            }
+            ol {
+                margin: 0 0 10px 0;
+            }
+            .link {
+                color: #0095E5;
+            }
+            .link:hover {
+                color: #007FC3;
+            }
+            .main {
+                padding-bottom: 80px;
+            }
+            .section {
+                color: #333;
+                width: 960px;
+                margin: 0 auto 20px;
+            }
+            .section-header {
+                margin: 0 0 10px 0;
+            }
+            .section-block {
+                padding-left: 40px;
+                position: relative;
+            }
+            .photo {
+                background-color: #ccc;
+                height: 250px;
+                width: 250px;
+                border-radius: 50%;
+            }
+            .photo:focus {
+                outline: none;
+            }
+            .photo:active {
+                outline: none;
+            }
+            .photo /deep/ input {
+                display: none;
+            }
+            .row {
+                margin-bottom: 10px;
+            }
+            .row:last-child {
+                margin-bottom: 0;
+            }
+            .padded-block {
+                padding-left: 20px;
+            }
+            .sub-text {
+                color: #aaa;
+            }
+        </style>
+        <div class="main">
+            <section class="section">
+                <h1 class="section-header">{{ data.first_name }} {{ data.middle_name}} {{ data.last_name }}</h1>
+                <div class="row row-flex">
+                    <div class="col-lg-9">
+                        <div class="row row-flex middle">
+                            <label class="col-lg-3">Дата рождения:</label>
+                            <div>{{ data.dob }}</div>
+                        </div>
+                        <div class="row row-flex middle">
+                            <label class="col-lg-3">Местро проживания:</label>
+                            <div>{{ data.location.country }}, {{ data.location.city }}</div>
+                        </div>
+                        <div>
+                            <div class="row row-flex">
+                                Контакты
+                            </div>
+                            <div>
+                                <template repeat="{{ contact in data.contacts }}">
+                                    <div class="row row-flex">
+                                        <div class="col-lg-3">
+                                            <div class="padded-block capitalize">{{ contact.connection }}:</div>
+                                        </div>
+                                        <div>{{ contact.number }}</div>
+                                    </div>
+                                </template>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-3">
+                        <img src="{{ data.image_url || '/static/images/profile.svg' }}" alt="" class="photo"/>
+                    </div>
+                </div>
+            </section>
+            <section class="section">
+                <h2 class="section-header">Сведения об образовании</h2>
+                <div class="section-block">
+                    <section class="row">
+                        <h3 class="section-header">Среднее образование</h3>
+                        <div class="row row-flex middle">
+                            <ol>
+                                <template repeat="{{ education in data.middle_education }}">
+                                    <li class="row">{{ education.school }}, {{ education.country }}, {{ education.city }}</li>
+                                </template>
+                            </ol>
+                        </div>
+                    </section>
+                    <section>
+                        <h3 class="section-header">
+                            Высшее образованиe
+                        </h3>
+                        <div class="row row-flex middle">
+                            <ol>
+                                <template repeat="{{ education in data.high_education }}">
+                                    <li class="row">
+                                        <div>{{ education.university }}, {{ education.country }}, {{ education.city }}</div>
+                                        <div class="sub-text">Факультет: {{ education.faculty }}, {{ education.degree }}</div>
+                                    </li>
+                                </template>
+                            </ol>
+                        </div>
+                    </section>
+                </div>
+            </section>
+            <section class="section">
+                <h2 class="section-header">Публикации</h2>
+                <div class="section-block">
+                    <ol>
+                        <template repeat="{{ pub in data.publications }}">
+                            <li>
+                                <div><a class="link" href="{{ pub.link }}">{{ pub.title }}</a></div>
+                                <div class="sub-text">{{ pub.metadata }}</div>
+                            </li>
+                        </template>
+                    </ol>
+                </div>
+            </section>
+            <section class="section">
+                <h2 class="section-header">Научные интересы</h2>
+                <div class="section-block">
+                    <template repeat="{{ int in data.interests }}">
+                        {{ int }},
+                    </template>
+                </div>
+            </section>
+            <section class="section">
+                <h2 class="section-header">О себе</h2>
+                <div class="section-block">
+                    {{ data.about }}
+                </div>
+            </section>
+        </div>
+    </template>
+    <script>
+        Polymer({});
+    </script>
+</polymer-element>

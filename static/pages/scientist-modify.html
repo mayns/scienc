@@ -1,0 +1,437 @@
+<link rel="import" href="/static/elements/polymer/polymer.html"/>
+<link rel="import" href="/static/elements/break-line.html"/>
+<link rel="import" href="/static/elements/ajax-json-form.html"/>
+<link rel="import" href="/static/elements/input-tags.html"/>
+<link rel="import" href="/static/elements/input-photo.html"/>
+
+<polymer-element name="scientist-modify">
+	<template>
+		<style>
+			section {
+				color: #333;
+			}
+            label {
+                text-transform: capitalize;
+            }
+            fieldset {
+                padding: 20px 20px 30px;
+                margin-bottom: 40px;
+                border: 1px solid #cccccc;
+            }
+            fieldset fieldset {
+                border: none;
+                margin-bottom: 0;
+            }
+            fieldset fieldset legend {
+                font-size: 22px;
+            }
+            .fieldblock {
+                padding-left: 40px;
+                position: relative;
+            }
+            .fieldblock + .fieldblock {
+                padding-top: 40px;
+                border-top: 1px solid #ccc;
+                margin-top: 40px;
+            }
+            legend {
+                font-size: 30px;
+            }
+            legend .icon {
+                vertical-align: middle;
+            }
+            .icon {
+                width: 20px;
+                height: 20px;
+            }
+            [type="text"],
+            [type="date"],
+            [type="number"],
+            [type="url"],
+            [type="email"],
+            [type="tel"],
+            [type="password"],
+            textarea,
+            input-tags {
+                border: none;
+                border-bottom: 1px solid #eee;
+            }
+            input:focus, textarea:focus {
+                outline: none;
+            }
+            textarea {
+				resize: vertical;
+			}
+			.photo {
+				background-color: #ccc;
+				height: 250px;
+				width: 250px;
+				border-radius: 50%;
+			}
+			.photo:focus {
+				outline: none;
+			}
+			.photo:active {
+				outline: none;
+			}
+			.photo /deep/ input {
+				display: none;
+			}
+			form {
+				padding-bottom: 70px;
+			}
+			form .row-flex {
+				margin-bottom: 20px;
+			}
+			form .row-flex:last-child {
+				margin-bottom: 0;
+			}
+			.deleteItem {
+                position: absolute;
+                top: 50%;
+                left: 0;
+                margin-top: -10px;
+            }
+		</style>
+		<section vertical layout>
+			<form id="form"
+                  is="ajax-json-form"
+                  on-form-response="{{ onFormResponse }}"
+                  action="/api/scientist">
+				<fieldset>
+				    <legend>Общие сведения</legend>
+				    <div class="row-flex fieldblock">
+                        <div class="col-lg-9">
+                            <div class="row-flex middle">
+                                <label for="first_name" class="action col-lg-3">Имя</label>
+                                <input type="text"
+                                       id="first_name"
+                                       data-json="first_name"
+                                       value="{{ data.first_name }}"
+                                       class="col-lg-8"
+                                       required/>
+                            </div>
+                            <div class="row-flex middle">
+                                <label for="last_name" class="action col-lg-3">Фамилия</label>
+                                <input type="text"
+                                       id="last_name"
+                                       data-json="last_name"
+                                       class="col-lg-8"
+                                       value="{{ data.last_name }}"
+                                       required/>
+                            </div>
+                            <div class="row-flex middle">
+                                <label for="middlename" class="action col-lg-3">Отчество</label>
+                                <input type="text"
+                                       id="middlename"
+                                       data-json="middle_name"
+                                       class="col-lg-8"
+                                       value="{{ data.middle_name }}"/>
+                            </div>
+                            <div class="row-flex middle">
+                                <label class="col-lg-3">Пол</label>
+                                <div class="col-lg-2">
+                                    <div class="row-flex middle between">
+                                        <label for="male">М</label>
+                                        <input type="radio"
+                                               id="male"
+                                               value="m"
+                                               checked="{{ data.gender === 'm' }}"
+                                               data-json="gender"/>
+                                        <label for="female">Ж</label>
+                                        <input type="radio"
+                                               id="female"
+                                               value="f"
+                                               checked="{{ data.gender === 'f' }}"
+                                               data-json="gender"/>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row-flex middle">
+                                <label for="dateOfBirth" class="col-lg-3">Дата рождения</label>
+                                <input type="text"
+                                       value="{{ data.dob }}"
+                                       id="dateOfBirth"
+                                       data-json="dob"/>
+                            </div>
+                            <div class="row-flex middle">
+                                <label for="placeOfLiving" class="col-lg-3">Местро проживания</label>
+                                <div class="col-lg-5">
+                                    <div class="row-flex between">
+                                        <input type="text" id="placeOfLiving"
+                                               value="{{ data.location.country }}"
+                                               data-json="location_country"
+                                               placeholder="Страна"/>
+                                        <input type="text"
+                                               value="{{ data.location.city }}"
+                                               data-json="location_city"
+                                               placeholder="Город"/>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-3">
+                            <input-photo size='{"width": 250, "height": 250}'
+                                         imageUri="{{ data.image_url }}"
+                                         id="photo"></input-photo>
+                        </div>
+					</div>
+				</fieldset>
+                <fieldset>
+                    <legend>Сведения об образовании</legend>
+                    <div class="fieldblock">
+                        <fieldset>
+                            <legend>Среднее образование</legend>
+                            <div class="fieldblock">
+                                <div class="row-flex middle">
+                                    <label for="middle_education_country" class="col-lg-2 action">Страна</label>
+                                    <input type="text"
+                                           value="{{ data.middle_education.country }}"
+                                           data-json="middle_education[][country]"
+                                           id="middle_education_country"
+                                           class="col-lg-10"/>
+                                </div>
+                                <div class="row-flex middle">
+                                    <label for="middle_education_city" class="col-lg-2">Город</label>
+                                    <input type="text"
+                                           value="{{ data.middle_education.city }}"
+                                           data-json="middle_education[][city]"
+                                           id="middle_education_city"
+                                           class="col-lg-10"/>
+                                </div>
+                                <div class="row-flex middle">
+                                    <label for="middle_education_school" class="col-lg-2">Школа</label>
+                                    <input type="text"
+                                           value="{{ data.middle_education.school }}"
+                                           data-json="middle_education[][school]"
+                                           id="middle_education_school"
+                                           class="col-lg-10"/>
+                                </div>
+                                <div class="row-flex middle">
+                                    <label for="middle_education_start_year" class="action col-lg-2">Год выпуска</label>
+                                    <input type="text"
+                                           class="col-lg-2"
+                                           value="{{ data.middle_education.graduation_year }}"
+                                           data-json="middle_education[][start_year]"
+                                           id="middle_education_start_year"/>
+                                </div>
+                            </div>
+                        </fieldset>
+                        <fieldset>
+                            <legend>
+                                <span>Высшее образование</span>
+                                <img on-click="{{ addItem }}" data-itemtype="high_educations" class="action icon"
+                                     src="/static/images/plus.svg"
+                                     alt="" />
+                            </legend>
+                            <template repeat="{{ edu in data.high_education }}">
+                                <div class="fieldblock">
+                                    <div class="row-flex middle">
+                                        <label class="col-lg-2 action">Страна</label>
+                                        <input type="text"
+                                               value="{{ edu.country }}"
+                                               class="col-lg-10"/>
+                                    </div>
+                                    <div class="row-flex middle">
+                                        <label class="col-lg-2 action">Город</label>
+                                        <input type="text"
+                                               value="{{ edu.city }}"
+                                               data-json="high_education[][city]"
+                                               class="col-lg-10"/>
+                                    </div>
+                                    <div class="row-flex middle">
+                                        <label class="col-lg-2 action">Университет</label>
+                                        <input type="text"
+                                               value="{{ edu.university }}"
+                                               data-json="high_education[][university]"
+                                               class="col-lg-10"/>
+                                    </div>
+                                    <div class="row-flex middle">
+                                        <label class="col-lg-2 action">Факультет</label>
+                                        <input type="text"
+                                               value="{{ edu.faculty }}"
+                                               data-json="high_education[][faculty]"
+                                               class="col-lg-10"/>
+                                    </div>
+                                    <div class="row-flex middle">
+                                        <label class="col-lg-2 action">Кафедра</label>
+                                        <input type="text"
+                                               value="{{ edu.chair }}"
+                                               data-json="high_education[][chair]"
+                                               class="col-lg-10"/>
+                                    </div>
+                                    <div class="row-flex middle">
+                                        <label for="high_education_degree" class="col-lg-2 action">Степень</label>
+                                        <input type="text"
+                                               value="{{ edu.degree }}"
+                                               data-json="high_education[][degree]"
+                                               id="high_education_degree"
+                                               class="col-lg-10"/>
+                                    </div>
+                                    <div class="row-flex middle">
+                                        <label for="high_education_end_year" class="action col-lg-2">Год выпуска</label>
+                                        <input type="number"
+                                               class="col-lg-2"
+                                               value="{{ edu.graduation_year }}"
+                                               data-json="high_education[][end_year]"
+                                               id="high_education_end_year"/>
+                                    </div>
+                                    <img class="deleteItem icon action"
+                                         data-itemtype="high_educations"
+                                         on-click="{{ deleteItem }}"
+                                         src="/static/images/minus.svg" alt=""/>
+                                </div>
+                            </template>
+                        </fieldset>
+                        </div>
+                    </fieldset>
+                    <fieldset>
+                        <legend>Научная деятельность</legend>
+                        <div class="fieldblock">
+                            <fieldset>
+                                <legend>
+                                    <span>Публикации</span>
+                                    <img on-click="{{ addItem }}" data-itemtype="publications" class="action icon"
+                                         src="/static/images/plus.svg"
+                                         alt="" />
+                                </legend>
+                                <template repeat="{{ pub in data.publications }}">
+                                    <div class="fieldblock">
+                                        <div class="row-flex middle">
+                                            <label for="publicationName" class="action col-lg-3">Название</label>
+                                            <input type="text" data-json="publications[][title]"
+                                                   value="{{ pub.title }}"
+                                                   class="col-lg-8"/>
+                                        </div>
+                                        <div class="row-flex middle">
+                                            <label for="publishingHouse" class="action col-lg-3">Издательство</label>
+                                            <input type="text"
+                                                   data-json="publications[][source]"
+                                                   value="{{ pub.source }}"
+                                                   class="col-lg-8"/>
+                                        </div>
+                                        <div class="row-flex middle">
+                                            <label for="publicationYear" class="action col-lg-3">Год издания</label>
+                                            <input type="text"
+                                                   data-json="publications[][year]"
+                                                   value="{{ pub.year }}"
+                                                   class="col-lg-8"/>
+                                        </div>
+                                        <div class="row-flex middle">
+                                            <label for="publicationLink" class="col-lg-3 action">Ссылка</label>
+                                            <input type="url"
+                                                   data-json="publications[][link]"
+                                                   value="{{ pub.link }}"
+                                                   class="col-lg-8"/>
+                                        </div>
+                                        <img class="deleteItem icon action"
+                                             data-itemtype="publications"
+                                             on-click="{{ deleteItem }}"
+                                             src="/static/images/minus.svg" alt=""/>
+
+                                    </div>
+                             </template>
+                        </fieldset>
+                        <fieldset>
+                            <legend>О себе</legend>
+                            <div class="fieldblock row-flex">
+                                <textarea data-json="about"
+                                          value="{{ data.about }}"
+                                          id="about"
+                                          class="col-lg-12"></textarea>
+                            </div>
+                        </fieldset>
+                        <fieldset>
+                            <legend>Сфера научных интересов</legend>
+                            <div class="fieldblock">
+                                <input-tags data-json="interests[]"
+                                            value="{{ data.interests }}"
+                                            id="science_interests"
+                                            class="col-lg-12"></input-tags>
+                            </div>
+                        </fieldset>
+                    </div>
+                </fieldset>
+                <fieldset>
+                    <legend>Контакты</legend>
+                    <div class="fieldblock">
+                        <div class="col-lg-9">
+						<template repeat="{{ contact in data.contacts }}">
+                            <div class="row-flex middle">
+                                <label for="email_public" class="action col-lg-3">{{ contact.connection }}</label>
+                                <input type="text"
+                                       data-json="contacts[{{ contact.connection }}]"
+                                       value="{{ contact.number }}"
+                                       id="email_public"
+                                       class="col-lg-8"/>
+                            </div>
+                        </template>
+					</div>
+                    </div>
+                </fieldset>
+                <template if="{{ viewType === 'create' }}">
+                    <fieldset>
+                        <div class="row-flex fieldblock">
+                            <div class="col-lg-9">
+                                <div class="row-flex middle">
+                                    <label for="email" class="col-lg-3">Email</label>
+                                    <input type="email" data-json="email" id="email" required class="col-lg-5"/>
+                                </div>
+                                <div class="row-flex middle">
+                                    <label for="pwd" class="col-lg-3">Пароль</label>
+                                    <input type="password" data-json="pwd" id="pwd" required class="col-lg-5"/>
+                                </div>
+                            </div>
+                        </div>
+                        <div></div>
+                        <div class="row-flex fieldblock">
+                            <div class="col-lg-9">
+                                <div class="row-flex middle">
+                                    <label for="accept_rules" class="col-lg-3">Я жираф</label>
+                                    <input type="checkbox" data-json="accept_rules" id="accept_rules"/>
+                                </div>
+                            </div>
+                        </div>
+                    </fieldset>
+                </template>
+                <template if="{{ viewType === 'update' }}">
+                    <input type="hidden" value="{{ data.id }}" data-json="scientist_id"/>
+                </template>
+				<div class="row-flex center">
+					<button type="submit" class="button submit">{{ viewType === 'create' ? 'Вступаю' : 'Сохранить' }}</button>
+				</div>
+			</form>
+		</section>
+	</template>
+	<script>
+        Polymer({
+            publish: {
+                data: {},
+                viewType: null
+            },
+            ready: function() {
+                var self = this;
+                    this.$.form.addCustomFields = function(jsonData, formData) {
+                        var photo = self.$.photo;
+                        if (photo.file !== null) {
+                            formData.append('raw_image', photo.file);
+                            jsonData.raw_image_coords = photo.coords;
+                        }
+                    };
+            },
+            addItem: function(event, detail, sender) {
+                var type = event.target.dataset.itemtype;
+                this.data[type].push();
+            },
+            deleteItem: function(event, detail, sender) {
+                var type = event.target.dataset.itemtype;
+                var id = event.target.templateInstance.model;
+                var index = this[type].indexOf(id);
+                this[type].splice(index, 1);
+            },
+            onFormResponse: function(e, detail, sender) {
+                this.fire('logged-in');
+            }
+        });
+    </script>
+</polymer-element>
