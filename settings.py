@@ -27,7 +27,6 @@ SESSION_SECRET = unicode(hash(u"However, this bottle was not marked `poison,' so
 # -------- MEDIA SERVER ---------- #
 
 MEDIA_SERVER_HOST = u'science.im:9190' if ON_PRODUCTION_SERVER else u'media-science.dev:9190'
-print 'MEDIA_SERVER_HOST', MEDIA_SERVER_HOST
 
 
 # --------- POSTGRESQL ----------- #
