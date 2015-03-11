@@ -20,7 +20,6 @@
             }
             .section {
                 color: #333;
-                width: 960px;
                 margin: 0 auto 20px;
             }
             .section-header {
@@ -62,13 +61,13 @@
             <section class="section">
                 <h1 class="section-header">{{ data.first_name }} {{ data.middle_name}} {{ data.last_name }}</h1>
                 <div class="row row-flex">
-                    <div class="col-lg-9">
+                    <div class="col-lg-8">
                         <div class="row row-flex middle">
-                            <label class="col-lg-3">Дата рождения:</label>
+                            <label class="col-lg-4">Дата рождения:</label>
                             <div>{{ data.dob }}</div>
                         </div>
                         <div class="row row-flex middle">
-                            <label class="col-lg-3">Местро проживания:</label>
+                            <label class="col-lg-4">Местро проживания:</label>
                             <div>{{ data.location.country }}, {{ data.location.city }}</div>
                         </div>
                         <div>
@@ -78,7 +77,7 @@
                             <div>
                                 <template repeat="{{ contact in data.contacts }}">
                                     <div class="row row-flex">
-                                        <div class="col-lg-3">
+                                        <div class="col-lg-4">
                                             <div class="padded-block capitalize">{{ contact.connection }}:</div>
                                         </div>
                                         <div>{{ contact.number }}</div>
@@ -87,7 +86,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col-lg-3">
+                    <div class="col-lg-4">
                         <img src="{{ data.image_url || '/static/images/profile.svg' }}" alt="" class="photo"/>
                     </div>
                 </div>

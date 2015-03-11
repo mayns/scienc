@@ -1,0 +1,58 @@
+html /deep/ h1,
+html /deep/ h2,
+html /deep/ h3,
+html /deep/ h4,
+html /deep/ h5,
+html /deep/ h6,
+html /deep/ p,
+html /deep/ img,
+html /deep/ dl,
+html /deep/ dt,
+html /deep/ dd,
+html /deep/ ol,
+html /deep/ ul,
+html /deep/ li,
+html /deep/ fieldset,
+html /deep/ form,
+html /deep/ label,
+html /deep/ legend,
+html /deep/ caption {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  outline: 0;
+  box-sizing: border-box;
+}
+
+html /deep/ a {
+  text-decoration: none;
+  color: inherit;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  outline: 0;
+  box-sizing: border-box;
+}
+
+html /deep/ a:hover {
+  text-decoration: none;
+}
+
+table {
+  border-collapse: collapse;
+  border-spacing: 0;
+}
+
+/* change border colour to suit your needs */
+hr {
+  display: block;
+  height: 1px;
+  border: 0;
+  border-top: 1px solid #cccccc;
+  margin: 1em 0;
+  padding: 0;
+}
+
+input, select {
+  vertical-align: middle;
+}

@@ -4,17 +4,10 @@
 }
 
 .page-header {
-  margin: 0 auto;
   height: 100px;
   display: flex;
   align-items: center;
   justify-content: space-between;
-}
-
-@media screen and (min-width: 1280px) {
-  .page-header {
-    width: 1280px;
-  }
 }
 
 .page-header-logo {

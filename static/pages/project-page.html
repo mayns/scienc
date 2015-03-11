@@ -1,25 +1,133 @@
 <link rel="import" href="/static/elements/polymer/polymer.html"/>
 <link rel="import" href="/static/elements/core-ajax/core-ajax.html"/>
+<link rel="import" href="/static/elements/core-icon/core-icon.html"/>
 
 <polymer-element name="project-page" noscript>
     <template>
         <style>
-            h1, h2 {
-                margin-top: 0;
+            .project {
+                padding-bottom: 100px;
+            }
+            .project h1,
+            .project h2 {
+                font-family: 'Roboto Slab';
+            }
+            .project h2 {
+                font-size: 22px;
+            }
+            .project-title {
+                font-size: 28px;
+            }
+            .project-holder {
+                font-size: 20px;
+                text-transform: uppercase;
+                color: #848484;
+                font-family: 'Roboto Slab';
+                margin-bottom: 15px;
+            }
+            .project-status {
+                margin-bottom: 20px;
+            }
+            .project-progress {
+                text-transform: uppercase;
+            }
+            .project-progress.false {
+                color: rgb(207, 37, 37);
+            }
+            .project-progress.true {
+                color: rgba(20, 172, 0, 0.62);
+            }
+            .likes {
+                font-size: 20px;
+                margin-right: 30px;
+            }
+            .heart {
+                margin-right: 20px;
+            }
+            .heart svg {
+                fill: #FF334F;
+                stroke: #FF334F;
+            }
+            .project p {
+                padding: 10px 20px 20px 20px;
             }
         </style>
 		<core-ajax auto url="/api/project/{{ id }}" method="GET" handleAs="json" response="{{ json }}"></core-ajax>
         <template bind="{{ json.data }}">
-            <section>
-                <h1>{{ title }}</h1>
+            <section class="project">
+                <h1 class="project-title">{{ title }}</h1>
                 <template repeat="{{ university_connection }}">
-                    <div>{{ university }} {{ faculty }} {{ chair }}</div>
+                    <div class="project-holder">{{ university }}, Ф-т {{ faculty }}, каф. {{ chair }}</div>
                 </template>
-                <div layout horizontal justified>
-                    <div>{{ in_progress === 'true' ? 'В процессе' : 'Завершен' }}</div>
-                    <div>{{ likes }}</div>
+                <div class="project-status" layout horizontal center>
+                    <template if="{{ in_progress === 'true'  }}">
+                        <div class="project-progress true" flex>В процессе</div>
+                    </template>
+                    <template if="{{ in_progress !== 'true' }}">
+                        <div class="project-progress false" flex>Завершен</div>
+                    </template>
+                    <core-icon class="heart" icon="favorite"></core-icon>
+                    <div class="likes">{{ likes }}</div>
                 </div>
                 <h2>Цели исследованиея</h2>
+                <p>{{ objective }}</p>
+                <h2>Полное описание</h2>
+                <p>{{ description_full }}</p>
+                <h2>Возможности применения результатов</h2>
+                <p>{{ usage_possibilities }}</p>
+                <h2>Достигнутые результаты</h2>
+                <p>{{ results }}</p>
+                <h2>Почитать по теме</h2>
+                <div>
+                    <ol>
+                        <template repeat="{{ related_data }}">
+                            <li>
+                                <a href="{{ source_link }}">{{ title }}</a>
+                            </li>
+                        </template>
+                    </ol>
+                </div>
+                <section>
+                    <h1>Команда</h1>
+                    <h2>Научный руководитель</h2>
+                    <div>
+                        <a is="html5-history-anchor" pushstate popstate href="/scientist/{{ leaders[0].id }}">{{ leaders[0].full_name }}</a>
+                    </div>
+                    <h2>Участники</h2>
+                    <div>
+                        <ol>
+                            <template repeat="{{ participants }}">
+                                <li>
+                                    <a is="html5-history-anchor" pushstate popstate href="/scientist/{{ scientist_id }}">{{ full_name }}</a>
+                                    <div>{{ role_name }}</div>
+                                </li>
+                            </template>
+                        </ol>
+                    </div>
+                    <h2>Не хватает</h2>
+                    <div>
+                        <ol>
+                            <template repeat="{{ missed_participants }}">
+                                <li>
+                                    <div>{{ vacancy_name }}</div>
+                                    <div>{{ description }}</div>
+                                </li>
+                            </template>
+                        </ol>
+                    </div>
+                    <h2>Контакты</h2>
+                    <div>
+                        <ul>
+                            <template repeat="{{ contacts }}">
+                                <li>
+                                    <div>{{ type }}</div>
+                                    <div>{{ id }}</div>
+                                    <div>{{ name }}</div>
+                                </li>
+                            </template>
+                        </ul>
+                    </div>
+                </section>
             </section>
         </template>
     </template>
