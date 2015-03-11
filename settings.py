@@ -1,17 +1,17 @@
 # -*- coding: utf-8 -*-
 
 import os
-import uuid
+import socket
 
 __author__ = 'oks'
 
-PRODUCTION_SERVERS_UUID = [
+PRODUCTION_SERVERS_HOSTNAMES = [
 
-    153202932715157L,    # 188.44.43.9
+    u'mahotin',    # 188.44.43.9
 
 ]
 
-ON_PRODUCTION_SERVER = uuid.getnode() in PRODUCTION_SERVERS_UUID
+ON_PRODUCTION_SERVER = socket.gethostname() in PRODUCTION_SERVERS_HOSTNAMES
 
 
 # -------- PROJECT MAIN ---------- #
