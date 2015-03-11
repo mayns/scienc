@@ -1,8 +1,17 @@
 # -*- coding: utf-8 -*-
 
 import os
+import uuid
 
 __author__ = 'oks'
+
+PRODUCTION_SERVERS_UUID = [
+
+    153202932715157,    # 188.44.43.9
+
+]
+
+ON_PRODUCTION_SERVER = uuid.getnode() in PRODUCTION_SERVERS_UUID
 
 
 # -------- PROJECT MAIN ---------- #
@@ -17,8 +26,8 @@ SESSION_SECRET = unicode(hash(u"However, this bottle was not marked `poison,' so
 
 # -------- MEDIA SERVER ---------- #
 
-MEDIA_SERVER_HOST = u'science.im:9190'
-# MEDIA_SERVER_HOST = u'media-science.dev:9190'
+MEDIA_SERVER_HOST = u'science.im:9190' if ON_PRODUCTION_SERVER else u'media-science.dev:9190'
+print 'MEDIA_SERVER_HOST', MEDIA_SERVER_HOST
 
 
 # --------- POSTGRESQL ----------- #
