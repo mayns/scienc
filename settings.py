@@ -5,6 +5,9 @@ import os
 __author__ = 'oks'
 
 
+DEVELOPMENT = False
+
+
 # -------- PROJECT MAIN ---------- #
 
 PROJECT_TITLE = u'ScienceMates'
