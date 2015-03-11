@@ -20,7 +20,7 @@ MODELS = dict(
         u'location': JsonObject(),                                                  # {country, city}
 
         # professional info
-        u'middle_education': JsonObject(),
+        u'middle_education': JsonObject(),                                          # {country, city, school, graduation_year}
         u'high_education': JsonArray(db_type='json'),                               # [{country, city, university, faculty, chair, degree, graduation_year}]
         u'publications': JsonArray(db_type='json'),                                 # [{id, title, source, year, link}]
         u'interests': JsonArray(db_type='text[]'),

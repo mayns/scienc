@@ -33,8 +33,8 @@ class PSQLModel(object):
             data = self.__dict__
 
         if update:
-            sqp_query = get_update_query(self.TABLE, data, dict(id=self.id))
-            print sqp_query
+            sqp_query = get_update_query(self.TABLE, data, where_params=dict(id=self.id))
+
         else:
             sqp_query = get_insert_query(self.TABLE, data)
 
@@ -48,9 +48,15 @@ class PSQLModel(object):
 
     def populate_fields(self, data_dict):
         for key, value in MODELS[self.TABLE].iteritems():
-            if data_dict.get(key, value.default) == getattr(self, key):
+            if data_dict.get(key, value.default) == getattr(self, key) or (key not in data_dict):
                 continue
-            setattr(self, key, data_dict.get(key, value.default))
+            print data_dict.get(key, value.default), key, getattr(self, key)
+            print 'change', key, data_dict[key]
+            from_json = MODELS[self.TABLE][key].from_json
+            if from_json:
+                setattr(self, key, from_json(data_dict.get(key, value.default)))
+            else:
+                setattr(self, key, data_dict.get(key, value.default))
 
     @classmethod
     @gen.coroutine

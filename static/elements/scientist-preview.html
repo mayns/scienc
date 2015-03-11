@@ -99,9 +99,7 @@
                         <h3 class="section-header">Среднее образование</h3>
                         <div class="row row-flex middle">
                             <ol>
-                                <template repeat="{{ education in data.middle_education }}">
-                                    <li class="row">{{ education.school }}, {{ education.country }}, {{ education.city }}</li>
-                                </template>
+                                <li class="row">{{ data.middle_education.school }}, {{ data.middle_education.country }}, {{ data.middle_education.city }}</li>
                             </ol>
                         </div>
                     </section>

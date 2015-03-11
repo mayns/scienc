@@ -9,14 +9,16 @@ __author__ = 'mayns'
 
 class FieldDescriptor(object):
 
-    __slots__ = ['store', 'restore', 'to_json', 'type', 'db_type', 'default', 'db_default', 'db_references', 'required']
+    __slots__ = ['store', 'restore', 'to_json', 'from_json', 'type', 'db_type',
+                 'default', 'db_default', 'db_references', 'required']
 
-    def __init__(self, store=None, restore=None, to_json=None, type=type, db_type=None, default=None,
+    def __init__(self, store=None, restore=None, to_json=None, from_json=None, type=type, db_type=None, default=None,
                  db_default=None, db_references=None, required=False):
 
         self.store = store
         self.restore = restore
         self.to_json = to_json
+        self.from_json = from_json
         self.type = type
         self.db_type = db_type
         self.default = default
@@ -131,11 +133,13 @@ class Datetime(FieldDescriptor):
         """:rtype: datetime"""
         super(Datetime, self).__init__(default=default, db_type=db_type, **kwargs)
 
-        self.store = lambda value: value.strftime(environment.DATETIME_FORMAT[db_type]['DB']) \
-            if value and not isinstance(value, basestring) else value
+        # self.store = lambda value: value.strftime(environment.DATETIME_FORMAT[db_type]['DB']) \
+        #     if value and not isinstance(value, basestring) else value
         self.to_json = lambda value: value.strftime(environment.DATETIME_FORMAT[db_type]['HUMAN']) \
             if value and not isinstance(value, basestring) else value
-        self.restore = lambda value: datetime.datetime.strptime(value, environment.DATETIME_FORMAT[db_type]['HUMAN']) \
+        # self.restore = lambda value: datetime.datetime.strptime(value, environment.DATETIME_FORMAT[db_type]['HUMAN']) \
+        #     if value else u''
+        self.from_json = lambda value: datetime.datetime.strptime(value, environment.DATETIME_FORMAT[db_type]['HUMAN']) \
             if value else u''
         self.type = datetime.date
         self.db_type = db_type or 'timestamp'

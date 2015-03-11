@@ -14,13 +14,14 @@ ALL_TABLES.update(TABLES)
 def get_update_query(tbl, update_params, where_params=None):
     if where_params is None:
         where_params = {}
+    column_values = dict(zip_values(ALL_TABLES[tbl].keys(), update_params))
 
     sql_string = u"UPDATE {table_name} SET".format(table_name=tbl)
-    for i, k in enumerate(update_params.keys()):
+    for i, k in enumerate(column_values.keys()):
         store = ALL_TABLES[tbl][k].store
-        v = where_params[k] if not store else store(update_params[k])
-        sql_string = u"{prefix} {title}='{value}'".format(prefix=sql_string, title=k, value=v)
-        if i < len(update_params.keys()) - 1:
+        v = update_params[k] if not store else store(update_params[k])
+        sql_string = u"{prefix} {title}=E'{value}'".format(prefix=sql_string, title=k, value=v)
+        if i < len(column_values.keys()) - 1:
             sql_string += ','
 
     sql_string = u"{prefix} WHERE".format(prefix=sql_string)
