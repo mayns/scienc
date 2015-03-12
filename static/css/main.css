@@ -90,35 +90,51 @@ html /deep/ .action {
   cursor: pointer;
 }
 
+/* line 9, ../scss/base/_helpers.scss */
+html /deep/ .link {
+  color: #0095E5;
+  transition: color, 0.3s ease;
+}
+
+/* line 14, ../scss/base/_helpers.scss */
+html /deep/ .link:hover {
+  color: #00537f;
+}
+
+/* line 18, ../scss/base/_helpers.scss */
+html /deep/ .meta {
+  color: #aaa;
+}
+
 /*
     COLORS
 */
-/* line 13, ../scss/base/_helpers.scss */
+/* line 26, ../scss/base/_helpers.scss */
 html /deep/ .colo-light-grey {
   color: #DADADA;
 }
 
-/* line 17, ../scss/base/_helpers.scss */
+/* line 30, ../scss/base/_helpers.scss */
 html /deep/ .color-grey {
   color: #BCBDBE;
 }
 
-/* line 21, ../scss/base/_helpers.scss */
+/* line 34, ../scss/base/_helpers.scss */
 html /deep/ .color-deep-blue {
   color: #21303F;
 }
 
-/* line 25, ../scss/base/_helpers.scss */
+/* line 38, ../scss/base/_helpers.scss */
 html /deep/ .color-yellow {
   color: #FDB411;
 }
 
-/* line 29, ../scss/base/_helpers.scss */
+/* line 42, ../scss/base/_helpers.scss */
 html /deep/ .color-white {
   color: #FFFFFF;
 }
 
-/* line 33, ../scss/base/_helpers.scss */
+/* line 46, ../scss/base/_helpers.scss */
 html /deep/ .color-green {
   color: #00A17D;
 }

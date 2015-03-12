@@ -15,6 +15,19 @@
             .project h2 {
                 font-size: 22px;
             }
+            .project p,
+            .project ul,
+            .project ol,
+            .project ul {
+                padding: 10px 20px 20px 20px;
+            }
+            .project ol,
+            .project ul {
+                padding-left: 40px;
+            }
+            .project li {
+                margin-bottom: 10px;
+            }
             .project-title {
                 font-size: 28px;
             }
@@ -48,8 +61,13 @@
                 fill: #FF334F;
                 stroke: #FF334F;
             }
-            .project p {
-                padding: 10px 20px 20px 20px;
+            .team {
+                text-align: center;
+                font-size: 80px;
+                letter-spacing: 20px;
+                font-weight: normal;
+                margin-bottom: 30px;
+                color: #666;
             }
         </style>
 		<core-ajax auto url="/api/project/{{ id }}" method="GET" handleAs="json" response="{{ json }}"></core-ajax>
@@ -82,24 +100,30 @@
                     <ol>
                         <template repeat="{{ related_data }}">
                             <li>
-                                <a href="{{ source_link }}">{{ title }}</a>
+                                <a class="link" is="html5-history-anchor" pushstate popstate href="{{ source_link }}">{{ title }}</a>
                             </li>
                         </template>
                     </ol>
                 </div>
                 <section>
-                    <h1>Команда</h1>
+                    <h1 class="team">Команда</h1>
                     <h2>Научный руководитель</h2>
                     <div>
-                        <a is="html5-history-anchor" pushstate popstate href="/scientist/{{ leaders[0].id }}">{{ leaders[0].full_name }}</a>
+                        <ul>
+                            <template repeat="{{ leaders }}">
+                                <li>
+                                    <a is="html5-history-anchor" class="link" pushstate popstate href="/scientist/{{ scientist_id }}">{{ full_name }}</a>
+                                </li>
+                            </template>
+                        </ul>
                     </div>
                     <h2>Участники</h2>
                     <div>
                         <ol>
                             <template repeat="{{ participants }}">
                                 <li>
-                                    <a is="html5-history-anchor" pushstate popstate href="/scientist/{{ scientist_id }}">{{ full_name }}</a>
-                                    <div>{{ role_name }}</div>
+                                    <a class="link" is="html5-history-anchor" pushstate popstate href="/scientist/{{ scientist_id }}">{{ full_name }}</a>
+                                    <div class="meta">{{ role_name }}</div>
                                 </li>
                             </template>
                         </ol>
@@ -108,9 +132,14 @@
                     <div>
                         <ol>
                             <template repeat="{{ missed_participants }}">
-                                <li>
-                                    <div>{{ vacancy_name }}</div>
-                                    <div>{{ description }}</div>
+                                <li layout horizontal center>
+                                    <div flex>
+                                        <div>{{ vacancy_name }}</div>
+                                        <div class="meta">{{ description }}</div>
+                                    </div>
+                                    <div>
+                                        Участвовать
+                                    </div>
                                 </li>
                             </template>
                         </ol>
