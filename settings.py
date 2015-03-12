@@ -1,8 +1,17 @@
 # -*- coding: utf-8 -*-
 
 import os
+import socket
 
 __author__ = 'oks'
+
+PRODUCTION_SERVERS_HOSTNAMES = [
+
+    u'mahotin',    # 188.44.43.9
+
+]
+
+ON_PRODUCTION_SERVER = socket.gethostname() in PRODUCTION_SERVERS_HOSTNAMES
 
 
 # -------- PROJECT MAIN ---------- #
@@ -17,8 +26,7 @@ SESSION_SECRET = unicode(hash(u"However, this bottle was not marked `poison,' so
 
 # -------- MEDIA SERVER ---------- #
 
-MEDIA_SERVER_HOST = u'science.im:9190'
-# MEDIA_SERVER_HOST = u'media-science.dev:9190'
+MEDIA_SERVER_HOST = u'science.im:9190' if ON_PRODUCTION_SERVER else u'media-science.dev:9190'
 
 
 # --------- POSTGRESQL ----------- #
