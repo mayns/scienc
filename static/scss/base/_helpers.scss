@@ -6,6 +6,19 @@ html /deep/ .action {
   cursor: pointer;
 }
 
+html /deep/ .link {
+  color: #0095E5;
+  transition: color, 0.3s ease;
+}
+
+html /deep/ .link:hover {
+  color: darken(#0095E5, 20);
+}
+
+html /deep/ .meta {
+  color: #aaa;
+}
+
 /*
     COLORS
 */
@@ -33,3 +46,4 @@ html /deep/ .color-white {
 html /deep/ .color-green {
   color: #00A17D;;
 }
+
