@@ -69,7 +69,15 @@ class ScientistHandler(BaseRequestHandler):
     @gen.coroutine
     def put(self, *args, **kwargs):
         print u'scientist put'
+
+        if not self.current_user_id:
+            self.send_error(status_code=403)
+            return
+
         scientist_dict = json.loads(self.get_argument(u'data', u'{}'))
+        scientist_dict.update(
+            scientist_id=self.current_user_id
+        )
         scientist_photo = {}
 
         files = self.request.files.get('raw_image', [])

@@ -28,14 +28,14 @@ def base_request(function):
 class BaseRequestHandler(web.RequestHandler):
     def __init__(self, *args, **kwargs):
         self.payload = dict()
+        self.current_user_id = self.get_secure_cookie(u'scientist')
         super(BaseRequestHandler, self).__init__(*args, **kwargs)
 
     @gen.coroutine
     def get_current_user(self):
         user = None
-        user_id = self.get_secure_cookie(u'scientist')
-        if user_id:
-            user = yield Scientist.get_by_id(user_id)
+        if self.current_user_id:
+            user = yield Scientist.get_by_id(self.current_user_id)
         raise gen.Return(user)
 
     @gen.coroutine
