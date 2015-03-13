@@ -209,6 +209,11 @@ body {
   font-family: 'Roboto', sans-serif;
 }
 
+/* line 5, ../scss/base/_main.scss */
+html /label/ label {
+  text-transform: capitalize;
+}
+
 /* line 1, ../scss/base/_grid.scss */
 html /deep/ .grid {
   padding-right: 0;

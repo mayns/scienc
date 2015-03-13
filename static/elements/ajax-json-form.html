@@ -1,22 +1,22 @@
 <link rel="import" href="/static/elements/polymer/polymer.html"/>
 <link rel="import" href="/static/elements/app-ajax.html"/>
 
-<polymer-element name="ajax-json-form" extends="form" on-submit="{{onFormSubmit}}" attributes="action redirect">
+<polymer-element name="ajax-json-form" extends="form" on-submit="{{ onFormSubmit }}" attributes="action redirect ajaxMethod">
 	<template>
 		<content></content>
-		<app-ajax id="ajax" url="{{action}}" method="{{ viewType === 'create' ? 'POST' : 'PUT' }}" on-core-response="{{onFormSuccess}}" handleAs="json"></app-ajax>
+		<app-ajax id="ajax" url="{{ action }}" method="{{ ajaxMethod }}" on-core-response="{{ onFormSuccess }}" handleAs="json"></app-ajax>
 	</template>
 	<script>
 		Polymer({
 			onFormSubmit: function(e) {
 				e.preventDefault();
 				var jsonData = this.serializeObject('data-json'),
+                    ajax = this.$.ajax,
 					formData = new FormData();
 
                 this.addCustomFields(jsonData, formData);
                 formData.append('data', JSON.stringify(jsonData));
-                console.log()
-				this.$.ajax.makeRequest(formData);
+				ajax.makeRequest(formData);
 			},
             addCustomFields: function(jsonData, formData) {},
 			serializeObject: function() {
