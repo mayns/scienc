@@ -24,13 +24,13 @@
     "tests"
   ],
   "dependencies": {
-    "app-router": "~2.3.2",
-    "html5-history-anchor": "~0.4.0",
-    "polymer": "Polymer/polymer#~0.5.4",
-    "core-overlay": "Polymer/core-overlay#~0.5.4",
-    "core-header-panel": "Polymer/core-header-panel#~0.5.4",
-    "core-toolbar": "Polymer/core-toolbar#~0.5.4",
-    "core-icon-button": "Polymer/core-icon-button#~0.5.4",
-    "core-ajax": "Polymer/core-ajax#~0.5.4"
+    "app-router": "*",
+    "html5-history-anchor": "*",
+    "polymer": "Polymer/polymer#*",
+    "core-overlay": "Polymer/core-overlay#*",
+    "core-header-panel": "Polymer/core-header-panel#*",
+    "core-toolbar": "Polymer/core-toolbar#*",
+    "core-icon-button": "Polymer/core-icon-button#*",
+    "core-ajax": "Polymer/core-ajax#*"
   }
 }

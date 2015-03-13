@@ -359,23 +359,27 @@
                         </div>
                     </fieldset>
                     <fieldset>
-                        <legend>Контакты</legend>
+                        <legend>
+                            <span>Контакты</span>
+                            <img on-click="{{ addItem }}" data-itemtype="contacts" class="action icon"
+                                 src="/static/images/plus.svg"
+                                 alt="" />
+                        </legend>
                         <div class="fieldblock">
-                            <div class="col-lg-9">
+                            <div class="col-lg-8">
                                 <template repeat="{{ contacts }}">
-                                    <div class="row-flex middle">
-                                        <label for="email_public" class="action col-lg-3">Connection Type</label>
+                                    <div class="row-flex middle between">
+                                        <label class="action">Тип</label>
                                         <input type="text"
                                                data-json="contacts[][connection]"
-                                               value="{{ connection }}"
-                                               class="col-lg-8"/>
-                                    </div>
-                                    <div class="row-flex middle">
-                                        <label for="email_public" class="action col-lg-3">Number</label>
+                                               value="{{ connection }}"/>
+                                        <label class="action">Номер</label>
                                         <input type="text"
                                                data-json="contacts[][number]"
-                                               value="{{ number }}"
-                                               class="col-lg-8"/>
+                                               value="{{ number }}"/>
+                                        <img on-click="{{ deleteItem }}" data-itemtype="contacts" class="action icon"
+                                             src="/static/images/minus.svg"
+                                             alt="" />
                                     </div>
                                 </template>
                             </div>
@@ -421,7 +425,8 @@
             publish: {
                 data: {
                     publications: [new Date()],
-                    high_education: [new Date()]
+                    high_education: [new Date()],
+                    contacts: [1]
                 },
                 viewType: 'create'
             },

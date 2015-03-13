@@ -29,7 +29,6 @@
     "commit": "9cc84d0d422edc137c5c8c1113e227eff48df5f5"
   },
   "_source": "git://github.com/erikringsmuth/html5-history-anchor.git",
-  "_target": "~0.4.0",
-  "_originalSource": "html5-history-anchor",
-  "_direct": true
+  "_target": "*",
+  "_originalSource": "html5-history-anchor"
 }
