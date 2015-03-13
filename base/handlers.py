@@ -27,9 +27,10 @@ def base_request(function):
 
 class BaseRequestHandler(web.RequestHandler):
     def __init__(self, *args, **kwargs):
+        self.application = None
+        super(BaseRequestHandler, self).__init__(*args, **kwargs)
         self.payload = dict()
         self.current_user_id = self.get_secure_cookie(u'scientist')
-        super(BaseRequestHandler, self).__init__(*args, **kwargs)
 
     @gen.coroutine
     def get_current_user(self):
