@@ -2,6 +2,7 @@
 
 import json
 from tornado import gen
+import logging
 
 from base.handlers import BaseRequestHandler
 from scientist.scientist_bl import ScientistBL
@@ -36,7 +37,7 @@ class ScientistHandler(BaseRequestHandler):
         try:
             response = yield ScientistBL.get_scientist(int(scientist_id.replace(u'/', u'')))
         except Exception, ex:
-            print 'Exc on get scientist:', scientist_id, ex
+            logging.exception('Exc on get scientist: {}'.format(scientist_id, ex))
             response = dict(
                 message=ex.message
             )
@@ -90,7 +91,7 @@ class ScientistHandler(BaseRequestHandler):
         try:
             response = yield ScientistBL.update(scientist_dict=scientist_dict, scientist_photo=scientist_photo)
         except Exception, ex:
-            print 'Exc on update scientist:', ex
+            logging.exception('Exc on update scientist: %s' % ex)
             response = dict(
                 message=ex.message
             )

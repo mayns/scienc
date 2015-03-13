@@ -50,8 +50,7 @@ class PSQLModel(object):
         for key, value in MODELS[self.TABLE].iteritems():
             if data_dict.get(key, value.default) == getattr(self, key) or (key not in data_dict):
                 continue
-            print data_dict.get(key, value.default), key, getattr(self, key)
-            print 'change', key, data_dict[key]
+
             from_json = MODELS[self.TABLE][key].from_json
             if from_json:
                 setattr(self, key, from_json(data_dict.get(key, value.default)))
