@@ -82,7 +82,7 @@ class Boolean(FieldDescriptor):
         """:rtype: Boolean"""
         super(Boolean, self).__init__(default=default, db_type=db_type, **kwargs)
 
-        self.store = lambda value: u'1' if value else u''
+        self.store = lambda value: '1' if value else '0'
         self.restore = bool
         self.type = bool
         self.db_type = db_type or 'boolean'
