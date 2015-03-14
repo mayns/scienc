@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 
 import momoko
+import logging
 from tornado import gen
 
 from common.decorators import psql_connection
@@ -77,6 +78,7 @@ class PSQLModel(object):
 
         instance = cls()
         for k, v in data.iteritems():
+            logging.info(k, v)
             if not v:
                 continue
             setattr(instance, k, v)
