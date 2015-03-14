@@ -1,6 +1,6 @@
 <link rel="import" href="/static/elements/polymer/polymer.html"/>
 
-<polymer-element name="app-globals">
+<polymer-element name="app-globals" attributes="userData">
 	<script>
 		(function(){
 			var data = {
@@ -10,7 +10,7 @@
 
 			Polymer({
 				ready: function() {
-					this.data = data;
+					this.userData = data;
 				}
 			});
 		})();

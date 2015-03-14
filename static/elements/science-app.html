@@ -32,7 +32,7 @@
 					return match ? match[1] : match;
 				},
                 onResponse: function(e, detail, sender) {
-                    var data = this.$.globals.data;
+                    var data = this.$.globals.userData;
                     console.log(detail);
 					data._xsrf = this.getCookie('_xsrf');
                     if (detail.response) {
