@@ -19,7 +19,8 @@ class ScientistsListHandler(BaseRequestHandler):
         try:
             response = yield ScientistBL.get_all_scientists()
         except Exception, ex:
-            logging.info('Exc on get all scientists: %s') % ex
+            logging.info('Exc on get all scientists: %s') % ex.message
+            logging.info(ex)
             response = dict(
                 message=ex.message
             )
