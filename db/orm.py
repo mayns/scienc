@@ -34,7 +34,7 @@ MODELS = dict(
         u'achievements': JsonArray(db_type='bigint[]'),                             # [achievement_id]
 
         # system info
-        u'dt_created': Datetime(db_type='timestamp'),
+        # u'dt_created': Datetime(db_type='timestamp'),
     },
 
     projects = {
@@ -64,6 +64,6 @@ MODELS = dict(
         u'contacts': JsonArray(db_type='json'),                                     # [{type, id}]
 
         # system info
-        u'dt_created': Datetime(db_type='timestamp'),
+        # u'dt_created': Datetime(db_type='timestamp'),
     }
 )
