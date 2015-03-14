@@ -23,6 +23,7 @@ class PSQLModel(object):
             raise Exception(u'TABLE is a must!')
         for key, value in MODELS[self.TABLE].iteritems():
             setattr(self, key, kwargs.get(key, value.default))
+            print key, kwargs.get(key, value.default)
             logging.info(key)
             logging.info(kwargs.get(key, value.default))
 
