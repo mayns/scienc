@@ -48,7 +48,10 @@ class PSQLModel(object):
 
     def populate_fields(self, data_dict):
         for key, value in MODELS[self.TABLE].iteritems():
-            if data_dict.get(key, value.default) == getattr(self, key) or (key not in data_dict):
+            if key not in data_dict:
+                setattr(self, key, MODELS[self.TABLE][key].default)
+
+            if data_dict.get(key, value.default) == getattr(self, key):
                 continue
 
             from_json = MODELS[self.TABLE][key].from_json
