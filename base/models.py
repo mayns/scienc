@@ -16,6 +16,8 @@ __author__ = 'oks'
 class PSQLModel(object):
 
     TABLE = None
+    OVERVIEW_FIELDS = None
+    EDITABLE_FIELDS = None
 
     def __init__(self, *args, **kwargs):
         super(PSQLModel, self).__init__()
