@@ -15,6 +15,7 @@ class Scientist(object):
             last_name=u'Coffee',
             middle_name=u'Good',
             image_url=u'',
+            dob=u'1986-10-13',
             liked_projects=[1],
 
         ),
@@ -25,6 +26,7 @@ class Scientist(object):
             first_name=u'The Best',
             last_name=u'Pie',
             middle_name=u'Cherry',
+            dob=u'1986-10-13',
             image_url=u'',
         ),
 

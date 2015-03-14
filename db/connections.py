@@ -23,8 +23,8 @@ class PSQLClient(object):
     @classmethod
     def get_client(cls):
         connection = psql_client.__get_connection()
-        # psycopg2.extensions.register_type(psycopg2.extensions.UNICODE)
-        # psycopg2.extensions.register_type(psycopg2.extensions.UNICODEARRAY)
+        psycopg2.extensions.register_type(psycopg2.extensions.UNICODE)
+        psycopg2.extensions.register_type(psycopg2.extensions.UNICODEARRAY)
         return connection
 
 psql_client = PSQLClient()
