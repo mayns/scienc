@@ -2,7 +2,7 @@
 <link rel="import" href="/static/elements/core-ajax/core-ajax.html"/>
 <link rel="import" href="/static/elements/scientist-item.html"/>
 
-<polymer-element name="scientists-list"  horizontal layout wrap noscript>
+<polymer-element name="scientists-list"  horizontal layout wrap>
 	<template>
         <style>
             scientist-item {
@@ -16,4 +16,7 @@
 			<scientist-item data="{{ scientist }}"></scientist-item>
 		</template>
 	</template>
+    <script>
+        Polymer({})
+    </script>
 </polymer-element>
