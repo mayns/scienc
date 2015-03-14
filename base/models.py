@@ -32,8 +32,9 @@ class PSQLModel(object):
             data = {k: getattr(self, k) for k in fields if hasattr(self, k)}
         else:
             data = self.__dict__
-        logging.info('DATA:')
-        logging.info(data)
+        # logging.info('DATA:')
+        # logging.info(data)
+        print data
         if update:
             sqp_query = get_update_query(self.TABLE, data, where_params=dict(id=self.id))
 
