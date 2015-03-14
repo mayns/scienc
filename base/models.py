@@ -78,7 +78,6 @@ class PSQLModel(object):
 
         instance = cls()
         for k, v in data.iteritems():
-            logging.info(v)
             if not v:
                 continue
             setattr(instance, k, v)
