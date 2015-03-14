@@ -35,8 +35,6 @@ class PSQLModel(object):
 
         if update:
             sqp_query = get_update_query(self.TABLE, data, where_params=dict(id=self.id))
-            logging.info("SQL")
-            logging.info(sqp_query)
         else:
             sqp_query = get_insert_query(self.TABLE, data)
         try:

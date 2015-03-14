@@ -17,14 +17,14 @@ url_handlers = [
 
     # scientists
     (r"/api/scientist(/\d+)?", sc_handlers.ScientistHandler),
-    (r"/api/scientist/(\d+)/role", sc_handlers.ScientistHandler),
+    (r"/api/scientist/(\d+)/role", sc_handlers.ScientistRoleHandler),
     (r"/api/scientists", sc_handlers.ScientistsListHandler),
 
     # projects
     (r"/api/project(/\d+)?", pr_handlers.ProjectHandler),
     (r"/api/projects", pr_handlers.ProjectsListHandler),
-    (r"/api/project/(\d+)/like", pr_handlers.ProjectsListHandler),
-    (r"/api/project/(\d+)/participation", pr_handlers.ProjectsListHandler),
+    (r"/api/project/(\d+)/like", pr_handlers.ProjectsLikeHandler),
+    (r"/api/project/(\d+)/participation", pr_handlers.ProjectsParticipationHandler),
     # (r"/ckeditor/samples/", CkeditorSampleHandler),
 
     (r"/api/.*", cm_handlers.NotFoundRedirectHandler),

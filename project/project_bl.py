@@ -42,3 +42,27 @@ class ProjectBL(object):
     def get_project(cls, project_id):
         project_data = yield Project.get_json_by_id(project_id)
         raise gen.Return(project_data)
+
+    @classmethod
+    @gen.coroutine
+    def add_like(cls, project_id):
+        project = yield Project.get_by_id(project_id)
+        project.likes += 1
+        yield project.save(fields=['likes'])
+
+    @classmethod
+    @gen.coroutine
+    def delete_like(cls, project_id):
+        project = yield Project.get_by_id(project_id)
+        project.likes -= 1
+        yield project.save(fields=['likes'])
+
+    @classmethod
+    @gen.coroutine
+    def add_participation(cls, data):
+        pass
+
+    @classmethod
+    @gen.coroutine
+    def delete_participation(cls, data):
+        pass

@@ -117,3 +117,14 @@ class ScientistHandler(BaseRequestHandler):
 
         response_data = yield self.get_response(response)
         self.finish(response_data)
+
+
+class ScientistRoleHandler(BaseRequestHandler):
+
+    @gen.coroutine
+    def put(self, *args, **kwargs):
+        pass
+
+    @gen.coroutine
+    def delete(self, project_id):
+        pass
