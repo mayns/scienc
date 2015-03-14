@@ -40,7 +40,9 @@ class PSQLModel(object):
             sqp_query = get_insert_query(self.TABLE, data)
         try:
             cursor = yield momoko.Op(conn.execute, sqp_query)
-            self.id = cursor.fetchone()[0]
+            d = cursor.fetchone()
+            logging.info('fetchone')
+            logging.info(d)
         except Exception, ex:
             raise PSQLException(ex)
 
