@@ -33,13 +33,11 @@ class PSQLModel(object):
         else:
             data = self.__dict__
 
-        print 'DATA:', data
         if update:
             sqp_query = get_update_query(self.TABLE, data, where_params=dict(id=self.id))
 
         else:
             sqp_query = get_insert_query(self.TABLE, data)
-            print 'SQL ', sqp_query
         try:
             cursor = yield momoko.Op(conn.execute, sqp_query)
             self.id = cursor.fetchone()[0]
