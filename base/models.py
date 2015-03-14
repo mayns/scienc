@@ -121,19 +121,16 @@ class PSQLModel(object):
         cursor = yield momoko.Op(conn.execute, sql_query)
         data = cursor.fetchall()
         data_list = []
-        try:
-            for d in data:
-                data_dict = {}
-                for i, k in enumerate(columns):
-                    if not d[i]:
-                        continue
-                    to_json = MODELS[cls.TABLE][k].to_json
-                    if to_json:
-                        d[i] = to_json(d[i])
-                    data_dict.update({k: d[i]})
-                data_list.append(data_dict)
-        except Exception, ex:
-            logging.info(ex)
+        for d in data:
+            data_dict = {}
+            for i, k in enumerate(columns):
+                if not d[i]:
+                    continue
+                to_json = MODELS[cls.TABLE][k].to_json
+                if to_json:
+                    d[i] = to_json(d[i])
+                data_dict.update({k: d[i]})
+            data_list.append(data_dict)
         logging.info(data_list)
         raise gen.Return(data_list)
 
