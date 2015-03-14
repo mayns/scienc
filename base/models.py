@@ -51,7 +51,7 @@ class PSQLModel(object):
 
             if data_dict.get(key, value.default) == getattr(self, key) or (data_dict.get(key) is None):
                 continue
-
+            logging.info(key)
             if key not in data_dict:
                 setattr(self, key, MODELS[self.TABLE][key].default)
                 logging.info('setting default')
