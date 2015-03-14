@@ -23,9 +23,6 @@ class PSQLModel(object):
             raise Exception(u'TABLE is a must!')
         for key, value in MODELS[self.TABLE].iteritems():
             setattr(self, key, kwargs.get(key, value.default))
-            print key, kwargs.get(key, value.default)
-            logging.info(key)
-            logging.info(kwargs.get(key, value.default))
 
     @gen.coroutine
     @psql_connection
@@ -124,16 +121,20 @@ class PSQLModel(object):
         cursor = yield momoko.Op(conn.execute, sql_query)
         data = cursor.fetchall()
         data_list = []
-        for d in data:
-            data_dict = {}
-            for i, k in enumerate(columns):
-                if not d[i]:
-                    continue
-                to_json = MODELS[cls.TABLE][k].to_json
-                if to_json:
-                    d[i] = to_json(d[i])
-                data_dict.update({k: d[i]})
-            data_list.append(data_dict)
+        try:
+            for d in data:
+                data_dict = {}
+                for i, k in enumerate(columns):
+                    if not d[i]:
+                        continue
+                    to_json = MODELS[cls.TABLE][k].to_json
+                    if to_json:
+                        d[i] = to_json(d[i])
+                    data_dict.update({k: d[i]})
+                data_list.append(data_dict)
+        except Exception, ex:
+            logging.info(ex)
+        logging.info(data_list)
         raise gen.Return(data_list)
 
     @classmethod
