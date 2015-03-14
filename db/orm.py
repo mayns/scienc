@@ -50,7 +50,7 @@ MODELS = dict(
         u'university_connection': JsonArray(db_type='json'),                        # [{country, city, university, faculty, chair}]
 
         # project info
-        u'in_progress': Boolean(default=True),                                     # закончен / не закончен
+        u'in_progress': Boolean(default=1),                                         # закончен / не закончен
         u'objective': Text(),                                                       # цель исследования
         u'description_full': Text(),                                                # полное описание
         u'usage_possibilities': Text(),                                             # возможности применения результатов
