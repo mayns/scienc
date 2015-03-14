@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 
 import cStringIO
+import logging
 
 import momoko
 from tornado import gen
@@ -178,4 +179,5 @@ class ScientistBL(object):
         data = yield Scientist.get_json_by_id(scientist_id)
         image_url = data.get(u'image_url', u'') and environment.GET_IMG(data.get(u'image_url', u''), environment.IMG_L)
         data.update(image_url=image_url)
+        logging.info(data)
         raise gen.Return(data)

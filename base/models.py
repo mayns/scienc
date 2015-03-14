@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 
 import momoko
+import logging
 from tornado import gen
 
 from common.decorators import psql_connection
@@ -22,6 +23,9 @@ class PSQLModel(object):
             raise Exception(u'TABLE is a must!')
         for key, value in MODELS[self.TABLE].iteritems():
             setattr(self, key, kwargs.get(key, value.default))
+            print key, kwargs.get(key, value.default)
+            logging.info(key)
+            logging.info(kwargs.get(key, value.default))
 
     @gen.coroutine
     @psql_connection
@@ -97,14 +101,17 @@ class PSQLModel(object):
         except Exception, ex:
             raise PSQLException(ex)
 
+        result_data = {}
         for k, v in data.iteritems():
+            if not v:
+                continue
 
             to_json = MODELS[cls.TABLE][k].to_json
             if to_json:
                 v = to_json(v)
-            data.update({k: v})
+            result_data.update({k: v})
 
-        raise gen.Return(data)
+        raise gen.Return(result_data)
 
     @classmethod
     @gen.coroutine
