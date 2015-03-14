@@ -99,8 +99,9 @@ class PSQLModel(object):
             raise PSQLException(ex)
 
         for k, v in data.iteritems():
-            if not v or v == u'None':
+            if not v or v is None:
                 continue
+            logging.info(v)
             to_json = MODELS[cls.TABLE][k].to_json
             if to_json:
                 v = to_json(v)
