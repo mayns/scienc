@@ -84,7 +84,7 @@ def check_password(raw_password, enc_password):
     return hsh == get_hexdigest(algo, salt, raw_password)
 
 
-def zip_values(iterable, dict2):
+def zip_values(iterable, dict2, empty_fields=False):
     """
 
     :type iterable: iter
@@ -98,12 +98,12 @@ def zip_values(iterable, dict2):
         return []
     if isinstance(iterable, dict):
         for k, v in iterable.iteritems():
-            if k not in dict2.keys():
+            if k not in dict2.keys() or (not empty_fields and not dict2.get(k)):
                 continue
             zipped.append((v, dict2[k]))
     elif isinstance(iterable, list):
         for k in iterable:
-            if k not in dict2.keys():
+            if k not in dict2.keys() or (not empty_fields and not dict2.get(k)):
                 continue
             zipped.append((k, dict2[k]))
     return zipped

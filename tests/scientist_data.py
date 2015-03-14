@@ -7,8 +7,6 @@ class Scientist(object):
 
     scientist_dict = {
         0: dict(
-
-
             email=u'cooper@gmail.com',
             pwd=u'alice',
             first_name=u'Damn',
