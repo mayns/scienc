@@ -50,6 +50,7 @@ def get_insert_query(tbl, insert_data):
     for value in column_values:
         store = ALL_TABLES[tbl][value[0]].store
         if not store:
+            print value[1]
             values.append(value[1])
             continue
         values.append(store(value[1]))
