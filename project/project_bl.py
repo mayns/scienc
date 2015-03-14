@@ -2,6 +2,7 @@
 
 from tornado import gen
 from project.models import Project
+from scientist.models import Scientist
 
 __author__ = 'oks'
 
@@ -45,21 +46,28 @@ class ProjectBL(object):
 
     @classmethod
     @gen.coroutine
-    def add_like(cls, project_id):
+    def add_like(cls, project_id, scientist_id):
         project = yield Project.get_by_id(project_id)
         project.likes += 1
+        scientist = yield Scientist.get_by_id(scientist_id)
+        scientist.liked_projects = list(set(scientist.liked_projects.append(project_id)))
         yield project.save(fields=['likes'])
+        yield scientist.save(fields=['liked_projects'])
 
     @classmethod
     @gen.coroutine
-    def delete_like(cls, project_id):
+    def delete_like(cls, project_id, scientist_id):
         project = yield Project.get_by_id(project_id)
         project.likes -= 1
+        scientist = yield Scientist.get_by_id(scientist_id)
+        scientist.liked_projects.remove(project_id)
         yield project.save(fields=['likes'])
+        yield scientist.save(fields=['liked_projects'])
 
     @classmethod
     @gen.coroutine
     def add_participation(cls, data):
+        # message, scientist_id, vacancy_id, project_id
         pass
 
     @classmethod

@@ -110,10 +110,11 @@ class ProjectsLikeHandler(BaseRequestHandler):
     @gen.coroutine
     def put(self, project_id):
         print 'add like: ', project_id
+        scientist_id = self.current_user_id
         # data = json.loads(self.get_argument(u'data', u'{}'))
         response = {}
         try:
-            yield ProjectBL.add_like(project_id)
+            yield ProjectBL.add_like(project_id, scientist_id)
         except Exception, ex:
             logging.info('Exc on add like:')
             logging.exception(ex)
@@ -128,9 +129,9 @@ class ProjectsLikeHandler(BaseRequestHandler):
     def delete(self, project_id):
         print u'delete like in project:', project_id
         response = {}
-
+        scientist_id = self.current_user_id
         try:
-            yield ProjectBL.delete_like(project_id)
+            yield ProjectBL.delete_like(project_id, scientist_id)
         except Exception, ex:
             logging.info('Exc on delete like: {}'.format(project_id))
             logging.exception(ex)

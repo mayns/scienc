@@ -29,6 +29,7 @@ MODELS = dict(
 
         # app activity
         u'participating_projects': JsonArray(db_type='json'),                       # [{project_id, role_id}]
+        u'liked_projects': JsonArray(db_type='bigint[]'),                           # [project_id]
         u'desired_vacancies': JsonArray(db_type='json'),                            # [{project_id, vacancy_id}]
         u'managing_project_ids': JsonArray(db_type='bigint[]'),
         u'achievements': JsonArray(db_type='bigint[]'),                             # [achievement_id]

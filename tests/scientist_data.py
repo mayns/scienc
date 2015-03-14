@@ -15,6 +15,7 @@ class Scientist(object):
             last_name=u'Coffee',
             middle_name=u'Good',
             image_url=u'',
+            liked_projects=[1],
 
         ),
 
@@ -92,6 +93,8 @@ class Scientist(object):
                     number=u'@leff_mayns'
                 )
             ],
+
+            liked_projects=[1],
 
             participating_projects=[
                 dict(
@@ -176,6 +179,8 @@ class Scientist(object):
                     number=u'losogudok'
                 )
             ],
+
+            liked_projects=[1],
 
             participating_projects=[
                 dict(
