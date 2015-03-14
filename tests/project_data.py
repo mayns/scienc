@@ -9,7 +9,7 @@ class Project(object):
 
     project_dict = {
         0: dict(
-            manager_id=0,
+            manager_id=4,
             research_fields=[environment.MATH, environment.BIOLOGY],
             title=u'New Algorithms for Nonnegative Matrix Factorization and Beyond',
             description_short=u'In biology most of the phenomena, whether at the scale of individual development or at '
