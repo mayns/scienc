@@ -49,7 +49,7 @@ class PSQLModel(object):
     def populate_fields(self, data_dict):
         for key, value in MODELS[self.TABLE].iteritems():
 
-            if data_dict.get(key, value.default) == getattr(self, key) or (data_dict.get(key) is None):
+            if data_dict.get(key, value.default) == getattr(self, key):
                 continue
             logging.info(key)
             if key not in data_dict:
