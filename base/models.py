@@ -98,7 +98,8 @@ class PSQLModel(object):
             raise PSQLException(ex)
 
         for k, v in data.iteritems():
-
+            if not v:
+                continue
             to_json = MODELS[cls.TABLE][k].to_json
             if to_json:
                 v = to_json(v)

@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 
 import momoko
+import psycopg2.extensions
 import settings
 
 # TODO tests for connections
@@ -22,6 +23,8 @@ class PSQLClient(object):
     @classmethod
     def get_client(cls):
         connection = psql_client.__get_connection()
+        psycopg2.extensions.register_type(psycopg2.extensions.UNICODE, connection)
+        psycopg2.extensions.register_type(psycopg2.extensions.UNICODEARRAY, connection)
         return connection
 
 psql_client = PSQLClient()
