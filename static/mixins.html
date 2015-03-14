@@ -1,0 +1,16 @@
+<script>
+    window.Mixins = {
+        dynamicFields: {
+            addItem: function(event, detail, sender) {
+                var type = event.target.dataset.itemtype;
+                this.data[type].push(new Date());
+            },
+            deleteItem: function(event, detail, sender) {
+                var type = event.target.dataset.itemtype;
+                var id = event.target.templateInstance.model;
+                var index = this.data[type].indexOf(id);
+                this.data[type].splice(index, 1);
+            }
+        }
+    }
+</script>

@@ -3,6 +3,7 @@
 <link rel="import" href="/static/elements/ajax-json-form.html"/>
 <link rel="import" href="/static/elements/input-tags.html"/>
 <link rel="import" href="/static/elements/input-photo.html"/>
+<link rel="import" href="/static/mixins.html"/>
 
 <polymer-element name="scientist-modify">
 	<template>
@@ -165,11 +166,11 @@
                                         <div class="row-flex between">
                                             <input type="text" id="placeOfLiving"
                                                    value="{{ location.country }}"
-                                                   data-json="location_country"
+                                                   data-json="location[country]"
                                                    placeholder="Страна"/>
                                             <input type="text"
                                                    value="{{ location.city }}"
-                                                   data-json="location_city"
+                                                   data-json="location[city]"
                                                    placeholder="Город"/>
                                         </div>
                                     </div>
@@ -421,7 +422,7 @@
 		</section>
 	</template>
 	<script>
-        Polymer({
+        Polymer(Polymer.mixin({
             publish: {
                 data: {
                     publications: [new Date()],
@@ -435,27 +436,17 @@
             },
             ready: function() {
                 var self = this;
-                    this.$.form.addCustomFields = function(jsonData, formData) {
-                        var photo = self.$.photo;
-                        if (photo.file !== null) {
-                            formData.append('raw_image', photo.file);
-                            jsonData.raw_image_coords = photo.coords;
-                        }
-                    };
-            },
-            addItem: function(event, detail, sender) {
-                var type = event.target.dataset.itemtype;
-                this.data[type].push(new Date());
-            },
-            deleteItem: function(event, detail, sender) {
-                var type = event.target.dataset.itemtype;
-                var id = event.target.templateInstance.model;
-                var index = this.data[type].indexOf(id);
-                this.data[type].splice(index, 1);
+                this.$.form.addCustomFields = function(jsonData, formData) {
+                    var photo = self.$.photo;
+                    if (photo.file !== null) {
+                        formData.append('raw_image', photo.file);
+                        jsonData.raw_image_coords = photo.coords;
+                    }
+                };
             },
             onFormResponse: function(e, detail, sender) {
                 this.fire('logged-in');
             }
-        });
+        }, window.Mixins.dynamicFields));
     </script>
 </polymer-element>
