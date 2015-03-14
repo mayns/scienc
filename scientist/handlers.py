@@ -20,12 +20,10 @@ class ScientistsListHandler(BaseRequestHandler):
             response = yield ScientistBL.get_all_scientists()
         except Exception, ex:
             logging.info('Exc on get all scientists:')
-            logging.info(ex)
+            logging.exception(ex)
             response = dict(
                 message=ex.message
             )
-        logging.info('RESPONSE')
-        logging.info(response)
         scientists = yield self.get_response(response)
         self.finish(json.dumps(scientists))
 
@@ -39,7 +37,8 @@ class ScientistHandler(BaseRequestHandler):
         try:
             response = yield ScientistBL.get_scientist(int(scientist_id.replace(u'/', u'')))
         except Exception, ex:
-            logging.exception('Exc on get scientist: {}'.format(scientist_id, ex))
+            logging.info('Exc on get scientist: {}'.format(scientist_id))
+            logging.exception(ex)
             response = dict(
                 message=ex.message
             )
@@ -59,7 +58,8 @@ class ScientistHandler(BaseRequestHandler):
         try:
             response = yield ScientistBL.create(scientist_dict=scientist_dict, scientist_photo=scientist_photo)
         except Exception, ex:
-            print 'Exc on create scientist:', ex
+            logging.info('Exc on create scientist:')
+            logging.exception(ex)
             self.send_error(status_code=403)
             response = dict(
                 message=ex.message
@@ -93,7 +93,8 @@ class ScientistHandler(BaseRequestHandler):
         try:
             response = yield ScientistBL.update(scientist_dict=scientist_dict, scientist_photo=scientist_photo)
         except Exception, ex:
-            logging.exception('Exc on update scientist: %s' % ex)
+            logging.info('Exc on update scientist: {}'.format(self.current_user_id))
+            logging.exception(ex)
             response = dict(
                 message=ex.message
             )
@@ -108,7 +109,8 @@ class ScientistHandler(BaseRequestHandler):
         try:
             yield ScientistBL.delete(int(scientist_id.replace(u'/', u'')))
         except Exception, ex:
-            print 'Exc on delete scientist:', scientist_id, ex
+            logging.info('Exc on delete scientist: {}'.format(scientist_id))
+            logging.exception(ex)
             response = dict(
                 message=ex.message
             )

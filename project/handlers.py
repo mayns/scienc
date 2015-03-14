@@ -3,6 +3,7 @@
 from tornado import gen
 from base.handlers import BaseRequestHandler
 import json
+import logging
 from project.project_bl import ProjectBL
 
 __author__ = 'oks'
@@ -24,7 +25,8 @@ class ProjectsListHandler(BaseRequestHandler):
         try:
             response = yield ProjectBL.get_all_projects()
         except Exception, ex:
-            print 'Exc on get all projects:', ex
+            logging.info('Exc on get all projects:')
+            logging.exception(ex)
             response = dict(
                 message=ex.message
             )
@@ -42,7 +44,8 @@ class ProjectHandler(BaseRequestHandler):
         try:
             response = yield ProjectBL.get_project(int(project_id.replace(u'/', u'')))
         except Exception, ex:
-            print 'Exc on get project:', project_id, ex
+            logging.info('Exc on get project: {}'.format(project_id))
+            logging.exception(ex)
             response = dict(
                 message=ex.message
             )
@@ -58,7 +61,8 @@ class ProjectHandler(BaseRequestHandler):
         try:
             response = yield ProjectBL.create(project_dict)
         except Exception, ex:
-            print 'Exc on create project:', ex
+            logging.info('Exc on create project:')
+            logging.exception(ex)
             response = dict(
                 message=ex.message
             )
@@ -74,7 +78,8 @@ class ProjectHandler(BaseRequestHandler):
         try:
             response = yield ProjectBL.update(project_dict)
         except Exception, ex:
-            print 'Exc on update project:', ex
+            logging.info('Exc on update project:')
+            logging.exception(ex)
             response = dict(
                 message=ex.message
             )
@@ -90,7 +95,8 @@ class ProjectHandler(BaseRequestHandler):
         try:
             yield ProjectBL.delete(int(project_id.replace(u'/', u'')))
         except Exception, ex:
-            print 'Exc on delete project:', project_id, ex
+            logging.info('Exc on delete project: {}'.format(project_id))
+            logging.exception(ex)
             response = dict(
                 message=ex.message
             )

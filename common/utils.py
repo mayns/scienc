@@ -98,12 +98,12 @@ def zip_values(iterable, dict2):
         return []
     if isinstance(iterable, dict):
         for k, v in iterable.iteritems():
-            if k not in dict2.keys() or not dict2[k]:
+            if k not in dict2.keys() or (not dict2[k] and not isinstance(dict2[k], bool)):
                 continue
             zipped.append((v, dict2[k]))
     elif isinstance(iterable, list):
         for k in iterable:
-            if k not in dict2.keys() or not dict2[k]:
+            if k not in dict2.keys() or (not dict2[k] and not isinstance(dict2[k], bool)):
                 continue
             zipped.append((k, dict2[k]))
     return zipped
