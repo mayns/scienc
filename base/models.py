@@ -53,10 +53,10 @@ class PSQLModel(object):
                 continue
             logging.info(key)
             if key not in data_dict:
-                setattr(self, key, MODELS[self.TABLE][key].default)
+                setattr(self, key, value.default)
                 logging.info('setting default')
                 logging.info(key)
-                logging.info(MODELS[self.TABLE][key].default)
+                logging.info(value.default)
 
             from_json = MODELS[self.TABLE][key].from_json
             if from_json:
