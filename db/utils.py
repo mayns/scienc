@@ -48,15 +48,11 @@ def get_insert_query(tbl, insert_data):
     values = []
 
     for value in column_values:
-        print 'VAL--->', value
         store = ALL_TABLES[tbl][value[0]].store
-        print store
         if not store:
-            print value[1]
             values.append(value[1])
             continue
         values.append(store(value[1]))
-        print type(store(value[1])), value
     values = u"'" + u"', '".join([v for v in values]) + u"'" if len(values) > 1 else u"'{}'".format(values[0])
     values = values.replace(u'%', u'%%')
 

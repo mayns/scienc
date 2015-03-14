@@ -32,15 +32,14 @@ class PSQLModel(object):
             data = {k: getattr(self, k) for k in fields if hasattr(self, k)}
         else:
             data = self.__dict__
-        # logging.info('DATA:')
-        # logging.info(data)
-        print data
+
+        print 'DATA:', data
         if update:
             sqp_query = get_update_query(self.TABLE, data, where_params=dict(id=self.id))
 
         else:
             sqp_query = get_insert_query(self.TABLE, data)
-
+            print 'SQL ', sqp_query
         try:
             cursor = yield momoko.Op(conn.execute, sqp_query)
             self.id = cursor.fetchone()[0]
