@@ -23,9 +23,6 @@ class PSQLModel(object):
             raise Exception(u'TABLE is a must!')
         for key, value in MODELS[self.TABLE].iteritems():
             setattr(self, key, kwargs.get(key, value.default))
-            print key, kwargs.get(key, value.default)
-            logging.info(key)
-            logging.info(kwargs.get(key, value.default))
 
     @gen.coroutine
     @psql_connection
@@ -134,6 +131,7 @@ class PSQLModel(object):
                     d[i] = to_json(d[i])
                 data_dict.update({k: d[i]})
             data_list.append(data_dict)
+        logging.info(data_list)
         raise gen.Return(data_list)
 
     @classmethod

@@ -19,11 +19,13 @@ class ScientistsListHandler(BaseRequestHandler):
         try:
             response = yield ScientistBL.get_all_scientists()
         except Exception, ex:
-            print 'Exc on get all scientists:', ex
+            logging.info('Exc on get all scientists:')
+            logging.info(ex)
             response = dict(
                 message=ex.message
             )
-
+        logging.info('RESPONSE')
+        logging.info(response)
         scientists = yield self.get_response(response)
         self.finish(json.dumps(scientists))
 

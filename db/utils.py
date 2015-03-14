@@ -48,7 +48,9 @@ def get_insert_query(tbl, insert_data):
     values = []
 
     for value in column_values:
+        print 'VAL--->', value
         store = ALL_TABLES[tbl][value[0]].store
+        print store
         if not store:
             print value[1]
             values.append(value[1])
