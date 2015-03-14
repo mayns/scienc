@@ -98,17 +98,17 @@ class PSQLModel(object):
         except Exception, ex:
             raise PSQLException(ex)
 
+        result_data = {}
         for k, v in data.iteritems():
             if not v:
-                data.pop(k)
                 continue
 
             to_json = MODELS[cls.TABLE][k].to_json
             if to_json:
                 v = to_json(v)
-            data.update({k: v})
+            result_data.update({k: v})
 
-        raise gen.Return(data)
+        raise gen.Return(result_data)
 
     @classmethod
     @gen.coroutine
