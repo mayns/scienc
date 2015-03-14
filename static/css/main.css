@@ -214,6 +214,12 @@ html /label/ label {
   text-transform: capitalize;
 }
 
+/* line 9, ../scss/base/_main.scss */
+app-router,
+app-route {
+  display: block;
+}
+
 /* line 1, ../scss/base/_grid.scss */
 html /deep/ .grid {
   padding-right: 0;
@@ -1364,13 +1370,13 @@ app-router {
 }
 
 /* line 5, ../scss/layout/_main.scss */
-.container {
+html /deep/ .container {
   width: 960px;
   margin: 0 auto;
 }
 
 /* line 10, ../scss/layout/_main.scss */
-.container.main {
+html /deep/ .container.main {
   padding: 30px;
 }
 

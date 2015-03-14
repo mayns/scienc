@@ -2,9 +2,12 @@
 <link rel="import" href="/static/elements/core-ajax/core-ajax.html"/>
 <link rel="import" href="/static/elements/project-item.html"/>
 
-<polymer-element name="project-list" noscript>
+<polymer-element name="project-list" noscript class="container main" >
 	<template>
         <style>
+            :host {
+                display: block;
+            }
             project-item + project-item {
                 margin-top: 20px;
             }

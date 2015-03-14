@@ -2,11 +2,11 @@ app-router {
   width: 100%;
 }
 
-.container {
+html /deep/ .container {
   width: 960px;
   margin: 0 auto;
 }
 
-.container.main {
+html /deep/ .container.main {
   padding: 30px;
 }

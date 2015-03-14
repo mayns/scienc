@@ -83,7 +83,11 @@
                             </div>
                             <div class="row-flex">
                                 <div class="col-lg-12">
-                                    <input type="text" id="title" name="title" required/>
+                                    <input type="text"
+                                           id="title"
+                                           name="title"
+                                           data-json="title"
+                                           required/>
                                 </div>
                             </div>
                             <div class="row-flex middle">
@@ -123,7 +127,7 @@
                             </div>
                             <div class="row-flex">
                                 <div class="col-lg-12">
-                                    <input type="text"/>
+                                    <input type="text" data-json="research_fields"/>
                                 </div>
                             </div>
                             <div class="row-flex middle">
@@ -193,7 +197,10 @@
                                 <label for="description_short">Краткое описание</label>
                             </div>
                             <div class="row-flex">
-                                <textarea name="description_short" id="description_short" class="col-lg-12" required></textarea>
+                                <textarea name="description_short"
+                                          data-json="description_short"
+                                          id="description_short"
+                                          class="col-lg-12" required></textarea>
                             </div>
 
                         </div>
@@ -296,7 +303,8 @@
             publish: {
                 data: {
                     university_connection: [1]
-                }
+                },
+                viewType: 'create'
             },
             computed: {
                 ajaxMethod: "viewType === 'create' ? 'POST' : 'PUT'"
