@@ -25,6 +25,7 @@ if __name__ == "__main__":
     # from db.psql_relations import create_relations
     # _ioloop.run_sync(partial(create_relations))
 
+
     # from postgres_fill import insert_data
     # _ioloop.run_sync(partial(insert_data))
 
