@@ -4,34 +4,49 @@
 #                                        #
 ##########################################
 
-Устанавливаем nginx
-------------------
-curl -O http://nginx.org/download/nginx-1.6.2.tar.gz
-tar -xvzf nginx-1.6.2.tar.gz
-cd nginx-1.6.2/
-./configure --with-http_gzip_static_module --with-ipv6
-make
-make install
-cd ..
+Homebrew
+--------
+ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
+
+PCRE
+----
+brew install pcre
+
+IMAGE LIBS
+----------
+brew install libjpeg libpng
+
+NGINX
+-----
+brew install nginx --with-http_gzip_static_module --with-ipv6 --with-http_dav_module
+
+POSTGRES
+--------
+brew install postgresql
+
+launch db:
+postgres -D /usr/local/var/postgres
 
 Необходимые пакеты
 ------------------
-pip install tornado momoko
+pip install tornado django simplejson 
+pip install PIL --allow-unverified PIL --allow-all-external
+pip install pillow
+pip install psycopg2 momoko 
 
-Генерим ssh ключ, если нет, иначе - пропускаем шаг
-------------------
-выходим из sudo
-cd ~/.ssh
+SSH
+---
 ssh-keygen
-Filename не вводить, нажать enter; Phrase = <по желанию>
+Enter
+Phrase
 pbcopy < id_rsa.pub
 добавить ключ в профиль на сайте
 
 Создаем папку проекта и заодно репу
 ------------------
 sudo mkdir /gen
-sudo chmod 777 /gen
-git init
+sudo chmod -R 777 /gen
+cd /gen/
 git clone git@github.com:mayns/scienc.git
 
 Настраиваем Nginx
