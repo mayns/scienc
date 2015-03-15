@@ -23,7 +23,7 @@ class ProjectsListHandler(BaseRequestHandler):
         print u'projects list get'
 
         try:
-            response = yield ProjectBL.get_all_projects()
+            response = yield ProjectBL.get_all()
         except Exception, ex:
             logging.info('Exc on get all projects:')
             logging.exception(ex)
@@ -42,7 +42,7 @@ class ProjectHandler(BaseRequestHandler):
         print u'get project:', project_id
 
         try:
-            response = yield ProjectBL.get_project(int(project_id.replace(u'/', u'')))
+            response = yield ProjectBL.get(int(project_id.replace(u'/', u'')))
         except Exception, ex:
             logging.info('Exc on get project: {}'.format(project_id))
             logging.exception(ex)

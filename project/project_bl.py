@@ -34,13 +34,13 @@ class ProjectBL(object):
 
     @classmethod
     @gen.coroutine
-    def get_all_projects(cls):
+    def get_all(cls):
         projects_data = yield Project.get_all_json(columns=Project.OVERVIEW_FIELDS)
         raise gen.Return(projects_data)
 
     @classmethod
     @gen.coroutine
-    def get_project(cls, project_id):
+    def get(cls, project_id):
         project_data = yield Project.get_json_by_id(project_id)
         raise gen.Return(project_data)
 

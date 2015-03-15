@@ -18,7 +18,9 @@ def base_request(function):
                 response_data = dict(
                     status=AJAX_STATUS_SUCCESS
                 )
-            response_data.update(dict(data=data))
+                response_data.update(dict(data=data))
+            else:
+                response_data.update(data)
         except Exception, ex:
             print ex
         return response_data

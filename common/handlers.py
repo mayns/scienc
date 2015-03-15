@@ -36,7 +36,7 @@ class LoginHandler(BaseRequestHandler):
         data = json.loads(self.get_argument(u'data', u'{}'))
         email = data.get(u'email', u'')
         pwd = data.get(u'pwd', u'')
-        scientist_id = yield ScientistBL.check_scientist(email, pwd)
+        scientist_id = yield ScientistBL.check_login(email, pwd)
         if not scientist_id:
             self.send_error(status_code=403)
             return
@@ -50,10 +50,8 @@ class LoginHandler(BaseRequestHandler):
 
 class LogoutHandler(BaseRequestHandler):
     def post(self, *args, **kwargs):
-        print u'logout'
-        scientist_id = self.get_secure_cookie(u'scientist')
-        if not scientist_id:
-            raise Exception(u'WTF???')
+        if not self.current_user_id:
+            raise Exception(u'WTF?')
         self.clear_cookie(u'scientist')
         self.redirect(self.get_argument(u'next', u'/'))
 
