@@ -1364,6 +1364,16 @@ html /deep/ [type="radio"] {
   height: 20px;
 }
 
+/* line 1, ../scss/controls/_scroll.scss */
+html /deep/ ::-webkit-scrollbar {
+  width: 8px;
+}
+
+/* line 4, ../scss/controls/_scroll.scss */
+html /deep/ ::-webkit-scrollbar-thumb {
+  background-color: #C2BDBD;
+}
+
 /* line 1, ../scss/layout/_main.scss */
 app-router {
   width: 100%;
@@ -1416,30 +1426,63 @@ html /deep/ .container.main {
 /***********************
 *   LOGIN DIALOG
 ***********************/
-/* line 5, ../scss/components/_dialogs.scss */
+/* line 7, ../scss/components/_dialogs.scss */
+html /deep/ .login-dialog {
+  background-color: #ffffff;
+  border: 5px solid #DADADA;
+  border-radius: 3px;
+  padding: 10px 20px 5px;
+  position: relative;
+  width: 400px;
+}
+
+/* line 16, ../scss/components/_dialogs.scss */
+html /deep/ .login-dialog-header {
+  margin-top: 0;
+  text-align: center;
+  color: #00A17D;
+}
+
+/* line 22, ../scss/components/_dialogs.scss */
+html /deep/ .login-dialog-form {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+/* line 28, ../scss/components/_dialogs.scss */
+html /deep/ .login-dialog-input {
+  font-size: 16px;
+  padding: 15px;
+  margin-bottom: 20px;
+  border: none;
+  border-bottom: 1px solid #cccccc;
+}
+
+/* line 36, ../scss/components/_dialogs.scss */
 html /deep/ .login-dialog-input:focus {
   outline: none;
 }
 
-/* line 9, ../scss/components/_dialogs.scss */
+/* line 40, ../scss/components/_dialogs.scss */
 html /deep/ .login-dialog-input:-webkit-autofill {
   background-color: transparent;
 }
 
-/* line 13, ../scss/components/_dialogs.scss */
+/* line 44, ../scss/components/_dialogs.scss */
 html /deep/ .login-dialog-submit {
   width: 50%;
   align-self: center;
   margin-bottom: 30px;
 }
 
-/* line 19, ../scss/components/_dialogs.scss */
+/* line 50, ../scss/components/_dialogs.scss */
 html /deep/ .login-dialog footer a {
   color: #7A9FC2;
   font-size: 12px;
 }
 
-/* line 24, ../scss/components/_dialogs.scss */
+/* line 55, ../scss/components/_dialogs.scss */
 html /deep/ .login-dialog-close {
   border-radius: 50%;
   position: absolute;
@@ -1457,24 +1500,24 @@ html /deep/ .login-dialog-close {
 /***********************
 *   RESEARCH FIELDS DIALOG
 ***********************/
-/* line 42, ../scss/components/_dialogs.scss */
+/* line 73, ../scss/components/_dialogs.scss */
 html /deep/ .research-fields-dialog {
   background-color: white;
   padding: 20px;
 }
 
-/* line 47, ../scss/components/_dialogs.scss */
+/* line 78, ../scss/components/_dialogs.scss */
 html /deep/ .research-fields-dialog .icon {
   width: 40px;
   height: 40px;
 }
 
-/* line 52, ../scss/components/_dialogs.scss */
+/* line 83, ../scss/components/_dialogs.scss */
 html /deep/ .research-fields-dialog .label {
   padding: 10px 20px;
 }
 
-/* line 56, ../scss/components/_dialogs.scss */
+/* line 87, ../scss/components/_dialogs.scss */
 html /deep/ .research-fields-dialog .checkbox {
   margin: 0;
 }

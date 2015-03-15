@@ -2,6 +2,37 @@
 *   LOGIN DIALOG
 ***********************/
 
+@import '../variables';
+
+html /deep/ .login-dialog {
+  background-color: #ffffff;
+  border: 5px solid #DADADA;
+  border-radius: 3px;
+  padding: 10px 20px 5px;
+  position: relative;
+  width: 400px;
+}
+
+html /deep/ .login-dialog-header {
+  margin-top: 0;
+  text-align: center;
+  color: $color-green;
+}
+
+html /deep/ .login-dialog-form {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+html /deep/ .login-dialog-input {
+  font-size: 16px;
+  padding: 15px;
+  margin-bottom: 20px;
+  border: none;
+  border-bottom: 1px solid #cccccc;
+}
+
 html /deep/ .login-dialog-input:focus {
   outline: none;
 }
