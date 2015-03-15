@@ -54,7 +54,7 @@ class ProjectHandler(BaseRequestHandler):
         self.finish(project)
 
     @gen.coroutine
-    def post(self):
+    def post(self, *args, **kwargs):
         print u'create project'
         project_dict = json.loads(self.get_argument(u'data', u'{}'))
 
@@ -71,7 +71,7 @@ class ProjectHandler(BaseRequestHandler):
         self.finish(response_data)
 
     @gen.coroutine
-    def put(self):
+    def put(self, *args, **kwargs):
         print u'update project'
         project_dict = json.loads(self.get_argument(u'data', u'{}'))
 
