@@ -17,7 +17,7 @@ class ScientistsListHandler(BaseRequestHandler):
         print u'scientists list get'
 
         try:
-            response = yield ScientistBL.get_all_scientists()
+            response = yield ScientistBL.get_all()
         except Exception, ex:
             logging.info('Exc on get all scientists:')
             logging.exception(ex)
@@ -35,7 +35,7 @@ class ScientistHandler(BaseRequestHandler):
         print u'get scientist:', scientist_id
 
         try:
-            response = yield ScientistBL.get_scientist(int(scientist_id.replace(u'/', u'')))
+            response = yield ScientistBL.get(int(scientist_id.replace(u'/', u'')))
         except Exception, ex:
             logging.info('Exc on get scientist: {}'.format(scientist_id))
             logging.exception(ex)
@@ -49,6 +49,7 @@ class ScientistHandler(BaseRequestHandler):
     @gen.coroutine
     def post(self, *args, **kwargs):
         print u'scientist post'
+
         scientist_dict = json.loads(self.get_argument(u'data', u'{}'))
         scientist_photo = dict(
             raw_image=self.request.files.get('raw_image', []),
@@ -57,16 +58,15 @@ class ScientistHandler(BaseRequestHandler):
 
         try:
             response = yield ScientistBL.create(scientist_dict=scientist_dict, scientist_photo=scientist_photo)
+            self.set_secure_cookie(u'scientist', str(response[u'scientist_id']))
         except Exception, ex:
             logging.info('Exc on create scientist:')
             logging.exception(ex)
-            self.send_error(status_code=403)
             response = dict(
                 message=ex.message
             )
 
         response_data = yield self.get_response(response)
-        self.set_secure_cookie(u'scientist', str(response[u'scientist_id']))
         self.finish(response_data)
 
     @gen.coroutine

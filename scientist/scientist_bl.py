@@ -113,7 +113,7 @@ class ScientistBL(object):
     @classmethod
     @gen.coroutine
     @psql_connection
-    def check_scientist(cls, conn, email, pwd):
+    def check_login(cls, conn, email, pwd):
 
         sql_query = get_select_query(environment.ROLES_TABLE, columns=['pwd'], where=dict(column='email',
                                                                                           value=email))
@@ -152,7 +152,7 @@ class ScientistBL(object):
 
     @classmethod
     @gen.coroutine
-    def get_all_scientists(cls):
+    def get_all(cls):
         data = yield Scientist.get_all_json(columns=Scientist.OVERVIEW_FIELDS)
         scientists = []
         for d in data:
@@ -168,7 +168,7 @@ class ScientistBL(object):
 
     @classmethod
     @gen.coroutine
-    def get_scientist(cls, scientist_id):
+    def get(cls, scientist_id):
 
         """
 

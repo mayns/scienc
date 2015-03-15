@@ -129,9 +129,9 @@ class Float(FieldDescriptor):
 
 class Datetime(FieldDescriptor):
 
-    def __init__(self, default=None, db_type=None, **kwargs):
+    def __init__(self, default=None, db_default=None, db_type=None, **kwargs):
         """:rtype: datetime"""
-        super(Datetime, self).__init__(default=default, db_type=db_type, **kwargs)
+        super(Datetime, self).__init__(default=default, db_default=db_default, db_type=db_type, **kwargs)
 
         # self.store = lambda value: value.strftime(environment.DATETIME_FORMAT[db_type]['DB']) \
         #     if value and not isinstance(value, basestring) else value
@@ -144,3 +144,4 @@ class Datetime(FieldDescriptor):
         self.type = datetime.date
         self.db_type = db_type or 'timestamp'
         self.default = default or u''
+        self.db_default = db_default or 'NULL'
