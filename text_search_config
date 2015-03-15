@@ -1,0 +1,42 @@
+
+
+iconv -c -f koi8-r -t utf-8 < /gen/scienc/db/ispell-russian/russian.aff > /opt/local/share/postgresql93/tsearch_data/russian.affix
+iconv -c -f koi8-r -t utf-8 < /gen/scienc/db/ispell-russian/russian.dict ru_RU.dict > /opt/local/share/postgresql93/tsearch_data/russian.dict
+
+iconv -c -f koi8-r -t utf-8 < /gen/scienc/db/ispell-english/english.aff > /opt/local/share/postgresql93/tsearch_data/english.affix
+iconv -c -f koi8-r -t utf-8 < /gen/scienc/db/ispell-english/english.dict > /opt/local/share/postgresql93/tsearch_data/english.dict
+
+
+sudo su postgres
+psql science
+
+CREATE TEXT SEARCH DICTIONARY russian_ispell (
+    TEMPLATE = ispell,
+    DictFile = russian,
+    AffFile = russian,
+    StopWords = russian
+);
+
+CREATE TEXT SEARCH DICTIONARY english_ispell (
+TEMPLATE = ispell,
+DictFile = english,
+AffFile = english,
+StopWords = english
+);
+
+CREATE TEXT SEARCH CONFIGURATION international ( COPY = russian );
+
+ALTER TEXT SEARCH CONFIGURATION international ALTER MAPPING FOR hword, hword_part, word WITH russian_ispell, russian_stem;
+ALTER TEXT SEARCH CONFIGURATION international ALTER MAPPING FOR asciihword, asciiword, hword_asciipart WITH english_ispell, english_stem;
+
+
+
+# проверка
+
+select to_tsvector('international', 'мама мыла раму searching truth inside expands actioned grouped dinners');
+
+# результат
+                                                          to_tsvector
+-------------------------------------------------------------------------------------------------------------------------------
+ 'action':8 'dinner':10 'expand':7 'group':9 'inside':6 'search':4 'searching':4 'truth':5 'мама':1 'мыло':2 'мыть':2 'рама':3
+(1 row)
