@@ -121,11 +121,13 @@ def create_relation_projects():
     # INDEXES:
     # yield momoko.Op(conn.execute, u"CREATE INDEX title_ru_idx ON projects "
     #                               u"USING GIN (to_tsvector('russian', title));")
+
     # yield momoko.Op(conn.execute, u"CREATE INDEX title_en_idx ON projects "
     #                               u"USING GIN (to_tsvector('english', title));")
     #
     # yield momoko.Op(conn.execute, u"CREATE INDEX organization_structure_ru_idx ON projects "
     #                               u"USING GIN (to_tsvector('russian', organization_structure));")
+    
     # yield momoko.Op(conn.execute, u"CREATE INDEX organization_structure_en_idx ON projects "
     #                               u"USING GIN (to_tsvector('english', organization_structure));")
     #
