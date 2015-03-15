@@ -1347,8 +1347,29 @@ html /deep/ [type="email"],
 html /deep/ [type="date"],
 html /deep/ [type="number"],
 html /deep/ [type="password"],
-html /deep/ [type="tel"] {
+html /deep/ [type="tel"],
+html /deep/ textarea {
   padding: 5px;
+  border: none;
+  border-bottom: 1px solid #ccc;
+}
+
+/* line 14, ../scss/controls/_text.scss */
+html /deep/ input-tags {
+  border: none;
+  border-bottom: 1px solid #ccc;
+}
+
+/* line 19, ../scss/controls/_text.scss */
+html /deep/ [type="text"],
+html /deep/ [type="url"],
+html /deep/ [type="email"],
+html /deep/ [type="date"],
+html /deep/ [type="number"],
+html /deep/ [type="password"],
+html /deep/ [type="tel"],
+html /deep/ textarea {
+  outline: none;
 }
 
 /* line 1, ../scss/controls/_checkbox.scss */

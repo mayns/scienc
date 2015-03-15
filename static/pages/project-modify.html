@@ -47,13 +47,6 @@
 			form .row-flex:last-child {
 				margin-bottom: 0;
 			}
-            input, textarea {
-                border: none;
-                border-bottom: 1px solid #ccc; 
-            }
-            input:focus, textarea:focus {
-                outline: none;
-            }
             .fieldblock {
                 padding-left: 40px;
                 position: relative;
@@ -71,6 +64,9 @@
             }
             legend {
                 font-size: 30px;
+            }
+            .missed-participants label {
+                padding-right: 20px;
             }
 		</style>
 		<section vertical layout class="projec-form">
@@ -216,113 +212,132 @@
                                         </div>
                                     </template>
                                 </template>
-                                <!--<div class="row-flex">-->
-                                <!--<break-line bgcolor="#ccc"></break-line>-->
-                                <!--</div>-->
                                 <div class="row-flex">
                                     <label for="description_short">Краткое описание</label>
                                 </div>
                                 <div class="row-flex">
-                                <textarea name="description_short"
+                                    <textarea name="description_short"
                                           data-json="description_short"
                                           id="description_short"
                                           value="{{ description_short }}"
                                           class="col-lg-12" required></textarea>
                                 </div>
-
+                                <div class="row-flex">
+                                    <label>Тэги</label>
+                                </div>
+                                <div class="row-flex">
+                                    <input-tags value="{{ tags }}" class="col-lg-12" name="tags[]"></input-tags>
+                                </div>
                             </div>
                         </div>
                     </fieldset>
-                    <!--<h2>Цели исследования</h2>-->
-                    <!--<div class="row">-->
-                    <!--<textarea name="objective" id="objective" class="col-lg-12"></textarea>-->
-                    <!--</div>-->
-                    <!--<h2>Полное описание</h2>-->
-                    <!--<div class="row">-->
-                    <!--<textarea name="description_full" id="description_full" class="col-lg-12"></textarea>-->
-                    <!--</div>-->
-                    <!--<h2>Возможности применения результатов</h2>-->
-                    <!--<div class="row">-->
-                    <!--<textarea name="usage_possibilities" id="usage_possibilities" class="col-lg-12"></textarea>-->
-                    <!--</div>-->
-                    <!--<h2>Достигнуты результаты</h2>-->
-                    <!--<div class="row">-->
-                    <!--<textarea name="results" id="results" class="col-lg-12"></textarea>-->
-                    <!--</div>-->
-                    <!--<h2>Руководитель проекта</h2>-->
-                    <!--<div class="row">-->
-                    <!--<input name="leader" id="leader" class="col-lg-12">-->
-                    <!--</div>-->
-                    <!--<h2>Учатники проекта</h2>-->
-                    <!--<html-repeater>-->
-                    <!--<div class="row" container>-->
-                    <!--<div class="col-lg-4">-->
-                    <!--<input type="text" placeholder="ФИО" name="participants[][name]"/>-->
-                    <!--</div>-->
-                    <!--<div class="col-lg-4 col-lg-offset-1">-->
-                    <!--<input type="text" placeholder="Роль в проекте" name="participants[][role]"/>-->
-                    <!--</div>-->
-                    <!--<button add class="col-lg-1">Add</button>-->
-                    <!--<button delete class="col-lg-1">Delete</button>-->
-                    <!--</div>-->
-                    <!--</html-repeater>-->
-                    <!--<h2>Разыскиваются</h2>-->
-                    <!--<html-repeater>-->
-                    <!--<div class="row" container>-->
-                    <!--<div class="col-lg-12">-->
-                    <!--<div class="row">-->
-                    <!--<label for="">Должность</label>-->
-                    <!--</div>-->
-                    <!--<div class="row">-->
-                    <!--<input type="text" class="col-lg-12" name="missed_participants[][role]"/>-->
-                    <!--</div>-->
-                    <!--<div class="row">-->
-                    <!--<label for="">Описание</label>-->
-                    <!--</div>-->
-                    <!--<div class="row">-->
-                    <!--<textarea id="" class="col-lg-12" name="missed_participants[][description]"></textarea>-->
-                    <!--</div>-->
-                    <!--<div class="row">-->
-                    <!--<button add>Add</button>-->
-                    <!--<button delete>Delete</button>-->
-                    <!--</div>-->
-                    <!--</div>-->
-                    <!--</div>-->
-                    <!--</html-repeater>-->
-                    <!--<h2>Тэги</h2>-->
-                    <!--<div class="row">-->
-                    <!--<input-tags id="" class="col-lg-12" name="tags[]" required></input-tags>-->
-                    <!--</div>-->
-                    <!--<h2>Контактные данные</h2>-->
-                    <!--<html-repeater>-->
-                    <!--<div class="row" container>-->
-                    <!--<input type="text" class="col-lg-3" name="contacts[][email]" placeholder="email"/>-->
-                    <!--<button add>Add</button>-->
-                    <!--<button delete>Delete</button>-->
-                    <!--</div>-->
-                    <!--</html-repeater>-->
-                    <!--<html-repeater>-->
-                    <!--<div class="row" container>-->
-                    <!--<input type="text" class="col-lg-3" name="contacts[][phone]" placeholder="телефон"/>-->
-                    <!--<button add>Add</button>-->
-                    <!--<button delete>Delete</button>-->
-                    <!--</div>-->
-                    <!--</html-repeater>-->
-                    <!--<html-repeater>-->
-                    <!--<div class="row" container>-->
-                    <!--<input type="text" class="col-lg-3" name="contacts[][skype]" placeholder="skype"/>-->
-                    <!--<button add>Add</button>-->
-                    <!--<button delete>Delete</button>-->
-                    <!--</div>-->
-                    <!--</html-repeater>-->
-                    <!--<h2>Контактное лицо</h2>-->
-                    <!--<div class="row">-->
-                    <!--<input type="text" class="col-lg-12" name="contact_manager"/>-->
-                    <!--</div>-->
-                    <div class="row center">
-                        <button type="submit" class="button submit">Добавить</button>
-                    </div>
                 </template>
+                <template if="{{ viewType === 'update' }}">
+                    <template bind="{{ data }}">
+                        <fieldset>
+                            <legend>О проекте</legend>
+                            <div class="fieldblock">
+                                <div class="row-flex">
+                                    <label class="action">Цели исследования</label>
+                                </div>
+                                <div class="row-flex">
+                                    <textarea name="objective" value="{{ objective }}" id="objective" class="col-lg-12"></textarea>
+                                </div>
+                                <div class="row-flex">
+                                    <label>Полное описание</label>
+                                </div>
+                                <div class="row-flex">
+                                    <textarea name="description_full" value="{{ description_full }}" id="description_full" class="col-lg-12"></textarea>
+                                </div>
+                                <div class="row-flex">
+                                    <label>Возможности применения результатов</label>
+                                </div>
+                                <div class="row-flex">
+                                    <textarea name="usage_possibilities" value="{{ usage_possibilities }}" id="usage_possibilities" class="col-lg-12"></textarea>
+                                </div>
+                                <div class="row-flex">
+                                    <label>Достигнуты результаты</label>
+                                </div>
+                                <div class="row-flex">
+                                    <textarea name="results" value="{{ results }}" id="results" class="col-lg-12"></textarea>
+                                </div>
+                            </div>
+                        </fieldset>
+                        <fieldset>
+                            <legend>Участники</legend>
+                           <div class="fieldblock">
+                               <div class="row-flex">
+                                   <label for="">Руководитель проекта</label>
+                               </div>
+                               <div class="row-flex">
+                                   <input name="leader" type="text" id="leader" class="col-lg-12">
+                               </div>
+                               <div class="row-flex">
+                                   <label for="">Участники проекта</label>
+                               </div>
+                               <template repeat="{{ participants }}">
+                                   <div class="row-flex">
+                                       <div class="col-lg-4">
+                                           <input type="text" value="{{ full_name }}" placeholder="ФИО" name="participants[][name]"/>
+                                       </div>
+                                       <div class="col-lg-4 col-lg-offset-1">
+                                           <input type="text" value="{{ role_name }}" placeholder="Роль в проекте" name="participants[][role]"/>
+                                       </div>
+                                   </div>
+                               </template>
+                               <div class="row-flex">
+                                   <label for="">Разыскиваются</label>
+                               </div>
+                               <div class="fieldblock missed-participants">
+                                   <template repeat="{{ missed_participants }}">
+                                       <div class="row-flex">
+                                           <div class="col-lg-5">
+                                               <div class="row-flex between top">
+                                                   <label for="">Должность</label>
+                                                   <input type="text" value="{{ vacancy_name }}" name="missed_participants[][role]" flex/>
+                                               </div>
+                                           </div>
+                                           <div class="col-lg-5 col-lg-offset-1">
+                                               <div class="row-flex between top">
+                                                   <label for="">Описание</label>
+                                                   <textarea rows="1" value="{{ description }}" name="missed_participants[][description]" flex></textarea>
+                                               </div>
+                                           </div>
+                                       </div>
+                                   </template>
+                               </div>
+                           </div>
+                        </fieldset>
+                        <fieldset>
+                            <legend>Контактные данные</legend>
+                            <div class="fieldblock">
+                                <div class="row-flex">
+                                    <label>Контакты</label>
+                                </div>
+                                <div class="row-flex">
+                                    <div class="col-lg-10">
+                                        <template repeat="{{ contacts }}">
+                                            <div class="row-flex between">
+                                                <input type="text" class="col-lg-3" value="{{ name }}" name="contacts[][name]" placeholder="ФИО"/>
+                                                <input type="text" class="col-lg-3" value="{{ type }}" name="contacts[][type]" placeholder="Тип"/>
+                                                <input type="text" class="col-lg-3" value="{{ id }}" name="contacts[][id]" placeholder="Номер"/>
+                                            </div>
+                                        </template>
+                                    </div>
+                                </div>
+                                <div class="row-flex">
+                                    <label>Контактное лицо</label>
+                                </div>
+                                <div class="row-flex">
+                                    <input type="text" class="col-lg-12" name="contact_manager"/>
+                                </div>
+                            </div>
+                        </fieldset>
+                    </template>
+                </template>
+                <div class="row center">
+                    <button type="submit" class="button submit">{{ viewType === 'create' ? 'Добавить' : 'Сохранить' }}</button>
+                </div>
 			</form>
 		</section>
 	</template>
@@ -332,6 +347,7 @@
                 data: {
                     university_connection: [1]
                 },
+                formType: 'short',
                 viewType: 'create'
             },
             onDialogClose: function() {
