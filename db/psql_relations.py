@@ -119,22 +119,25 @@ def create_relation_projects():
     yield momoko.Op(conn.execute, query)
 
     # INDEXES:
-    # yield momoko.Op(conn.execute, u"CREATE INDEX title_ru_idx ON projects "
-    #                               u"USING GIN (to_tsvector('russian', title));")
+    yield momoko.Op(conn.execute, u"CREATE INDEX title_idx ON projects "
+                                  u"USING GIN (to_tsvector('international', title));")
 
-    # yield momoko.Op(conn.execute, u"CREATE INDEX title_en_idx ON projects "
-    #                               u"USING GIN (to_tsvector('english', title));")
+    yield momoko.Op(conn.execute, u"CREATE INDEX description_short_idx ON projects "
+                                  u"USING GIN (to_tsvector('international', description_short));")
+
+    yield momoko.Op(conn.execute, u"CREATE INDEX vacancy_name_idx ON projects "
+                                  u"USING GIN (missed_participants jsonb_path_ops);")
+
+
     #
-    # yield momoko.Op(conn.execute, u"CREATE INDEX organization_structure_ru_idx ON projects "
-    #                               u"USING GIN (to_tsvector('russian', organization_structure));")
+    # yield momoko.Op(conn.execute, u"CREATE INDEX vacancy_name_idx ON projects "
+    #                               u"USING GIN (to_tsvector('international', (missed_participants ->> 'vacancy_name')));")
+    #
+    # yield momoko.Op(conn.execute, u"CREATE INDEX vacancy_description_idx ON projects "
+    #                               u"USING GIN (to_tsvector('international', missed_participants ->> 'description'));")
     
-    # yield momoko.Op(conn.execute, u"CREATE INDEX organization_structure_en_idx ON projects "
-    #                               u"USING GIN (to_tsvector('english', organization_structure));")
-    #
-    # yield momoko.Op(conn.execute, u"CREATE INDEX description_full_ru_idx ON projects "
-    #                               u"USING GIN (to_tsvector('russian', description_full));")
-    # yield momoko.Op(conn.execute, u"CREATE INDEX description_full_en_idx ON projects "
-    #                               u"USING GIN (to_tsvector('english', description_full)); ")
+
+
 
 
 @gen.coroutine

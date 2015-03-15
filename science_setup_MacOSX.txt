@@ -81,6 +81,16 @@ sudo su postgres -c '/opt/local/lib/postgresql93/bin/postgres -D /opt/db/postgre
 Прописываем путь
 export PATH=/opt/local/lib/postgresql93/bin:$PATH
 
+----- НУЖНО ПРАВИТЬ Для версии 9.4
+
+Инициализируем первоналачальную базу
+sudo su postgres -c '/Library/PostgreSQL/9.4/bin/initdb -D /opt/db/postgresql94/defaultdb'
+
+Запускаем сервер
+/Library/PostgreSQL/9.4/bin/postgres -D /opt/db/postgresql94/defaultdb
+
+/Library/PostgreSQL/9.4/bin/pg_ctl -D /opt/db/postgresql94/defaultdb -l logfile start
+
 Прописываем хосты
 -----------------
 sudo -s
