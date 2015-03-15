@@ -1,6 +1,6 @@
 <link rel="import" href="/static/elements/polymer/polymer.html"/>
 <link rel="import" href="/static/elements/core-ajax/core-ajax.html"/>
-<link rel="import" href="/static/elements/scientist-preview.html"/>
+<link rel="import" href="/static/pages/scientist-preview.html"/>
 <link rel="import" href="/static/pages/scientist-modify.html"/>
 <link rel="import" href="/static/elements/page-actions.html"/>
 <link rel="import" href="/static/elements/app-globals.html"/>
@@ -28,7 +28,7 @@
             <scientist-preview data="{{ json.data }}" class="container main"></scientist-preview>
         </template>
         <template if="{{ !preview }}">
-            <scientist-modify data="{{ json.data }}" viewType="update" class="container main"></scientist-modify>
+            <scientist-modify data="{{ json.data }}" viewType="update"></scientist-modify>
         </template>
 	</template>
 	<script>

@@ -33,7 +33,7 @@
 				},
                 onResponse: function(e, detail, sender) {
                     var data = this.$.globals.userData;
-                    console.log(detail);
+
 					data._xsrf = this.getCookie('_xsrf');
                     if (detail.response) {
                         data.user = JSON.parse(detail.response).data;

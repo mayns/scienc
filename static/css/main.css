@@ -1416,63 +1416,30 @@ html /deep/ .container.main {
 /***********************
 *   LOGIN DIALOG
 ***********************/
-/* line 6, ../scss/components/_dialogs.scss */
-html /deep/ .login-dialog {
-  background-color: #ffffff;
-  border: 5px solid #DADADA;
-  border-radius: 3px;
-  padding: 10px 20px 5px;
-  position: relative;
-  width: 400px;
-}
-
-/* line 15, ../scss/components/_dialogs.scss */
-html /deep/ .login-dialog-header {
-  margin-top: 0;
-  text-align: center;
-  color: #00A17D;
-}
-
-/* line 21, ../scss/components/_dialogs.scss */
-html /deep/ .login-dialog-form {
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-}
-
-/* line 27, ../scss/components/_dialogs.scss */
-html /deep/ .login-dialog-input {
-  font-size: 16px;
-  padding: 15px;
-  margin-bottom: 20px;
-  border: none;
-  border-bottom: 1px solid #cccccc;
-}
-
-/* line 35, ../scss/components/_dialogs.scss */
+/* line 5, ../scss/components/_dialogs.scss */
 html /deep/ .login-dialog-input:focus {
   outline: none;
 }
 
-/* line 39, ../scss/components/_dialogs.scss */
+/* line 9, ../scss/components/_dialogs.scss */
 html /deep/ .login-dialog-input:-webkit-autofill {
   background-color: transparent;
 }
 
-/* line 43, ../scss/components/_dialogs.scss */
+/* line 13, ../scss/components/_dialogs.scss */
 html /deep/ .login-dialog-submit {
   width: 50%;
   align-self: center;
   margin-bottom: 30px;
 }
 
-/* line 49, ../scss/components/_dialogs.scss */
+/* line 19, ../scss/components/_dialogs.scss */
 html /deep/ .login-dialog footer a {
   color: #7A9FC2;
   font-size: 12px;
 }
 
-/* line 54, ../scss/components/_dialogs.scss */
+/* line 24, ../scss/components/_dialogs.scss */
 html /deep/ .login-dialog-close {
   border-radius: 50%;
   position: absolute;
@@ -1485,4 +1452,29 @@ html /deep/ .login-dialog-close {
   text-align: center;
   font-weight: bold;
   line-height: 30px;
+}
+
+/***********************
+*   RESEARCH FIELDS DIALOG
+***********************/
+/* line 42, ../scss/components/_dialogs.scss */
+html /deep/ .research-fields-dialog {
+  background-color: white;
+  padding: 20px;
+}
+
+/* line 47, ../scss/components/_dialogs.scss */
+html /deep/ .research-fields-dialog .icon {
+  width: 40px;
+  height: 40px;
+}
+
+/* line 52, ../scss/components/_dialogs.scss */
+html /deep/ .research-fields-dialog .label {
+  padding: 10px 20px;
+}
+
+/* line 56, ../scss/components/_dialogs.scss */
+html /deep/ .research-fields-dialog .checkbox {
+  margin: 0;
 }

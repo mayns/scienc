@@ -106,7 +106,7 @@
 				this.$.ajax.makeRequest();
 			},
 			onSignOutResponse: function() {
-				this.$.globals.data.user = null;
+				this.$.globals.userData.user = null;
                 $$.qs('app-router').go('/');
 			}
 		});
