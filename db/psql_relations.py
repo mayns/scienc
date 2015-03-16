@@ -131,24 +131,23 @@ def create_relation_projects():
                                   u"USING GIN (description_short_tsvector);")
 
 
-
-    yield momoko.Op(conn.execute,u"""CREATE FUNCTION project_vector_update() RETURNS TRIGGER AS $$
-BEGIN
-    IF TG_OP = 'INSERT' THEN
-        new.title_tsvector = to_tsvector('international', COALESCE(NEW.title, ''));
-        new.description_short_tsvector = to_tsvector('international', COALESCE(NEW.description_short, ''));
-    END IF;
-    IF TG_OP = 'UPDATE' THEN
-        IF NEW.title <> OLD.title THEN
-            new.title_tsvector = to_tsvector('international', COALESCE(NEW.title, ''));
-        END IF;
-        IF NEW.title <> OLD.title THEN
-            new.description_short_tsvector = to_tsvector('international', COALESCE(NEW.description_short, ''));
-        END IF;
-    END IF;
-    RETURN NEW;
-END
-$$ LANGUAGE 'plpgsql';""")
+    yield momoko.Op(conn.execute, u"""CREATE FUNCTION project_vector_update() RETURNS TRIGGER AS $$
+        BEGIN
+            IF TG_OP = 'INSERT' THEN
+                new.title_tsvector = to_tsvector('international', COALESCE(NEW.title, ''));
+                new.description_short_tsvector = to_tsvector('international', COALESCE(NEW.description_short, ''));
+            END IF;
+            IF TG_OP = 'UPDATE' THEN
+                IF NEW.title <> OLD.title THEN
+                    new.title_tsvector = to_tsvector('international', COALESCE(NEW.title, ''));
+                END IF;
+                IF NEW.title <> OLD.title THEN
+                    new.description_short_tsvector = to_tsvector('international', COALESCE(NEW.description_short, ''));
+                END IF;
+            END IF;
+            RETURN NEW;
+        END
+        $$ LANGUAGE 'plpgsql';""")
 
     yield momoko.Op(conn.execute, u"CREATE TRIGGER tsvectorupdate BEFORE INSERT OR UPDATE "
                                   u"ON projects FOR EACH ROW EXECUTE PROCEDURE project_vector_update();")

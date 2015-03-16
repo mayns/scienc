@@ -90,13 +90,11 @@ class Project(object):
                                 u'incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud',
                 )
             ],
-            leaders=[
-                dict(
-                    id=0,
-                    scientist_id=3,
-                    full_name=u'Kostin Andrey Vasili4'
-                ),
-            ],
+            leaders=dict(
+                id=0,
+                scientist_id=3,
+                full_name=u'Kostin Andrey Vasili4'
+            ),
             participants=[
                 dict(
                     role_id=0,

@@ -59,7 +59,7 @@ MODELS = dict(
         u'usage_possibilities': Text(),                                             # возможности применения результатов
         u'results': Text(),                                                         # достигнутые результаты и практическое применение
         u'related_data': JsonArray(db_type='jsonb'),                                # [{id, title, project_id, source_link, description}]
-        u'leaders': JsonArray(db_type='jsonb'),                                     # [{id, scientist_id, full_name}]
+        u'leaders': JsonObject(),                                                   # [{id, scientist_id, full_name}]
         u'participants': JsonArray(db_type='jsonb'),                                # [{role_id, role_name, scientist_id, full_name}]
         u'missed_participants': JsonArray(db_type='jsonb'),                         # [{vacancy_id, vacancy_name, description, difficulty}]
         u'tags': JsonArray(db_type='text[]'),                                       # тэги

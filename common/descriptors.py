@@ -66,7 +66,7 @@ class JsonObject(FieldDescriptor):
         self.store = json.dumps
         self.restore = json.loads
         self.type = dict
-        self.db_type = db_type or 'json'
+        self.db_type = db_type or 'jsonb'
         self.default = default or {}
 
 
