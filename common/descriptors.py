@@ -10,10 +10,10 @@ __author__ = 'mayns'
 class FieldDescriptor(object):
 
     __slots__ = ['store', 'restore', 'to_json', 'from_json', 'type', 'db_type',
-                 'default', 'db_default', 'db_references', 'required']
+                 'default', 'db_default', 'db_references', 'required', 'u_editable']
 
     def __init__(self, store=None, restore=None, to_json=None, from_json=None, type=type, db_type=None, default=None,
-                 db_default=None, db_references=None, required=False):
+                 db_default=None, db_references=None, required=False, u_editable=True):
 
         self.store = store
         self.restore = restore
@@ -25,6 +25,7 @@ class FieldDescriptor(object):
         self.db_default = db_default
         self.db_references = db_references
         self.required = required
+        self.u_editable = u_editable
 
 
 class Text(FieldDescriptor):
@@ -37,12 +38,13 @@ class Text(FieldDescriptor):
         self.db_type = db_type or 'text'
         self.default = default or u''
 
+
 class TSvector(FieldDescriptor):
 
     def __init__(self, db_type=None, **kwargs):
         """:rtype: unicode"""
         super(TSvector, self).__init__(db_type=db_type, **kwargs)
-        self.db_type = db_type or 'tsvector'
+        self.db_type = 'tsvector'
 
 
 class JsonArray(FieldDescriptor):

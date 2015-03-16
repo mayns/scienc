@@ -59,6 +59,7 @@ def get_insert_query(tbl, insert_data):
     sql_string = u'INSERT INTO {table_name} ({fields}) VALUES (E{values}) RETURNING id'.format(table_name=tbl,
                                                                                                fields=fields,
                                                                                                values=values)
+    print sql_string
     return sql_string
 
 
