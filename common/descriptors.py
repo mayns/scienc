@@ -37,6 +37,13 @@ class Text(FieldDescriptor):
         self.db_type = db_type or 'text'
         self.default = default or u''
 
+class TSvector(FieldDescriptor):
+
+    def __init__(self, db_type=None, **kwargs):
+        """:rtype: unicode"""
+        super(TSvector, self).__init__(db_type=db_type, **kwargs)
+        self.db_type = db_type or 'tsvector'
+
 
 class JsonArray(FieldDescriptor):
 

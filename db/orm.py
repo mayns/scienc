@@ -45,10 +45,12 @@ MODELS = dict(
         u'manager_id': Integer(required=True, db_references='scientists(id)'),      # person added the project
         u'research_fields': JsonArray(required=True, db_type=''),                   # области науки
         u'title': Text(required=True),                                              # название проекта
+        u'title_tsvector': TSvector(),                                              # лексемы названия
         u'description_short': Text(required=True),                                  # краткое описание для обложки
+        u'description_short_tsvector': TSvector(),                                   # лексемы краткого описания
         u'likes': Integer(),                                                        # количество лайков
-        u'responses': JsonArray(db_type='jsonb'),                                    # [{scientist_id, vacancy_id}]
-        u'university_connection': JsonArray(db_type='jsonb'),                        # [{country, city, university, faculty, chair}]
+        u'responses': JsonArray(db_type='jsonb'),                                   # [{scientist_id, vacancy_id}]
+        u'university_connection': JsonArray(db_type='jsonb'),                       # [{country, city, university, faculty, chair}]
 
         # project info
         u'in_progress': Boolean(default=True),                                      # закончен / не закончен
