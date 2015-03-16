@@ -119,10 +119,10 @@ def create_relation_projects():
     yield momoko.Op(conn.execute, query)
 
     # INDEXES:
-    yield momoko.Op(conn.execute, u"UPDATE projects SET title_tsvector = (to_tsvector('international', title);")
+    yield momoko.Op(conn.execute, u"UPDATE projects SET title_tsvector = (to_tsvector('international', title));")
 
     yield momoko.Op(conn.execute, u"UPDATE projects SET description_short_tsvector"
-                                  u" = (to_tsvector('international', description_short);")
+                                  u" = (to_tsvector('international', description_short));")
 
     yield momoko.Op(conn.execute, u"CREATE INDEX title_idx ON projects "
                                   u"USING GIN (title_tsvector);")
