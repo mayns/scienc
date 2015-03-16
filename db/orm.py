@@ -6,7 +6,7 @@ __author__ = 'mayns'
 
 
 MODELS = dict(
-    scientists = {
+    scientists={
 
         # common info
         u'id': ID(db_references='roles(id)'),
@@ -38,7 +38,7 @@ MODELS = dict(
         u'dt_created': Datetime(db_type='timestamp'),
     },
 
-    projects = {
+    projects={
 
         # common info
         u'id': ID(),
@@ -47,7 +47,7 @@ MODELS = dict(
         u'title': Text(required=True),                                              # название проекта
         u'title_tsvector': TSvector(),                                              # лексемы названия
         u'description_short': Text(required=True),                                  # краткое описание для обложки
-        u'description_short_tsvector': TSvector(),                                   # лексемы краткого описания
+        u'description_short_tsvector': TSvector(),                                  # лексемы краткого описания
         u'likes': Integer(),                                                        # количество лайков
         u'responses': JsonArray(db_type='jsonb'),                                   # [{scientist_id, vacancy_id}]
         u'university_connection': JsonArray(db_type='jsonb'),                       # [{country, city, university, faculty, chair}]
@@ -58,13 +58,13 @@ MODELS = dict(
         u'description_full': Text(),                                                # полное описание
         u'usage_possibilities': Text(),                                             # возможности применения результатов
         u'results': Text(),                                                         # достигнутые результаты и практическое применение
-        u'related_data': JsonArray(db_type='jsonb'),                                 # [{id, title, project_id, source_link, description}]
-        u'leaders': JsonArray(db_type='jsonb'),                                      # [{id, scientist_id, full_name}]
-        u'participants': JsonArray(db_type='jsonb'),                                 # [{role_id, role_name, scientist_id, full_name}]
-        u'missed_participants': JsonArray(db_type='jsonb'),                          # [{vacancy_id, vacancy_name, description, difficulty}]
+        u'related_data': JsonArray(db_type='jsonb'),                                # [{id, title, project_id, source_link, description}]
+        u'leaders': JsonArray(db_type='jsonb'),                                     # [{id, scientist_id, full_name}]
+        u'participants': JsonArray(db_type='jsonb'),                                # [{role_id, role_name, scientist_id, full_name}]
+        u'missed_participants': JsonArray(db_type='jsonb'),                         # [{vacancy_id, vacancy_name, description, difficulty}]
         u'tags': JsonArray(db_type='text[]'),                                       # тэги
         u'project_site': Text(),
-        u'contacts': JsonArray(db_type='jsonb'),                                     # [{type, id}]
+        u'contacts': JsonArray(db_type='jsonb'),                                    # [{type, id}]
 
         # system info
         u'dt_created': Datetime(db_type='timestamp'),
