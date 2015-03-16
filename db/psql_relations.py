@@ -119,16 +119,24 @@ def create_relation_projects():
     yield momoko.Op(conn.execute, query)
 
     # INDEXES:
-    yield momoko.Op(conn.execute, u"UPDATE projects SET title_tsvector = (to_tsvector('international', title);")
+    yield momoko.Op(conn.execute, u"UPDATE projects SET title_tsvector = (to_tsvector('international', title));")
 
     yield momoko.Op(conn.execute, u"UPDATE projects SET description_short_tsvector"
-                                  u" = (to_tsvector('international', description_short);")
+                                  u" = (to_tsvector('international', description_short));")
 
     yield momoko.Op(conn.execute, u"CREATE INDEX title_idx ON projects "
                                   u"USING GIN (title_tsvector);")
 
     yield momoko.Op(conn.execute, u"CREATE INDEX description_short_idx ON projects "
                                   u"USING GIN (description_short_tsvector);")
+
+
+    yield momoko.Op(conn.execute, u"CREATE TRIGGER tsvectorupdate BEFORE INSERT OR UPDATE"
+                                  u"ON projects FOR EACH ROW EXECUTE PROCEDURE"
+                                  u"tsvector_update_trigger(title_tsvector, 'pg_catalog.international', title)"
+                                  u"tsvector_update_trigger(description_short_tsvector, 'pg_catalog.international',"
+                                  u"description_short);")
+
 
 
     # yield momoko.Op(conn.execute, u"CREATE INDEX title_idx ON projects "
