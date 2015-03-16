@@ -3,7 +3,7 @@
 __author__ = 'mayns'
 
 
-#---------- SCIENCE FIELDS ----------#
+# ---------- SCIENCE FIELDS ---------- #
 
 MATH = u'Математика, информатика и механика'
 PHYSICS = u'Физика и астрономия'
@@ -16,17 +16,7 @@ IT = u'Информационные технологии и вычислител
 SCIENCE_FIELDS = [MATH, PHYSICS, CHEMISTRY, BIOLOGY, EARTH, ENGINEERING, IT]
 
 
-#-------- ORGANIZATION TYPES --------#
-
-PRIVATE = u'private'
-GROUP = u'group'
-UNIVERSITY = u'university'
-INSTITUTION = u'institution'
-
-ORGANIZATION_TYPES = [PRIVATE, GROUP, UNIVERSITY, INSTITUTION]
-
-
-#---------- CONTACT TYPES -----------#
+# ---------- CONTACT TYPES ----------- #
 
 PHONE = u'phone'
 SKYPE = u'skype'
@@ -35,7 +25,7 @@ EMAIL = u'email'
 CONTACT_TYPES = [PHONE, SKYPE, EMAIL]
 
 
-#------------ IMAGE SIZES ------------#
+# ------------ IMAGE SIZES ------------ #
 
 AVATAR_SIZES = [60, 100, 250]
 
