@@ -10,7 +10,7 @@ class Project(object):
     project_dict = {
         0: dict(
             manager_id=4,
-            research_fields=[environment.MATH, environment.BIOLOGY],
+            research_fields=['math', 'biology'],
             title=u'New Algorithms for Nonnegative Matrix Factorization and Beyond',
             description_short=u'In biology most of the phenomena, whether at the scale of individual development or at '
                               u'that of 'u'Darwinian evolution, are temporally extended. Taking into account repeated '

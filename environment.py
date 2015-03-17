@@ -15,6 +15,16 @@ IT = u'Информационные технологии и вычислител
 
 SCIENCE_FIELDS = [MATH, PHYSICS, CHEMISTRY, BIOLOGY, EARTH, ENGINEERING, IT]
 
+SCIENCE_FIELDS_MAP = dict(
+    math=MATH,
+    physics=PHYSICS,
+    chemistry=CHEMISTRY,
+    biology=BIOLOGY,
+    earth=EARTH,
+    engineering=ENGINEERING,
+    it=IT,
+)
+
 
 # ---------- CONTACT TYPES ----------- #
 
