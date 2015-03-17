@@ -80,7 +80,7 @@ class PSQLModel(object):
     @classmethod
     @gen.coroutine
     @psql_connection
-    def get_from_db(cls, conn, _id, columns):
+    def _get_from_db(cls, conn, _id, columns):
         exists_query = get_exists_query(cls.TABLE, where=dict(column=u'id', value=_id))
 
         try:
@@ -108,7 +108,7 @@ class PSQLModel(object):
         if not columns:
             columns = list(set(MODELS[cls.TABLE].keys()) - set(cls.SYSTEM_INFO))
 
-        data = yield cls.get_from_db(_id, columns)
+        data = yield cls._get_from_db(_id, columns)
 
         if not data:
             raise gen.Return()
@@ -130,7 +130,7 @@ class PSQLModel(object):
         if not columns:
             columns = list(set(MODELS[cls.TABLE].keys()) - set(cls.SYSTEM_INFO))
 
-        data = yield cls.get_from_db(_id, columns)
+        data = yield cls._get_from_db(_id, columns)
 
         if not data:
             raise gen.Return({})
@@ -140,6 +140,10 @@ class PSQLModel(object):
         for k, v in data.iteritems():
             if not v:
                 continue
+
+            restore = MODELS[cls.TABLE][k].restore
+            if restore:
+                v = restore(v)
 
             to_json = MODELS[cls.TABLE][k].to_json
             if to_json:
@@ -164,9 +168,15 @@ class PSQLModel(object):
             for i, k in enumerate(columns):
                 if not d[i]:
                     continue
+
+                restore = MODELS[cls.TABLE][k].restore
+                if restore:
+                    d[i] = restore(d[i])
+
                 to_json = MODELS[cls.TABLE][k].to_json
                 if to_json:
                     d[i] = to_json(d[i])
+
                 data_dict.update({k: d[i]})
             data_list.append(data_dict)
         logging.info(data_list)

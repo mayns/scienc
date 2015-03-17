@@ -54,7 +54,7 @@ class JsonArray(FieldDescriptor):
         self.db_type = db_type or 'text[]'
         self.store = lambda x: json.dumps(x).replace(u'[', u'{').replace(u']', u'}').replace(u'{{', u'[{').replace(u'}}', u'}]') \
             if self.db_type != 'text[]' else '{' + ', '.join(x) + '}'
-        self.restore = json.loads
+        self.restore = json.loads if self.db_type != 'text[]' else None
         self.type = list
         self.default = default or []
 
