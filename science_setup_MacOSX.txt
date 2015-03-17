@@ -31,7 +31,7 @@ dscl . passwd /Users/postgres postgres
 
 -> create db folder:
 mkdir -p /opt/db/postgresql94/defaultdb/
-sudo chown postgres:postgres /opt/db/postgresql94/defaultdb/
+chown postgres:postgres /opt/db/postgresql94/defaultdb/
 ctrl+d
 
 -> init db:
