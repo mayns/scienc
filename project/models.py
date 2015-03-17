@@ -18,4 +18,4 @@ class Project(PSQLModel):
                        u'results', u'related_data', u'leaders', u'participants', u'missed_participants',
                        u'tags', u'project_site', u'contacts']
 
-    SYSTEM_INFO = [u'dt_created', u'']
+    SYSTEM_INFO = [u'dt_created', u'title_tsvector', u'description_short_tsvector']

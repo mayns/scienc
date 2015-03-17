@@ -106,7 +106,7 @@ class PSQLModel(object):
     def get_by_id(cls, _id, columns=None):
 
         if not columns:
-            columns = MODELS[cls.TABLE].keys()
+            columns = list(set(MODELS[cls.TABLE].keys()) - set(cls.SYSTEM_INFO))
 
         data = yield cls.get_from_db(_id, columns)
 
@@ -128,7 +128,7 @@ class PSQLModel(object):
     def get_json_by_id(cls, _id, columns=None):
 
         if not columns:
-            columns = MODELS[cls.TABLE].keys()
+            columns = list(set(MODELS[cls.TABLE].keys()) - set(cls.SYSTEM_INFO))
 
         data = yield cls.get_from_db(_id, columns)
 
@@ -153,7 +153,7 @@ class PSQLModel(object):
     @psql_connection
     def get_all_json(cls, conn, columns=None):
         if not columns:
-            columns = MODELS[cls.TABLE].keys()
+            columns = list(set(MODELS[cls.TABLE].keys()) - set(cls.SYSTEM_INFO))
 
         sql_query = get_select_query(cls.TABLE, columns)
         cursor = yield momoko.Op(conn.execute, sql_query)
