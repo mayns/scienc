@@ -13,11 +13,13 @@ sudo chmod 777 /usr/local/Cellar/postgresql/9.4.1/share/postgresql/tsearch_data
 iconv -c -f koi8-r -t utf-8 < /gen/scienc/db/ispell-russian/russian.aff > /Library/PostgreSQL/9.4/share/postgresql/tsearch_data/russian.affix
 iconv -c -f koi8-r -t utf-8 < /gen/scienc/db/ispell-russian/russian.dict > /Library/PostgreSQL/9.4/share/postgresql/tsearch_data/russian.dict
 
+iconv -c -f koi8-r -t utf-8 < /gen/scienc/db/ispell-english/english.aff > /Library/PostgreSQL/9.4/share/postgresql/tsearch_data/english.affix
+iconv -c -f koi8-r -t utf-8 < /gen/scienc/db/ispell-english/english.dict > /Library/PostgreSQL/9.4/share/postgresql/tsearch_data/english.dict
+
+
 iconv -c -f koi8-r -t utf-8 < /gen/scienc/db/ispell-russian/russian.aff > /usr/local/Cellar/postgresql/9.4.1/share/postgresql/tsearch_data/russian.affix
 iconv -c -f koi8-r -t utf-8 < /gen/scienc/db/ispell-russian/russian.dict > /usr/local/Cellar/postgresql/9.4.1/share/postgresql/tsearch_data/russian.dict
 
-iconv -c -f koi8-r -t utf-8 < /gen/scienc/db/ispell-english/english.aff > /Library/PostgreSQL/9.4/share/postgresql/tsearch_data/english.affix
-iconv -c -f koi8-r -t utf-8 < /gen/scienc/db/ispell-english/english.dict > /Library/PostgreSQL/9.4/share/postgresql/tsearch_data/english.dict
 
 iconv -c -f koi8-r -t utf-8 < /gen/scienc/db/ispell-english/english.aff > /usr/local/Cellar/postgresql/9.4.1/share/postgresql/tsearch_data/english.affix
 iconv -c -f koi8-r -t utf-8 < /gen/scienc/db/ispell-english/english.dict > /usr/local/Cellar/postgresql/9.4.1/share/postgresql/tsearch_data/english.dict
