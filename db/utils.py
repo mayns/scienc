@@ -56,7 +56,7 @@ def get_insert_query(tbl, insert_data):
     values = u"'" + u"', '".join([v for v in values]) + u"'" if len(values) > 1 else u"'{}'".format(values[0])
     values = values.replace(u'%', u'%%')
 
-    sql_string = u'INSERT INTO {table_name} ({fields}) VALUES (E{values}) RETURNING id'.format(table_name=tbl,
+    sql_string = u'INSERT INTO {table_name} ({fields}) VALUES ({values}) RETURNING id'.format(table_name=tbl,
                                                                                                fields=fields,
                                                                                                values=values)
     print sql_string
