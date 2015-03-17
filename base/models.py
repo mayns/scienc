@@ -80,7 +80,7 @@ class PSQLModel(object):
     @classmethod
     @gen.coroutine
     @psql_connection
-    def get_from_db(cls, conn, _id, columns=None):
+    def get_from_db(cls, conn, _id, columns):
         exists_query = get_exists_query(cls.TABLE, where=dict(column=u'id', value=_id))
 
         try:
@@ -92,21 +92,23 @@ class PSQLModel(object):
         if not row_exists:
             raise gen.Return({})
 
-        if not columns:
-            columns = MODELS[cls.TABLE].keys()
         try:
             sql_query = get_select_query(cls.TABLE, columns=columns, where=dict(column=u'id', value=str(_id)))
             cursor = yield momoko.Op(conn.execute, sql_query)
             data = cursor.fetchone()
         except Exception, ex:
             raise PSQLException(ex)
+
         raise gen.Return(data)
 
     @classmethod
     @gen.coroutine
     def get_by_id(cls, _id, columns=None):
 
-        data = cls.get_from_db(_id, columns)
+        if not columns:
+            columns = MODELS[cls.TABLE].keys()
+
+        data = yield cls.get_from_db(_id, columns)
 
         if not data:
             raise gen.Return()
@@ -125,7 +127,10 @@ class PSQLModel(object):
     @gen.coroutine
     def get_json_by_id(cls, _id, columns=None):
 
-        data = cls.get_from_db(_id, columns)
+        if not columns:
+            columns = MODELS[cls.TABLE].keys()
+
+        data = yield cls.get_from_db(_id, columns)
 
         if not data:
             raise gen.Return({})
