@@ -57,8 +57,8 @@ def get_insert_query(tbl, insert_data):
     values = values.replace(u'%', u'%%')
 
     sql_string = u'INSERT INTO {table_name} ({fields}) VALUES ({values}) RETURNING id'.format(table_name=tbl,
-                                                                                               fields=fields,
-                                                                                               values=values)
+                                                                                              fields=fields,
+                                                                                              values=values)
     print sql_string
     return sql_string
 
@@ -80,4 +80,11 @@ def get_delete_query(tbl, where, resolve_constraints=''):
                                                                                       column=where['column'],
                                                                                       value=where['value'],
                                                                                       resolve=resolve_constraints)
+    return sql_string
+
+
+def get_exists_query(tbl, where):
+    sql_string = "SELECT exists(SELECT 1 from {table_name} WHERE {column}='{value}')".format(table_name=tbl,
+                                                                                             column=where['column'],
+                                                                                             value=where['value'])
     return sql_string

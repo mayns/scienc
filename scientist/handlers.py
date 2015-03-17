@@ -32,10 +32,13 @@ class ScientistHandler(BaseRequestHandler):
 
     @gen.coroutine
     def get(self, scientist_id):
+
+        scientist_id = int(scientist_id.replace(u'/', u''))
+
         print u'get scientist:', scientist_id
 
         try:
-            response = yield ScientistBL.get(int(scientist_id.replace(u'/', u'')))
+            response = yield ScientistBL.get(scientist_id)
         except Exception, ex:
             logging.info('Exc on get scientist: {}'.format(scientist_id))
             logging.exception(ex)
@@ -51,6 +54,7 @@ class ScientistHandler(BaseRequestHandler):
         print u'scientist post'
 
         scientist_dict = json.loads(self.get_argument(u'data', u'{}'))
+        print scientist_dict
         scientist_photo = dict(
             raw_image=self.request.files.get('raw_image', []),
             raw_image_coords=scientist_dict.pop(u'raw_image_coords', {})

@@ -7,17 +7,18 @@ from tornado import gen
 from common.decorators import psql_connection
 from common.exceptions import PSQLException
 from db.orm import MODELS
-from db.utils import get_update_query, get_insert_query, get_select_query, get_delete_query
+from db.utils import get_update_query, get_insert_query, get_select_query, get_delete_query, get_exists_query
+from common.utils import zip_values
 
 
 __author__ = 'oks'
 
 
 class PSQLModel(object):
-
     TABLE = None
     OVERVIEW_FIELDS = None
     EDITABLE_FIELDS = None
+    SYSTEM_INFO = None
 
     def __init__(self, *args, **kwargs):
         super(PSQLModel, self).__init__()
@@ -26,6 +27,17 @@ class PSQLModel(object):
         for key, value in MODELS[self.TABLE].iteritems():
             setattr(self, key, kwargs.get(key, value.default))
 
+    @classmethod
+    def get_validated_data(cls, data):
+        editable_data = dict(zip_values(cls.EDITABLE_FIELDS, data, empty_fields=1))
+        return editable_data
+
+    def _get_editable_attrs(self):
+        data = {}
+        for k in self.EDITABLE_FIELDS:
+            data[k] = getattr(self, k) or MODELS[self.TABLE][k].default
+        return data
+
     @gen.coroutine
     @psql_connection
     def save(self, conn, update=True, fields=None):
@@ -33,7 +45,7 @@ class PSQLModel(object):
         if fields:
             data = {k: getattr(self, k) for k in fields if hasattr(self, k)}
         else:
-            data = self.__dict__
+            data = self._get_editable_attrs()
 
         if update:
             sqp_query = get_update_query(self.TABLE, data, where_params=dict(id=self.id))
@@ -68,7 +80,18 @@ class PSQLModel(object):
     @classmethod
     @gen.coroutine
     @psql_connection
-    def get_by_id(cls, conn, _id, columns=None):
+    def get_from_db(cls, conn, _id, columns=None):
+        exists_query = get_exists_query(cls.TABLE, where=dict(column=u'id', value=_id))
+
+        try:
+            cursor = yield momoko.Op(conn.execute, exists_query)
+            row_exists = cursor.fetchone()[0]
+        except Exception, ex:
+            raise PSQLException(ex)
+
+        if not row_exists:
+            raise gen.Return({})
+
         if not columns:
             columns = MODELS[cls.TABLE].keys()
         try:
@@ -77,6 +100,13 @@ class PSQLModel(object):
             data = cursor.fetchone()
         except Exception, ex:
             raise PSQLException(ex)
+        raise gen.Return(data)
+
+    @classmethod
+    @gen.coroutine
+    def get_by_id(cls, _id, columns=None):
+
+        data = cls.get_from_db(_id, columns)
 
         if not data:
             raise gen.Return()
@@ -93,18 +123,14 @@ class PSQLModel(object):
 
     @classmethod
     @gen.coroutine
-    @psql_connection
-    def get_json_by_id(cls, conn, _id, columns=None):
-        if not columns:
-            columns = MODELS[cls.TABLE].keys()
-        try:
-            sql_query = get_select_query(cls.TABLE, columns=columns, where=dict(column=u'id', value=str(_id)))
-            cursor = yield momoko.Op(conn.execute, sql_query)
-            data = cursor.fetchone()
-            data = dict(zip(columns, data))
-        except Exception, ex:
-            raise PSQLException(ex)
+    def get_json_by_id(cls, _id, columns=None):
 
+        data = cls.get_from_db(_id, columns)
+
+        if not data:
+            raise gen.Return({})
+
+        data = dict(zip(columns, data))
         result_data = {}
         for k, v in data.iteritems():
             if not v:
