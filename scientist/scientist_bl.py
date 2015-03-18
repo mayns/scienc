@@ -129,18 +129,16 @@ class ScientistBL(object):
     @psql_connection
     def check_login(cls, conn, email, pwd):
 
-        sql_query = get_select_query(environment.ROLES_TABLE, columns=['pwd'], where=dict(column='email',
-                                                                                          value=email))
+        sql_query = get_select_query(environment.ROLES_TABLE, columns=['id', 'pwd'],
+                                     where=dict(column='email', value=email))
+
         cursor = yield momoko.Op(conn.execute, sql_query)
-        enc_pwd = cursor.fetchone()
-        if not enc_pwd:
+        data = cursor.fetchone()
+        if not data:
             raise Exception(u'Incorrect pwd')
-        exists = check_password(pwd, enc_pwd[0])
+        _id, enc_pwd = data
+        exists = check_password(pwd, enc_pwd)
         if exists:
-            sql_query = get_select_query(Scientist.TABLE, columns=['id'], where=dict(column='email',
-                                                                                     value=email))
-            cursor = yield momoko.Op(conn.execute, sql_query)
-            _id = cursor.fetchone()[0]
             raise gen.Return(int(_id))
         raise Exception(u'Incorrect pwd')
 
