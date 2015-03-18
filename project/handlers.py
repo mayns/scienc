@@ -75,12 +75,14 @@ class ProjectHandler(BaseRequestHandler):
         self.finish(response_data)
 
     @gen.coroutine
-    def put(self, *args, **kwargs):
+    def put(self, project_id):
         print u'update project'
+
+        project_id = int(project_id.replace(u'/'))
         project_dict = json.loads(self.get_argument(u'data', u'{}'))
 
         try:
-            response = yield ProjectBL.update(project_dict)
+            response = yield ProjectBL.update(project_id, project_dict)
         except Exception, ex:
             logging.info('Exc on update project:')
             logging.exception(ex)
@@ -115,7 +117,8 @@ class ProjectsLikeHandler(BaseRequestHandler):
     def put(self, project_id):
         print 'add like: ', project_id
         scientist_id = self.current_user_id
-        # data = json.loads(self.get_argument(u'data', u'{}'))
+        if not scientist_id:
+            return
         response = {}
         try:
             yield ProjectBL.add_like(project_id, scientist_id)
