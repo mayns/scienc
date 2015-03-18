@@ -60,7 +60,9 @@ class ScientistBL(object):
                 scientist_dict.update(dict(
                     image_url=new_image_url
                 ))
-        scientist.populate_fields(scientist_dict)
+
+        validated_data = Scientist.get_validated_data(scientist_dict)
+        scientist.populate_fields(validated_data)
 
         yield scientist.save()
         raise gen.Return(dict(scientist_id=scientist_id, image_url=environment.GET_IMG(image_url, environment.IMG_S)))

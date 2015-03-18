@@ -11,16 +11,24 @@ ALL_TABLES = copy.deepcopy(MODELS)
 ALL_TABLES.update(TABLES)
 
 
-def get_update_query(tbl, update_params, where_params=None):
+def get_update_query(tbl, update_params, where_params=None, editable_columns=None):
     if where_params is None:
         where_params = {}
-    column_values = dict(zip_values(ALL_TABLES[tbl].keys(), update_params))
+
+    columns = editable_columns or ALL_TABLES[tbl].keys()
+    column_values = dict(zip_values(columns, update_params, empty_fields=1))
 
     sql_string = u"UPDATE {table_name} SET".format(table_name=tbl)
     for i, k in enumerate(column_values.keys()):
+        value = update_params[k]
+            # if update_params[k] else ALL_TABLES[tbl][k].db_default
+        print value
         store = ALL_TABLES[tbl][k].store
-        v = update_params[k] if not store else store(update_params[k])
-        sql_string = u"{prefix} {title}=E'{value}'".format(prefix=sql_string, title=k, value=v)
+        v = value if not store else store(value)
+        if v is not None:
+            sql_string = u"{prefix} {title}=E'{value}'".format(prefix=sql_string, title=k, value=v)
+        else:
+            sql_string = u"{prefix} {title}={value}".format(prefix=sql_string, title=k, value=v)
         if i < len(column_values.keys()) - 1:
             sql_string += ','
 

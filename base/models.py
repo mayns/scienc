@@ -48,7 +48,7 @@ class PSQLModel(object):
             data = self._get_editable_attrs()
 
         if update:
-            sqp_query = get_update_query(self.TABLE, data, where_params=dict(id=self.id))
+            sqp_query = get_update_query(self.TABLE, data, where_params=dict(id=self.id), editable_columns=self.EDITABLE_FIELDS)
         else:
             sqp_query = get_insert_query(self.TABLE, data)
         try:
@@ -60,22 +60,20 @@ class PSQLModel(object):
         raise gen.Return(self.id)
 
     def populate_fields(self, data_dict):
-        for key, value in MODELS[self.TABLE].iteritems():
 
-            if data_dict.get(key, value.default) == getattr(self, key):
+        for key, value in data_dict.iteritems():
+
+            if value == getattr(self, key):
                 continue
-            logging.info(key)
-            if key not in data_dict:
-                setattr(self, key, value.default)
-                logging.info('setting default')
-                logging.info(key)
-                logging.info(value.default)
+
+            if not value:
+                value = MODELS[self.TABLE][key].default
 
             from_json = MODELS[self.TABLE][key].from_json
             if from_json:
-                setattr(self, key, from_json(data_dict.get(key, value.default)))
+                setattr(self, key, from_json(value))
             else:
-                setattr(self, key, data_dict.get(key, value.default))
+                setattr(self, key, value)
 
     @classmethod
     @gen.coroutine

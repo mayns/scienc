@@ -141,9 +141,11 @@ class Datetime(FieldDescriptor):
     def __init__(self, default=None, db_default=None, db_type=None, **kwargs):
         """:rtype: datetime"""
         super(Datetime, self).__init__(default=default, db_default=db_default, db_type=db_type, **kwargs)
+        self.db_default = db_default or 'NULL'
 
-        # self.store = lambda value: value.strftime(environment.DATETIME_FORMAT[db_type]['DB']) \
-        #     if value and not isinstance(value, basestring) else value
+        self.store = lambda value: value.strftime(environment.DATETIME_FORMAT[db_type]['DB']) \
+            if (value and not isinstance(value, basestring)) else value or self.db_default
+
         self.to_json = lambda value: value.strftime(environment.DATETIME_FORMAT[db_type]['HUMAN']) \
             if value and not isinstance(value, basestring) else value
         # self.restore = lambda value: datetime.datetime.strptime(value, environment.DATETIME_FORMAT[db_type]['HUMAN']) \
@@ -153,4 +155,3 @@ class Datetime(FieldDescriptor):
         self.type = datetime.date
         self.db_type = db_type or 'timestamp'
         self.default = default or u''
-        self.db_default = db_default or 'NULL'
