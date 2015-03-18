@@ -168,14 +168,15 @@ class PSQLModel(object):
                     continue
 
                 restore = MODELS[cls.TABLE][k].restore
+                v = d[i]
                 if restore:
-                    d[i] = restore(d[i])
+                    v = restore(v)
 
                 to_json = MODELS[cls.TABLE][k].to_json
                 if to_json:
-                    d[i] = to_json(d[i])
+                    v = to_json(v)
 
-                data_dict.update({k: d[i]})
+                data_dict.update({k: v})
             data_list.append(data_dict)
         logging.info(data_list)
         raise gen.Return(data_list)
