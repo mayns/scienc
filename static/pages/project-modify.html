@@ -72,7 +72,7 @@
 		<section vertical layout class="projec-form">
 			<form is="ajax-json-form"
                   ajaxMethod="{{ ajaxMethod }}"
-                  action="/api/project"
+                  action="/api/project/{{ data.id }}"
                   redirect="/">
                 <template bind="{{ data }}">
                     <fieldset>
@@ -231,109 +231,105 @@
                             </div>
                         </div>
                     </fieldset>
-                </template>
-                <template if="{{ viewType === 'update' }}">
-                    <template bind="{{ data }}">
-                        <fieldset>
-                            <legend>О проекте</legend>
-                            <div class="fieldblock">
-                                <div class="row-flex">
-                                    <label class="action">Цели исследования</label>
-                                </div>
-                                <div class="row-flex">
-                                    <textarea name="objective" value="{{ objective }}" id="objective" class="col-lg-12"></textarea>
-                                </div>
-                                <div class="row-flex">
-                                    <label>Полное описание</label>
-                                </div>
-                                <div class="row-flex">
-                                    <textarea name="description_full" value="{{ description_full }}" id="description_full" class="col-lg-12"></textarea>
-                                </div>
-                                <div class="row-flex">
-                                    <label>Возможности применения результатов</label>
-                                </div>
-                                <div class="row-flex">
-                                    <textarea name="usage_possibilities" value="{{ usage_possibilities }}" id="usage_possibilities" class="col-lg-12"></textarea>
-                                </div>
-                                <div class="row-flex">
-                                    <label>Достигнуты результаты</label>
-                                </div>
-                                <div class="row-flex">
-                                    <textarea name="results" value="{{ results }}" id="results" class="col-lg-12"></textarea>
-                                </div>
+                    <fieldset>
+                        <legend>О проекте</legend>
+                        <div class="fieldblock">
+                            <div class="row-flex">
+                                <label class="action">Цели исследования</label>
                             </div>
-                        </fieldset>
-                        <fieldset>
-                            <legend>Участники</legend>
-                           <div class="fieldblock">
-                               <div class="row-flex">
-                                   <label for="">Руководитель проекта</label>
-                               </div>
-                               <div class="row-flex">
-                                   <input name="leader" type="text" id="leader" class="col-lg-12">
-                               </div>
-                               <div class="row-flex">
-                                   <label for="">Участники проекта</label>
-                               </div>
-                               <template repeat="{{ participants }}">
-                                   <div class="row-flex">
-                                       <div class="col-lg-4">
-                                           <input type="text" value="{{ full_name }}" placeholder="ФИО" name="participants[][name]"/>
-                                       </div>
-                                       <div class="col-lg-4 col-lg-offset-1">
-                                           <input type="text" value="{{ role_name }}" placeholder="Роль в проекте" name="participants[][role]"/>
-                                       </div>
-                                   </div>
-                               </template>
-                               <div class="row-flex">
-                                   <label for="">Разыскиваются</label>
-                               </div>
-                               <div class="fieldblock missed-participants">
-                                   <template repeat="{{ missed_participants }}">
-                                       <div class="row-flex">
-                                           <div class="col-lg-5">
-                                               <div class="row-flex between top">
-                                                   <label for="">Должность</label>
-                                                   <input type="text" value="{{ vacancy_name }}" name="missed_participants[][role]" flex/>
-                                               </div>
-                                           </div>
-                                           <div class="col-lg-5 col-lg-offset-1">
-                                               <div class="row-flex between top">
-                                                   <label for="">Описание</label>
-                                                   <textarea rows="1" value="{{ description }}" name="missed_participants[][description]" flex></textarea>
-                                               </div>
-                                           </div>
-                                       </div>
-                                   </template>
-                               </div>
-                           </div>
-                        </fieldset>
-                        <fieldset>
-                            <legend>Контактные данные</legend>
-                            <div class="fieldblock">
+                            <div class="row-flex">
+                                <textarea name="objective" value="{{ objective }}" id="objective" class="col-lg-12"></textarea>
+                            </div>
+                            <div class="row-flex">
+                                <label>Полное описание</label>
+                            </div>
+                            <div class="row-flex">
+                                <textarea name="description_full" value="{{ description_full }}" id="description_full" class="col-lg-12"></textarea>
+                            </div>
+                            <div class="row-flex">
+                                <label>Возможности применения результатов</label>
+                            </div>
+                            <div class="row-flex">
+                                <textarea name="usage_possibilities" value="{{ usage_possibilities }}" id="usage_possibilities" class="col-lg-12"></textarea>
+                            </div>
+                            <div class="row-flex">
+                                <label>Достигнуты результаты</label>
+                            </div>
+                            <div class="row-flex">
+                                <textarea name="results" value="{{ results }}" id="results" class="col-lg-12"></textarea>
+                            </div>
+                        </div>
+                    </fieldset>
+                    <fieldset>
+                        <legend>Участники</legend>
+                        <div class="fieldblock">
+                            <div class="row-flex">
+                                <label for="">Руководитель проекта</label>
+                            </div>
+                            <div class="row-flex">
+                                <input name="leader" type="text" id="leader" class="col-lg-12">
+                            </div>
+                            <div class="row-flex">
+                                <label for="">Участники проекта</label>
+                            </div>
+                            <template repeat="{{ participants }}">
                                 <div class="row-flex">
-                                    <label>Контакты</label>
-                                </div>
-                                <div class="row-flex">
-                                    <div class="col-lg-10">
-                                        <template repeat="{{ contacts }}">
-                                            <div class="row-flex between">
-                                                <input type="text" class="col-lg-3" value="{{ name }}" name="contacts[][name]" placeholder="ФИО"/>
-                                                <input type="text" class="col-lg-3" value="{{ type }}" name="contacts[][type]" placeholder="Тип"/>
-                                                <input type="text" class="col-lg-3" value="{{ id }}" name="contacts[][id]" placeholder="Номер"/>
-                                            </div>
-                                        </template>
+                                    <div class="col-lg-4">
+                                        <input type="text" value="{{ full_name }}" placeholder="ФИО" name="participants[][name]"/>
+                                    </div>
+                                    <div class="col-lg-4 col-lg-offset-1">
+                                        <input type="text" value="{{ role_name }}" placeholder="Роль в проекте" name="participants[][role]"/>
                                     </div>
                                 </div>
-                                <div class="row-flex">
-                                    <label>Контактное лицо</label>
-                                </div>
-                                <div class="row-flex">
-                                    <input type="text" class="col-lg-12" name="contact_manager"/>
+                            </template>
+                            <div class="row-flex">
+                                <label for="">Разыскиваются</label>
+                            </div>
+                            <div class="fieldblock missed-participants">
+                                <template repeat="{{ missed_participants }}">
+                                    <div class="row-flex">
+                                        <div class="col-lg-5">
+                                            <div class="row-flex between top">
+                                                <label for="">Должность</label>
+                                                <input type="text" value="{{ vacancy_name }}" name="missed_participants[][role]" flex/>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-5 col-lg-offset-1">
+                                            <div class="row-flex between top">
+                                                <label for="">Описание</label>
+                                                <textarea rows="1" value="{{ description }}" name="missed_participants[][description]" flex></textarea>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </template>
+                            </div>
+                        </div>
+                    </fieldset>
+                    <fieldset>
+                        <legend>Контактные данные</legend>
+                        <div class="fieldblock">
+                            <div class="row-flex">
+                                <label>Контакты</label>
+                            </div>
+                            <div class="row-flex">
+                                <div class="col-lg-10">
+                                    <template repeat="{{ contacts }}">
+                                        <div class="row-flex between">
+                                            <input type="text" class="col-lg-3" value="{{ name }}" name="contacts[][name]" placeholder="ФИО"/>
+                                            <input type="text" class="col-lg-3" value="{{ type }}" name="contacts[][type]" placeholder="Тип"/>
+                                            <input type="text" class="col-lg-3" value="{{ id }}" name="contacts[][id]" placeholder="Номер"/>
+                                        </div>
+                                    </template>
                                 </div>
                             </div>
-                        </fieldset>
-                    </template>
+                            <div class="row-flex">
+                                <label>Контактное лицо</label>
+                            </div>
+                            <div class="row-flex">
+                                <input type="text" class="col-lg-12" name="contact_manager"/>
+                            </div>
+                        </div>
+                    </fieldset>
                 </template>
                 <div class="row center">
                     <button type="submit" class="button submit">{{ viewType === 'create' ? 'Добавить' : 'Сохранить' }}</button>

@@ -31,6 +31,7 @@
     "core-header-panel": "Polymer/core-header-panel#*",
     "core-toolbar": "Polymer/core-toolbar#*",
     "core-icon-button": "Polymer/core-icon-button#*",
-    "core-ajax": "Polymer/core-ajax#*"
+    "core-ajax": "Polymer/core-ajax#*",
+    "d-calendar": "~1.0.1"
   }
 }

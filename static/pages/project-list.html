@@ -13,8 +13,8 @@
             }
         </style>
         <core-ajax auto url="/api/projects" method="GET" handleAs="json" response="{{projects}}"></core-ajax>
-        <template repeat="{{project in projects.data}}">
-            <project-item data="{{project}}" class="{{project.research_fields}}"></project-item>
+        <template repeat="{{ project in projects.data }}">
+            <project-item data="{{ project }}"></project-item>
         </template>
 	</template>
 </polymer-element>

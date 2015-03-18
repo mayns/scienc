@@ -404,19 +404,10 @@
                                 </div>
                             </div>
                         </div>
-                        <div></div>
-                        <div class="row-flex fieldblock">
-                            <div class="col-lg-9">
-                                <div class="row-flex middle">
-                                    <label for="accept_rules" class="col-lg-3">Я жираф</label>
-                                    <input type="checkbox" data-json="accept_rules" id="accept_rules"/>
-                                </div>
-                            </div>
-                        </div>
                     </fieldset>
                 </template>
                 <template if="{{ viewType === 'update' }}">
-                    <input type="hidden" value="{{ id }}" data-json="scientist_id"/>
+                    <input type="hidden" value="{{ data.id }}" data-json="scientist_id"/>
                 </template>
                 <div class="row-flex center">
                     <button type="submit" class="button submit">{{ viewType === 'create' ? 'Вступаю' : 'Сохранить' }}</button>
