@@ -19,7 +19,7 @@ UBUNTU Andrey
 sudo chmod 777 /usr/share/postgresql/9.4/tsearch_data/
 
 iconv -c -f koi8-r -t utf-8 < /home/andrey/Documents/Projects/scienc/db/ispell-russian/russian.aff > /usr/share/postgresql/9.4/tsearch_data/russian.affix
-iconv -c -f koi8-r -t utf-8 < /gen/scienc/db/ispell-russian/russian.dict > /usr/share/postgresql/9.4/tsearch_data/russian.dict
+iconv -c -f koi8-r -t utf-8 < /home/andrey/Documents/Projects/scienc/db/ispell-russian/russian.dict > /usr/share/postgresql/9.4/tsearch_data/russian.dict
 
 iconv -c -f koi8-r -t utf-8 < /home/andrey/Documents/Projects/scienc/db/ispell-english/english.aff > /usr/share/postgresql/9.4/tsearch_data/english.affix
 iconv -c -f koi8-r -t utf-8 < /home/andrey/Documents/Projects/scienc/db/ispell-english/english.dict > /usr/share/postgresql/9.4/tsearch_data/english.dict
