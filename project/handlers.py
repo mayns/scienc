@@ -57,7 +57,11 @@ class ProjectHandler(BaseRequestHandler):
     def post(self, *args, **kwargs):
         print u'create project'
         project_dict = json.loads(self.get_argument(u'data', u'{}'))
-
+        manager_id = self.current_user_id
+        if not manager_id:
+            self.send_error(status_code=403)
+            return
+        project_dict.update(manager_id=manager_id)
         try:
             response = yield ProjectBL.create(project_dict)
         except Exception, ex:
