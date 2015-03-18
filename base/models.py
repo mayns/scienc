@@ -139,9 +139,9 @@ class PSQLModel(object):
             if not v:
                 continue
 
-            restore = MODELS[cls.TABLE][k].restore
-            if restore:
-                v = restore(v)
+            # restore = MODELS[cls.TABLE][k].restore
+            # if restore:
+            #     v = restore(v)
 
             to_json = MODELS[cls.TABLE][k].to_json
             if to_json:
@@ -166,11 +166,11 @@ class PSQLModel(object):
             for i, k in enumerate(columns):
                 if not d[i]:
                     continue
-
-                restore = MODELS[cls.TABLE][k].restore
                 v = d[i]
-                if restore:
-                    v = restore(v)
+
+                # restore = MODELS[cls.TABLE][k].restore
+                # if restore:
+                #     v = restore(v)
 
                 to_json = MODELS[cls.TABLE][k].to_json
                 if to_json:
