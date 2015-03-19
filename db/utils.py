@@ -11,16 +11,24 @@ ALL_TABLES = copy.deepcopy(MODELS)
 ALL_TABLES.update(TABLES)
 
 
-def get_update_query(tbl, update_params, where_params=None):
+def get_update_query(tbl, update_params, where_params=None, editable_columns=None):
     if where_params is None:
         where_params = {}
-    column_values = dict(zip_values(ALL_TABLES[tbl].keys(), update_params))
+
+    columns = editable_columns or ALL_TABLES[tbl].keys()
+    column_values = dict(zip_values(columns, update_params, empty_fields=1))
 
     sql_string = u"UPDATE {table_name} SET".format(table_name=tbl)
     for i, k in enumerate(column_values.keys()):
+        value = update_params[k]
+            # if update_params[k] else ALL_TABLES[tbl][k].db_default
+        print value
         store = ALL_TABLES[tbl][k].store
-        v = update_params[k] if not store else store(update_params[k])
-        sql_string = u"{prefix} {title}=E'{value}'".format(prefix=sql_string, title=k, value=v)
+        v = value if not store else store(value)
+        if v != 'NULL':
+            sql_string = u"{prefix} {title}=E'{value}'".format(prefix=sql_string, title=k, value=v)
+        else:
+            sql_string = u"{prefix} {title}={value}".format(prefix=sql_string, title=k, value=v)
         if i < len(column_values.keys()) - 1:
             sql_string += ','
 
@@ -56,9 +64,9 @@ def get_insert_query(tbl, insert_data):
     values = u"'" + u"', '".join([v for v in values]) + u"'" if len(values) > 1 else u"'{}'".format(values[0])
     values = values.replace(u'%', u'%%')
 
-    sql_string = u'INSERT INTO {table_name} ({fields}) VALUES (E{values}) RETURNING id'.format(table_name=tbl,
-                                                                                               fields=fields,
-                                                                                               values=values)
+    sql_string = u'INSERT INTO {table_name} ({fields}) VALUES ({values}) RETURNING id'.format(table_name=tbl,
+                                                                                              fields=fields,
+                                                                                              values=values)
     print sql_string
     return sql_string
 
@@ -66,6 +74,7 @@ def get_insert_query(tbl, insert_data):
 def get_select_query(tbl, columns=None, where=None, functions=None):
     if not columns:
         columns = [u'*']
+
     sql_string = u"SELECT {columns} FROM {table_name}".format(table_name=tbl,
                                                               columns=functions if functions else u', '.join(columns))
     if not where:
@@ -80,4 +89,11 @@ def get_delete_query(tbl, where, resolve_constraints=''):
                                                                                       column=where['column'],
                                                                                       value=where['value'],
                                                                                       resolve=resolve_constraints)
+    return sql_string
+
+
+def get_exists_query(tbl, where):
+    sql_string = "SELECT exists(SELECT 1 from {table_name} WHERE {column}='{value}')".format(table_name=tbl,
+                                                                                             column=where['column'],
+                                                                                             value=where['value'])
     return sql_string

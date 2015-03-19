@@ -2,6 +2,7 @@
 <link rel="import" href="/static/elements/app-router/app-router.html"/>
 <link rel="import" href="/static/elements/html5-history-anchor/html5-history-anchor.html"/>
 <link rel="import" href="/static/elements/core-icons/core-icons.html">
+<link rel="import" href="/static/elements/app-globals.html">
 
 <polymer-element name="project-item" attributes="data">
 	<template>
@@ -55,28 +56,38 @@
 				stroke: #FF334F;
 			}
 		</style>
-		<article class="project">
-			<header class="project-header">
-				<h1>
-					<a is="html5-history-anchor" href="/project/{{data.id}}" pushstate popstate>{{data.title}}</a>
-				</h1>
-                <template if="{{ data.university_connection }}">
-                    <div horizontal layout justified center>
-                        <div class="project-holder">{{data.university_connection[0].university}}</div>
-                    </div>
-                </template>
-			</header>
-			<p>
-				<span class="short-descr">Краткое описание: </span>{{data.description_short}}
-			</p>
-			<core-icon class="project-like-icon" icon="favorite" on-tap="{{onFavIconTap}}"></core-icon>
-		</article>
+		<template bind="{{ data }}">
+            <article class="project">
+                <header class="project-header">
+                    <h1>
+                        <a is="html5-history-anchor" href="/project/{{id}}" pushstate popstate>{{title}}</a>
+                    </h1>
+                    <template if="{{ university_connection }}">
+                        <div horizontal layout justified center>
+                            <div horizontal layout center flex>
+                                <template repeat="{{ university_connection }}">
+                                    <span class="project-holder">{{ university }}</span>
+                                </template>
+                            </div>
+                            <div>
+
+                            </div>
+                        </div>
+                    </template>
+                </header>
+                <p>
+                    <span class="short-descr">Краткое описание: </span>{{description_short}}
+                </p>
+                <core-icon class="project-like-icon" icon="favorite"></core-icon>
+            </article>
+        </template>
+        <app-globals userData="{{ d }}"></app-globals>
 	</template>
 	<script>
 		Polymer({
-			onFavIconTap: function(e, detail, sender) {
-				e.target.classList.toggle('liked');
-			}
+            inArray: function(array, value) {
+                return array.indexOf(value) !== -1;
+            }
 		});
 	</script>
 </polymer-element>

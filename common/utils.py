@@ -89,21 +89,24 @@ def zip_values(iterable, dict2, empty_fields=False):
 
     :type iterable: iter
     :type dict2: dict
-    :return: list of tuples with keys in both dicts
+    :return: list of tuples with keys in both dicts if not empty, else all keys in the left dict (left join)
     :rtype: list
     """
     zipped = []
     assert isinstance(dict2, dict)
     if not all([iterable, dict2]):
         return []
+
     if isinstance(iterable, dict):
         for k, v in iterable.iteritems():
-            if k not in dict2.keys() or (not empty_fields and not dict2.get(k)):
+            if (not empty_fields and (k not in dict2.keys())) or (not empty_fields and not dict2.get(k)):
                 continue
-            zipped.append((v, dict2[k]))
+            zipped.append((v, dict2.get(k)))
+
     elif isinstance(iterable, list):
         for k in iterable:
-            if k not in dict2.keys() or (not empty_fields and not dict2.get(k)):
+            if (not empty_fields and (k not in dict2.keys())) or (not empty_fields and (not dict2.get(k))):
                 continue
-            zipped.append((k, dict2[k]))
+            zipped.append((k, dict2.get(k)))
+
     return zipped

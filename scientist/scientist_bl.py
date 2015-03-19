@@ -25,11 +25,14 @@ class ScientistBL(object):
     @gen.coroutine
     def create(cls, scientist_dict=None, scientist_photo=None):
 
-        # check if user can save email/pwd and save it if he can
-        yield cls.validate_data(scientist_dict)
+        # check if user can create account
+        yield cls.validate_credentials(scientist_dict)
+        # create account
         yield cls.update_roles(scientist_dict)
 
-        scientist = Scientist(**scientist_dict)
+        validated_data = Scientist.get_validated_data(scientist_dict)
+
+        scientist = Scientist(**validated_data)
         scientist_id = yield scientist.save(update=False)
 
         image_url = yield cls.upload_avatar(scientist_id, scientist_photo)
@@ -38,7 +41,8 @@ class ScientistBL(object):
             scientist.image_url = image_url
             yield scientist.save(fields=[u'image_url'])
 
-        raise gen.Return(dict(scientist_id=scientist_id, image_url=environment.GET_IMG(scientist.image_url, environment.IMG_S)))
+        image_url = environment.GET_IMG(image_url, environment.IMG_S) if image_url else u''
+        raise gen.Return(dict(scientist_id=scientist_id, image_url=image_url))
 
     @classmethod
     @gen.coroutine
@@ -56,7 +60,9 @@ class ScientistBL(object):
                 scientist_dict.update(dict(
                     image_url=new_image_url
                 ))
-        scientist.populate_fields(scientist_dict)
+
+        validated_data = Scientist.get_validated_data(scientist_dict)
+        scientist.populate_fields(validated_data)
 
         yield scientist.save()
         raise gen.Return(dict(scientist_id=scientist_id, image_url=environment.GET_IMG(image_url, environment.IMG_S)))
@@ -95,7 +101,15 @@ class ScientistBL(object):
     @classmethod
     @gen.coroutine
     @psql_connection
-    def validate_data(cls, conn, data):
+    def validate_credentials(cls, conn, data):
+
+        """
+        Check if user can save email/pwd
+
+        :param conn:
+        :param data:
+        :raise gen.Return:
+        """
         email = data.get(u'email')
         pwd = data.get(u'pwd')
 
@@ -115,18 +129,16 @@ class ScientistBL(object):
     @psql_connection
     def check_login(cls, conn, email, pwd):
 
-        sql_query = get_select_query(environment.ROLES_TABLE, columns=['pwd'], where=dict(column='email',
-                                                                                          value=email))
+        sql_query = get_select_query(environment.ROLES_TABLE, columns=['id', 'pwd'],
+                                     where=dict(column='email', value=email))
+
         cursor = yield momoko.Op(conn.execute, sql_query)
-        enc_pwd = cursor.fetchone()
-        if not enc_pwd:
+        data = cursor.fetchone()
+        if not data:
             raise Exception(u'Incorrect pwd')
-        exists = check_password(pwd, enc_pwd[0])
+        _id, enc_pwd = data
+        exists = check_password(pwd, enc_pwd)
         if exists:
-            sql_query = get_select_query(Scientist.TABLE, columns=['id'], where=dict(column='email',
-                                                                                     value=email))
-            cursor = yield momoko.Op(conn.execute, sql_query)
-            _id = cursor.fetchone()[0]
             raise gen.Return(int(_id))
         raise Exception(u'Incorrect pwd')
 

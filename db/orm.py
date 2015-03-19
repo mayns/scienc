@@ -9,7 +9,7 @@ MODELS = dict(
     scientists={
 
         # common info
-        u'id': ID(db_references='roles(id)', u_editable=False),
+        u'id': ID(db_references='roles(id)'),
         u'email': Text(required=True),
         u'first_name': Text(required=True),
         u'last_name': Text(required=True),
@@ -28,29 +28,26 @@ MODELS = dict(
         u'contacts': JsonArray(db_type='json'),                                     # [{type, id}]
 
         # app activity
-        u'participating_projects': JsonArray(db_type='json', u_editable=False),     # [{project_id, role_id}]
-        u'liked_projects': JsonArray(db_type='bigint[]', u_editable=False),         # [project_id]
-        u'desired_vacancies': JsonArray(db_type='json', u_editable=False),          # [{project_id, vacancy_id}]
-        u'managing_project_ids': JsonArray(db_type='bigint[]', u_editable=False),
-        u'achievements': JsonArray(db_type='bigint[]', u_editable=False),           # [achievement_id]
+        u'participating_projects': JsonArray(db_type='json'),                       # [{project_id, role_id}]
+        u'liked_projects': JsonArray(db_type='bigint[]'),                           # [project_id]
+        u'desired_vacancies': JsonArray(db_type='json'),                            # [{project_id, vacancy_id}]
+        u'managing_project_ids': JsonArray(db_type='bigint[]'),
+        u'achievements': JsonArray(db_type='bigint[]'),                             # [achievement_id]
 
         # system info
-        u'dt_created': Datetime(db_type='timestamp', u_editable=False),
+        u'dt_created': Datetime(db_type='timestamp'),
     },
 
     projects={
 
         # common info
-        u'id': ID(u_editable=False),
-        u'manager_id': Integer(required=True, db_references='scientists(id)',
-                               u_editable=False),                                   # person added the project
-        u'research_fields': JsonArray(required=True, db_type=''),                   # области науки
+        u'id': ID(),
+        u'manager_id': Integer(required=True, db_references='scientists(id)'),      # person added the project
+        u'research_fields': JsonArray(required=True),                               # области науки
         u'title': Text(required=True),                                              # название проекта
-        u'title_tsvector': TSvector(u_editable=False),                              # лексемы названия
         u'description_short': Text(required=True),                                  # краткое описание для обложки
-        u'description_short_tsvector': TSvector(),                                  # лексемы краткого описания
-        u'likes': Integer(u_editable=False),                                        # количество лайков
-        u'responses': JsonArray(db_type='jsonb', u_editable=False),                 # [{scientist_id, vacancy_id}]
+        u'likes': Integer(),                                                        # количество лайков
+        u'responses': JsonArray(db_type='jsonb'),                                   # [{scientist_id, vacancy_id}]
         u'university_connection': JsonArray(db_type='jsonb'),                       # [{country, city, university, faculty, chair}]
 
         # project info
@@ -70,6 +67,8 @@ MODELS = dict(
         u'contacts': JsonArray(db_type='jsonb'),                                    # [{type, id}]
 
         # system info
-        u'dt_created': Datetime(db_type='timestamp', u_editable=False),
+        u'title_tsvector': TSvector(),                                              # лексемы названия
+        u'description_short_tsvector': TSvector(),                                  # лексемы краткого описания
+        u'dt_created': Datetime(db_type='timestamp'),
     }
 )

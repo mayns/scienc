@@ -12,25 +12,30 @@ class ProjectBL(object):
     @gen.coroutine
     def create(cls, project_dict):
 
+        validated_data = Project.get_validated_data(project_dict)
+        print validated_data
         project = Project(**project_dict)
         project_id = yield project.save(update=False)
         raise gen.Return(dict(id=project_id))
 
     @classmethod
     @gen.coroutine
-    def update(cls, project_dict):
-        project_id = project_dict.pop(u'project_id')
+    def update(cls, project_id, project_dict):
+
         if not project_id:
             raise Exception(u'No project id provided')
+
+        validated_data = Project.get_validated_data(project_dict)
         project = yield Project.get_by_id(project_id)
-        project.populate_fields(project_dict)
+        project.populate_fields(validated_data)
+
         yield project.save()
         raise gen.Return(dict(project_id=project_id))
 
     @classmethod
     @gen.coroutine
     def delete(cls, project_id):
-        yield cls.delete(project_id)
+        yield Project.delete(project_id, tbl=Project.TABLE)
 
     @classmethod
     @gen.coroutine

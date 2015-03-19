@@ -10,10 +10,10 @@ __author__ = 'mayns'
 class FieldDescriptor(object):
 
     __slots__ = ['store', 'restore', 'to_json', 'from_json', 'type', 'db_type',
-                 'default', 'db_default', 'db_references', 'required', 'u_editable']
+                 'default', 'db_default', 'db_references', 'required']
 
     def __init__(self, store=None, restore=None, to_json=None, from_json=None, type=type, db_type=None, default=None,
-                 db_default=None, db_references=None, required=False, u_editable=True):
+                 db_default=None, db_references=None, required=False):
 
         self.store = store
         self.restore = restore
@@ -25,7 +25,6 @@ class FieldDescriptor(object):
         self.db_default = db_default
         self.db_references = db_references
         self.required = required
-        self.u_editable = u_editable
 
 
 class Text(FieldDescriptor):
@@ -52,10 +51,11 @@ class JsonArray(FieldDescriptor):
     def __init__(self, default=None, db_type=None, **kwargs):
         """:rtype: list"""
         super(JsonArray, self).__init__(default=default, db_type=db_type, **kwargs)
-        self.store = lambda x: json.dumps(x).replace(u'[', u'{').replace(u']', u'}').replace(u'{{', u'[{').replace(u'}}', u'}]')
-        self.restore = json.loads
-        self.type = list
         self.db_type = db_type or 'text[]'
+        self.store = lambda x: json.dumps(x).replace(u'[', u'{').replace(u']', u'}').replace(u'{{', u'[{').replace(u'}}', u'}]') \
+            if self.db_type != 'text[]' else '{' + ', '.join(x) + '}'
+        # self.restore = json.loads if self.db_type != 'text[]' else None
+        self.type = list
         self.default = default or []
 
 
@@ -141,16 +141,17 @@ class Datetime(FieldDescriptor):
     def __init__(self, default=None, db_default=None, db_type=None, **kwargs):
         """:rtype: datetime"""
         super(Datetime, self).__init__(default=default, db_default=db_default, db_type=db_type, **kwargs)
+        self.db_default = db_default or 'NULL'
 
-        # self.store = lambda value: value.strftime(environment.DATETIME_FORMAT[db_type]['DB']) \
-        #     if value and not isinstance(value, basestring) else value
+        self.store = lambda value: value.strftime(environment.DATETIME_FORMAT[db_type]['DB']) \
+            if (value and not isinstance(value, basestring)) else value or self.db_default
+
         self.to_json = lambda value: value.strftime(environment.DATETIME_FORMAT[db_type]['HUMAN']) \
             if value and not isinstance(value, basestring) else value
         # self.restore = lambda value: datetime.datetime.strptime(value, environment.DATETIME_FORMAT[db_type]['HUMAN']) \
         #     if value else u''
-        self.from_json = lambda value: datetime.datetime.strptime(value, environment.DATETIME_FORMAT[db_type]['HUMAN']) \
+        self.from_json = lambda value: datetime.datetime.strptime(value, environment.DATETIME_FORMAT[db_type]['DB']) \
             if value else u''
         self.type = datetime.date
         self.db_type = db_type or 'timestamp'
         self.default = default or u''
-        self.db_default = db_default or 'NULL'

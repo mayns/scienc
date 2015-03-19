@@ -7,22 +7,26 @@ iconv -c -f koi8-r -t utf-8 < /gen/scienc/db/ispell-english/english.aff > /opt/l
 iconv -c -f koi8-r -t utf-8 < /gen/scienc/db/ispell-english/english.dict > /opt/local/share/postgresql93/tsearch_data/english.dict
 
 ----------Версия 9.4.-----------
-sudo chmod 777 /Library/PostgreSQL/9.4/share/postgresql/tsearch_data
+Mac OS
 sudo chmod 777 /usr/local/Cellar/postgresql/9.4.1/share/postgresql/tsearch_data
-
-iconv -c -f koi8-r -t utf-8 < /gen/scienc/db/ispell-russian/russian.aff > /Library/PostgreSQL/9.4/share/postgresql/tsearch_data/russian.affix
-iconv -c -f koi8-r -t utf-8 < /gen/scienc/db/ispell-russian/russian.dict > /Library/PostgreSQL/9.4/share/postgresql/tsearch_data/russian.dict
-
-iconv -c -f koi8-r -t utf-8 < /gen/scienc/db/ispell-english/english.aff > /Library/PostgreSQL/9.4/share/postgresql/tsearch_data/english.affix
-iconv -c -f koi8-r -t utf-8 < /gen/scienc/db/ispell-english/english.dict > /Library/PostgreSQL/9.4/share/postgresql/tsearch_data/english.dict
-
-
 iconv -c -f koi8-r -t utf-8 < /gen/scienc/db/ispell-russian/russian.aff > /usr/local/Cellar/postgresql/9.4.1/share/postgresql/tsearch_data/russian.affix
 iconv -c -f koi8-r -t utf-8 < /gen/scienc/db/ispell-russian/russian.dict > /usr/local/Cellar/postgresql/9.4.1/share/postgresql/tsearch_data/russian.dict
 
-
 iconv -c -f koi8-r -t utf-8 < /gen/scienc/db/ispell-english/english.aff > /usr/local/Cellar/postgresql/9.4.1/share/postgresql/tsearch_data/english.affix
 iconv -c -f koi8-r -t utf-8 < /gen/scienc/db/ispell-english/english.dict > /usr/local/Cellar/postgresql/9.4.1/share/postgresql/tsearch_data/english.dict
+
+UBUNTU Andrey
+sudo chmod 777 /usr/share/postgresql/9.4/tsearch_data/
+
+iconv -c -f koi8-r -t utf-8 < /home/andrey/Documents/Projects/scienc/db/ispell-russian/russian.aff > /usr/share/postgresql/9.4/tsearch_data/russian.affix
+iconv -c -f koi8-r -t utf-8 < /home/andrey/Documents/Projects/scienc/db/ispell-russian/russian.dict > /usr/share/postgresql/9.4/tsearch_data/russian.dict
+
+iconv -c -f koi8-r -t utf-8 < /home/andrey/Documents/Projects/scienc/db/ispell-english/english.aff > /usr/share/postgresql/9.4/tsearch_data/english.affix
+iconv -c -f koi8-r -t utf-8 < /home/andrey/Documents/Projects/scienc/db/ispell-english/english.dict > /usr/share/postgresql/9.4/tsearch_data/english.dict
+
+
+
+
 
 sudo su postgres
 psql science
