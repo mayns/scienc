@@ -12,10 +12,10 @@ class ProjectBL(object):
     @gen.coroutine
     def create(cls, project_dict):
 
-        validated_data = Project.get_validated_data(project_dict)
-        print validated_data
-        project = Project(**project_dict)
-        project_id = yield project.save(update=False)
+        validated_data = Project.get_validated_data(project_dict, update=False)
+
+        project = Project(**validated_data)
+        project_id = yield project.save(update=False, fields=validated_data.keys())
         raise gen.Return(dict(id=project_id))
 
     @classmethod

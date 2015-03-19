@@ -99,13 +99,13 @@ def zip_values(iterable, dict2, empty_fields=False):
 
     if isinstance(iterable, dict):
         for k, v in iterable.iteritems():
-            if (not empty_fields and (k not in dict2.keys())) or (not empty_fields and not dict2.get(k)):
+            if (not empty_fields and (k not in dict2.keys())) or (not empty_fields and (dict2.get(k) is None)):
                 continue
             zipped.append((v, dict2.get(k)))
 
     elif isinstance(iterable, list):
         for k in iterable:
-            if (not empty_fields and (k not in dict2.keys())) or (not empty_fields and (not dict2.get(k))):
+            if (not empty_fields and (k not in dict2.keys())) or (not empty_fields and (dict2.get(k) is None)):
                 continue
             zipped.append((k, dict2.get(k)))
 

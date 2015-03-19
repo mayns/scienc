@@ -74,7 +74,7 @@
 			<form is="ajax-json-form"
                   id="form"
                   ajaxMethod="{{ ajaxMethod }}"
-                  action="/api/project/"
+                  action="/api/project"
                   redirect="/">
                 <template bind="{{ data }}">
                     <fieldset>
@@ -361,7 +361,9 @@
     <script>
         Polymer('project-modify', Polymer.mixin({
             ready: function() {
-                this.$.form.setAttribute('action', '/api/project/' + this.data.id);
+                if (this.viewType === 'update') {
+                    this.$.form.setAttribute('action', '/api/project/' + this.data.id);
+                }
             },
             publish: {
                 data: {

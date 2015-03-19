@@ -18,6 +18,7 @@ class PSQLModel(object):
     TABLE = None
     OVERVIEW_FIELDS = None
     EDITABLE_FIELDS = None
+    CREATE_FIELDS = None
     SYSTEM_INFO = None
 
     def __init__(self, *args, **kwargs):
@@ -28,8 +29,13 @@ class PSQLModel(object):
             setattr(self, key, kwargs.get(key, value.default))
 
     @classmethod
-    def get_validated_data(cls, data):
-        editable_data = dict(zip_values(cls.EDITABLE_FIELDS, data, empty_fields=1))
+    def get_validated_data(cls, data, update=True):
+
+        if update:
+            editable_data = dict(zip_values(cls.EDITABLE_FIELDS, data, empty_fields=1))
+        else:
+            editable_data = dict(zip_values(cls.CREATE_FIELDS, data, empty_fields=1))
+
         return editable_data
 
     def _get_editable_attrs(self):
@@ -51,6 +57,7 @@ class PSQLModel(object):
             sqp_query = get_update_query(self.TABLE, data, where_params=dict(id=self.id),
                                          editable_columns=self.EDITABLE_FIELDS)
         else:
+            print 'data before insert', data
             sqp_query = get_insert_query(self.TABLE, data)
         try:
             cursor = yield momoko.Op(conn.execute, sqp_query)
