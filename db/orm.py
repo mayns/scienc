@@ -57,7 +57,7 @@ MODELS = dict(
         u'usage_possibilities': Text(),                                             # возможности применения результатов
         u'results': Text(),                                                         # достигнутые результаты и практическое применение
         u'related_data': JsonArray(db_type='jsonb'),                                # [{id, title, project_id, source_link, description}]
-        u'leaders': JsonObject(),                                                   # [{id, scientist_id, full_name}]
+        u'leader': JsonObject(),                                                    # [{id, scientist_id, full_name}]
         u'participants': JsonArray(db_type='jsonb'),                                # [{role_id, role_name, scientist_id, full_name}]
         u'missed_participants': JsonArray(db_type='jsonb'),                         # [{vacancy_id, vacancy_name, description, difficulty}]
         u'tags': JsonArray(db_type='text[]'),                                       # тэги
@@ -72,12 +72,12 @@ MODELS = dict(
 
 
     vacancies = {
-        u'id':ID(),
-        u'project_id':Integer(required=True, db_references='projects(id)'),
-        u'vacancy_name':Text(),
-        u'vacancy_name_tsvector':TSvector(),
-        u'description':Text(),
+        u'id': ID(),
+        u'project_id': Integer(required=True, db_references='projects(id)'),
+        u'vacancy_name': Text(),
+        u'vacancy_name_tsvector': TSvector(),
+        u'description': Text(),
         u'vacancy_description_tsvector': TSvector(),
-        u'difficulty':Text()
+        u'difficulty': Text()
     }
 )
