@@ -64,7 +64,15 @@ class PSQLModel(object):
 
         for key, value in data_dict.iteritems():
 
-            if value == getattr(self, key):
+            attr = getattr(self, key)
+
+            if isinstance(value, basestring):
+                value = value.encode('utf-8')
+
+            if isinstance(value, list):
+                value = [v.encode('utf-8') for v in value if isinstance(v, basestring)]
+
+            if value == attr:
                 continue
 
             if not value:
