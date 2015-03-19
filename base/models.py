@@ -48,7 +48,8 @@ class PSQLModel(object):
             data = self._get_editable_attrs()
 
         if update:
-            sqp_query = get_update_query(self.TABLE, data, where_params=dict(id=self.id), editable_columns=self.EDITABLE_FIELDS)
+            sqp_query = get_update_query(self.TABLE, data, where_params=dict(id=self.id),
+                                         editable_columns=self.EDITABLE_FIELDS)
         else:
             sqp_query = get_insert_query(self.TABLE, data)
         try:

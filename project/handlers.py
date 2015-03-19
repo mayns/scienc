@@ -78,7 +78,7 @@ class ProjectHandler(BaseRequestHandler):
     def put(self, project_id):
         print u'update project'
 
-        project_id = int(project_id.replace(u'/'))
+        project_id = int(project_id.replace(u'/', u''))
         project_dict = json.loads(self.get_argument(u'data', u'{}'))
 
         try:
