@@ -38,7 +38,7 @@ class Project(object):
                     chair=u'cosy chair'
                 )
             ],
-            in_progress=False,
+            in_progress=u'false',
             objective=u'Surprise!',
             description_full=u'Sed ut perspiciatis, unde omnis iste natus error sit voluptatem accusantium doloremque '
                              u'laudantium, totam rem aperiam eaque ipsa, quae ab illo inventore veritatis et quasi '
