@@ -186,7 +186,7 @@ def create_relation_vacancies():
 
     yield momoko.Op(conn.execute, u"""DROP FUNCTION IF EXISTS vacancy_vector_update() CASCADE;""")
 
-    yield momoko.Op(conn.execute, u"""DROP TRIGGER IF EXISTS tsvectorupdate on projects CASCADE;""")
+    yield momoko.Op(conn.execute, u"""DROP TRIGGER IF EXISTS tsvectorupdate on vacancies CASCADE;""")
 
 
     yield momoko.Op(conn.execute,
@@ -215,7 +215,7 @@ def create_relation_vacancies():
 
 
     yield momoko.Op(conn.execute, u"CREATE TRIGGER tsvectorupdate BEFORE INSERT OR UPDATE "
-                                  u"ON projects FOR EACH ROW EXECUTE PROCEDURE vacancy_vector_update();")
+                                  u"ON vacancies FOR EACH ROW EXECUTE PROCEDURE vacancy_vector_update();")
 
 
 
