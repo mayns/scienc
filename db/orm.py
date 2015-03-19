@@ -75,7 +75,7 @@ MODELS = dict(
         u'id':ID(),
         u'project_id':Integer(required=True, db_references='projects(id)'),
         u'vacancy_name':Text(),
-        u'vacancy_name_tsvector':TSvector,
+        u'vacancy_name_tsvector':TSvector(),
         u'description':Text(),
         u'vacancy_description_tsvector': TSvector(),
         u'difficulty':Text()

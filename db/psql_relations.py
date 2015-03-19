@@ -170,17 +170,17 @@ def create_relation_vacancies():
     query = prepare_creation(table)
     yield momoko.Op(conn.execute, query)
 
-    yield momoko.Op(conn.execute, u"UPDATE projects SET vacancy_name_tsvector = (to_tsvector('international',"
+    yield momoko.Op(conn.execute, u"UPDATE vacancies SET vacancy_name_tsvector = (to_tsvector('international',"
                                   u"vacancy_name));")
 
-    yield momoko.Op(conn.execute, u"UPDATE projects SET vacancy_description_tsvector"
+    yield momoko.Op(conn.execute, u"UPDATE vacancies SET vacancy_description_tsvector"
                                   u" = (to_tsvector('international', description));")
     #
-    yield momoko.Op(conn.execute, u"CREATE INDEX vacancy_name_idx ON projects "
-                                  u"USING GIN (vacancy_name_tsvector);")
+    yield momoko.Op(conn.execute, u"CREATE INDEX vacancy_name_idx ON vacancies "
+                                  u"USING GIN(vacancy_name_tsvector);")
 
-    yield momoko.Op(conn.execute, u"CREATE INDEX vacancy_description_idx ON projects "
-                                  u"USING GIN (vacancy_description_tsvector);")
+    yield momoko.Op(conn.execute, u"CREATE INDEX vacancy_description_idx ON vacancies "
+                                  u"USING GIN(vacancy_description_tsvector);")
 
 
 
@@ -196,23 +196,18 @@ def create_relation_vacancies():
         IF TG_OP = 'INSERT' THEN
             new.vacancy_name_tsvector = to_tsvector('international', COALESCE(NEW.vacancy_name, ''));
             new.vacancy_description_tsvector = to_tsvector('international', COALESCE(NEW.description, ''));
-
         END IF;
-        IF TG_OP = 'UPDATE' THEN
-            IF NEW.title <> OLD.title THEN
-                new.title_tsvector = to_tsvector('international', COALESCE(NEW.title, ''));
-            END IF;
-            IF NEW.description_short <> OLD.description_short THEN
-                new.description_short_tsvector = to_tsvector('international', COALESCE(NEW.description_short, ''));
-            END IF;
 
+        IF TG_OP = 'UPDATE' THEN
 
             IF NEW.vacancy_name <> OLD.vacancy_name THEN
                 new.vacancy_name_tsvector = to_tsvector('international', COALESCE(NEW.vacancy_name, ''));
             END IF;
 
             IF NEW.description <> OLD.description THEN
-             new.vacancy_description_tsvector = to_tsvector('international', COALESCE(NEW.description, ''));
+                new.vacancy_description_tsvector = to_tsvector('international', COALESCE(NEW.description, ''));
+            END IF;
+
         END IF;
         RETURN NEW;
     END
@@ -220,7 +215,7 @@ def create_relation_vacancies():
 
 
     yield momoko.Op(conn.execute, u"CREATE TRIGGER tsvectorupdate BEFORE INSERT OR UPDATE "
-                                  u"ON projects FOR EACH ROW EXECUTE PROCEDURE project_vector_update();")
+                                  u"ON projects FOR EACH ROW EXECUTE PROCEDURE vacancy_vector_update();")
 
 
 

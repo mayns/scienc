@@ -9,7 +9,7 @@ from tornado import gen
 import momoko
 import psycopg2
 
-from db.connections import PSQLClient
+from db.connections import psql_client
 from base.models import get_insert_query
 
 
@@ -19,7 +19,7 @@ INIT_TABLES = [u'roles', u'scientists', u'projects']
 # TODO new tables
 @gen.coroutine
 def insert_data():
-    conn = PSQLClient.get_client()
+    conn = psql_client.get_client()
     try:
         # inserting countries names
         country_names = []
@@ -213,7 +213,7 @@ def fill_init_data():
         print ex
 
     print 'Creating init vacancies'
-    conn = PSQLClient.get_client()
+    conn = psql_client.get_client()
     missed_participants=[
                 dict(
                     vacancy_id=0,
@@ -235,12 +235,11 @@ def fill_init_data():
                 ]
 
     try:
-        for i in missed_participants():
+        for i in missed_participants:
             v = i[u'vacancy_name']
             d = i[u'description']
             query = """INSERT INTO vacancies(project_id, vacancy_name,description) values
             ({project_id}, {vacancy_name},{description})""".format(project_id=1, vacancy_name=v,description=d)
-
-            yield ProjectBL.create(val)
+            yield momoko.Op(conn.execute, query)
     except Exception, ex:
         print ex
