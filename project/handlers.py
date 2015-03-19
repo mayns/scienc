@@ -39,7 +39,10 @@ class ProjectHandler(BaseRequestHandler):
 
     @gen.coroutine
     def get(self, project_id):
-        project_id = int(project_id.replace(u'/', u''))
+        try:
+            project_id = int(project_id.replace(u'/', u''))
+        except:
+            self.send_error(status_code=403)
         print u'get project:', project_id
 
         try:
