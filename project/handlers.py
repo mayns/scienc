@@ -78,8 +78,11 @@ class ProjectHandler(BaseRequestHandler):
     @gen.coroutine
     def put(self, project_id):
         print u'update project'
-
-        project_id = int(project_id.replace(u'/', u''))
+        try:
+            project_id = int(project_id.replace(u'/', u''))
+        except:
+            self.send_error(status_code=403)
+            return
         project_dict = json.loads(self.get_argument(u'data', u'{}'))
 
         try:
