@@ -54,7 +54,7 @@ class JsonArray(FieldDescriptor):
         self.db_type = db_type or 'text[]'
         self.store = lambda x: json.dumps(x).replace(u'[', u'{').replace(u']', u'}').replace(u'{{', u'[{').replace(u'}}', u'}]') \
             if self.db_type != 'text[]' else '{' + ', '.join(x) + '}'
-        # self.restore = json.loads if self.db_type != 'text[]' else None
+        self.restore = json.loads if self.db_type != 'text[]' else None
         self.type = list
         self.default = default or []
 
@@ -146,10 +146,10 @@ class Datetime(FieldDescriptor):
         self.store = lambda value: value.strftime(environment.DATETIME_FORMAT[db_type]['DB']) \
             if (value and not isinstance(value, basestring)) else value or self.db_default
 
-        self.to_json = lambda value: value.strftime(environment.DATETIME_FORMAT[db_type]['HUMAN']) \
+        self.to_json = lambda value: value.strftime(environment.DATETIME_FORMAT[db_type]['DB']) \
             if value and not isinstance(value, basestring) else value
-        # self.restore = lambda value: datetime.datetime.strptime(value, environment.DATETIME_FORMAT[db_type]['HUMAN']) \
-        #     if value else u''
+        self.restore = lambda value: datetime.datetime.strptime(value, environment.DATETIME_FORMAT[db_type]['DB']) \
+            if value else u''
         self.from_json = lambda value: datetime.datetime.strptime(value, environment.DATETIME_FORMAT[db_type]['DB']) \
             if value else u''
         self.type = datetime.date

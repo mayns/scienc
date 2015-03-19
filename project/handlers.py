@@ -161,7 +161,7 @@ class ProjectsLikeHandler(BaseRequestHandler):
 class ProjectsParticipationHandler(BaseRequestHandler):
 
     @gen.coroutine
-    def put(self, *args, **kwargs):
+    def post(self, *args, **kwargs):
         print 'add participation'
         data = json.loads(self.get_argument(u'data', u'{}'))
         response = {}
