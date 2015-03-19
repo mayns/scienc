@@ -35,7 +35,7 @@ class ProjectBL(object):
     @classmethod
     @gen.coroutine
     def delete(cls, project_id):
-        yield cls.delete(project_id)
+        yield Project.delete(project_id, tbl=Project.TABLE)
 
     @classmethod
     @gen.coroutine

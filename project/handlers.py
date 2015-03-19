@@ -39,10 +39,11 @@ class ProjectHandler(BaseRequestHandler):
 
     @gen.coroutine
     def get(self, project_id):
+        project_id = int(project_id.replace(u'/', u''))
         print u'get project:', project_id
 
         try:
-            response = yield ProjectBL.get(int(project_id.replace(u'/', u'')))
+            response = yield ProjectBL.get(project_id)
         except Exception, ex:
             logging.info('Exc on get project: {}'.format(project_id))
             logging.exception(ex)
@@ -97,9 +98,9 @@ class ProjectHandler(BaseRequestHandler):
     def delete(self, project_id):
         print u'delete project:', project_id
         response = {}
-
+        project_id = int(project_id.replace(u'/', u''))
         try:
-            yield ProjectBL.delete(int(project_id.replace(u'/', u'')))
+            yield ProjectBL.delete(project_id)
         except Exception, ex:
             logging.info('Exc on delete project: {}'.format(project_id))
             logging.exception(ex)

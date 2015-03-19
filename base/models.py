@@ -138,7 +138,7 @@ class PSQLModel(object):
         result_data = {}
         for k, v in data.iteritems():
             if not v:
-                continue
+                v = MODELS[cls.TABLE][k].default
 
             # restore = MODELS[cls.TABLE][k].restore
             # if restore:

@@ -74,6 +74,7 @@ def get_insert_query(tbl, insert_data):
 def get_select_query(tbl, columns=None, where=None, functions=None):
     if not columns:
         columns = [u'*']
+
     sql_string = u"SELECT {columns} FROM {table_name}".format(table_name=tbl,
                                                               columns=functions if functions else u', '.join(columns))
     if not where:
