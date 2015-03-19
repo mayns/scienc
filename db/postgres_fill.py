@@ -169,7 +169,7 @@ def insert_data():
 
 @gen.coroutine
 def delete_kinder_garden():
-    conn = PSQLClient.get_client()
+    conn = psql_client.get_client()
     try:
         yield momoko.Op(conn.execute, u"""DELETE FROM schools WHERE (title like '%%дет. сад%%' and title not like '%%шк.%%'
                     and title not like '%%школ%%') or (title like '%%дет. сад%%' and (title like  '%%при%% шк.%%'
@@ -180,7 +180,7 @@ def delete_kinder_garden():
 
 @gen.coroutine
 def truncate_init_tables():
-    conn = PSQLClient.get_client()
+    conn = psql_client.get_client()
     query = """TRUNCATE {tables} CASCADE""".format(tables=', '.join(INIT_TABLES))
     try:
         yield momoko.Op(conn.execute, query)
@@ -238,8 +238,8 @@ def fill_init_data():
         for i in missed_participants:
             v = i[u'vacancy_name']
             d = i[u'description']
-            query = """INSERT INTO vacancies(project_id, vacancy_name,description) values
-            ({project_id}, {vacancy_name},{description})""".format(project_id=1, vacancy_name=v,description=d)
+            query = """INSERT INTO vacancies(project_id, vacancy_name, description) values
+            ('{project_id}', '{vacancy_name}', '{description}')""".format(project_id=1L, vacancy_name=v, description=d)
             yield momoko.Op(conn.execute, query)
     except Exception, ex:
         print ex
