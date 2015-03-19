@@ -80,10 +80,10 @@
                     <div class="project-holder">{{ university }}, Ф-т {{ faculty }}, каф. {{ chair }}</div>
                 </template>
                 <div class="project-status" layout horizontal center>
-                    <template if="{{ in_progress === 'true'  }}">
+                    <template if="{{ in_progress === true  }}">
                         <div class="project-progress true" flex>В процессе</div>
                     </template>
-                    <template if="{{ in_progress !== 'true' }}">
+                    <template if="{{ in_progress !== true }}">
                         <div class="project-progress false" flex>Завершен</div>
                     </template>
                     <core-icon class="heart" icon="favorite"></core-icon>
