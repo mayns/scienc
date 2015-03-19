@@ -61,6 +61,7 @@ class ProjectHandler(BaseRequestHandler):
     def post(self, *args, **kwargs):
         print u'create project'
         project_dict = json.loads(self.get_argument(u'data', u'{}'))
+        print project_dict
         manager_id = self.current_user_id
         if not manager_id:
             self.send_error(status_code=403)

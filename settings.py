@@ -37,7 +37,7 @@ PSQL_ROOT_PASSWORD = u'postgres'
 SCIENCE_DB = dict(
     database=u'science',
     host=u'localhost',
-    port=5432,
+    port=5433,
     user=PSQL_ROOT_USER,
     password=PSQL_ROOT_PASSWORD,
 )

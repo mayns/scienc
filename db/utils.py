@@ -26,7 +26,7 @@ def get_update_query(tbl, update_params, where_params=None, editable_columns=Non
         store = ALL_TABLES[tbl][k].store
         v = value if not store else store(value)
         if v != 'NULL':
-            sql_string = u"{prefix} {title}=E'{value}'".format(prefix=sql_string, title=k, value=v)
+            sql_string = u"{prefix} {title}='{value}'".format(prefix=sql_string, title=k, value=v)
         else:
             sql_string = u"{prefix} {title}={value}".format(prefix=sql_string, title=k, value=v)
         if i < len(column_values.keys()) - 1:
