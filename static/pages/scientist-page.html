@@ -16,10 +16,10 @@
         <core-ajax auto url="/api/scientist/{{ id }}" method="GET" handleAs="json" response="{{ json }}"></core-ajax>
         <core-ajax id="ajaxDelete" on-core-response="{{ onDeleteSuccess }}"  url="/api/scientist/{{ id }}" method="DELETE"></core-ajax>
         <template if="{{ id == userData.user.id }}">
-            <page-actions>
+            <page-actions class="row-flex">
                 <template if="{{ preview }}">
-                    <div on-tap="{{ edit }}" class="action">Редактирование</div>
-                    <div on-tap="{{ delete }}" class="action">Удалить проект</div>
+                    <div on-tap="{{ edit }}" class="action col-lg-2">Редактирование</div>
+                    <div on-tap="{{ delete }}" class="action">Удалить профиль</div>
                 </template>
                 <template if="{{ !preview }}">
                     <div on-tap="{{ show }}" class="action">Просмотр</div>
@@ -48,7 +48,7 @@
                 this.$.ajaxDelete.go();
             },
             onDeleteSuccess: function() {
-                document.querySelector('app-router').go('/scientist');
+                document.querySelector('app-router').go('/scientists');
             }
         });
 	</script>
