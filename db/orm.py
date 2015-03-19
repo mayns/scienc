@@ -63,6 +63,8 @@ MODELS = dict(
         u'leaders': JsonObject(),                                                   # [{id, scientist_id, full_name}]
         u'participants': JsonArray(db_type='jsonb'),                                # [{role_id, role_name, scientist_id, full_name}]
         u'missed_participants': JsonArray(db_type='jsonb'),                         # [{vacancy_id, vacancy_name, description, difficulty}]
+        u'vacancy_name_tsvector':TSvector(),                                        # лексемы наименования вакансий
+        u'vacancy_description_tsvector': TSvector(),                                # лексемы описания вакансий
         u'tags': JsonArray(db_type='text[]'),                                       # тэги
         u'project_site': Text(),
         u'contacts': JsonArray(db_type='jsonb'),                                    # [{type, id}]

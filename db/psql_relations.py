@@ -131,6 +131,22 @@ def create_relation_projects():
                                   u"USING GIN (description_short_tsvector);")
 
 
+
+    yield momoko.Op(conn.execute, u"UPDATE projects SET vacancy_name_tsvector = (to_tsvector('international',"
+                                  u"missed_participants ->> 'vacancy_name'));")
+
+    yield momoko.Op(conn.execute, u"UPDATE projects SET vacancy_description_tsvector"
+                                  u" = (to_tsvector('international', missed_participants ->> 'description'));")
+    #
+    yield momoko.Op(conn.execute, u"CREATE INDEX vacancy_name_idx ON projects "
+                                  u"USING GIN (vacancy_name_tsvector);")
+
+    yield momoko.Op(conn.execute, u"CREATE INDEX vacancy_description_idx ON projects "
+                                  u"USING GIN (vacancy_description_tsvector);")
+
+
+
+
     yield momoko.Op(conn.execute, u"""DROP FUNCTION IF EXISTS project_vector_update() CASCADE;""")
 
     yield momoko.Op(conn.execute, u"""DROP TRIGGER IF EXISTS tsvectorupdate on projects CASCADE;""")
@@ -141,6 +157,9 @@ def create_relation_projects():
             IF TG_OP = 'INSERT' THEN
                 new.title_tsvector = to_tsvector('international', COALESCE(NEW.title, ''));
                 new.description_short_tsvector = to_tsvector('international', COALESCE(NEW.description_short, ''));
+                new.vacancy_name_tsvector = to_tsvector('international', COALESCE(NEW.missed_participants ->> 'vacancy_name', ''));
+                new.vacancy_description_tsvector = to_tsvector('international', COALESCE(NEW.missed_participants ->> 'description', ''));
+
             END IF;
             IF TG_OP = 'UPDATE' THEN
                 IF NEW.title <> OLD.title THEN
@@ -149,6 +168,13 @@ def create_relation_projects():
                 IF NEW.description_short <> OLD.description_short THEN
                     new.description_short_tsvector = to_tsvector('international', COALESCE(NEW.description_short, ''));
                 END IF;
+
+
+                IF NEW.missed_participants <> OLD.missed_participants THEN
+                    new.vacancy_name_tsvector = to_tsvector('international', COALESCE(NEW.missed_participants ->> 'vacancy_name', ''));
+                    new.vacancy_description_tsvector = to_tsvector('international', COALESCE(NEW.missed_participants ->> 'description', ''));
+                END IF;
+
             END IF;
             RETURN NEW;
         END
@@ -157,6 +183,17 @@ def create_relation_projects():
     yield momoko.Op(conn.execute, u"CREATE TRIGGER tsvectorupdate BEFORE INSERT OR UPDATE "
                                   u"ON projects FOR EACH ROW EXECUTE PROCEDURE project_vector_update();")
 
+
+                # new.vacancy_name_tsvector = to_tsvector('international', COALESCE(NEW.vacancy_name_tsvector, ''));
+                # new.vacancy_description_tsvector = to_tsvector('international', COALESCE(NEW.vacancy_description_tsvector, ''));
+
+
+                # IF NEW.vacancy_name_tsvector <> OLD.vacancy_name_tsvector THEN
+                #     new.vacancy_name_tsvector = to_tsvector('international', COALESCE(NEW.vacancy_name_tsvector, ''));
+                # END IF;
+                # IF NEW.vacancy_description_tsvector <> OLD.vacancy_description_tsvector THEN
+                #     new.vacancy_description_tsvector = to_tsvector('international', COALESCE(NEW.vacancy_description_tsvector, ''));
+                # END IF;
 
 
     # yield momoko.Op(conn.execute, u"CREATE INDEX title_idx ON projects "
