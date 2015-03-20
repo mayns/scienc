@@ -97,10 +97,7 @@ class ScientistBL(object):
     @classmethod
     @gen.coroutine
     def remove_avatar(cls, scientist_id):
-        file_path = environment.AVATAR_PATH(scientist_id)
-        for size in environment.AVATAR_SIZES:
-            filename = u'{size}.png'.format(size=size)
-            yield delete(file_path, filename)
+        yield delete(environment.MEDIA_USR_PATH(scientist_id), u'')
 
     @classmethod
     @gen.coroutine

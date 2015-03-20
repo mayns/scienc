@@ -51,7 +51,7 @@ IMAGE_URL_LIST = lambda img_url: u'{}100.png'.format(img_url)
 IMAGE_URL_PROFILE = lambda img_url: u'{}250.png'.format(img_url)
 
 AVATAR_PATH = lambda sc_id: u'{sc_id}/a'.format(sc_id=str(sc_id))
-
+MEDIA_USR_PATH = lambda sc_id: str(sc_id)
 
 DATETIME_FORMAT = dict(
     date=dict(

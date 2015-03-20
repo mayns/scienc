@@ -113,7 +113,6 @@ class ScientistHandler(BaseRequestHandler):
         try:
             yield ScientistBL.delete(int(scientist_id.replace(u'/', u'')))
             self.clear_cookie(u'scientist')
-            self.redirect(self.get_argument(u'next', u'/'))
             return
         except Exception, ex:
             logging.info('Exc on delete scientist: {}'.format(scientist_id))

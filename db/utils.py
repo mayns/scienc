@@ -16,6 +16,7 @@ def get_update_query(tbl, update_params, where_params=None, editable_columns=Non
         where_params = {}
 
     columns = editable_columns or ALL_TABLES[tbl].keys()
+    columns = list(set(update_params.keys()).intersection(columns))
     column_values = dict(zip_values(columns, update_params, empty_fields=1))
 
     sql_string = u"UPDATE {table_name} SET".format(table_name=tbl)
@@ -42,8 +43,7 @@ def get_update_query(tbl, update_params, where_params=None, editable_columns=Non
     return sql_string
 
 
-def get_insert_query(tbl, insert_data):
-    # TODO: check all PostgreSQL rules on storage data types and symbols
+def get_insert_query(tbl, insert_data, create_columns=None):
 
     """
 
@@ -51,7 +51,8 @@ def get_insert_query(tbl, insert_data):
     :return: valid SQL request query
     :rtype: unicode
     """
-    column_values = zip_values(ALL_TABLES[tbl].keys(), insert_data)
+    columns = create_columns or ALL_TABLES[tbl].keys()
+    column_values = zip_values(columns, insert_data)
     fields = u", ".join([v[0] for v in column_values])
     values = []
 
@@ -60,14 +61,18 @@ def get_insert_query(tbl, insert_data):
         if not store:
             values.append(value[1])
             continue
+        print value[1]
+        if value[1] == 'NULL':
+            values.append(None)
+            continue
         values.append(store(value[1]))
+    print values
     values = u"'" + u"', '".join([v for v in values]) + u"'" if len(values) > 1 else u"'{}'".format(values[0])
     values = values.replace(u'%', u'%%')
 
     sql_string = u'INSERT INTO {table_name} ({fields}) VALUES ({values}) RETURNING id'.format(table_name=tbl,
                                                                                               fields=fields,
                                                                                               values=values)
-    print sql_string
     return sql_string
 
 

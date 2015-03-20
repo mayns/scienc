@@ -154,4 +154,4 @@ class Datetime(FieldDescriptor):
             if value else u''
         self.type = datetime.date
         self.db_type = db_type or 'timestamp'
-        self.default = default or u''
+        self.default = default or None
