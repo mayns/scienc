@@ -27,9 +27,9 @@ class ProjectBL(object):
 
         validated_data = Project.get_validated_data(project_dict)
         project = yield Project.get_by_id(project_id)
-        project.populate_fields(validated_data)
+        updated_fields = project.populate_fields(validated_data)
 
-        yield project.save()
+        yield project.save(fields=updated_fields)
         raise gen.Return(dict(project_id=project_id))
 
     @classmethod

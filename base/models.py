@@ -47,17 +47,16 @@ class PSQLModel(object):
     @gen.coroutine
     @psql_connection
     def save(self, conn, update=True, fields=None):
-        print fields
+
         if fields:
             data = {k: getattr(self, k) for k in fields if hasattr(self, k)}
         else:
             data = self._get_editable_attrs()
-        print data
+
         if update:
             sqp_query = get_update_query(self.TABLE, data, where_params=dict(id=self.id),
                                          editable_columns=self.EDITABLE_FIELDS)
         else:
-            print 'data before insert', data
             sqp_query = get_insert_query(self.TABLE, data, self.CREATE_FIELDS)
         try:
             cursor = yield momoko.Op(conn.execute, sqp_query)
@@ -68,7 +67,7 @@ class PSQLModel(object):
         raise gen.Return(self.id)
 
     def populate_fields(self, data_dict):
-
+        updated_fields = []
         for key, value in data_dict.iteritems():
 
             attr = getattr(self, key)
@@ -77,7 +76,12 @@ class PSQLModel(object):
                 value = value.encode('utf-8')
 
             if isinstance(value, list):
-                value = [v.encode('utf-8') for v in value if isinstance(v, basestring)]
+                for v in value:
+                    if isinstance(v, basestring):
+                        print 'encoding'
+                        continue
+                    print type(v), v
+                # value = [v.encode('utf-8') for v in value if isinstance(v, basestring)]
 
             if value == attr:
                 continue
@@ -90,6 +94,8 @@ class PSQLModel(object):
                 setattr(self, key, from_json(value))
             else:
                 setattr(self, key, value)
+        print 'updating', updated_fields
+        return updated_fields
 
     @classmethod
     @gen.coroutine

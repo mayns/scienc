@@ -23,19 +23,18 @@ def get_update_query(tbl, update_params, where_params=None, editable_columns=Non
     for i, k in enumerate(column_values.keys()):
         value = update_params[k]
             # if update_params[k] else ALL_TABLES[tbl][k].db_default
-        print value
         store = ALL_TABLES[tbl][k].store
         v = value if not store else store(value)
         if v != 'NULL':
-            sql_string = u"{prefix} {title}='{value}'".format(prefix=sql_string, title=k, value=v)
+            sql_string = "{prefix} {title}='{value}'".format(prefix=sql_string, title=k, value=v)
         else:
-            sql_string = u"{prefix} {title}={value}".format(prefix=sql_string, title=k, value=v)
+            sql_string = "{prefix} {title}={value}".format(prefix=sql_string, title=k, value=v)
         if i < len(column_values.keys()) - 1:
             sql_string += ','
 
-    sql_string = u"{prefix} WHERE".format(prefix=sql_string)
+    sql_string = "{prefix} WHERE".format(prefix=sql_string)
     for i, k in enumerate(where_params.keys()):
-        sql_string = u"{prefix} {title}='{value}'".format(prefix=sql_string, title=k, value=where_params[k])
+        sql_string = "{prefix} {title}='{value}'".format(prefix=sql_string, title=k, value=where_params[k])
         if i < len(where_params.keys()) - 1:
             sql_string += u' AND '
 
@@ -66,7 +65,6 @@ def get_insert_query(tbl, insert_data, create_columns=None):
             values.append(None)
             continue
         values.append(store(value[1]))
-    print values
     values = u"'" + u"', '".join([v for v in values]) + u"'" if len(values) > 1 else u"'{}'".format(values[0])
     values = values.replace(u'%', u'%%')
 

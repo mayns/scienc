@@ -9,7 +9,7 @@ class Project(object):
 
     project_dict = {
         0: dict(
-            manager_id=4,
+            manager_id=2,
             research_fields=['math', 'biology'],
             title=u'New Algorithms for Nonnegative Matrix Factorization and Beyond',
             description_short=u'In biology most of the phenomena, whether at the scale of individual development or at '
@@ -25,7 +25,7 @@ class Project(object):
                     vacancy_id=2
                 ),
                 dict(
-                    scientist_id=3,
+                    scientist_id=1,
                     vacancy_id=1
                 )
             ],
@@ -92,7 +92,7 @@ class Project(object):
             ],
             leader=dict(
                 id=0,
-                scientist_id=3,
+                scientist_id=2,
                 full_name=u'Kostin Andrey Vasili4'
             ),
             participants=[

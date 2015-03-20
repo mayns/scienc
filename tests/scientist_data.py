@@ -6,27 +6,27 @@ __author__ = 'mayns'
 class Scientist(object):
 
     scientist_dict = {
-        0: dict(
-            email=u'cooper@gmail.com',
-            pwd=u'alice',
-            first_name=u'Damn',
-            last_name=u'Coffee',
-            middle_name=u'Good',
-            image_url=u'',
-            dob=u'1986-10-13',
-            liked_projects=[1],
-
-        ),
-
-        1: dict(
-            email=u'llama@gmail.com',
-            pwd=u'alice',
-            first_name=u'The Best',
-            last_name=u'Pie',
-            middle_name=u'Cherry',
-            dob=u'1986-10-13',
-            image_url=u'',
-        ),
+        # 0: dict(
+        #     email=u'cooper@gmail.com',
+        #     pwd=u'alice',
+        #     first_name=u'Damn',
+        #     last_name=u'Coffee',
+        #     middle_name=u'Good',
+        #     image_url=u'',
+        #     dob=u'1986-10-13',
+        #     liked_projects=[1],
+        #
+        # ),
+        #
+        # 1: dict(
+        #     email=u'llama@gmail.com',
+        #     pwd=u'alice',
+        #     first_name=u'The Best',
+        #     last_name=u'Pie',
+        #     middle_name=u'Cherry',
+        #     dob=u'1986-10-13',
+        #     image_url=u'',
+        # ),
 
         2: dict(
             email=u'oksgorobets@gmail.com',

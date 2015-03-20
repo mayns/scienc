@@ -55,11 +55,11 @@ MEDIA_USR_PATH = lambda sc_id: str(sc_id)
 
 DATETIME_FORMAT = dict(
     date=dict(
-        DB=u'%Y-%d-%m',
+        DB=u'%Y-%m-%d',
         HUMAN=u'%d.%m.%Y'
     ),
     timestamp=dict(
-        DB=u'%Y-%d-%m %H:%M:%S',
+        DB=u'%Y-%m-%d %H:%M:%S',
         HUMAN=u'%d.%m.%Y %H:%M:%S'
     )
 )
