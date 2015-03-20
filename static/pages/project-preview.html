@@ -110,15 +110,11 @@
                 <section>
                     <h1 class="team">Команда</h1>
                     <h2>Научный руководитель</h2>
-                    <div>
-                        <ul>
-                            <template repeat="{{ leaders }}">
-                                <li>
-                                    <a is="html5-history-anchor" class="link" pushstate popstate href="/scientist/{{ scientist_id }}">{{ full_name }}</a>
-                                </li>
-                            </template>
-                        </ul>
-                    </div>
+                    <template bind="{{ leader }}">
+                        <p>
+                            <a is="html5-history-anchor" class="link" pushstate popstate href="/scientist/{{ scientist_id }}">{{ full_name }}</a>
+                        </p>
+                    </template>
                     <h2>Участники</h2>
                     <div>
                         <ol>

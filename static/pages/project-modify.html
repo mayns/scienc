@@ -285,7 +285,7 @@
                                 <input name="leader"
                                        type="text"
                                        data-json="leader"
-                                       value="{{ leader }}"
+                                       value="{{ leader.full_name }}"
                                        id="leader"
                                        class="col-lg-12">
                             </div>
@@ -398,6 +398,7 @@
             ready: function() {
                 if (this.viewType === 'update') {
                     this.$.form.setAttribute('action', '/api/project/' + this.data.id);
+                    this.$.form.redirect = '/project/' + this.data.id;
                 }
             },
             publish: {
