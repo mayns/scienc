@@ -9,11 +9,11 @@ from PIL import Image
 
 import environment
 from db.utils import get_select_query, get_insert_query
-from common.media_server import upload, get_url
+from common.media_server import upload, delete, get_url
 from common.utils import set_password, check_password
 from common.decorators import psql_connection
 from scientist.models import Scientist
-from common.exceptions import UserExistException, RequiredFields
+from common.exceptions import UserExistException, RequiredFields, PSQLException
 
 
 __author__ = 'oks'
@@ -74,7 +74,7 @@ class ScientistBL(object):
         if not scientist_photo or (not scientist_photo.get(u'raw_image')):
             raise gen.Return(u'')
 
-        file_path = u'{sc_id}/a'.format(sc_id=str(scientist_id))
+        file_path = environment.AVATAR_PATH(scientist_id)
         url_path = get_url(file_path)
 
         img = Image.open(cStringIO.StringIO(scientist_photo[u'raw_image'][0].body))
@@ -96,7 +96,10 @@ class ScientistBL(object):
     @classmethod
     @gen.coroutine
     def remove_avatar(cls, scientist_id):
-        pass
+        file_path = environment.AVATAR_PATH(scientist_id)
+        for size in environment.AVATAR_SIZES:
+            filename = u'{size}.png'.format(size=size)
+            yield delete(file_path, filename)
 
     @classmethod
     @gen.coroutine
@@ -160,7 +163,17 @@ class ScientistBL(object):
     @classmethod
     @gen.coroutine
     def delete(cls, scientist_id):
-        yield Scientist.delete(scientist_id, tbl=environment.ROLES_TABLE)
+        try:
+            print 'deleting from postgres'
+            yield Scientist.delete(scientist_id, tbl=environment.ROLES_TABLE)
+        except PSQLException, ex:
+            raise ex
+
+        try:
+            # remove avatar
+            yield cls.remove_avatar(scientist_id)
+        except Exception, ex:
+            print 'X in delete avatar', ex
 
     @classmethod
     @gen.coroutine

@@ -109,9 +109,12 @@ class ScientistHandler(BaseRequestHandler):
     @gen.coroutine
     def delete(self, scientist_id):
         print u'scientist delete: ', scientist_id
-        response = {}
+
         try:
             yield ScientistBL.delete(int(scientist_id.replace(u'/', u'')))
+            self.clear_cookie(u'scientist')
+            self.redirect(self.get_argument(u'next', u'/'))
+            return
         except Exception, ex:
             logging.info('Exc on delete scientist: {}'.format(scientist_id))
             logging.exception(ex)
