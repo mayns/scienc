@@ -78,9 +78,7 @@ class PSQLModel(object):
             if isinstance(value, list):
                 for v in value:
                     if isinstance(v, basestring):
-                        print 'encoding'
                         continue
-                    print type(v), v
                 # value = [v.encode('utf-8') for v in value if isinstance(v, basestring)]
 
             if value == attr:

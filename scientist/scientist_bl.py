@@ -63,9 +63,7 @@ class ScientistBL(object):
 
         validated_data = Scientist.get_validated_data(scientist_dict)
         updated_fields = scientist.populate_fields(validated_data)
-        print updated_fields
-        for k in updated_fields:
-            print getattr(scientist, k)
+        print 'UPDATED FIELDS: ', updated_fields
         yield scientist.save(fields=updated_fields)
         image_url = environment.GET_IMG(scientist.image_url, environment.IMG_S) if scientist.image_url else u''
         raise gen.Return(dict(scientist_id=scientist_id, image_url=image_url))
@@ -173,7 +171,7 @@ class ScientistBL(object):
             # remove avatar
             yield cls.remove_avatar(scientist_id)
         except Exception, ex:
-            print 'X in delete avatar', ex
+            logging.exception(ex)
 
     @classmethod
     @gen.coroutine

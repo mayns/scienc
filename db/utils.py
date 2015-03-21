@@ -66,7 +66,6 @@ def get_insert_query(tbl, insert_data, create_columns=None):
         if not store:
             values.append(value[1])
             continue
-        print value[1]
         if value[1] == 'NULL':
             values.append(None)
             continue

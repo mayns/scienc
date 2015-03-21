@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 
+import logging
 from tornado import web, gen
 from scientist.models import Scientist
 
@@ -22,7 +23,7 @@ def base_request(function):
             else:
                 response_data.update(data)
         except Exception, ex:
-            print ex
+            logging.exception(ex)
         return response_data
     return wrapper
 

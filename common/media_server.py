@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 
+import logging
 import settings
 from tornado import gen
 from tornado.httpclient import AsyncHTTPClient
@@ -23,7 +24,7 @@ def upload(body, file_path, filename):
     try:
         yield AsyncHTTPClient().fetch(url, method='PUT', body=body)
     except Exception, ex:
-        print ex
+        logging.exception(ex)
 
     raise gen.Return(url)
 
@@ -39,7 +40,7 @@ def delete(file_path, filename):
     try:
         yield AsyncHTTPClient().fetch(url, method='DELETE')
     except Exception, ex:
-        print ex
+        logging.exception(ex)
 
 
 def get_url(file_path, file_name=u''):
