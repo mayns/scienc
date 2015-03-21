@@ -30,10 +30,10 @@ class ScientistBL(object):
         # create account
         yield cls.update_roles(scientist_dict)
 
-        validated_data = Scientist.get_validated_data(scientist_dict)
+        editable_data = Scientist.get_editable_data(scientist_dict)
 
-        scientist = Scientist(**validated_data)
-        scientist_id = yield scientist.save(update=False)
+        scientist = Scientist(**editable_data)
+        scientist_id = yield scientist.save(update=False, fields=editable_data.keys())
 
         image_url = yield cls.upload_avatar(scientist_id, scientist_photo)
 
@@ -55,21 +55,18 @@ class ScientistBL(object):
 
         scientist = yield Scientist.get_by_id(scientist_id)
 
-        validated_data = Scientist.get_validated_data(scientist_dict)
-
         # if image arrived - change image url, else save the same
         if scientist_photo:
             new_image_url = yield cls.upload_avatar(scientist_id, scientist_photo)
-            if not scientist.image_url:
-                validated_data.update(dict(
-                    image_url=new_image_url
-                ))
+            scientist_dict.update(image_url=new_image_url)
         else:
-            validated_data.update(image_url=scientist.image_url)
+            scientist_dict.update(image_url=scientist.image_url)
 
-        updated_fields = scientist.populate_fields(validated_data)
+        updated_data = scientist.get_updated_data(scientist_dict)
 
-        yield scientist.save(fields=updated_fields)
+        scientist.populate_fields(updated_data)
+
+        yield scientist.save(fields=updated_data.keys())
         image_url = environment.GET_IMG(scientist.image_url, environment.IMG_S) if scientist.image_url else u''
         raise gen.Return(dict(scientist_id=scientist_id, image_url=image_url))
 

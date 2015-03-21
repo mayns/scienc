@@ -29,14 +29,45 @@ class PSQLModel(object):
             setattr(self, key, kwargs.get(key, value.default))
 
     @classmethod
-    def get_validated_data(cls, data, update=True):
-
+    def get_editable_data(cls, data, update=True):
         if update:
             editable_data = dict(zip_values(cls.EDITABLE_FIELDS, data, empty_fields=1))
         else:
             editable_data = dict(zip_values(cls.CREATE_FIELDS, data, empty_fields=1))
-
         return editable_data
+
+    def get_updated_data(self, data, update=True):
+
+        updated_data = {}
+
+        editable_data = self.get_editable_data(data, update=update)
+
+        for key, value in editable_data.iteritems():
+
+            attr = getattr(self, key)
+
+            if isinstance(value, unicode):
+                value = value.encode('utf-8')
+
+            if isinstance(value, list):
+                o_value = value
+                for i, v in enumerate(o_value):
+                    value[i] = v.encode('utf-8') if isinstance(v, unicode) else v
+
+            if not value:
+                value = MODELS[self.TABLE][key].default
+
+            from_json = MODELS[self.TABLE][key].from_json
+            if from_json:
+                value = from_json(value)
+
+            if not cmp(value, attr):
+                continue
+
+            updated_data.update({
+                key: value
+            })
+        return updated_data
 
     def _get_editable_attrs(self):
         data = {}
@@ -67,36 +98,8 @@ class PSQLModel(object):
         raise gen.Return(self.id)
 
     def populate_fields(self, data_dict):
-        updated_fields = []
-
         for key, value in data_dict.iteritems():
-
-            attr = getattr(self, key)
-
-            if isinstance(value, basestring):
-                value = value.encode('utf-8')
-
-            # if isinstance(value, list):
-            #     for v in value:
-            #         if isinstance(v, basestring):
-            #             continue
-                # value = [v.encode('utf-8') for v in value if isinstance(v, basestring)]
-
-            print 'ATTR vs VALUE: ', attr, value
-
-            if value == attr:
-                continue
-
-            if not value:
-                value = MODELS[self.TABLE][key].default
-
-            from_json = MODELS[self.TABLE][key].from_json
-            if from_json:
-                setattr(self, key, from_json(value))
-            else:
-                setattr(self, key, value)
-        print 'updating', updated_fields
-        return updated_fields
+            setattr(self, key, value)
 
     @classmethod
     @gen.coroutine

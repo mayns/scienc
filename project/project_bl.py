@@ -12,10 +12,10 @@ class ProjectBL(object):
     @gen.coroutine
     def create(cls, project_dict):
 
-        validated_data = Project.get_validated_data(project_dict, update=False)
+        editable_data = Project.get_editable_data(project_dict, update=False)
 
-        project = Project(**validated_data)
-        project_id = yield project.save(update=False, fields=validated_data.keys())
+        project = Project(**editable_data)
+        project_id = yield project.save(update=False, fields=editable_data.keys())
         raise gen.Return(dict(id=project_id))
 
     @classmethod
@@ -25,11 +25,11 @@ class ProjectBL(object):
         if not project_id:
             raise Exception(u'No project id provided')
 
-        validated_data = Project.get_validated_data(project_dict)
         project = yield Project.get_by_id(project_id)
-        updated_fields = project.populate_fields(validated_data)
+        updated_data = project.get_updated_data(project_dict)
+        project.populate_fields(updated_data)
 
-        yield project.save(fields=updated_fields)
+        yield project.save(fields=updated_data.keys())
         raise gen.Return(dict(project_id=project_id))
 
     @classmethod

@@ -150,8 +150,8 @@ class Datetime(FieldDescriptor):
             if value and not isinstance(value, basestring) else value
         self.restore = lambda value: datetime.datetime.strptime(value, environment.DATETIME_FORMAT[db_type]['DB']) \
             if value else u''
-        self.from_json = lambda value: datetime.datetime.strptime(value, environment.DATETIME_FORMAT[db_type]['DB']) \
-            if value else u''
+        self.from_json = lambda value: \
+            datetime.datetime.strptime(value, environment.DATETIME_FORMAT[db_type]['DB']).date() if value else u''
         self.type = datetime.date
         self.db_type = db_type or 'timestamp'
         self.default = default or None
