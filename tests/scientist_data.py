@@ -6,29 +6,8 @@ __author__ = 'mayns'
 class Scientist(object):
 
     scientist_dict = {
-        # 0: dict(
-        #     email=u'cooper@gmail.com',
-        #     pwd=u'alice',
-        #     first_name=u'Damn',
-        #     last_name=u'Coffee',
-        #     middle_name=u'Good',
-        #     image_url=u'',
-        #     dob=u'1986-10-13',
-        #     liked_projects=[1],
-        #
-        # ),
-        #
-        # 1: dict(
-        #     email=u'llama@gmail.com',
-        #     pwd=u'alice',
-        #     first_name=u'The Best',
-        #     last_name=u'Pie',
-        #     middle_name=u'Cherry',
-        #     dob=u'1986-10-13',
-        #     image_url=u'',
-        # ),
 
-        2: dict(
+        1: dict(
             email=u'oksgorobets@gmail.com',
             pwd=u'alice',
             first_name=u'Оксана',
@@ -113,12 +92,12 @@ class Scientist(object):
                     vacancy_id=0
                 )
             ],
-            managing_project_ids=[0, 1],
+            managing_project_ids=[1],
 
-            achievements=[0],
+            achievements=[1],
         ),
 
-        3: dict(
+        2: dict(
             email=u'losogudok@yandex.ru',
             pwd=u'qwe',
             first_name=u'Андрей',
@@ -201,7 +180,7 @@ class Scientist(object):
             ],
             managing_project_ids=[1],
 
-            achievements=[0],
+            achievements=[1],
         )
 
     }

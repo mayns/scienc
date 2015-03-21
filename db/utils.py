@@ -25,8 +25,12 @@ def get_update_query(tbl, update_params, where_params=None, editable_columns=Non
         store = ALL_TABLES[tbl][k].store
         v = value if not store else store(value)
 
-        # print 'BEFORE SQL STRING', type(v), v
-        v = v.encode('utf-8')
+        print 'BEFORE SQL STRING', type(v), v
+
+        if isinstance(v, str):
+            v = v.decode('utf-8').encode('utf-8')
+        else:
+            v = v.encode('utf-8')
         if v != 'NULL':
             sql_string = "{prefix} {title}=E'{value}'".format(prefix=sql_string, title=k, value=v)
         else:
