@@ -82,6 +82,7 @@ class ScientistHandler(BaseRequestHandler):
             return
 
         scientist_dict = json.loads(self.get_argument(u'data', u'{}'))
+        print 'FROM CLIENT:', scientist_dict
         scientist_dict.update(
             scientist_id=self.current_user_id
         )

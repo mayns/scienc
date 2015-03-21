@@ -68,6 +68,7 @@ class PSQLModel(object):
 
     def populate_fields(self, data_dict):
         updated_fields = []
+
         for key, value in data_dict.iteritems():
 
             attr = getattr(self, key)
@@ -75,11 +76,13 @@ class PSQLModel(object):
             if isinstance(value, basestring):
                 value = value.encode('utf-8')
 
-            if isinstance(value, list):
-                for v in value:
-                    if isinstance(v, basestring):
-                        continue
+            # if isinstance(value, list):
+            #     for v in value:
+            #         if isinstance(v, basestring):
+            #             continue
                 # value = [v.encode('utf-8') for v in value if isinstance(v, basestring)]
+
+            print 'ATTR vs VALUE: ', attr, value
 
             if value == attr:
                 continue

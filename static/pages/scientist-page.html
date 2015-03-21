@@ -32,6 +32,7 @@
         <template if="{{ !preview }}">
             <scientist-modify data="{{ json.data }}" viewType="update"></scientist-modify>
         </template>
+        <app-globals id="globals"></app-globals>
 	</template>
 	<script>
 		Polymer({
@@ -48,6 +49,7 @@
                 this.$.ajaxDelete.go();
             },
             onDeleteSuccess: function() {
+                this.$.globals.userData.user = null;
                 document.querySelector('app-router').go('/scientists');
             }
         });

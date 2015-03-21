@@ -101,7 +101,7 @@
                   class="scientist-modify"
                   is="ajax-json-form"
                   on-form-response="{{ onFormResponse }}"
-                  redirect="/scientist/{{ data.id }}"
+                  redirect="/scientists"
                   ajaxMethod="{{ ajaxMethod }}"
                   action="/api/scientist">
                 <template bind="{{ data }}">
@@ -430,6 +430,10 @@
             },
             ready: function() {
                 var self = this;
+                if (self.viewType === 'update') {
+                    self.$.form.setAttribute('action', '/api/scientist/' + self.data.id);
+                    self.$.form.redirect = '/scientist/' + self.data.id;
+                }
                 this.$.form.addCustomFields = function(jsonData, formData) {
                     var photo = self.$.photo;
                     if (photo.file !== null) {

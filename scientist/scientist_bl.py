@@ -36,6 +36,7 @@ class ScientistBL(object):
         scientist_id = yield scientist.save(update=False)
 
         image_url = yield cls.upload_avatar(scientist_id, scientist_photo)
+
         if image_url:
             scientist = yield Scientist.get_by_id(scientist_id)
             scientist.image_url = image_url
@@ -54,16 +55,20 @@ class ScientistBL(object):
 
         scientist = yield Scientist.get_by_id(scientist_id)
 
+        validated_data = Scientist.get_validated_data(scientist_dict)
+
+        # if image arrived - change image url, else save the same
         if scientist_photo:
             new_image_url = yield cls.upload_avatar(scientist_id, scientist_photo)
             if not scientist.image_url:
-                scientist_dict.update(dict(
+                validated_data.update(dict(
                     image_url=new_image_url
                 ))
+        else:
+            validated_data.update(image_url=scientist.image_url)
 
-        validated_data = Scientist.get_validated_data(scientist_dict)
         updated_fields = scientist.populate_fields(validated_data)
-        print 'UPDATED FIELDS: ', updated_fields
+
         yield scientist.save(fields=updated_fields)
         image_url = environment.GET_IMG(scientist.image_url, environment.IMG_S) if scientist.image_url else u''
         raise gen.Return(dict(scientist_id=scientist_id, image_url=image_url))
