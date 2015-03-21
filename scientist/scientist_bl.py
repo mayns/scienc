@@ -166,6 +166,8 @@ class ScientistBL(object):
     @classmethod
     @gen.coroutine
     def delete(cls, scientist_id):
+        scientist = yield Scientist.get_by_id(scientist_id)
+
         try:
             print 'deleting from postgres'
             yield Scientist.delete(scientist_id, tbl=environment.ROLES_TABLE)
@@ -174,7 +176,10 @@ class ScientistBL(object):
 
         try:
             # remove avatar
-            yield cls.remove_avatar(scientist_id)
+            print 'BEFORE REMOVE IMG URL:', scientist.image_url
+            if u'media-science' in scientist.image_url:
+                yield cls.remove_avatar(scientist_id)
+
         except Exception, ex:
             logging.exception(ex)
 
