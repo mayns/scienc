@@ -25,7 +25,7 @@ MODELS = dict(
         u'publications': JsonArray(db_type='json'),                                 # [{id, title, source, year, link}]
         u'interests': JsonArray(db_type='text[]'),
         u'about': Text(length=300),
-        u'contacts': JsonArray(db_type='json'),                                     # [{type, id}]
+        u'contacts': JsonArray(db_type='json'),                                     # [{connection, number}]
 
         # app activity
         u'participating_projects': JsonArray(db_type='json'),                       # [{project_id, role_id}]
