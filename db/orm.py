@@ -10,8 +10,8 @@ MODELS = dict(
 
         # common info
         u'id': ID(db_references='roles(id)'),
-        u'email': Text(required=True, lenght=20),
-        u'first_name': Text(required=True, lenght=20),
+        u'email': Text(required=True, length=20),
+        u'first_name': Text(required=True, length=20),
         u'last_name': Text(required=True, length=20),
         u'middle_name': Text(length=20),
         u'dob': Datetime(db_type='date'),
@@ -55,7 +55,7 @@ MODELS = dict(
         u'objective': Text(length=300),                                             # цель исследования
         u'description_full': Text(length=300),                                      # полное описание
         u'usage_possibilities': Text(length=300),                                   # возможности применения результатов
-        u'results': Text(lenght=300),                                               # достигнутые результаты и практическое применение
+        u'results': Text(length=300),                                               # достигнутые результаты и практическое применение
         u'related_data': JsonArray(db_type='jsonb'),                                # [{id, title, project_id, source_link, description}]
         u'leader': JsonObject(),                                                    # [{id, scientist_id, full_name}]
         u'participants': JsonArray(db_type='jsonb'),                                # [{role_id, role_name, scientist_id, full_name}]
