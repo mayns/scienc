@@ -10,13 +10,13 @@ MODELS = dict(
 
         # common info
         u'id': ID(db_references='roles(id)'),
-        u'email': Text(required=True),
-        u'first_name': Text(required=True),
-        u'last_name': Text(required=True),
-        u'middle_name': Text(),
+        u'email': Text(required=True, lenght=20),
+        u'first_name': Text(required=True, lenght=20),
+        u'last_name': Text(required=True, length=20),
+        u'middle_name': Text(length=20),
         u'dob': Datetime(db_type='date'),
-        u'gender': Text(),
-        u'image_url': Text(),
+        u'gender': Text(length=1),
+        u'image_url': Text(length=0),
         u'location': JsonObject(),                                                  # {country, city}
 
         # professional info
@@ -24,7 +24,7 @@ MODELS = dict(
         u'high_education': JsonArray(db_type='json'),                               # [{country, city, university, faculty, chair, degree, graduation_year}]
         u'publications': JsonArray(db_type='json'),                                 # [{id, title, source, year, link}]
         u'interests': JsonArray(db_type='text[]'),
-        u'about': Text(),
+        u'about': Text(length=300),
         u'contacts': JsonArray(db_type='json'),                                     # [{type, id}]
 
         # app activity
@@ -52,16 +52,16 @@ MODELS = dict(
 
         # project info
         u'in_progress': Text(default=u'true'),                                      # закончен / не закончен
-        u'objective': Text(),                                                       # цель исследования
-        u'description_full': Text(),                                                # полное описание
-        u'usage_possibilities': Text(),                                             # возможности применения результатов
-        u'results': Text(),                                                         # достигнутые результаты и практическое применение
+        u'objective': Text(length=300),                                             # цель исследования
+        u'description_full': Text(length=300),                                      # полное описание
+        u'usage_possibilities': Text(length=300),                                   # возможности применения результатов
+        u'results': Text(lenght=300),                                               # достигнутые результаты и практическое применение
         u'related_data': JsonArray(db_type='jsonb'),                                # [{id, title, project_id, source_link, description}]
         u'leader': JsonObject(),                                                    # [{id, scientist_id, full_name}]
         u'participants': JsonArray(db_type='jsonb'),                                # [{role_id, role_name, scientist_id, full_name}]
         u'missed_participants': JsonArray(db_type='jsonb'),                         # [{vacancy_id, vacancy_name, description, difficulty}]
         u'tags': JsonArray(db_type='text[]'),                                       # тэги
-        u'project_site': Text(),
+        u'project_site': Text(length=20),
         u'contacts': JsonArray(db_type='jsonb'),                                    # [{type, id}]
 
         # system info
