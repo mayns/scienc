@@ -34,7 +34,7 @@ nano /etc/hosts
 
 Необходимые пакеты
 ------------------
-pip install tornado psycopg2 momoko django simplejson 
+pip install tornado psycopg2 momoko django simplejson fauxfactory
 pip install PIL --allow-unverified PIL --allow-all-external
 pip install pillow -upgrade
 

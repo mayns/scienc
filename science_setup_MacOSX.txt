@@ -43,7 +43,7 @@ postgres -D /opt/db/postgresql94/defaultdb/
 
 Необходимые пакеты
 ------------------
-pip install tornado django simplejson 
+pip install tornado django simplejson fauxfactory
 pip install PIL --allow-unverified PIL --allow-all-external
 pip install pillow
 pip install psycopg2 momoko 
