@@ -62,11 +62,13 @@ class PSQLModel(object):
                 value = from_json(value)
 
             if not cmp(value, attr):
+                print 'EQ:', key, attr, value
                 continue
 
             updated_data.update({
                 key: value
             })
+        print 'UPDATED DATA:', updated_data
         return updated_data
 
     def _get_editable_attrs(self):
