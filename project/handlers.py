@@ -61,6 +61,10 @@ class ProjectHandler(BaseRequestHandler):
     def post(self, *args, **kwargs):
         print u'create project'
         project_dict = json.loads(self.get_argument(u'data', u'{}'))
+        if u'in_progress' in project_dict:
+            project_dict.update(in_progress='true')
+        else:
+            project_dict.update(in_progress='false')
         print project_dict
         manager_id = self.current_user_id
         if not manager_id:
@@ -88,6 +92,11 @@ class ProjectHandler(BaseRequestHandler):
             self.send_error(status_code=403)
             return
         project_dict = json.loads(self.get_argument(u'data', u'{}'))
+        print project_dict
+        if u'in_progress' in project_dict:
+            project_dict.update(in_progress='true')
+        else:
+            project_dict.update(in_progress='false')
 
         try:
             response = yield ProjectBL.update(project_id, project_dict)

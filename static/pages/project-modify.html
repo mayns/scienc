@@ -142,6 +142,10 @@
                                     </div>
                                 </div>
                                 <div class="row-flex middle">
+                                    <label class="col-lg-3">В процессе</label>
+                                    <input type="checkbox" checked="{{ in_progress !== 'false' }}" data-json="in_progress"/>
+                                </div>
+                                <div class="row-flex middle">
                                     <label class="col-lg-3">Связь с университетами</label>
                                     <input type="checkbox" checked="{{ university }}"/>
                                     <template if="{{ university }}">
