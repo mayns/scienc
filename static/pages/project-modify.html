@@ -149,14 +149,14 @@
                                 </div>
                                 <div class="row-flex middle">
                                     <label class="col-lg-3">Связь с университетами</label>
-                                    <input type="checkbox" checked="{{ university }}"/>
-                                    <template if="{{ university }}">
+                                    <input type="checkbox" checked="{{ university_connection }}"/>
+                                    <template if="{{ university_connection }}">
                                         <img on-click="{{ addItem }}" data-itemtype="university_connection" class="action icon"
                                              src="/static/images/plus.svg"
                                              alt="" />
                                     </template>
                                 </div>
-                                <template if="{{ university }}">
+                                <template if="{{ university_connection }}">
                                     <template repeat="{{ university_connection }}">
                                         <div class="fieldblock">
                                             <div class="row-flex">
@@ -231,7 +231,7 @@
                                     <label>Сайт проекта</label>
                                 </div>
                                 <div class="row-flex">
-                                    <input type="text" class="col-lg-12" data-json="project_site"/>
+                                    <input type="text" class="col-lg-12" data-json="project_site" value="{{ project_site }}"/>
                                 </div>
                                 <div class="row-flex">
                                     <label>Тэги</label>
