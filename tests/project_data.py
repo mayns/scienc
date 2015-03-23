@@ -134,8 +134,8 @@ class Project(object):
             contacts=[
                 dict(
                     name=u'Oks-ks',
-                    id=u'617-253-4359',
-                    type=environment.PHONE
+                    connection=environment.PHONE,
+                    number=u'617-253-4359',
                 )
             ],
         )
