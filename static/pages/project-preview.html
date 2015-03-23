@@ -1,4 +1,4 @@
-<link rel="import" href="/static/elements/polymer/polymer.html"/>
+<link rel="import" href="/static/elements/polymer/polymer.html" xmlns="http://www.w3.org/1999/html"/>
 <link rel="import" href="/static/elements/core-ajax/core-ajax.html"/>
 <link rel="import" href="/static/elements/core-icon/core-icon.html"/>
 
@@ -97,6 +97,12 @@
                 <p>{{ usage_possibilities }}</p>
                 <h2>Достигнутые результаты</h2>
                 <p>{{ results }}</p>
+
+                <h2>Сайт проекта</h2>
+                <p>
+                    <a class="link" href="{{ project_site }}">{{ title }}</a>
+                </p>
+
                 <h2>Почитать по теме</h2>
                 <div>
                     <ol>

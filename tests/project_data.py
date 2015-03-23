@@ -99,7 +99,7 @@ class Project(object):
                 dict(
                     role_id=0,
                     role_name=u'backend monkey',
-                    scientist_id=3,
+                    scientist_id=1,
                     full_name=u'Oks',
                 ),
                 dict(
