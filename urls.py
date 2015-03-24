@@ -19,6 +19,7 @@ url_handlers = [
     (r"/api/scientist(/\d+)?", sc_handlers.ScientistHandler),
     (r"/api/scientist/(\d+)/role", sc_handlers.ScientistRoleHandler),
     (r"/api/scientists", sc_handlers.ScientistsListHandler),
+    (r"/api/scientist/(\d+)/favorites", sc_handlers.FavoriteProjectsHandler),
 
     # projects
     (r"/api/project(/\d+)?", pr_handlers.ProjectHandler),

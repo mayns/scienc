@@ -135,3 +135,10 @@ class ScientistRoleHandler(BaseRequestHandler):
     @gen.coroutine
     def delete(self, project_id):
         pass
+
+
+class FavoriteProjectsHandler(BaseRequestHandler):
+
+    @gen.coroutine
+    def get(self, *args, **kwargs):
+        print u'favorite projects get'
