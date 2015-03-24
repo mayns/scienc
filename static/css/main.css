@@ -1402,7 +1402,7 @@ app-router {
 
 /* line 5, ../scss/layout/_main.scss */
 html /deep/ .container {
-  width: 960px;
+  width: 1200px;
   margin: 0 auto;
 }
 
