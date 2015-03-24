@@ -1,13 +1,10 @@
 <link rel="import" href="/static/elements/polymer/polymer.html"/>
 <link rel="import" href="/static/elements/core-ajax/core-ajax.html"/>
-<link rel="import" href="/static/elements/app-globals.html"/>
-
 
 <polymer-element name="science-app" on-logged-in="{{ onLoggedIn }}">
 	<template>
 		<content></content>
-		<core-ajax id="ajax" method="GET" on-core-response="{{ onResponse }}" on-core-error="{{ onError }}"></core-ajax>
-		<app-globals id="globals"></app-globals>
+		<core-ajax id="ajax" method="GET" on-core-response="{{ onResponse }}" on-core-error="{{ onError }}"></core-ajax>s>
 	</template>
 	<script>
 		(function(){
@@ -19,6 +16,7 @@
 						xsrfCookie = self.getCookie('_xsrf'),
 						userCookie = self.getCookie('scientist');
 
+                    window.ScienceApp = {};
 					if (userCookie) {
 						return this.getUserData();
 					}
@@ -32,11 +30,9 @@
 					return match ? match[1] : match;
 				},
                 onResponse: function(e, detail, sender) {
-                    var data = this.$.globals.userData;
-
-					data._xsrf = this.getCookie('_xsrf');
+                    ScienceApp._xsrf = this.getCookie('_xsrf');
                     if (detail.response) {
-                        data.user = JSON.parse(detail.response).data;
+                        ScienceApp.user = JSON.parse(detail.response).data;
                     }
 				},
                 onError: function(e, detail, sender) {

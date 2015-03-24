@@ -104,7 +104,7 @@
                   redirect="/scientists"
                   ajaxMethod="{{ ajaxMethod }}"
                   action="/api/scientist">
-                <template bind="{{ data }}">
+                <template bind="{{ json }}">
                     <fieldset>
                         <legend>Общие сведения</legend>
                         <div class="row-flex fieldblock">
@@ -418,7 +418,7 @@
 	<script>
         Polymer(Polymer.mixin({
             publish: {
-                data: {
+                json: {
                     publications: [new Date()],
                     high_education: [new Date()],
                     contacts: [1]
@@ -431,8 +431,8 @@
             ready: function() {
                 var self = this;
                 if (self.viewType === 'update') {
-                    self.$.form.setAttribute('action', '/api/scientist/' + self.data.id);
-                    self.$.form.redirect = '/scientist/' + self.data.id;
+                    self.$.form.setAttribute('action', '/api/scientist/' + self.json.id);
+                    self.$.form.redirect = '/scientist/' + self.json.id;
                 }
                 this.$.form.addCustomFields = function(jsonData, formData) {
                     var photo = self.$.photo;

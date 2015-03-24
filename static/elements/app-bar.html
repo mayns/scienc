@@ -3,7 +3,6 @@
 <link rel="import" href="/static/elements/html5-history-anchor/html5-history-anchor.html"/>
 <link rel="import" href="/static/elements/core-icon/core-icon.html"/>
 <link rel="import" href="/static/elements/dialog-login.html"/>
-<link rel="import" href="/static/elements/app-globals.html"/>
 <link rel="import" href="/static/elements/science-app.html"/>
 <link rel="import" href="/static/elements/app-icons.html"/>
 
@@ -58,7 +57,7 @@
                 vertical-align: top;
             }
 		</style>
-		<template if="{{ !data.user }}">
+		<template if="{{ !app.user }}">
 		    <a class="app-bar-item" is="html5-history-anchor" href="/scientists" pushstate popstate>
                 <img src="/static/images/members.svg" alt="" class="membersIcon"/>
             </a>
@@ -73,15 +72,15 @@
             </a>
 			<dialog-login id="dialogLogin"></dialog-login>
 		</template>
-		<template if="{{ data.user }}">
+		<template if="{{ app.user }}">
             <a class="app-bar-item" is="html5-history-anchor" href="/project" pushstate popstate>
                 <img src="/static/images/add_project.svg" alt="" class="addProjectIcon"/>
             </a>
             <a class="app-bar-item" is="html5-history-anchor" href="/scientists" pushstate popstate>
                 <img src="/static/images/members.svg" alt="" class="membersIcon"/>
             </a>
-            <a class="app-bar-item" is="html5-history-anchor" href="/scientist/{{ data.user.id }}" pushstate popstate>
-                <img src="{{ data.user.image_url || '/static/images/profile.svg' }}" alt="" class="profileIcon"/>
+            <a class="app-bar-item" is="html5-history-anchor" href="/scientist/{{ app.user.id }}" pushstate popstate>
+                <img src="{{ app.user.image_url || '/static/images/profile.svg' }}" alt="" class="profileIcon"/>
             </a>
             <a class="app-bar-item" href="#" pushstate popstate>
                 <img src="/static/images/search.svg" alt="" class="searchIcon"/>
@@ -90,14 +89,12 @@
                 <img src="/static/images/logout.svg" alt="" class="logoutIcon"/>
             </div>
 		</template>
-		<app-globals id="globals"></app-globals>
 		<app-ajax id="ajax" url="/api/logout" method="POST" on-core-response="{{onSignOutResponse}}"></app-ajax>
 	</template>
 	<script>
 		Polymer({
 			ready: function() {
-				var self = this;
-				self.data = self.$.globals.userData;
+				this.app = ScienceApp;
 			},
 			onSignInTap: function(event, detail, sender) {
 				document.querySelector('#dialogLogin').open();
@@ -106,7 +103,7 @@
 				this.$.ajax.makeRequest();
 			},
 			onSignOutResponse: function() {
-				this.$.globals.userData.user = null;
+				ScienceApp.user = null;
                 $$.qs('app-router').go('/');
 			}
 		});

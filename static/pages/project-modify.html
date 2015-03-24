@@ -288,7 +288,7 @@
                             <div class="row-flex">
                                 <input name="leader"
                                        type="text"
-                                       data-json="leader"
+                                       data-json="leader[full_name]"
                                        value="{{ leader.full_name }}"
                                        id="leader"
                                        class="col-lg-12">
@@ -305,13 +305,13 @@
                                         <input type="text"
                                                value="{{ full_name }}"
                                                placeholder="ФИО"
-                                               data-json="participants[][name]"/>
+                                               data-json="participants[][full_name]"/>
                                     </div>
                                     <div class="col-lg-4 col-lg-offset-1">
                                         <input type="text"
                                                value="{{ role_name }}"
                                                placeholder="Роль в проекте"
-                                               data-json="participants[][role]"/>
+                                               data-json="participants[][role_name]"/>
                                     </div>
                                     <img on-click="{{ deleteItem }}"
                                          data-itemtype="participants"
@@ -328,33 +328,30 @@
                                      src="/static/images/plus.svg"
                                      alt="" />
                             </div>
-                            <div class="fieldblock missed-participants">
-                                <template repeat="{{ missed_participants }}">
-                                    <div class="row-flex">
-                                        <div class="col-lg-5">
-                                            <div class="row-flex between top">
-                                                <label for="">Должность</label>
-                                                <input type="text"
-                                                       value="{{ vacancy_name }}"
-                                                       data-json="missed_participants[][role]"
-                                                       flex/>
-                                            </div>
+                            <template repeat="{{ missed_participants }}">
+                                <div class="row-flex">
+                                    <div class="col-lg-4">
+                                        <div class="row-flex between top">
+                                            <input type="text"
+                                                   placeholder="Должность"
+                                                   value="{{ vacancy_name }}"
+                                                   data-json="missed_participants[][vacancy_name]"
+                                                   flex/>
                                         </div>
-                                        <div class="col-lg-5 col-lg-offset-1">
-                                            <div class="row-flex between top">
-                                                <label for="">Описание</label>
-                                                <textarea rows="1"
-                                                          value="{{ description }}"
-                                                          data-json="missed_participants[][description]"
-                                                          flex></textarea>
-                                            </div>
-                                        </div>
-                                        <img on-click="{{ deleteItem }}" data-itemtype="missed_participants" class="action icon"
-                                             src="/static/images/minus.svg"
-                                             alt="" />
                                     </div>
-                                </template>
-                            </div>
+                                    <div class="col-lg-4 col-lg-offset-1">
+                                            <textarea rows="1"
+                                                      placeholder="Описание"
+                                                      value="{{ description }}"
+                                                      data-json="missed_participants[][description]"
+                                                      flex></textarea>
+
+                                    </div>
+                                    <img on-click="{{ deleteItem }}" data-itemtype="missed_participants" class="action icon"
+                                         src="/static/images/minus.svg"
+                                         alt="" />
+                                </div>
+                            </template>
                         </div>
                     </fieldset>
                     <fieldset>
@@ -382,12 +379,12 @@
                                     </template>
                                 </div>
                             </div>
-                            <div class="row-flex">
-                                <label>Контактное лицо</label>
-                            </div>
-                            <div class="row-flex">
-                                <input type="text" class="col-lg-12" data-json="contact_manager"/>
-                            </div>
+                            <!--<div class="row-flex">-->
+                                <!--<label>Контактное лицо</label>-->
+                            <!--</div>-->
+                            <!--<div class="row-flex">-->
+                                <!--<input type="text" class="col-lg-12" data-json="contact_manager"/>-->
+                            <!--</div>-->
                         </div>
                     </fieldset>
                 </template>

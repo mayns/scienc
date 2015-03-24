@@ -2,7 +2,6 @@
 <link rel="import" href="/static/elements/app-router/app-router.html"/>
 <link rel="import" href="/static/elements/html5-history-anchor/html5-history-anchor.html"/>
 <link rel="import" href="/static/elements/core-icons/core-icons.html">
-<link rel="import" href="/static/elements/app-globals.html">
 
 <polymer-element name="project-item" attributes="data">
 	<template>
@@ -36,22 +35,25 @@
                 padding: 3px 8px 3px 8px;
                 font-size: 16px;
 			}
-			.project-like-icon {
+			.like-icon.bottom {
 				cursor: pointer;
 				position: absolute;
 				left: 50%;
 				margin-left: -12px;
 			}
-			.project-like-icon:hover svg {
+            .like-icon.top {
+                margin-right: 10px;
+            }
+			.like-icon:hover svg {
 				stroke: #FF334F;
 			}
-			.project-like-icon svg {
+			.like-icon svg {
 				fill: white;
 				stroke-width: 2px;
 				stroke: #ccc;
 				transition: fill 0.3s ease, stroke 0.3s ease;
 			}
-			.project-like-icon.liked svg {
+			.like-icon.liked svg {
 				fill: #FF334F;
 				stroke: #FF334F;
 			}
@@ -60,33 +62,32 @@
             <article class="project">
                 <header class="project-header">
                     <h1>
-                        <a is="html5-history-anchor" href="/project/{{id}}" pushstate popstate>{{title}}</a>
+                        <a is="html5-history-anchor" href="/project/{{ id }}" pushstate popstate>{{title}}</a>
                     </h1>
-                    <template if="{{ university_connection }}">
-                        <div horizontal layout justified center>
-                            <div horizontal layout center flex>
-                                <template repeat="{{ university_connection }}">
-                                    <span class="project-holder">{{ university }}</span>
-                                </template>
-                            </div>
-                            <div>
-
-                            </div>
+                    <div horizontal layout justified center>
+                        <div horizontal layout center flex>
+                            <template repeat="{{ university_connection }}">
+                                <span class="project-holder">{{ university }}</span>
+                            </template>
                         </div>
-                    </template>
+                        <core-icon class="like-icon liked top" icon="favorite"></core-icon>
+                        <div>{{ data.likes || 0 }}</div>
+                    </div>
                 </header>
                 <p>
-                    <span class="short-descr">Краткое описание: </span>{{description_short}}
+                    <span class="short-descr">Краткое описание: </span>{{ description_short }}
                 </p>
-                <core-icon class="project-like-icon" icon="favorite"></core-icon>
+                <core-icon class="{{ {'like-icon': true, 'bottom': true, 'liked': liked} | tokenList}}" icon="favorite"></core-icon>
             </article>
         </template>
-        <app-globals userData="{{ d }}"></app-globals>
 	</template>
 	<script>
 		Polymer({
-            inArray: function(array, value) {
-                return array.indexOf(value) !== -1;
+            liked: false,
+            ready: function() {
+                if(ScienceApp.user && ScienceApp.user.liked_projects.indexOf(this.data.id) !== -1) {
+                    this.liked = true;
+                }
             }
 		});
 	</script>

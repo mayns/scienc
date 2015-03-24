@@ -89,59 +89,79 @@
                     <core-icon class="heart" icon="favorite"></core-icon>
                     <div class="likes">{{ likes }}</div>
                 </div>
-                <h2>Цели исследования</h2>
-                <p>{{ objective }}</p>
-                <h2>Полное описание</h2>
-                <p>{{ description_full }}</p>
-                <h2>Возможности применения результатов</h2>
-                <p>{{ usage_possibilities }}</p>
-                <h2>Достигнутые результаты</h2>
-                <p>{{ results }}</p>
-                <h2>Почитать по теме</h2>
-                <div>
-                    <ol>
-                        <template repeat="{{ related_data }}">
-                            <li>
-                                <a class="link" is="html5-history-anchor" pushstate popstate href="{{ source_link }}">{{ title }}</a>
-                            </li>
-                        </template>
-                    </ol>
-                </div>
-                <section>
-                    <h1 class="team">Команда</h1>
-                    <h2>Научный руководитель</h2>
-                    <template bind="{{ leader }}">
-                        <p>
-                            <a is="html5-history-anchor" class="link" pushstate popstate href="/scientist/{{ scientist_id }}">{{ full_name }}</a>
-                        </p>
-                    </template>
-                    <h2>Участники</h2>
+                <template if="{{ data.objective }}">
+                    <h2>Цели исследования</h2>
+                    <p>{{ objective }}</p>
+                </template>
+                <template if="{{ data.description_full }}">
+                    <h2>Полное описание</h2>
+                    <p>{{ description_full }}</p>
+                </template>
+                <template if="{{ usage_possibilities }}">
+                    <h2>Возможности применения результатов</h2>
+                    <p>{{ usage_possibilities }}</p>
+                </template>
+                <template if="{{ results }}">
+                    <h2>Достигнутые результаты</h2>
+                    <p>{{ results }}</p>
+                </template>
+                <template if="{{ related_data.length > 0 }}">
+                    <h2>Почитать по теме</h2>
                     <div>
                         <ol>
-                            <template repeat="{{ participants }}">
+                            <template repeat="{{ related_data }}">
                                 <li>
-                                    <a class="link" is="html5-history-anchor" pushstate popstate href="/scientist/{{ scientist_id }}">{{ full_name }}</a>
-                                    <div class="meta">{{ role_name }}</div>
+                                    <a class="link" is="html5-history-anchor" pushstate popstate href="{{ source_link }}">{{ title }}</a>
                                 </li>
                             </template>
                         </ol>
                     </div>
-                    <h2>Не хватает</h2>
-                    <div>
-                        <ol>
-                            <template repeat="{{ missed_participants }}">
-                                <li layout horizontal center>
-                                    <div flex>
-                                        <div>{{ vacancy_name }}</div>
-                                        <div class="meta">{{ description }}</div>
-                                    </div>
-                                    <div>
-                                        Участвовать
-                                    </div>
-                                </li>
+                </template>
+                <template if="{{ leader.fullname || participants.length > 0 || missed_participants.length > 0 }}">
+                    <section>
+                        <h1 class="team">Команда</h1>
+                        <template if="{{ leader.full_name }}">
+                            <h2>Научный руководитель</h2>
+                            <template bind="{{ leader }}">
+                                <p>
+                                    <a is="html5-history-anchor" class="link" pushstate popstate href="/scientist/{{ scientist_id }}">{{ full_name }}</a>
+                                </p>
                             </template>
-                        </ol>
-                    </div>
+                        </template>
+                        <template if="{{ participants.length > 0 }}">
+                            <h2>Участники</h2>
+                            <div>
+                                <ol>
+                                    <template repeat="{{ participants }}">
+                                        <li>
+                                            <a class="link" is="html5-history-anchor" pushstate popstate href="/scientist/{{ scientist_id }}">{{ full_name }}</a>
+                                            <div class="meta">{{ role_name }}</div>
+                                        </li>
+                                    </template>
+                                </ol>
+                            </div>
+                        </template>
+                        <template if="{{ missed_participants.length > 0 }}">
+                            <h2>Не хватает</h2>
+                            <div>
+                                <ol>
+                                    <template repeat="{{ missed_participants }}">
+                                        <li layout horizontal center>
+                                            <div flex>
+                                                <div>{{ vacancy_name }}</div>
+                                                <div class="meta">{{ description }}</div>
+                                            </div>
+                                            <div>
+                                                Участвовать
+                                            </div>
+                                        </li>
+                                    </template>
+                                </ol>
+                            </div>
+                        </template>
+                    </section>
+                </template>
+                <template if="{{ contacts.length > 0 }}">
                     <h2>Контакты</h2>
                     <div>
                         <ul>
@@ -154,7 +174,7 @@
                             </template>
                         </ul>
                     </div>
-                </section>
+                </template>
             </section>
         </template>
     </template>
