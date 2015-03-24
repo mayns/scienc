@@ -238,11 +238,8 @@ def create_relation_countries():
     query = prepare_creation(table)
     yield momoko.Op(conn.execute, query)
 
-    # INDEXES:
-    # yield momoko.Op(conn.execute, u"CREATE INDEX countries_ru_idx ON countries "
-    #                               u"USING GIN(to_tsvector('russian', title_ru));")
-    # yield momoko.Op(conn.execute, u"CREATE INDEX countries_en_idx ON countries "
-    #                               u"USING GIN(to_tsvector('english', title_en));")
+    yield momoko.Op(conn.execute, u"CREATE INDEX countries_title_ru_idx ON countries (title_ru);")
+    yield momoko.Op(conn.execute, u"CREATE INDEX countries_title_en_idx ON countries (title_en);")
 
 
 @gen.coroutine
@@ -253,19 +250,10 @@ def create_relation_cities():
     query = prepare_creation(table)
     yield momoko.Op(conn.execute, query)
 
-    # INDEXES:
-    # yield momoko.Op(conn.execute, u"CREATE INDEX region_ru_idx ON cities "
-    #                               u"USING GIN(to_tsvector('russian', region));")
-    # yield momoko.Op(conn.execute, u"CREATE INDEX region_en_idx ON cities "
-    #                               u"USING GIN(to_tsvector('english', region));")
-    # yield momoko.Op(conn.execute, u"CREATE INDEX area_ru_idx ON cities "
-    #                               u"USING GIN(to_tsvector('russian', area));")
-    # yield momoko.Op(conn.execute, u"CREATE INDEX area_en_idx ON cities "
-    #                               u"USING GIN(to_tsvector('english', area));")
-    # yield momoko.Op(conn.execute, u"CREATE INDEX cities_ru_idx ON cities "
-    #                               u"USING GIN(to_tsvector('russian', title));")
-    # yield momoko.Op(conn.execute, u"CREATE INDEX cities_en_idx ON cities "
-    #                               u"USING GIN(to_tsvector('english', title));")
+    yield momoko.Op(conn.execute, u"CREATE INDEX cities_region_idx ON cities (region);")
+    yield momoko.Op(conn.execute, u"CREATE INDEX cities_area_idx ON cities (area);")
+    yield momoko.Op(conn.execute, u"CREATE INDEX cities_title_idx ON cities (title);")
+
 
 
 @gen.coroutine
@@ -287,11 +275,7 @@ def create_relation_universities():
     query = prepare_creation(table)
     yield momoko.Op(conn.execute, query)
 
-    # INDEXES:
-    # yield momoko.Op(conn.execute, u"CREATE INDEX universities_ru_idx ON universities "
-    #                               u"USING GIN(to_tsvector('russian', title));")
-    # yield momoko.Op(conn.execute, u"CREATE INDEX universities_en_idx ON universities "
-    #                               u"USING GIN(to_tsvector('english', title));")
+    yield momoko.Op(conn.execute, u"CREATE INDEX universities_title_idx ON universities (title);")
 
 
 @gen.coroutine
@@ -302,11 +286,7 @@ def create_relation_faculties():
     query = prepare_creation(table)
     yield momoko.Op(conn.execute, query)
 
-    # INDEXES:
-    # yield momoko.Op(conn.execute, u"CREATE INDEX faculties_ru_idx ON faculties "
-    #                               u"USING GIN(to_tsvector('russian', title));")
-    # yield momoko.Op(conn.execute, u"CREATE INDEX faculties_en_idx ON faculties "
-    #                               u"USING GIN(to_tsvector('english', title));")
+    yield momoko.Op(conn.execute, u"CREATE INDEX faculties_title_idx ON faculties (title);")
 
 
 @gen.coroutine
@@ -317,11 +297,7 @@ def create_relation_chairs():
     query = prepare_creation(table)
     yield momoko.Op(conn.execute, query)
 
-    # INDEXES:
-    # yield momoko.Op(conn.execute, u"CREATE INDEX chairs_ru_idx ON chairs "
-    #                               u"USING GIN(to_tsvector('russian', title));")
-    # yield momoko.Op(conn.execute, u"CREATE INDEX chairs_en_idx ON chairs "
-    #                               u"USING GIN(to_tsvector('english', title));")
+    yield momoko.Op(conn.execute, u"CREATE INDEX chairs_title_idx ON chairs (title);")
 
 
 @gen.coroutine
@@ -332,8 +308,4 @@ def create_relation_schools():
     query = prepare_creation(table)
     yield momoko.Op(conn.execute, query)
 
-    # INDEXES:
-    # yield momoko.Op(conn.execute, u"CREATE INDEX schools_ru_idx ON schools "
-    #                               u"USING GIN(to_tsvector('russian', title));")
-    # yield momoko.Op(conn.execute, u"CREATE INDEX schools_en_idx ON schools "
-    #                               u"USING GIN(to_tsvector('english', title));")
+    yield momoko.Op(conn.execute, u"CREATE INDEX schools_title_idx ON schools (title);")
