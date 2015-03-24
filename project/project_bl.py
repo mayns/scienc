@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 
+import logging
 from tornado import gen
 from project.models import Project
 from scientist.models import Scientist
@@ -73,9 +74,40 @@ class ProjectBL(object):
     @gen.coroutine
     def add_participation(cls, data):
         # message, scientist_id, vacancy_id, project_id
-        pass
+        scientist_id = data[u'scientist_id']
+        try:
+            project = yield Project.get_by_id(data[u'project_id'])
+            scientist_response = dict(
+                scientist_id=scientist_id,
+                vacancy_id=data[u'vacancy_id'],
+                message=data.get(u'message', u'')
+            )
+            if scientist_response not in project.responses:
+                project.responses.append(scientist_response)
+                yield project.save(fields=[u'responses'])
+                scientist = yield Scientist.get_by_id(scientist_id)
+                scientist.desired_vacancies.append(dict(
+                    project_id=project.id,
+                    vanancy_id=data[u'vacancy_id']
+                ))
+                yield scientist.save(fields=[u'desired_vacancies'])
+        except Exception, ex:
+            logging.exception(ex)
+
 
     @classmethod
     @gen.coroutine
     def delete_participation(cls, data):
-        pass
+        # scientist_id, project_id
+        scientist_id = data[u'scientist_id']
+        try:
+            project = yield Project.get_by_id(data[u'project_id'])
+            project.responses = [sc for sc in project.responses if sc[u'scientist_id'] != scientist_id]
+            yield project.save(fields=[u'responses'])
+
+            scientist = yield Scientist.get_by_id(scientist_id)
+            scientist.desired_vacancies = [v for v in scientist.desired_vacancies if v[u'project_id'] != project.id]
+
+            yield scientist.save(fields=[u'desired_vacancies'])
+        except Exception, ex:
+            logging.exception(ex)

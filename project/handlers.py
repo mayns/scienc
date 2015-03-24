@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-from tornado import gen
+from tornado import gen, web
 from base.handlers import BaseRequestHandler
 import json
 import logging
@@ -173,6 +173,10 @@ class ProjectsParticipationHandler(BaseRequestHandler):
     def post(self, *args, **kwargs):
         print 'add participation'
         data = json.loads(self.get_argument(u'data', u'{}'))
+        if not self.current_user_id:
+            self.send_error(status_code=403)
+            return
+        data.update(scientist_id=self.current_user_id)
         response = {}
         try:
             yield ProjectBL.add_participation(data)
@@ -191,7 +195,10 @@ class ProjectsParticipationHandler(BaseRequestHandler):
         print u'delete project:', project_id
         response = {}
         data = json.loads(self.get_argument(u'data', u'{}'))
-
+        if not self.current_user_id:
+            self.send_error(status_code=403)
+            return
+        data.update(scientist_id=self.current_user_id)
         try:
             yield ProjectBL.delete_participation(data)
         except Exception, ex:

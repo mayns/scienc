@@ -47,7 +47,7 @@ MODELS = dict(
         u'title': Text(required=True),                                              # название проекта
         u'description_short': Text(required=True),                                  # краткое описание для обложки
         u'likes': Integer(),                                                        # количество лайков
-        u'responses': JsonArray(db_type='jsonb'),                                   # [{scientist_id, vacancy_id}]
+        u'responses': JsonArray(db_type='jsonb'),                                   # [{scientist_id, vacancy_id, message}]
         u'university_connection': JsonArray(db_type='jsonb'),                       # [{country, city, university, faculty, chair}]
 
         # project info
