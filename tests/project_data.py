@@ -99,7 +99,7 @@ class Project(object):
                 dict(
                     role_id=0,
                     role_name=u'backend monkey',
-                    scientist_id=3,
+                    scientist_id=1,
                     full_name=u'Oks',
                 ),
                 dict(
@@ -134,8 +134,8 @@ class Project(object):
             contacts=[
                 dict(
                     name=u'Oks-ks',
-                    id=u'617-253-4359',
-                    type=environment.PHONE
+                    connection=environment.PHONE,
+                    number=u'617-253-4359',
                 )
             ],
         )

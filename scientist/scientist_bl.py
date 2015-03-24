@@ -30,7 +30,7 @@ class ScientistBL(object):
         # create account
         yield cls.update_roles(scientist_dict)
 
-        editable_data = Scientist.get_editable_data(scientist_dict)
+        editable_data = Scientist.get_editable_data(scientist_dict, update=False)
 
         scientist = Scientist(**editable_data)
         scientist_id = yield scientist.save(update=False, fields=editable_data.keys())

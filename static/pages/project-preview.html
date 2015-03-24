@@ -72,6 +72,10 @@
                 margin-bottom: 30px;
                 color: #666;
             }
+            .tag {
+                margin-left: 20px;
+                margin-top: 10px;
+            }
         </style>
         <template bind="{{ data }}">
             <section class="project">
@@ -167,8 +171,8 @@
                         <ul>
                             <template repeat="{{ contacts }}">
                                 <li>
-                                    <div>{{ type }}</div>
-                                    <div>{{ id }}</div>
+                                    <div>{{ connection }}</div>
+                                    <div>{{ number }}</div>
                                     <div>{{ name }}</div>
                                 </li>
                             </template>

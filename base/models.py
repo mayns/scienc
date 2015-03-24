@@ -3,6 +3,7 @@
 import momoko
 import logging
 from tornado import gen
+from datetime import datetime
 
 from common.decorators import psql_connection
 from common.exceptions import PSQLException
@@ -33,6 +34,7 @@ class PSQLModel(object):
         if update:
             editable_data = dict(zip_values(cls.EDITABLE_FIELDS, data, empty_fields=1))
         else:
+            data.update(dt_created=datetime.utcnow())
             editable_data = dict(zip_values(cls.CREATE_FIELDS, data, empty_fields=1))
         return editable_data
 
