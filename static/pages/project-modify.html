@@ -407,8 +407,8 @@
                                     <template repeat="{{ contacts }}">
                                         <div class="row-flex between">
                                             <input type="text" class="col-lg-3" value="{{ name }}" data-json="contacts[][name]" placeholder="ФИО"/>
-                                            <input type="text" class="col-lg-3" value="{{ connection }}" data-json="contacts[][type]" placeholder="Вид связи"/>
-                                            <input type="text" class="col-lg-3" value="{{ number }}" data-json="contacts[][id]" placeholder="Номер/login"/>
+                                            <input type="text" class="col-lg-3" value="{{ connection }}" data-json="contacts[][connection]" placeholder="Вид связи"/>
+                                            <input type="text" class="col-lg-3" value="{{ number }}" data-json="contacts[][number]" placeholder="Номер/login"/>
                                             <img on-click="{{ deleteItem }}" data-itemtype="contacts" class="action icon"
                                                  src="/static/images/minus.svg"
                                                  alt="" />
