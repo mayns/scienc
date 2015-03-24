@@ -23,5 +23,10 @@ if __name__ == "__main__":
     # from db.postgres_fill import truncate_init_tables
     # _ioloop.run_sync(truncate_init_tables)
 
+    # from db.postgres_fill import insert_data, delete_kinder_garden
+    # _ioloop.run_sync(insert_data)
+    # _ioloop.run_sync(delete_kinder_garden)
+
+
     from db.postgres_fill import fill_init_data
     _ioloop.run_sync(fill_init_data)

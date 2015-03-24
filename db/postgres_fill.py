@@ -38,7 +38,7 @@ def insert_data():
             table = u"countries"
             columns = [u"title_en", u"title_ru"]
             data = {u"title_en": title_en, u"title_ru": title_ru}
-            query = get_insert_query(table, columns, data)
+            query = get_insert_query(table, data, columns)
             yield momoko.Op(conn.execute, query)
 
         # inserting all another data
@@ -79,22 +79,22 @@ def insert_data():
                 if not region and not area:
                     columns = [u"country_id", u"title"]
                     data = {u"country_id": i, u"title": city_title}
-                    query = get_insert_query(table, columns, data)
+                    query = get_insert_query(table, data, columns)
                     city_id = yield momoko.Op(conn.execute, query)
                 elif not region:
                     columns = [u"country_id", u"area", u"title"]
                     data = {u"country_id": i, u"area": area, u"title": city_title}
-                    query = get_insert_query(table, columns, data)
+                    query = get_insert_query(table, data, columns)
                     city_id = yield momoko.Op(conn.execute, query)
                 elif not area:
                     columns = [u"country_id", u"region", u"title"]
                     data = {u"country_id": i, u"region": region, u"title": city_title}
-                    query = get_insert_query(table, columns, data)
+                    query = get_insert_query(table, data, columns)
                     city_id = yield momoko.Op(conn.execute, query)
                 else:
                     columns = [u"country_id", u"region", u"area", u"title"]
                     data = {u"country_id": i, u"region": region, u"area": area, u"title": city_title}
-                    query = get_insert_query(table, columns, data)
+                    query = get_insert_query(table, data, columns)
                     city_id = yield momoko.Op(conn.execute, query)
                 city_id = city_id.fetchone()[0]
 
@@ -104,7 +104,7 @@ def insert_data():
                         table = u"main_cities"
                         columns = [u"country_id", u"city_id", u"title"]
                         data = {u"country_id": i, u"city_id": city_id, u"title": city_title}
-                        query = get_insert_query(table, columns, data)
+                        query = get_insert_query(table, data, columns)
                         yield momoko.Op(conn.execute, query)
 
                 #inserting schools
@@ -117,7 +117,7 @@ def insert_data():
                         table = u"schools"
                         columns = [u"city_id", u"title"]
                         data = {u"city_id": city_id, u"title": school_title}
-                        query = get_insert_query(table, columns, data)
+                        query = get_insert_query(table, data, columns)
                         yield momoko.Op(conn.execute, query)
 
                 # inserting universities
@@ -130,7 +130,7 @@ def insert_data():
                         table = u"universities"
                         columns = [u"city_id", u"title"]
                         data = {u"city_id": city_id, u"title": university_title}
-                        query = get_insert_query(table, columns, data)
+                        query = get_insert_query(table, data, columns)
                         university_id = yield momoko.Op(conn.execute, query)
                         university_id = university_id.fetchone()[0]
 
@@ -145,7 +145,7 @@ def insert_data():
                                 table = u"faculties"
                                 columns = [u"university_id", u"title"]
                                 data = {u"university_id": university_id, u"title": faculty_title}
-                                query = get_insert_query(table, columns, data)
+                                query = get_insert_query(table, data, columns)
                                 faculty_id = yield momoko.Op(conn.execute, query)
                                 faculty_id = faculty_id.fetchone()[0]
 
@@ -160,7 +160,7 @@ def insert_data():
                                         table = u"chairs"
                                         columns = [u"faculty_id", u"title"]
                                         data = {u"faculty_id": faculty_id, u"title": chair_title}
-                                        query = get_insert_query(table, columns, data)
+                                        query = get_insert_query(table, data, columns)
                                         yield momoko.Op(conn.execute, query)
 
     except (psycopg2.Warning, psycopg2.Error) as error:
