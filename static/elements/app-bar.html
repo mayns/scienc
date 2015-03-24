@@ -43,6 +43,9 @@
             .addProjectIcon {
                 width: 60px;
             }
+            .favoriteProjectsIcon{
+                width: 60px;
+            }
             .logoutIcon {
                 width: 80px;
             }
@@ -75,6 +78,9 @@
 		<template if="{{ app.user }}">
             <a class="app-bar-item" is="html5-history-anchor" href="/project" pushstate popstate>
                 <img src="/static/images/add_project.svg" alt="" class="addProjectIcon"/>
+            </a>
+            <a class="app-bar-item" is="html5-history-anchor" href="/project" pushstate popstate>
+                <img src="/static/images/favorite.svg" alt="" class="favoriteProjectsIcon"/>
             </a>
             <a class="app-bar-item" is="html5-history-anchor" href="/scientists" pushstate popstate>
                 <img src="/static/images/members.svg" alt="" class="membersIcon"/>
