@@ -109,6 +109,12 @@
                     <h2>Достигнутые результаты</h2>
                     <p>{{ results }}</p>
                 </template>
+                <template if="{{ project_site }}">
+                    <h2>Сайт проекта</h2>
+                    <p>
+                        <a class="link" href="{{ project_site }}">{{ title }}</a>
+                    </p>
+                </template>
                 <template if="{{ related_data.length > 0 }}">
                     <h2>Почитать по теме</h2>
                     <div>
@@ -119,6 +125,14 @@
                                 </li>
                             </template>
                         </ol>
+                    </div>
+                </template>
+                <template if="{{ tags.length > 0 }}">
+                    <h2>Тэги</h2>
+                    <div class="tag" >
+                        <template repeat="{{ tag in tags }}">
+                            {{ tag }},
+                        </template>
                     </div>
                 </template>
                 <template if="{{ leader.fullname || participants.length > 0 || missed_participants.length > 0 }}">
