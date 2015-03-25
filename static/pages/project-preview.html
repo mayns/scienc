@@ -1,6 +1,7 @@
 <link rel="import" href="/static/elements/polymer/polymer.html"/>
 <link rel="import" href="/static/elements/core-ajax/core-ajax.html"/>
 <link rel="import" href="/static/elements/core-icon/core-icon.html"/>
+<link rel="import" href="/static/elements/project-missed-participant.html"/>
 
 <polymer-element name="project-preview" attributes="data">
     <template>
@@ -161,21 +162,11 @@
                         </template>
                         <template if="{{ missed_participants.length > 0 }}">
                             <h2>Не хватает</h2>
-                            <div>
-                                <ol>
-                                    <template repeat="{{ missed_participants }}">
-                                        <li layout horizontal center>
-                                            <div flex>
-                                                <div>{{ vacancy_name }}</div>
-                                                <div class="meta">{{ description }}</div>
-                                            </div>
-                                            <div>
-                                                Участвовать
-                                            </div>
-                                        </li>
-                                    </template>
-                                </ol>
-                            </div>
+                            <p>
+                                <template repeat="{{ missed_participants }}">
+                                    <project-missed-participant data="[[ {vacancy_name: vacancy_name, description: description } ]]"></project-missed-participant>
+                                </template>
+                            </p>
                         </template>
                     </section>
                 </template>
@@ -197,6 +188,8 @@
         </template>
     </template>
     <script>
-        Polymer({});
+        Polymer({
+
+        });
     </script>
 </polymer-element>

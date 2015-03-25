@@ -1,0 +1,57 @@
+<link rel="import" href="/static/elements/polymer/polymer.html"/>
+
+<polymer-element name="project-missed-participant">
+    <template>
+        <style>
+            :host {
+                display: block;
+                margin-bottom: 30px;
+            }
+            label {
+                display: block;
+                margin-bottom: 10px;
+            }
+            textarea {
+                display: block;
+                width: 100%;
+                margin-bottom: 20px;
+            }
+            .vacancy {
+                margin-bottom: 20px;
+            }
+        </style>
+        <div layout horizontal center class="vacancy">
+            <div flex>
+                <div>{{ data.vacancy_name }}</div>
+                <div class="meta">{{ data.description }}</div>
+            </div>
+            <div on-tap="{{ toggleLetter }}" class="action">
+                Участвовать
+            </div>
+        </div>
+        <div class="{{ letterPreview ? '' : 'hide' }} letter">
+            <label for="">Прикрепить письмо к заявке</label>
+            <textarea flex></textarea>
+            <button class="button submit" on-tap="{{ submitForm }}">Отправить</button>
+        </div>
+    </template>
+    <script>
+        Polymer({
+            publish: {
+                data: {},
+                letterPreview: false
+            },
+            toggleLetter: function() {
+                if (this.letterPreview) {
+                    this.letterPreview = false;
+                }
+                else {
+                    this.letterPreview = true;
+                }
+            },
+            submitForm: function() {
+
+            }
+        });
+    </script>
+</polymer-element>

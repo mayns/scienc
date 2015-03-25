@@ -3,7 +3,7 @@
 <link rel="import" href="/static/elements/core-overlay/core-overlay.html"/>
 <link rel="import" href="/static/elements/app-ajax.html"/>
 
-<polymer-element name="dialog-login" attributes="">
+<polymer-element name="dialog-login" >
 	<template>
 		<core-overlay opened="false" layered backdrop id="loginDialog" autoCloseDisabled>
 			<div class="login-dialog">
@@ -27,8 +27,8 @@
 					</button>
 				</form>
 				<footer class="row-flex between">
-					<a is="html5-history-anchor" href="/signup" pushstate popstate>Восстановить пароль</a>
-					<a is="html5-history-anchor" href="/signup" pushstate popstate>Зарегистрироваться</a>
+					<a is="html5-history-anchor" href="/pwd_recover" pushstate popstate on-tap="{{ onLinkClick }}">Восстановить пароль</a>
+					<a is="html5-history-anchor" href="/signup" pushstate popstate on-tap="{{ onLinkClick }}">Зарегистрироваться</a>
 				</footer>
 				<div class="login-dialog-close action" core-overlay-toggle>X</div>
 				<app-ajax on-core-response="{{onLoginFormResponse}}"
@@ -45,6 +45,9 @@
 			open: function() {
 				this.$.loginDialog.open();
 			},
+            close: function() {
+                this.$.loginDialog.close();
+            },
 			onLoginFormSubmit: function(e) {
 				e.preventDefault();
 				var self = this;
@@ -57,9 +60,14 @@
 			},
 			onLoginFormResponse: function(e) {
 				var self = this;
-				self.$.loginDialog.close();
+                self.$.email.value = '';
+                self.$.password.value = '';
+				self.close();
                 self.fire('logged-in');
-			}
+			},
+            onLinkClick: function() {
+                this.close();
+            }
 		});
 	</script>
 </polymer-element>

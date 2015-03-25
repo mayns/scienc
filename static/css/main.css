@@ -139,6 +139,14 @@ html /deep/ .color-green {
   color: #00A17D;
 }
 
+/*
+    BLOCK STYLES
+*/
+/* line 54, ../scss/base/_helpers.scss */
+html /deep/ .hide {
+  display: none !important;
+}
+
 /* line 1, ../scss/base/_reset.scss */
 html /deep/ h1,
 html /deep/ h2,
