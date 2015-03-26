@@ -16,9 +16,9 @@ def get_update_query(tbl, update_params, where_params=None, editable_columns=Non
         where_params = {}
 
     columns = editable_columns or ALL_TABLES[tbl].keys()
-    columns = list(set(update_params.keys()).intersection(columns))
+    columns = list(set(update_params.keys()).intersection(set(columns)))
     column_values = dict(zip_values(columns, update_params, empty_fields=1))
-
+    print column_values
     sql_string = u"UPDATE {table_name} SET".format(table_name=tbl)
     for i, k in enumerate(column_values.keys()):
         value = update_params[k]

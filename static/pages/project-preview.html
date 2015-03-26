@@ -163,8 +163,9 @@
                         <template if="{{ missed_participants.length > 0 }}">
                             <h2>Не хватает</h2>
                             <p>
-                                <template repeat="{{ missed_participants }}">
-                                    <project-missed-participant data="[[ {vacancy_name: vacancy_name, description: description } ]]"></project-missed-participant>
+                                <template repeat="{{ p in missed_participants }}">
+                                    <project-missed-participant data="[[ {vacancy_name: p.vacancy_name, description: p.description, project_id: id, vacancy_id: p.vacancy_id  } ]]">
+                                    </project-missed-participant>
                                 </template>
                             </p>
                         </template>

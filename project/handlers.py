@@ -170,13 +170,16 @@ class ProjectsLikeHandler(BaseRequestHandler):
 class ProjectsParticipationHandler(BaseRequestHandler):
 
     @gen.coroutine
-    def post(self, *args, **kwargs):
+    def post(self, project_id, **kwargs):
         print 'add participation'
+
         data = json.loads(self.get_argument(u'data', u'{}'))
         if not self.current_user_id:
             self.send_error(status_code=403)
             return
-        data.update(scientist_id=self.current_user_id)
+        data.update(scientist_id=self.current_user_id,
+                    project_id=project_id
+        )
         response = {}
         try:
             yield ProjectBL.add_participation(data)

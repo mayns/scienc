@@ -33,6 +33,7 @@
                     ScienceApp._xsrf = this.getCookie('_xsrf');
                     if (detail.response) {
                         ScienceApp.user = JSON.parse(detail.response).data;
+                        ScienceApp.user.responses = [];
                     }
 				},
                 onError: function(e, detail, sender) {

@@ -1,4 +1,6 @@
 <link rel="import" href="/static/elements/polymer/polymer.html"/>
+<link rel="import" href="/static/elements/app-ajax.html"/>
+
 
 <polymer-element name="project-missed-participant">
     <template>
@@ -25,18 +27,39 @@
                 <div>{{ data.vacancy_name }}</div>
                 <div class="meta">{{ data.description }}</div>
             </div>
-            <div on-tap="{{ toggleLetter }}" class="action">
-                Участвовать
-            </div>
+            <template if="{{ !show_participate }}">
+                <div on-tap="{{ toggleLetter }}" class="action">
+                    Участвовать
+                </div>
+            </template>
+            <template if="{{ show_participate }}">
+                <div>
+                     Заявка отправлена
+                </div>
+            </template>
         </div>
-        <div class="{{ letterPreview ? '' : 'hide' }} letter">
+        <!--<template if="{{ show_participate }}">-->
+            <!--<span>hi</span>-->
+        <!--</template>-->
+        <template if="{{ !show_participate }}">
+            <div class="{{ letterPreview ? '' : 'hide' }} letter">
             <label for="">Прикрепить письмо к заявке</label>
-            <textarea flex></textarea>
+            <textarea flex id="message"></textarea>
             <button class="button submit" on-tap="{{ submitForm }}">Отправить</button>
         </div>
+        </template>
+        <app-ajax id="ajax"
+                  url="/api/project/{{ data.project_id }}/participation"
+                  on-core-response="{{ onSubmitSuccess }}"
+                  method="POST">
+        </app-ajax>
     </template>
     <script>
         Polymer({
+            ready: function(){
+                this.app = ScienceApp;
+                this.show_participate = ScienceApp.user.responses.indexOf(this.data.project_id + '_' + this.data.vacancy_id) !== -1;
+            },
             publish: {
                 data: {},
                 letterPreview: false
@@ -50,7 +73,21 @@
                 }
             },
             submitForm: function() {
-
+                var ajax = this.$.ajax;
+                var formData = new FormData();
+                var body = {
+                    message: this.$.message.value,
+                    vacancy_id: this.data.vacancy_id
+                };
+                formData.append('data', JSON.stringify(body));
+                ajax.makeRequest(formData);
+            },
+            onSubmitSuccess: function(event, detail, sender) {
+                console.log(detail);
+                this.$.message.value = '';
+                this.letterPreview = false;
+                this.show_participate = true;
+                ScienceApp.user.responses.push(this.data.project_id + '_' + this.data.vacancy_id);
             }
         });
     </script>

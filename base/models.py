@@ -81,7 +81,7 @@ class PSQLModel(object):
 
     @gen.coroutine
     @psql_connection
-    def save(self, conn, update=True, fields=None):
+    def save(self, conn, update=True, fields=None, columns=None):
 
         if fields:
             data = {k: getattr(self, k) for k in fields if hasattr(self, k)}
@@ -90,7 +90,7 @@ class PSQLModel(object):
 
         if update:
             sqp_query = get_update_query(self.TABLE, data, where_params=dict(id=self.id),
-                                         editable_columns=self.EDITABLE_FIELDS)
+                                         editable_columns=columns or self.EDITABLE_FIELDS)
         else:
             sqp_query = get_insert_query(self.TABLE, data, self.CREATE_FIELDS)
         try:
