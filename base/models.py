@@ -4,6 +4,7 @@ import momoko
 import logging
 from tornado import gen
 from datetime import datetime
+from common.utils import generate_id
 
 from common.decorators import psql_connection
 from common.exceptions import PSQLException
@@ -19,6 +20,7 @@ class PSQLModel(object):
     TABLE = None
     OVERVIEW_FIELDS = None
     EDITABLE_FIELDS = None
+    JSON_FIELDS = None
     CREATE_FIELDS = None
     SYSTEM_INFO = None
 
@@ -92,6 +94,12 @@ class PSQLModel(object):
             sqp_query = get_update_query(self.TABLE, data, where_params=dict(id=self.id),
                                          editable_columns=columns or self.EDITABLE_FIELDS)
         else:
+            if set(self.JSON_FIELDS) & set(data.keys()):
+                for f in self.JSON_FIELDS:
+                    v = data.get(f)
+                    if not v:
+                        continue
+                    [k.update(id=generate_id()) for k in v]
             sqp_query = get_insert_query(self.TABLE, data, self.CREATE_FIELDS)
         try:
             cursor = yield momoko.Op(conn.execute, sqp_query)

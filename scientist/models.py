@@ -17,6 +17,9 @@ class Scientist(PSQLModel):
                        u'image_url', u'location', u'middle_education', u'high_education',
                        u'publications', u'interests', u'about', u'contacts']
 
+    JSON_FIELDS = [u'participating_projects', u'desired_vacancies']
+
     CREATE_FIELDS = EDITABLE_FIELDS + [u'dt_created']
 
     SYSTEM_INFO = [u'dt_created']
+

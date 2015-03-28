@@ -21,3 +21,5 @@ class Project(PSQLModel):
     CREATE_FIELDS = EDITABLE_FIELDS + [u'manager_id', u'dt_created']
 
     SYSTEM_INFO = [u'dt_created', u'title_tsvector', u'description_short_tsvector']
+
+    JSON_FIELDS = [u'participants', u'missed_participants']
