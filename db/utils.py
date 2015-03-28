@@ -18,14 +18,12 @@ def get_update_query(tbl, update_params, where_params=None, editable_columns=Non
     columns = editable_columns or ALL_TABLES[tbl].keys()
     columns = list(set(update_params.keys()).intersection(set(columns)))
     column_values = dict(zip_values(columns, update_params, empty_fields=1))
-    print column_values
+
     sql_string = u"UPDATE {table_name} SET".format(table_name=tbl)
     for i, k in enumerate(column_values.keys()):
         value = update_params[k]
         store = ALL_TABLES[tbl][k].store
         v = value if not store else store(value)
-
-        print 'BEFORE SQL STRING', type(v), v
 
         if isinstance(v, str):
             v = v.decode('utf-8').encode('utf-8')

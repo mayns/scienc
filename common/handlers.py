@@ -69,6 +69,7 @@ class UserHandler(BaseRequestHandler):
             id=scientist.id,
             image_url=image_url,
             liked_projects=scientist.liked_projects,
+            desired_vacancies=scientist.desired_vacancies
         )
         response = yield self.get_response(scientist_data)
         self.finish(response)

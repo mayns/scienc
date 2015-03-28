@@ -86,6 +86,7 @@ class ProjectBL(object):
                 project.responses.append(scientist_response)
                 yield project.save(fields=[u'responses'], columns=[u'responses'])
                 scientist = yield Scientist.get_by_id(scientist_id)
+                scientist.desired_vacancies = scientist.desired_vacancies or []
                 scientist.desired_vacancies.append(dict(
                     project_id=project.id,
                     vanancy_id=data[u'vacancy_id']
