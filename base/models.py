@@ -153,9 +153,10 @@ class PSQLModel(object):
 
         instance = cls()
         for k, v in data.iteritems():
-            # if not v:
-            #     continue
-            setattr(instance, k, v)
+            if not v:
+                setattr(instance, k, MODELS[cls.TABLE][k].default)
+            else:
+                setattr(instance, k, v)
 
         raise gen.Return(instance)
 
