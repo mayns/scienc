@@ -89,7 +89,7 @@ class ProjectBL(object):
                 scientist.desired_vacancies = scientist.desired_vacancies or []
                 scientist.desired_vacancies.append(dict(
                     project_id=project.id,
-                    vanancy_id=data[u'vacancy_id']
+                    vacancy_id=data[u'vacancy_id']
                 ))
                 yield scientist.save(fields=[u'desired_vacancies'], columns=[u'desired_vacancies'])
         except Exception, ex:

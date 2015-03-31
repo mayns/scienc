@@ -1,5 +1,6 @@
 <link rel="import" href="/static/elements/polymer/polymer.html"/>
 <link rel="import" href="/static/elements/core-ajax/core-ajax.html"/>
+<link rel="import" href="/static/mixins/utils.html"/>
 
 <polymer-element name="my-projects">
     <template>
@@ -14,26 +15,24 @@
         </div>
     </template>
     <script>
+        Polymer(Polymer.mixin({
+            ready: function() {
+                var appEl;
 
+                this.app = ScienceApp;
 
-            Polymer(Polymer.mixin({
-                ready: function() {
-                    var appEl;
-
-                    this.app = scienceApp;
-
-                    if (this.app.user) {
-                        this.$.ajax.go();
-                    }
-                    else {
-                        appEl = this.qs('science-app');
-                        this.on(appEl, 'user-ready', this.onUserReady);
-                    }
-                },
-                onUserReady: function() {
+                if (this.app.user) {
                     this.$.ajax.go();
                 }
-            }), AppMixins.utils);
-
+                else {
+                    appEl = this.qs('science-app');
+                    this.on(appEl, 'user-ready', this.onUserReady);
+                }
+            },
+            onUserReady: function() {
+                this.$.ajax.go();
+            }
+        }, AppMixins.utils));
     </script>
+
 </polymer-element>

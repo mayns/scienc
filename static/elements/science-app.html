@@ -1,5 +1,6 @@
 <link rel="import" href="/static/elements/polymer/polymer.html"/>
 <link rel="import" href="/static/elements/core-ajax/core-ajax.html"/>
+<link rel="import" href="/static/mixins/utils.html"/>
 
 <polymer-element name="science-app" on-logged-in="{{ onLoggedIn }}">
 	<template>
@@ -9,6 +10,7 @@
 	<script>
 		(function(){
 			var counter = 0;
+            window.ScienceApp = null;
 
 			Polymer(Polymer.mixin({
                 _xsrf: null,
@@ -19,7 +21,7 @@
                             userCookie = self.getCookie('scientist');
 
                     if (userCookie) {
-                        return this.getUserData();
+                        this.getUserData();
                     }
                     if (!xsrfCookie) {
                         this.getXSRFCookie();
@@ -46,9 +48,9 @@
                         }
                     }
                 },
-                onError: function(e, detail, sender) {
+                onError: function(e, detail) {
                     if (counter === 5) {
-                        // alert(detail.response);
+                        console.error(detail.response);
                     }
                     else {
                         counter++;

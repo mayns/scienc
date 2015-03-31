@@ -65,11 +65,13 @@ class UserHandler(BaseRequestHandler):
         if not scientist:
             return
         image_url = scientist.image_url and environment.GET_IMG(scientist.image_url, environment.IMG_S)
+        desired_vacancies = [u'{}_{}'.format(k[u'project_id'], k[u'vacancy_id']) for k in scientist.desired_vacancies if
+                             scientist.desired_vacancies]
         scientist_data = dict(
             id=scientist.id,
             image_url=image_url,
             liked_projects=scientist.liked_projects or [],
-            desired_vacancies=scientist.desired_vacancies or []
+            desired_vacancies=desired_vacancies
         )
         response = yield self.get_response(scientist_data)
         self.finish(response)
