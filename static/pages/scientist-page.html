@@ -35,7 +35,7 @@
 	<script>
 		Polymer({
             ready: function() {
-                this.app = ScienceApp;
+                this.app = scienceApp;
                 this.preview = true;
             },
             show: function() {
@@ -48,8 +48,8 @@
                 this.$.ajaxDelete.go();
             },
             onDeleteSuccess: function() {
-                ScienceApp.user = null;
-                document.querySelector('app-router').go('/scientists');
+                this.app.user = null;
+                this.app.qs('app-router').go('/scientists');
             }
         });
 	</script>

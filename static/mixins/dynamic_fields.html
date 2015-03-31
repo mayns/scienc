@@ -1,6 +1,8 @@
+<link rel="import" href="/static/mixins/mixins.html"/>
+
 <script>
-    window.Mixins = {
-        dynamicFields: {
+    (function(){
+        AppMixins.dynamicFields = {
             addItem: function(event, detail, sender) {
                 var type = event.target.dataset.itemtype;
                 this.data[type].push(new Date());
@@ -12,5 +14,5 @@
                 this.data[type].splice(index, 1);
             }
         }
-    }
+    })();
 </script>

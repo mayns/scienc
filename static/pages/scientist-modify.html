@@ -430,6 +430,7 @@
             },
             ready: function() {
                 var self = this;
+
                 if (self.viewType === 'update') {
                     self.$.form.setAttribute('action', '/api/scientist/' + self.json.id);
                     self.$.form.redirect = '/scientist/' + self.json.id;
@@ -445,6 +446,6 @@
             onFormResponse: function(e, detail, sender) {
                 this.fire('logged-in');
             }
-        }, window.Mixins.dynamicFields));
+        }, AppMixins.dynamicFields));
     </script>
 </polymer-element>

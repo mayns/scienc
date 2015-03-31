@@ -1,0 +1,29 @@
+<link rel="import" href="/static/mixins/mixins.html"/>
+
+<script>
+    (function(){
+        "use strict";
+
+        var utils = {
+            qs: function(selector) {
+                var context = this || document;
+                return context.querySelector(selector);
+            },
+            qsa: function(selector) {
+                var context = this || document;
+                return utils.toArray(context.querySelectorAll(selector));
+            },
+            on: function(type, callback, useCapture) {
+                this.addEventListener(type, callback, Boolean(useCapture));
+            },
+            off: function(type, callback, useCapture) {
+                this.removeEventListener(type, callback, Boolean(useCapture));
+            },
+            toArray: function(collection) {
+                return [].slice.call(collection);
+            }
+        };
+
+        window.AppMixins.utils = utils;
+    })();
+</script>

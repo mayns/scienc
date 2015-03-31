@@ -445,7 +445,7 @@
                 viewType: 'create'
             },
             onDialogClose: function() {
-                var researchFields = $$.qsa('.checkbox',this.$.researchFieldsDialog)
+                var researchFields = this.qsa.call(this.$.researchFieldsDialog, '.checkbox')
                         .filter(function(item){
                             return item.checked;
                         })
@@ -461,6 +461,6 @@
             computed: {
                 ajaxMethod: "viewType === 'create' ? 'POST' : 'PUT'"
             }
-        }, window.Mixins.dynamicFields));
+        }, AppMixins.dynamicFields, AppMixins.utils));
     </script>
 </polymer-element>

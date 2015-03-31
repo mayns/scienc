@@ -1,0 +1,39 @@
+<link rel="import" href="/static/elements/polymer/polymer.html"/>
+<link rel="import" href="/static/elements/core-ajax/core-ajax.html"/>
+
+<polymer-element name="my-projects">
+    <template>
+        <style>
+            :host {
+                display: block;
+            }
+        </style>
+        <core-ajax id="ajax" url="/api/scientist/{{ app.user.id }}"  method="GET" handleAs="json" response="{{ json }}"></core-ajax>
+        <div>
+
+        </div>
+    </template>
+    <script>
+
+
+            Polymer(Polymer.mixin({
+                ready: function() {
+                    var appEl;
+
+                    this.app = scienceApp;
+
+                    if (this.app.user) {
+                        this.$.ajax.go();
+                    }
+                    else {
+                        appEl = this.qs('science-app');
+                        this.on(appEl, 'user-ready', this.onUserReady);
+                    }
+                },
+                onUserReady: function() {
+                    this.$.ajax.go();
+                }
+            }), AppMixins.utils);
+
+    </script>
+</polymer-element>

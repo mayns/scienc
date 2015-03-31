@@ -4,48 +4,59 @@
 <polymer-element name="science-app" on-logged-in="{{ onLoggedIn }}">
 	<template>
 		<content></content>
-		<core-ajax id="ajax" method="GET" on-core-response="{{ onResponse }}" on-core-error="{{ onError }}"></core-ajax>s>
+		<core-ajax id="ajax" method="GET" on-core-response="{{ onResponse }}" on-core-error="{{ onError }}"></core-ajax>
 	</template>
 	<script>
 		(function(){
 			var counter = 0;
 
-			Polymer({
-				ready: function() {
-					var self = this,
-						xsrfCookie = self.getCookie('_xsrf'),
-						userCookie = self.getCookie('scientist');
+			Polymer(Polymer.mixin({
+                _xsrf: null,
+                user: null,
+                ready: function() {
+                    var self = this,
+                            xsrfCookie = self.getCookie('_xsrf'),
+                            userCookie = self.getCookie('scientist');
 
-                    window.ScienceApp = {};
-					if (userCookie) {
-						return this.getUserData();
-					}
+                    if (userCookie) {
+                        return this.getUserData();
+                    }
                     if (!xsrfCookie) {
                         this.getXSRFCookie();
                     }
-				},
-				getCookie: function(name) {
-					var match = document.cookie.match("\\b" + name + "=([^;]*)\\b");
 
-					return match ? match[1] : match;
-				},
+                    window.ScienceApp = this;
+                },
+                getCookie: function(name) {
+                    var match = document.cookie.match("\\b" + name + "=([^;]*)\\b");
+
+                    return match ? match[1] : match;
+                },
                 onResponse: function(e, detail, sender) {
-                    ScienceApp._xsrf = this.getCookie('_xsrf');
+                    this._xsrf = this.getCookie('_xsrf');
+
                     if (detail.response) {
-                        ScienceApp.user = JSON.parse(detail.response).data;
+                        this.user = JSON.parse(detail.response).data;
+                        // TODO remove this when server will be fixed
+                        if (this.user.liked_projects === null) {
+                            this.user.liked_projects = [];
+                        }
+                        if (this.user.desired_vacancies === null) {
+                            this.user.desired_vacancies = [];
+                        }
                     }
-				},
+                },
                 onError: function(e, detail, sender) {
-					if (counter === 5) {
-						// alert(detail.response);
-					}
-					else {
-						counter++;
-						setTimeout(function(){
-							this.$.ajax.go();
-						}.bind(this),5000);
-					}
-				},
+                    if (counter === 5) {
+                        // alert(detail.response);
+                    }
+                    else {
+                        counter++;
+                        setTimeout(function(){
+                            this.$.ajax.go();
+                        }.bind(this),5000);
+                    }
+                },
                 getXSRFCookie: function() {
                     this.$.ajax.url = "/api/xsrf";
                     this.$.ajax.go();
@@ -57,7 +68,7 @@
                 onLoggedIn: function() {
                     this.getUserData();
                 }
-			});
+            }, AppMixins.utils));
 		})();
 	</script>
 </polymer-element>

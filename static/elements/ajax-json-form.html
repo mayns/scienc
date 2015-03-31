@@ -7,29 +7,26 @@
 		<app-ajax id="ajax" url="{{ action }}" method="{{ ajaxMethod }}" on-core-response="{{ onFormSuccess }}" handleAs="json"></app-ajax>
 	</template>
 	<script>
-		Polymer({
-			onFormSubmit: function(e) {
-				e.preventDefault();
-				var jsonData = this.serializeObject('data-json'),
+		Polymer(Polymer.mixin({
+            onFormSubmit: function(e) {
+                e.preventDefault();
+                var jsonData = this.serializeObject('data-json'),
                     ajax = this.$.ajax,
-					formData = new FormData();
+                    formData = new FormData();
 
                 this.addCustomFields(jsonData, formData);
                 formData.append('data', JSON.stringify(jsonData));
-				ajax.makeRequest(formData);
-			},
+                ajax.makeRequest(formData);
+            },
             addCustomFields: function(jsonData, formData) {},
-			serializeObject: function() {
-				return $$.serializeObject.apply(this, arguments);
-			},
-			onFormSuccess: function(e, detail, sender) {
+            onFormSuccess: function(e, detail, sender) {
                 this.fire('form-response', {
                     data: detail
                 });
-				if (this.redirect) {
-					$$.qs('app-router').go(this.redirect);
-				}
-			}
-		});
+                if (this.redirect) {
+                    ScienceApp.qs('app-router').go(this.redirect);
+                }
+            }
+        }, AppMixins.serializeObject));
 	</script>
 </polymer-element>
