@@ -59,7 +59,8 @@
         Polymer({
             ready: function(){
                 this.app = ScienceApp;
-                this.show_participate = this.app.user.desired_vacancies.indexOf(this.data.project_id + '_' + this.data.vacancy_id) !== -1;
+                this.show_participate = this.app.user && this.app.user.desired_vacancies.indexOf(this.data.project_id + '_' + this.data.vacancy_id) !== -1;
+                this.disabled_participate = this.app.user;
             },
             publish: {
                 data: {},
