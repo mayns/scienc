@@ -137,7 +137,7 @@ class ScientistRoleHandler(BaseRequestHandler):
         pass
 
 
-class MyProjectsHandler(BaseRequestHandler):
+class ScientistManagedProjectsHandler(BaseRequestHandler):
 
     @gen.coroutine
     def get(self, *args, **kwargs):
@@ -160,14 +160,14 @@ class MyProjectsHandler(BaseRequestHandler):
         self.finish(response_data)
 
 
-class FavoriteParticipationProjectsHandler(BaseRequestHandler):
+class ScientistParticipationProjectsHandler(BaseRequestHandler):
 
     @gen.coroutine
     def get(self, *args, **kwargs):
         print u'favorite participation projects get'
 
 
-class FavoriteDesiredProjectsHandler(BaseRequestHandler):
+class ScientistDesiredProjectsHandler(BaseRequestHandler):
 
     @gen.coroutine
     def get(self, *args, **kwargs):
