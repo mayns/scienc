@@ -6,7 +6,6 @@ from project import handlers as pr_handlers
 from scientist import handlers as sc_handlers
 
 __author__ = 'oks'
-
 url_handlers = [
     # common
     (r"/api/login", cm_handlers.LoginHandler),
@@ -19,7 +18,9 @@ url_handlers = [
     (r"/api/scientist(/\d+)?", sc_handlers.ScientistHandler),
     (r"/api/scientist/(\d+)/role", sc_handlers.ScientistRoleHandler),
     (r"/api/scientists", sc_handlers.ScientistsListHandler),
-    (r"/api/scientist/(\d+)/favorites", sc_handlers.FavoriteProjectsHandler),
+    (r"/api/scientist/(\d+)/favorites/mine", sc_handlers.FavoriteMineProjectsHandler),
+    (r"/api/scientist/(\d+)/favorites/participation", sc_handlers.FavoriteParticipationProjectsHandler),
+    (r"/api/scientist/(\d+)/favorites/desired", sc_handlers.FavoriteDesiredProjectsHandler),
 
     # projects
     (r"/api/project(/\d+)?", pr_handlers.ProjectHandler),
@@ -31,3 +32,4 @@ url_handlers = [
     (r"/api/.*", cm_handlers.NotFoundRedirectHandler),
 
 ]
+

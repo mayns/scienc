@@ -211,3 +211,14 @@ class ScientistBL(object):
         data.update(image_url=image_url)
         logging.info(data)
         raise gen.Return(data)
+
+    @classmethod
+    @gen.coroutine
+    @psql_connection
+    def get_my_projects(cls, conn, scientist_id):
+        sql_query = get_select_query(Scientist.TABLE, columns=[u'managing_project_ids'],
+                                     where=dict(column='id', value=scientist_id))
+        cursor = yield momoko.Op(conn.execute, sql_query)
+        data = cursor.fetchall()
+        if not data:
+            raise gen.Return([])

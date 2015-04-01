@@ -137,8 +137,38 @@ class ScientistRoleHandler(BaseRequestHandler):
         pass
 
 
-class FavoriteProjectsHandler(BaseRequestHandler):
+class FavoriteMineProjectsHandler(BaseRequestHandler):
 
     @gen.coroutine
     def get(self, *args, **kwargs):
-        print u'favorite projects get'
+        print u'favorite mine projects get'
+
+        if not self.current_user_id:
+            self.send_error(status_code=403)
+            return
+
+        try:
+            response = yield ScientistBL.get_my_projects(self.current_user_id)
+        except Exception, ex:
+            logging.info('Exc on get mine favorites projects: {}'.format(self.current_user_id))
+            logging.exception(ex)
+            response = dict(
+                message=ex.message
+            )
+
+        response_data = yield self.get_response(response)
+        self.finish(response_data)
+
+
+class FavoriteParticipationProjectsHandler(BaseRequestHandler):
+
+    @gen.coroutine
+    def get(self, *args, **kwargs):
+        print u'favorite participation projects get'
+
+
+class FavoriteDesiredProjectsHandler(BaseRequestHandler):
+
+    @gen.coroutine
+    def get(self, *args, **kwargs):
+        print u'favorite desired projects get'

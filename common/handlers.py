@@ -71,7 +71,8 @@ class UserHandler(BaseRequestHandler):
             id=scientist.id,
             image_url=image_url,
             liked_projects=scientist.liked_projects or [],
-            desired_vacancies=desired_vacancies
+            desired_vacancies=desired_vacancies,
+            managing_project_ids=scientist.managing_project_ids or []
         )
         response = yield self.get_response(scientist_data)
         self.finish(response)
