@@ -137,7 +137,7 @@ class ScientistRoleHandler(BaseRequestHandler):
         pass
 
 
-class FavoriteMineProjectsHandler(BaseRequestHandler):
+class MyProjectsHandler(BaseRequestHandler):
 
     @gen.coroutine
     def get(self, *args, **kwargs):

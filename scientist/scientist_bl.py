@@ -219,6 +219,15 @@ class ScientistBL(object):
         sql_query = get_select_query(Scientist.TABLE, columns=[u'managing_project_ids'],
                                      where=dict(column='id', value=scientist_id))
         cursor = yield momoko.Op(conn.execute, sql_query)
-        data = cursor.fetchall()
-        if not data:
+        projects = cursor.fetchall()
+        if not projects:
             raise gen.Return([])
+
+        for project_id in projects:
+            sql_query = get_select_query(Scientist.TABLE, columns=[u'title', u'responses'],
+                                         where=dict(column='id', value=project_id))
+            cursor = yield momoko.Op(conn.execute, sql_query)
+            project = cursor.fetchone()
+            if not project:
+                raise Exception(u'No project')
+            print project
