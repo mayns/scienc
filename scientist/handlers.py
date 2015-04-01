@@ -141,7 +141,7 @@ class ScientistManagedProjectsHandler(BaseRequestHandler):
 
     @gen.coroutine
     def get(self, *args, **kwargs):
-        print u'favorite mine projects get'
+        print u'managed projects get'
 
         if not self.current_user_id:
             self.send_error(status_code=403)
@@ -150,7 +150,7 @@ class ScientistManagedProjectsHandler(BaseRequestHandler):
         try:
             response = yield ScientistBL.get_my_projects(self.current_user_id)
         except Exception, ex:
-            logging.info('Exc on get mine favorites projects: {}'.format(self.current_user_id))
+            logging.info('Exc on get my projects: {}'.format(self.current_user_id))
             logging.exception(ex)
             response = dict(
                 message=ex.message
@@ -166,9 +166,41 @@ class ScientistParticipationProjectsHandler(BaseRequestHandler):
     def get(self, *args, **kwargs):
         print u'favorite participation projects get'
 
+        if not self.current_user_id:
+            self.send_error(status_code=403)
+            return
+
+        try:
+            response = yield ScientistBL.get_participation_projects(self.current_user_id)
+        except Exception, ex:
+            logging.info('Exc on get my projects: {}'.format(self.current_user_id))
+            logging.exception(ex)
+            response = dict(
+                message=ex.message
+            )
+
+        response_data = yield self.get_response(response)
+        self.finish(response_data)
+
 
 class ScientistDesiredProjectsHandler(BaseRequestHandler):
 
     @gen.coroutine
     def get(self, *args, **kwargs):
         print u'favorite desired projects get'
+
+        if not self.current_user_id:
+            self.send_error(status_code=403)
+            return
+
+        try:
+            response = yield ScientistBL.get_desired_projects(self.current_user_id)
+        except Exception, ex:
+            logging.info('Exc on get my projects: {}'.format(self.current_user_id))
+            logging.exception(ex)
+            response = dict(
+                message=ex.message
+            )
+
+        response_data = yield self.get_response(response)
+        self.finish(response_data)

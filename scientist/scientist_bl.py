@@ -13,6 +13,7 @@ from common.media_server import upload, delete, get_url
 from common.utils import set_password, check_password
 from common.decorators import psql_connection
 from scientist.models import Scientist
+from project.models import Project
 from common.exceptions import UserExistException, RequiredFields, PSQLException
 
 
@@ -218,16 +219,122 @@ class ScientistBL(object):
     def get_my_projects(cls, conn, scientist_id):
         sql_query = get_select_query(Scientist.TABLE, columns=[u'managing_project_ids'],
                                      where=dict(column='id', value=scientist_id))
+
+        # [{scientist_id, vacancy_id, message}]
         cursor = yield momoko.Op(conn.execute, sql_query)
-        projects = cursor.fetchall()
-        if not projects:
+        project_ids = cursor.fetchone()
+        if not project_ids:
             raise gen.Return([])
 
-        for project_id in projects:
-            sql_query = get_select_query(Scientist.TABLE, columns=[u'title', u'responses'],
+        projects = []
+        for project_id in project_ids:
+            project_columns = [u'title', u'responses', u'missed_participants']
+            sql_query = get_select_query(Project.TABLE, columns=project_columns,
                                          where=dict(column='id', value=project_id))
             cursor = yield momoko.Op(conn.execute, sql_query)
-            project = cursor.fetchone()
-            if not project:
+            project_data = cursor.fetchone()
+            if not project_data:
                 raise Exception(u'No project')
-            print project
+
+            print project_data
+            project_data = dict(zip(project_columns, project_data))
+            project_data.update(project_id=project_id)
+            missed_participants = project_data.pop(u'missed_participants', [])
+            raw_responses = project_data.pop(u'responses', [])
+
+            if not raw_responses:
+                projects.append(project_data)
+                continue
+
+            responses = []
+            for response in project_data[u'responses']:
+                scientist_id = response.get(u'scientist_id')
+                if not scientist_id:
+                    raise Exception(u'No scientist id')
+
+                scientist_columns = [u'first_name', u'middle_name', u'last_name']
+                sql_query = get_select_query(Scientist.TABLE, columns=scientist_columns,
+                                             where=dict(column='id', value=scientist_id))
+                cursor = yield momoko.Op(conn.execute, sql_query)
+                scientist_name = cursor.fetchone()
+                if not scientist_name:
+                    raise Exception(u'No scientist name, weird asshole!')
+
+                scientist_name = u' '.join(scientist_name)
+                responses.append(dict(
+                    scientist_name=scientist_name,
+                    scientist_id=scientist_id,
+                    message=response[u'message'],
+                    vacancy_name=[k[u'vacancy_name'] for k in missed_participants if k[u'id'] == response[u'vacancy_id']][0]
+                ))
+            project_data.update(responses=responses)
+
+            projects.append(project_data)
+        raise gen.Return(projects)
+
+    @classmethod
+    @gen.coroutine
+    @psql_connection
+    def get_participation_projects(cls, conn, scientist_id):
+        sql_query = get_select_query(Scientist.TABLE, columns=[u'participating_projects'],
+                                     where=dict(column='id', value=scientist_id))
+        # [{project_id, role_id}]
+        cursor = yield momoko.Op(conn.execute, sql_query)
+        participating_data = cursor.fetchone()
+        if not participating_data:
+            raise gen.Return([])
+
+        projects = []
+        for participation in participating_data:
+            project_columns = [u'title', u'participants']
+            sql_query = get_select_query(Project.TABLE, columns=project_columns,
+                                         where=dict(column='id', value=participation[u'project_id']))
+            cursor = yield momoko.Op(conn.execute, sql_query)
+            project_data = cursor.fetchone()
+            if not project_data:
+                raise Exception(u'No project')
+            project_data = dict(zip(project_columns, project_data))
+            participants = project_data.pop(u'participants')
+            project_data.update(project_id=participation[u'project_id'],
+                                role_name=[k[u'role_name'] for k in participants if k[u'id'] == participation[u'role_id']][0]
+            )
+
+            print project_data
+            projects.append(project_data)
+        raise gen.Return(projects)
+
+
+    @classmethod
+    @gen.coroutine
+    @psql_connection
+    def get_desired_projects(cls, conn, scientist_id):
+
+        sql_query = get_select_query(Scientist.TABLE, columns=[u'desired_vacancies'],
+                                     where=dict(column='id', value=scientist_id))
+        cursor = yield momoko.Op(conn.execute, sql_query)
+        applications = cursor.fetchall()
+        if not applications:
+            raise gen.Return([])
+
+        # [{project_id, vacancy_id}]
+        projects = []
+        for application in applications:
+            project_columns = [u'title', u'missed_participants']
+            sql_query = get_select_query(Project.TABLE, columns=project_columns,
+                                         where=dict(column='id', value=application[u'project_id']))
+            cursor = yield momoko.Op(conn.execute, sql_query)
+            project_data = cursor.fetchone()
+            if not project_data:
+                raise Exception(u'No project')
+            project_data = dict(zip(project_columns, project_data))
+
+            missed_participants = project_data.pop(u'missed_participants', [])
+            project_data.update(project_id=application[u'project_id'],
+                                vacancy_id=application[u'vacancy_id'],
+                                vacancy_name=[k[u'vacancy_name'] for k in missed_participants if
+                                              k[u'id'] == application[u'vacancy_id']][0]
+            )
+
+            print project_data
+            projects.append(project_data)
+        raise gen.Return(projects)

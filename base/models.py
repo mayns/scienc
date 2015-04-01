@@ -89,17 +89,16 @@ class PSQLModel(object):
             data = {k: getattr(self, k) for k in fields if hasattr(self, k)}
         else:
             data = self._get_editable_attrs()
-
-        if update:
-            sqp_query = get_update_query(self.TABLE, data, where_params=dict(id=self.id),
-                                         editable_columns=columns or self.EDITABLE_FIELDS)
-        else:
-            if set(self.JSON_FIELDS) & set(data.keys()):
+        if set(self.JSON_FIELDS) & set(data.keys()):
                 for f in self.JSON_FIELDS:
                     v = data.get(f)
                     if not v:
                         continue
-                    [k.update(id=generate_id()) for k in v]
+                    [k.update(id=generate_id()) for k in v if not k.get(u'id')]
+        if update:
+            sqp_query = get_update_query(self.TABLE, data, where_params=dict(id=self.id),
+                                         editable_columns=columns or self.EDITABLE_FIELDS)
+        else:
             sqp_query = get_insert_query(self.TABLE, data, self.CREATE_FIELDS)
         try:
             cursor = yield momoko.Op(conn.execute, sqp_query)
