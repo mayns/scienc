@@ -15,12 +15,12 @@ url_handlers = [
     (r"/api/user", cm_handlers.UserHandler),
 
     # scientists
-    (r"/api/scientist(/\d+)?", sc_handlers.ScientistHandler),
-    (r"/api/scientist/(\d+)/role", sc_handlers.ScientistRoleHandler),
+    (r"/api/scientist", sc_handlers.ScientistHandler),
+    (r"/api/scientist/role", sc_handlers.ScientistRoleHandler),
     (r"/api/scientists", sc_handlers.ScientistsListHandler),
-    (r"/api/scientist/(\d+)/my-projects", sc_handlers.MyProjectsHandler),
-    (r"/api/scientist/(\d+)/participation", sc_handlers.FavoriteParticipationProjectsHandler),
-    (r"/api/scientist/(\d+)/desired", sc_handlers.FavoriteDesiredProjectsHandler),
+    (r"/api/scientist/my-projects", sc_handlers.MyProjectsHandler),
+    (r"/api/scientist/participating", sc_handlers.FavoriteParticipationProjectsHandler),
+    (r"/api/scientist/applications", sc_handlers.FavoriteDesiredProjectsHandler),
 
     # projects
     (r"/api/project(/\d+)?", pr_handlers.ProjectHandler),
