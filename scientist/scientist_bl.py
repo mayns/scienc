@@ -222,7 +222,7 @@ class ScientistBL(object):
 
         # [{scientist_id, vacancy_id, message}]
         cursor = yield momoko.Op(conn.execute, sql_query)
-        project_ids = cursor.fetchone()
+        project_ids = cursor.fetchone()[0]
         if not project_ids:
             raise gen.Return([])
 
@@ -230,7 +230,7 @@ class ScientistBL(object):
         for project_id in project_ids:
             project_columns = [u'title', u'responses', u'missed_participants']
             sql_query = get_select_query(Project.TABLE, columns=project_columns,
-                                         where=dict(column='id', value=project_id))
+                                         where=dict(column='id', value=int(project_id)))
             cursor = yield momoko.Op(conn.execute, sql_query)
             project_data = cursor.fetchone()
             if not project_data:
