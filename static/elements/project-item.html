@@ -3,6 +3,7 @@
 <link rel="import" href="/static/elements/html5-history-anchor/html5-history-anchor.html"/>
 <link rel="import" href="/static/elements/core-icons/core-icons.html">
 <link rel="import" href="/static/elements/science-app.html">
+<link rel="import" href="/static/mixins/utils.html">
 
 <polymer-element name="project-item" attributes="data">
 	<template>
@@ -86,7 +87,7 @@
 		Polymer({
             liked: false,
             ready: function() {
-                this.app = ScienceApp;
+                this.app = $$.byId('app');
 
                 if(this.app.user && this.app.user.liked_projects.indexOf(this.data.id) !== -1) {
                     this.liked = true;

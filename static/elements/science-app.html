@@ -15,7 +15,6 @@
 	<script>
 		(function(){
 			var counter = 0;
-            window.ScienceApp = null;
 
 			Polymer(Polymer.mixin({
                 _xsrf: null,
@@ -31,8 +30,6 @@
                     if (!xsrfCookie) {
                         this.getXSRFCookie();
                     }
-
-                    window.ScienceApp = this;
                 },
                 getCookie: function(name) {
                     var match = document.cookie.match("\\b" + name + "=([^;]*)\\b");
@@ -44,6 +41,7 @@
 
                     if (detail.response) {
                         this.user = JSON.parse(detail.response).data;
+                        this.fire('user-updated');
                     }
                 },
                 onError: function(e, detail) {

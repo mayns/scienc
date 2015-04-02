@@ -1,5 +1,6 @@
 <link rel="import" href="/static/elements/polymer/polymer.html"/>
 <link rel="import" href="/static/elements/core-ajax/core-ajax.html"/>
+<link rel="import" href="/static/elements/science-app.html"/>
 
 <polymer-element name="app-ajax" attributes="url handleAs params response error method headers body contentType withCredentials progress loading">
 	<template>
@@ -21,6 +22,9 @@
 	</template>
 	<script>
 		Polymer({
+            ready: function() {
+                this.app = $$.byId('app');
+            },
 			makeRequest: function(formData) {
 				var ajax = this.$.ajax;
 
@@ -28,7 +32,7 @@
 					formData = new	FormData();
 				}
 
-				formData.append('_xsrf', ScienceApp._xsrf);
+				formData.append('_xsrf', this.app._xsrf);
 				ajax.body = formData;
 				ajax.go();
 			}

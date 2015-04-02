@@ -5,6 +5,7 @@
 <link rel="import" href="/static/elements/dialog-login.html"/>
 <link rel="import" href="/static/elements/science-app.html"/>
 <link rel="import" href="/static/elements/app-icons.html"/>
+<link rel="import" href="/static/mixins/utils.html"/>
 
 <polymer-element name="app-bar">
 	<template>
@@ -101,17 +102,17 @@
 	<script>
 		Polymer({
 			ready: function() {
-				this.app = ScienceApp;
+				this.app = $$.byId('app');
 			},
 			onSignInTap: function(event, detail, sender) {
-				this.app.qs('#dialogLogin').open();
+				$$.byId('dialogLogin').open();
 			},
 			onSignOutTap: function() {
 				this.$.ajax.makeRequest();
 			},
 			onSignOutResponse: function() {
 				this.app.user = null;
-                this.app.qs('app-router').go('/');
+                $$.byId('router').go('/');
 			}
 		});
 	</script>

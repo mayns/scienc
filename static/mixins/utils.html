@@ -5,6 +5,9 @@
         "use strict";
 
         var utils = {
+            byId: function(id) {
+                return document.getElementById(id);
+            },
             qs: function(selector) {
                 var context = this || document;
                 return context.querySelector(selector);

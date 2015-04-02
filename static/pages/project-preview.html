@@ -126,7 +126,7 @@
                                 </li>
                             </template>
                         </ol>
-                    </div>
+                     </div>
                 </template>
                 <template if="{{ tags.length > 0 }}">
                     <h2>Тэги</h2>
@@ -164,7 +164,7 @@
                             <h2>Не хватает</h2>
                             <p>
                                 <template repeat="{{ p in missed_participants }}">
-                                    <project-missed-participant data="[[ {vacancy_name: p.vacancy_name, description: p.description, project_id: id, id: p.id  } ]]">
+                                    <project-missed-participant data="[[ {vacancy_name: p.vacancy_name, description: p.description, project_id: id, vacancy_id: p.id  } ]]">
                                     </project-missed-participant>
                                 </template>
                             </p>

@@ -18,7 +18,7 @@
             <page-actions class="row-flex">
                 <template if="{{ preview }}">
                     <div on-tap="{{ edit }}" class="action col-lg-2">Редактирование</div>
-                    <div on-tap="{{ delete }}" class="action">Удалить профиль</div>
+                    <!--<div on-tap="{{ delete }}" class="action">Удалить профиль</div>-->
                 </template>
                 <template if="{{ !preview }}">
                     <div on-tap="{{ show }}" class="action">Просмотр</div>
@@ -35,7 +35,7 @@
 	<script>
 		Polymer({
             ready: function() {
-                this.app = ScienceApp;
+                this.app = $$.byId('app');
                 this.preview = true;
             },
             show: function() {
@@ -44,12 +44,12 @@
             edit: function() {
                 this.preview = false;
             },
-            delete: function() {
-                this.$.ajaxDelete.go();
-            },
+//            delete: function() {
+//                this.$.ajaxDelete.go();
+//            },
             onDeleteSuccess: function() {
                 this.app.user = null;
-                this.app.qs('app-router').go('/scientists');
+                $$.byId('router').go('/scientists');
             }
         });
 	</script>

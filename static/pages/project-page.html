@@ -4,6 +4,7 @@
 <link rel="import" href="/static/pages/project-modify.html"/>
 <link rel="import" href="/static/elements/page-actions.html"/>
 <link rel="import" href="/static/elements/science-app.html"/>
+<link rel="import" href="/static/mixins/utils.html"/>
 
 <polymer-element name="project-page">
     <template>
@@ -41,7 +42,7 @@
     <script>
         Polymer({
             ready: function() {
-                this.app = ScienceApp;
+                this.app = $$.byId('app');
             },
             publish: {
                 preview: true

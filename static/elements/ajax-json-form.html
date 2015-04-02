@@ -1,6 +1,7 @@
 <link rel="import" href="/static/elements/polymer/polymer.html"/>
 <link rel="import" href="/static/elements/app-ajax.html"/>
 <link rel="import" href="/static/mixins/serializeObject.html"/>
+<link rel="import" href="/static/mixins/utils.html"/>
 
 <polymer-element name="ajax-json-form" extends="form" on-submit="{{ onFormSubmit }}" attributes="action redirect ajaxMethod">
 	<template>
@@ -34,7 +35,7 @@
                     data: detail
                 });
                 if (this.redirect) {
-                    ScienceApp.qs('app-router').go(this.redirect);
+                    $$.byId('app').qs('app-router').go(this.redirect);
                 }
             }
         }, AppMixins.serializeObject));

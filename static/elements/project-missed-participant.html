@@ -28,21 +28,20 @@
                 <div>{{ data.vacancy_name }}</div>
                 <div class="meta">{{ data.description }}</div>
             </div>
-            <template if="{{ !show_participate }}">
-                <div on-tap="{{ toggleLetter }}" class="action">
-                    Участвовать
-                </div>
-            </template>
-            <template if="{{ show_participate }}">
-                <div>
-                     Заявка отправлена
-                </div>
+            <template if="{{ app.user }}">
+                <template if="{{ !participate }}">
+                    <div on-tap="{{ toggleLetter }}" class="action">
+                        Участвовать
+                    </div>
+                </template>
+                <template if="{{ participate }}">
+                    <div>
+                        Заявка отправлена
+                    </div>
+                </template>
             </template>
         </div>
-        <!--<template if="{{ show_participate }}">-->
-            <!--<span>hi</span>-->
-        <!--</template>-->
-        <template if="{{ !show_participate }}">
+        <template if="{{ !participate }}">
             <div class="{{ letterPreview ? '' : 'hide' }} letter">
             <label for="">Прикрепить письмо к заявке</label>
             <textarea flex id="message"></textarea>
@@ -58,9 +57,9 @@
     <script>
         Polymer({
             ready: function(){
-                this.app = ScienceApp;
-                this.show_participate = this.app.user && this.app.user.desired_vacancies.indexOf(this.data.project_id + '_' + this.data.id) !== -1;
-                this.disabled_participate = this.app.user;
+                this.app = $$.byId('app');
+                this.participate = this.app.user && this.app.user.desired_vacancies.indexOf(this.data.project_id + '_' + this.data.vacancy_id) !== -1;
+                this.app.on('user-update', this.checkParticipation);
             },
             publish: {
                 data: {},
@@ -69,12 +68,15 @@
             toggleLetter: function() {
                 this.letterPreview = !this.letterPreview;
             },
+            checkParticipation: function() {
+                this.participate = this.app.user && this.app.user.desired_vacancies.indexOf(this.data.project_id + '_' + this.data.vacancy_id) !== -1;
+            },
             submitForm: function() {
                 var ajax = this.$.ajax;
                 var formData = new FormData();
                 var body = {
                     message: this.$.message.value,
-                    id: this.data.id
+                    id: this.data.vacancy_id
                 };
                 formData.append('data', JSON.stringify(body));
                 ajax.makeRequest(formData);
@@ -82,8 +84,8 @@
             onSubmitSuccess: function(event, detail, sender) {
                 this.$.message.value = '';
                 this.letterPreview = false;
-                this.show_participate = true;
-                this.app.user.desired_vacancies.push(this.data.project_id + '_' + this.data.id);
+                this.app.user.desired_vacancies.push(this.data.project_id + '_' + this.data.vacancy_id);
+                this.checkParticipation();
             }
         });
     </script>
