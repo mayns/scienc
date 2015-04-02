@@ -13,15 +13,14 @@
             }
         </style>
         <core-ajax id="ajax" auto url="/api/project/{{ id }}"  method="GET" handleAs="json" response="{{ json }}"></core-ajax>
-        <core-ajax id="ajaxDelete" url="/api/project/{{ id }}"  method="DELETE" on-core-response="{{ onDeleteSuccess }}"></core-ajax>
+        <!--<core-ajax id="ajaxDelete" url="/api/project/{{ id }}"  method="DELETE" on-core-response="{{ onDeleteSuccess }}"></core-ajax>-->
         <template if="{{ json.data.manager_id == app.user.id }}">
             <page-actions class="row-flex">
                 <template if="{{ preview }}">
                     <div on-tap="{{ edit }}" class="action col-lg-2">Редактирование</div>
-                    <div on-tap="{{ delete }}" class="action">Удалить проект</div>
                 </template>
                 <template if="{{ !preview }}">
-                    <div on-tap="{{ show }}" class="action">Просмотр</div>
+                    <div on-tap="{{ show }}" class="action col-lg-2">Просмотр</div>
                 </template>
             </page-actions>
         </template>
@@ -45,13 +44,15 @@
             },
             edit: function() {
                 this.preview = false;
-            },
-            onDeleteSuccess: function() {
-                document.querySelector('app-router').go('/');
-            },
-            delete: function(){
-                this.$.ajaxDelete.go();
             }
+//          TODO Move to another place
+//            onDeleteSuccess: function() {
+//                document.querySelector('app-router').go('/');
+//            }
+
+//            delete: function(){
+//                this.$.ajaxDelete.go();
+//            }
         });
     </script>
 </polymer-element>

@@ -78,9 +78,11 @@
             <a class="app-bar-item" is="html5-history-anchor" href="/project" pushstate popstate>
                 <img src="/static/images/add_project.svg" alt="" class="addProjectIcon"/>
             </a>
-            <a class="app-bar-item" is="html5-history-anchor" href="/my-projects" pushstate popstate>
-                <img src="/static/images/favorite.svg" alt="" class="favoriteProjectsIcon"/>
-            </a>
+            <template if="{{ app.user.managing_project_ids.length > 0 }}">
+                <a class="app-bar-item" is="html5-history-anchor" href="/scientist/my-projects" pushstate popstate>
+                    <img src="/static/images/favorite.svg" alt="" class="favoriteProjectsIcon"/>
+                </a>
+            </template>
             <a class="app-bar-item" is="html5-history-anchor" href="/scientists" pushstate popstate>
                 <img src="/static/images/members.svg" alt="" class="membersIcon"/>
             </a>

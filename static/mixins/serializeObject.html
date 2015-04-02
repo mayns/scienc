@@ -1,4 +1,5 @@
-<link rel="import" href="/static/mixins/mixins.html"/>
+<link rel="import" href="/static/mixins/utils.html"/>
+<link rel="import" href="/static/polyfills/polyfills.html"/>
 
 <script>
     /**
@@ -24,7 +25,7 @@
         function FormSerializer(root, options) {
 
             // Private variables
-            var options = $.mix({}, FormSerializer.defaults.options, options);
+            var options = $$.mix({}, FormSerializer.defaults.options, options);
             this._data = {};
             this._pushes = {};
             this.root = root;
@@ -100,7 +101,7 @@
                 }
                 if (!patterns.validate.test(pair.name)) return self;
                 var obj = self._makeObject(pair.name, pair.value);
-                self._data = $.mix({}, self._data, obj);
+                self._data = $$.mix({}, self._data, obj);
                 return self;
             },
             addPairs: function (pairs) {
@@ -135,52 +136,52 @@
                 var elements = [].slice.call(root.querySelectorAll('['+attr+']'));
 
                 return elements
-                        .filter(function (field) {
+                    .filter(function (field) {
 
-                            var type = field.type;
-                            // Фильтруем disabled, submit, button, image, reset, file
-                            // Оставляем input, select, textarea, keygen
-                            // Если стоит флаг addBlankFields, то checkboxes и select-multiple
-                            // будут иметь пустой массив, если значения не выбраны
-                            // иначе просто не попадают в JSON
-                            if (self.addBlankFields) {
-                                return field.getAttribute(attr) && !(field.disabled) &&
-                                        rsubmittable.test(field.nodeName) && !rsubmitterTypes.test(type) &&
-                                        ( (field.checked && field.type === 'radio' || field.type === 'checkbox' ) || !rcheckableType.test(type) );
-                            }
+                        var type = field.type;
+                        // Фильтруем disabled, submit, button, image, reset, file
+                        // Оставляем input, select, textarea, keygen
+                        // Если стоит флаг addBlankFields, то checkboxes и select-multiple
+                        // будут иметь пустой массив, если значения не выбраны
+                        // иначе просто не попадают в JSON
+                        if (self.addBlankFields) {
                             return field.getAttribute(attr) && !(field.disabled) &&
-                                    rsubmittable.test( field.nodeName ) && !rsubmitterTypes.test( type ) &&
-                                    ( field.checked || !rcheckableType.test( type ) ) && (field.value !== "");
-                        })
-                        .map(function (field) {
-                            //  Фильтруем нечекнутые чекбоксы и радио кнопки
-                            var val = field.value;
-                            if (self.addBlankFields) {
-                                if ((field.checked === false && field.type === 'checkbox') || (field.type === 'select-multiple' && val === null)) {
-                                    return {
-                                        name: field.getAttribute(attr),
-                                        value: null
-                                    };
-                                }
+                                    rsubmittable.test(field.nodeName) && !rsubmitterTypes.test(type) &&
+                                    ( (field.checked && field.type === 'radio' || field.type === 'checkbox' ) || !rcheckableType.test(type) );
+                        }
+                        return field.getAttribute(attr) && !(field.disabled) &&
+                                rsubmittable.test( field.nodeName ) && !rsubmitterTypes.test( type ) &&
+                                ( field.checked || !rcheckableType.test( type ) ) && (field.value !== "");
+                    })
+                    .map(function (field) {
+                        //  Фильтруем нечекнутые чекбоксы и радио кнопки
+                        var val = field.value;
+                        if (self.addBlankFields) {
+                            if ((field.checked === false && field.type === 'checkbox') || (field.type === 'select-multiple' && val === null)) {
+                                return {
+                                    name: field.getAttribute(attr),
+                                    value: null
+                                };
                             }
-                            if (val === null) {
-                                return null;
-                            }
-                            else if (Array.isArray(val)) {
-                                return val.map(function (val) {
-                                    return {
-                                        name: field.getAttribute(attr),
-                                        value: val.replace(rCRLF, "\r\n")
-                                    };
-                                });
-                            }
-                            else {
+                        }
+                        if (val === null) {
+                            return null;
+                        }
+                        else if (Array.isArray(val)) {
+                            return val.map(function (val) {
                                 return {
                                     name: field.getAttribute(attr),
                                     value: val.replace(rCRLF, "\r\n")
                                 };
-                            }
-                        });
+                            });
+                        }
+                        else {
+                            return {
+                                name: field.getAttribute(attr),
+                                value: val.replace(rCRLF, "\r\n")
+                            };
+                        }
+                    });
             }
         };
 

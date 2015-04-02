@@ -2,7 +2,7 @@
 <link rel="import" href="/static/elements/core-ajax/core-ajax.html"/>
 <link rel="import" href="/static/mixins/utils.html"/>
 
-<polymer-element name="science-app" on-logged-in="{{ onLoggedIn }}">
+<polymer-element name="science-app" on-logged-in="{{ onUserUpdate }}" on-user-update="{{ onUserUpdate }}">
 	<template>
 		<content></content>
 		<core-ajax id="ajax" method="GET" on-core-response="{{ onResponse }}" on-core-error="{{ onError }}"></core-ajax>
@@ -67,7 +67,7 @@
                     this.$.ajax.url = "/api/user";
                     this.$.ajax.go();
                 },
-                onLoggedIn: function() {
+                onUserUpdate: function() {
                     this.getUserData();
                 }
             }, AppMixins.utils));

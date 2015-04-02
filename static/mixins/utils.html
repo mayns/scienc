@@ -21,9 +21,38 @@
             },
             toArray: function(collection) {
                 return [].slice.call(collection);
+            },
+            mix: function(objectToMix) {
+                var restObjects = [].slice.call(arguments, 1);
+
+                restObjects.forEach(function(mixin){
+                    utils._mix(objectToMix, mixin);
+                });
+
+                return objectToMix;
+            },
+            _mix: function mix(parent, mixin) {
+                var toStr = Object.prototype.toString,
+                        arr = "[object Array]",
+                        key;
+
+                for (key in mixin) {
+                    if (mixin.hasOwnProperty(key)) {
+                        if (typeof mixin[key] === "object" && mixin[key] !== null) {
+                            if (typeof parent[key] !== "object") {
+                                parent[key] = (Array.isArray(mixin[key])) ? [] : {};
+                            }
+                            mix(parent[key], mixin[key]);
+                        }
+                        else {
+                            parent[key] = mixin[key];
+                        }
+                    }
+                }
             }
         };
 
         window.AppMixins.utils = utils;
+        window.$$ = utils;
     })();
 </script>

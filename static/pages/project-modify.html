@@ -75,6 +75,7 @@
 			<form is="ajax-json-form"
                   id="form"
                   ajaxMethod="{{ ajaxMethod }}"
+                  on-form-response="{{ onFormResponse }}"
                   action="/api/project"
                   redirect="/">
                 <template bind="{{ data }}">
@@ -445,6 +446,9 @@
                 formType: 'short',
                 viewType: 'create'
             },
+            computed: {
+                ajaxMethod: "viewType === 'create' ? 'POST' : 'PUT'"
+            },
             onDialogClose: function() {
                 var researchFields = this.qsa.call(this.$.researchFieldsDialog, '.checkbox')
                         .filter(function(item){
@@ -459,8 +463,8 @@
             showResearchFields: function() {
                 this.$.researchFieldsDialog.open();    
             },
-            computed: {
-                ajaxMethod: "viewType === 'create' ? 'POST' : 'PUT'"
+            onFormResponse: function() {
+                 this.fire('user-update');
             }
         }, AppMixins.dynamicFields, AppMixins.utils));
     </script>
