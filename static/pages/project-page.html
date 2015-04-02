@@ -12,7 +12,14 @@
                 display: block;
             }
         </style>
-        <core-ajax id="ajax" auto url="/api/project/{{ id }}"  method="GET" handleAs="json" response="{{ json }}"></core-ajax>
+        <core-ajax 
+            id="ajax" 
+            auto 
+            url="/api/project/{{ id }}"  
+            method="GET" 
+            handleAs="json" 
+            response="{{ json }}">
+        </core-ajax>
         <!--<core-ajax id="ajaxDelete" url="/api/project/{{ id }}"  method="DELETE" on-core-response="{{ onDeleteSuccess }}"></core-ajax>-->
         <template if="{{ json.data.manager_id == app.user.id }}">
             <page-actions class="row-flex">

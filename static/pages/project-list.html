@@ -12,8 +12,14 @@
                 margin-top: 20px;
             }
         </style>
-        <core-ajax auto url="/api/projects" method="GET" handleAs="json" response="{{projects}}"></core-ajax>
-        <template repeat="{{ project in projects.data }}">
+        <core-ajax 
+            auto 
+            url="/api/projects" 
+            method="GET" 
+            handleAs="json" 
+            response="{{ json }}">
+        </core-ajax>
+        <template repeat="{{ project in json.data }}">
             <project-item data="{{ project }}"></project-item>
         </template>
 	</template>

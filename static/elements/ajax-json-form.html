@@ -5,10 +5,20 @@
 <polymer-element name="ajax-json-form" extends="form" on-submit="{{ onFormSubmit }}" attributes="action redirect ajaxMethod">
 	<template>
 		<content></content>
-		<app-ajax id="ajax" url="{{ action }}" method="{{ ajaxMethod }}" on-core-response="{{ onFormSuccess }}" handleAs="json"></app-ajax>
+		<app-ajax 
+            id="ajax" 
+            url="{{ action }}" 
+            method="{{ ajaxMethod }}" 
+            on-core-response="{{ onSubmitSuccess }}" 
+            handleAs="json">
+        </app-ajax>
 	</template>
 	<script>
 		Polymer(Polymer.mixin({
+            /*
+            *  @abstract
+            */
+            addCustomFields: function(jsonData, formData) {},
             onFormSubmit: function(e) {
                 e.preventDefault();
                 var jsonData = this.serializeObject('data-json'),
@@ -19,9 +29,8 @@
                 formData.append('data', JSON.stringify(jsonData));
                 ajax.makeRequest(formData);
             },
-            addCustomFields: function(jsonData, formData) {},
-            onFormSuccess: function(e, detail, sender) {
-                this.fire('form-response', {
+            onSubmitSuccess: function(e, detail, sender) {
+                this.fire('submit-success', {
                     data: detail
                 });
                 if (this.redirect) {

@@ -450,7 +450,7 @@
                 ajaxMethod: "viewType === 'create' ? 'POST' : 'PUT'"
             },
             onDialogClose: function() {
-                var researchFields = this.qsa.call(this.$.researchFieldsDialog, '.checkbox')
+                var researchFields = $$.qsa.call(this.$.researchFieldsDialog, '.checkbox')
                         .filter(function(item){
                             return item.checked;
                         })
@@ -466,6 +466,6 @@
             onFormResponse: function() {
                  this.fire('user-update');
             }
-        }, AppMixins.dynamicFields, AppMixins.utils));
+        }, AppMixins.dynamicFields));
     </script>
 </polymer-element>

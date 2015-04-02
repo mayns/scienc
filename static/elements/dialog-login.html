@@ -27,15 +27,26 @@
 					</button>
 				</form>
 				<footer class="row-flex between">
-					<a is="html5-history-anchor" href="/pwd_recover" pushstate popstate on-tap="{{ onLinkClick }}">Восстановить пароль</a>
-					<a is="html5-history-anchor" href="/signup" pushstate popstate on-tap="{{ onLinkClick }}">Зарегистрироваться</a>
+					<a 	is="html5-history-anchor" 
+						href="/pwd_recover" 
+						pushstate popstate 
+						on-tap="{{ onLinkClick }}">
+						Восстановить пароль
+					</a>
+					<a 	is="html5-history-anchor" 
+						href="/signup" 
+						pushstate popstate 
+						on-tap="{{ onLinkClick }}">
+						Зарегистрироваться
+					</a>
 				</footer>
 				<div class="login-dialog-close action" core-overlay-toggle>X</div>
-				<app-ajax on-core-response="{{onLoginFormResponse}}"
-						   method="POST"
-						   url="/api/login"
-						   headers='{"X-Requested-With": "XMLHttpRequest"}'
-						   id="ajax">
+				<app-ajax 
+					on-core-response="{{onLoginFormResponse}}"
+					method="POST"
+					url="/api/login"
+					headers='{"X-Requested-With": "XMLHttpRequest"}'
+					id="ajax">
 				</app-ajax>
 			</div>
 		</core-overlay>
@@ -52,6 +63,7 @@
 				e.preventDefault();
 				var self = this;
 				var formData = new FormData();
+
 				formData.append('data', JSON.stringify({
 					email: self.$.email.value,
 					pwd: self.$.password.value
@@ -63,7 +75,7 @@
                 self.$.email.value = '';
                 self.$.password.value = '';
 				self.close();
-                self.fire('logged-in');
+                self.fire('user-update');
 			},
             onLinkClick: function() {
                 this.close();

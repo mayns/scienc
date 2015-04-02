@@ -1,6 +1,6 @@
 <link rel="import" href="/static/elements/polymer/polymer.html"/>
 <link rel="import" href="/static/elements/page-actions.html"/>
-<link rel="import" href="/static/elements/app-ajax.html"/>
+<link rel="import" href="/static/elements/core-ajax/core-ajax.html"/>
 
 <polymer-element name="my-projects">
     <template>
@@ -9,8 +9,21 @@
                 display: block;
             }
         </style>
+        <core-ajax 
+            id="ajax" 
+            auto 
+            url="/api/scientist/my-projects"  
+            method="GET" 
+            handleAs="json" 
+            response="{{ json }}">
+        </core-ajax>
+        <template bind="{{ json.data }}">
+ 
+        </template>   
     </template>
     <script>
-        Polymer({});
+        Polymer({
+
+        });
     </script>
 </polymer-element>

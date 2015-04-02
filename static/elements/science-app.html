@@ -2,10 +2,15 @@
 <link rel="import" href="/static/elements/core-ajax/core-ajax.html"/>
 <link rel="import" href="/static/mixins/utils.html"/>
 
-<polymer-element name="science-app" on-logged-in="{{ onUserUpdate }}" on-user-update="{{ onUserUpdate }}">
+<polymer-element name="science-app" on-user-update="{{ onUserUpdate }}">
 	<template>
 		<content></content>
-		<core-ajax id="ajax" method="GET" on-core-response="{{ onResponse }}" on-core-error="{{ onError }}"></core-ajax>
+		<core-ajax 
+            id="ajax" 
+            method="GET" 
+            on-core-response="{{ onResponse }}" 
+            on-core-error="{{ onError }}">
+        </core-ajax>
 	</template>
 	<script>
 		(function(){
@@ -39,13 +44,6 @@
 
                     if (detail.response) {
                         this.user = JSON.parse(detail.response).data;
-                        // TODO remove this when server will be fixed
-                        if (this.user.liked_projects === null) {
-                            this.user.liked_projects = [];
-                        }
-                        if (this.user.desired_vacancies === null) {
-                            this.user.desired_vacancies = [];
-                        }
                     }
                 },
                 onError: function(e, detail) {

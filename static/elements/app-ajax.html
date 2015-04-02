@@ -3,19 +3,20 @@
 
 <polymer-element name="app-ajax" attributes="url handleAs params response error method headers body contentType withCredentials progress loading">
 	<template>
-		<core-ajax 	id="ajax"
-				   	url="{{url}}"
-				   	handleAs="{{handleAs}}"
-				   	params="{{params}}"
-					response="{{response}}"
-					error="{{error}}"
-					method="{{method}}"
-					headers="{{headers}}"
-					body="{{body}}"
-					contentType="{{contentType}}"
-					withCredentials="{{withCredentials}}"
-					progress="{{progress}}"
-					loading="{{loading}}">
+		<core-ajax 	
+			id="ajax"
+		   	url="{{url}}"
+		   	handleAs="{{handleAs}}"
+		   	params="{{params}}"
+			response="{{response}}"
+			error="{{error}}"
+			method="{{method}}"
+			headers="{{headers}}"
+			body="{{body}}"
+			contentType="{{contentType}}"
+			withCredentials="{{withCredentials}}"
+			progress="{{progress}}"
+			loading="{{loading}}">
 	   	</core-ajax>
 	</template>
 	<script>
