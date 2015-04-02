@@ -82,7 +82,7 @@ class ProjectBL(object):
             project = yield Project.get_by_id(data[u'project_id'])
             scientist_response = dict(
                 scientist_id=scientist_id,
-                vacancy_id=data[u'vacancy_id'],
+                vacancy_id=data[u'id'],
                 message=data.get(u'message', u'')
             )
             if scientist_response not in project.responses:
@@ -92,7 +92,7 @@ class ProjectBL(object):
                 scientist.desired_vacancies = scientist.desired_vacancies or []
                 scientist.desired_vacancies.append(dict(
                     project_id=project.id,
-                    vacancy_id=data[u'vacancy_id']
+                    vacancy_id=data[u'id']
                 ))
                 yield scientist.save(fields=[u'desired_vacancies'], columns=[u'desired_vacancies'])
         except Exception, ex:

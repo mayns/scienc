@@ -90,11 +90,11 @@ class PSQLModel(object):
         else:
             data = self._get_editable_attrs()
         if set(self.JSON_FIELDS) & set(data.keys()):
-                for f in self.JSON_FIELDS:
-                    v = data.get(f)
-                    if not v:
-                        continue
-                    [k.update(id=generate_id()) for k in v if not k.get(u'id')]
+            for f in self.JSON_FIELDS:
+                v = data.get(f)
+                if not v:
+                    continue
+                [k.update(id=generate_id()) for k in v if not k.get(u'id')]
         if update:
             sqp_query = get_update_query(self.TABLE, data, where_params=dict(id=self.id),
                                          editable_columns=columns or self.EDITABLE_FIELDS)

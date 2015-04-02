@@ -22,4 +22,4 @@ class Project(PSQLModel):
 
     SYSTEM_INFO = [u'dt_created', u'title_tsvector', u'description_short_tsvector']
 
-    JSON_FIELDS = [u'participants', u'missed_participants']
+    JSON_FIELDS = [u'responses', u'participants', u'missed_participants']

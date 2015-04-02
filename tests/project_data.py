@@ -97,13 +97,13 @@ class Project(object):
             ),
             participants=[
                 dict(
-                    role_id=0,
+                    id=0,
                     role_name=u'backend monkey',
                     scientist_id=1,
                     full_name=u'Oks',
                 ),
                 dict(
-                    role_id=1,
+                    id=1,
                     role_name=u'could he care less',
                     scientist_id=None,
                     full_name=u'Dmitry',
@@ -111,19 +111,19 @@ class Project(object):
             ],
             missed_participants=[
                 dict(
-                    vacancy_id=0,
+                    id=0,
                     vacancy_name=u'tester',
                     description=u'WE need AAAALLLL kinds of TESTS!',
                     difficulty=1,
                 ),
                 dict(
-                    vacancy_id=1,
+                    id=1,
                     vacancy_name=u'admin',
                     description=u'we need static to load SUPER FAST',
                     difficulty=1,
                 ),
                 dict(
-                    vacancy_id=2,
+                    id=2,
                     vacancy_name=u'a cat',
                     description=u'just a cat',
                     difficulty=10,

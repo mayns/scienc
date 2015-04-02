@@ -236,18 +236,19 @@ class ScientistBL(object):
             if not project_data:
                 raise Exception(u'No project')
 
-            print project_data
             project_data = dict(zip(project_columns, project_data))
             project_data.update(project_id=project_id)
             missed_participants = project_data.pop(u'missed_participants', [])
             raw_responses = project_data.pop(u'responses', [])
 
             if not raw_responses:
+                project_data.update(responses=[])
                 projects.append(project_data)
                 continue
 
             responses = []
-            for response in project_data[u'responses']:
+
+            for response in raw_responses:
                 scientist_id = response.get(u'scientist_id')
                 if not scientist_id:
                     raise Exception(u'No scientist id')
@@ -260,12 +261,15 @@ class ScientistBL(object):
                 if not scientist_name:
                     raise Exception(u'No scientist name, weird asshole!')
 
-                scientist_name = u' '.join(scientist_name)
+                scientist_name = u' '.join(map(lambda x: x.decode('utf8'), scientist_name))
+                vacancy_name = [k[u'vacancy_name'] for k in missed_participants if k[u'id'] == response[u'vacancy_id']]
+                if not vacancy_name:
+                    raise Exception(u'No vacancy name!')
                 responses.append(dict(
                     scientist_name=scientist_name,
                     scientist_id=scientist_id,
                     message=response[u'message'],
-                    vacancy_name=[k[u'vacancy_name'] for k in missed_participants if k[u'id'] == response[u'vacancy_id']][0]
+                    vacancy_name=vacancy_name[0]
                 ))
             project_data.update(responses=responses)
 

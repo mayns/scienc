@@ -174,6 +174,7 @@ class ProjectsParticipationHandler(BaseRequestHandler):
         print 'add participation'
 
         data = json.loads(self.get_argument(u'data', u'{}'))
+        print data
         if not self.current_user_id:
             self.send_error(status_code=403)
             return
