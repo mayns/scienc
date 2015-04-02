@@ -17,6 +17,9 @@ class ProjectBL(object):
 
         project = Project(**editable_data)
         project_id = yield project.save(update=False, fields=editable_data.keys())
+        scientist = yield Scientist.get_by_id(editable_data[u'manager_id'])
+        scientist.managing_project_ids.append(project_id)
+        yield scientist.save(fields=[u'managing_project_ids'], columns=[u'managing_project_ids'])
         raise gen.Return(dict(id=project_id))
 
     @classmethod
