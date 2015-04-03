@@ -1,8 +1,8 @@
 <link rel="import" href="/static/elements/polymer/polymer.html"/>
-<link rel="import" href="/static/elements/page-actions.html"/>
 <link rel="import" href="/static/elements/core-ajax/core-ajax.html"/>
+<link rel="import" href="/static/elements/my-project.html"/>
 
-<polymer-element name="my-projects">
+<polymer-element name="my-projects" class="container main">
     <template>
         <style>
             :host {
@@ -17,8 +17,8 @@
             handleAs="json" 
             response="{{ json }}">
         </core-ajax>
-        <template bind="{{ json.data }}">
- 
+        <template repeat="{{ p in json.data }}">
+            <my-project data="{{ p }}"></my-project>
         </template>   
     </template>
     <script>

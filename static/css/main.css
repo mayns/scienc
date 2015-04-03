@@ -39,7 +39,8 @@
   }
 }
 /* line 22, ../scss/base/_icons.scss */
-[class^="icon-"]:before, [class*=" icon-"]:before {
+html /deep/ [class^="icon-"]:before,
+html /deep/ [class*=" icon-"]:before {
   font-family: "fontello";
   font-style: normal;
   font-weight: normal;
@@ -64,24 +65,30 @@
   /* text-shadow: 1px 1px 1px rgba(127, 127, 127, 0.3); */
 }
 
-/* line 53, ../scss/base/_icons.scss */
-.icon-login:before {
-  content: '\e800';
-}
-
-/* '' */
 /* line 54, ../scss/base/_icons.scss */
-.icon-logout:before {
-  content: '\e801';
-}
-
-/* '' */
-/* line 55, ../scss/base/_icons.scss */
-.icon-search:before {
+html /deep/ .icon-search:before {
   content: '\e802';
 }
 
 /* '' */
+/* line 55, ../scss/base/_icons.scss */
+html /deep/ .icon-camera:before {
+  content: '\e803';
+}
+
+/* '' */
+/* line 56, ../scss/base/_icons.scss */
+html /deep/ .icon-ok:before {
+  content: '\e804';
+}
+
+/* '' */
+/* line 57, ../scss/base/_icons.scss */
+html /deep/ .icon-cancel:before {
+  content: '\e805';
+}
+
+/* '' */
 /*
     CURSORS
 */

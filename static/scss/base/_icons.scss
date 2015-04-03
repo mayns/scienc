@@ -18,8 +18,9 @@
   }
 }
 
- 
- [class^="icon-"]:before, [class*=" icon-"]:before {
+
+html /deep/ [class^="icon-"]:before,
+html /deep/ [class*=" icon-"]:before {
   font-family: "fontello";
   font-style: normal;
   font-weight: normal;
@@ -49,7 +50,8 @@
   /* Uncomment for 3D effect */
   /* text-shadow: 1px 1px 1px rgba(127, 127, 127, 0.3); */
 }
- 
-.icon-login:before { content: '\e800'; } /* '' */
-.icon-logout:before { content: '\e801'; } /* '' */
-.icon-search:before { content: '\e802'; } /* '' */
+
+html /deep/ .icon-search:before { content: '\e802'; } /* '' */
+html /deep/ .icon-camera:before { content: '\e803'; } /* '' */
+html /deep/ .icon-ok:before { content: '\e804'; } /* '' */
+html /deep/ .icon-cancel:before { content: '\e805'; } /* '' */
