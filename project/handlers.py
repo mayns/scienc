@@ -214,3 +214,29 @@ class ProjectsParticipationHandler(BaseRequestHandler):
 
         response_data = yield self.get_response(response)
         self.finish(response_data)
+
+
+class ProjectsResponseHandler(BaseRequestHandler):
+
+    @gen.coroutine
+    def post(self, project_id, **kwargs):
+        print 'accept response'
+
+        data = json.loads(self.get_argument(u'data', u'{}'))
+        print data
+        if not self.current_user_id:
+            self.send_error(status_code=403)
+
+        data.update(project_id=project_id)
+        response = {}
+        try:
+            yield ProjectBL.accept_response(data)
+        except Exception, ex:
+            logging.info('Exc on accept response:')
+            logging.exception(ex)
+            response = dict(
+                message=ex.message
+            )
+
+        response_data = yield self.get_response(response)
+        self.finish(response_data)

@@ -115,3 +115,28 @@ class ProjectBL(object):
             yield scientist.save(fields=[u'desired_vacancies'])
         except Exception, ex:
             logging.exception(ex)
+
+    def accept_response(cls, data):
+        """
+
+        :param data: {scientist_id, project_id, vacancy_id}
+        :type data: dict
+
+        """
+        try:
+            project = yield Project.get_by_id(data[u'project_id'])
+            scientist = yield Scientist.get_by_id(data[u'scientist_id'])
+
+            project.missed_participants = [p for p in project.missed_participants if p[u'vacancy_id'] != data[u'vacancy_id']]
+
+            project.participants.append(dict(
+                role_name=u' '.join([scientist[u'first_name']])
+            ))
+            yield project.save(fields=[u'missed_participants'])
+
+
+            scientist.desired_vacancies = [v for v in scientist.desired_vacancies if v[u'project_id'] != project.id]
+
+            yield scientist.save(fields=[u'desired_vacancies'])
+        except Exception, ex:
+            logging.exception(ex)
