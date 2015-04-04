@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 
 import logging
+import environment
 from tornado import gen
 from project.models import Project
 from scientist.models import Scientist
@@ -78,11 +79,13 @@ class ProjectBL(object):
     def add_participation(cls, data):
         # message, scientist_id, vacancy_id, project_id
         scientist_id = data[u'scientist_id']
+        print scientist_id
         try:
             project = yield Project.get_by_id(data[u'project_id'])
             scientist_response = dict(
                 scientist_id=scientist_id,
                 vacancy_id=data[u'id'],
+                vacancy_name=[v[u'vacancy_name'] for v in project.missed_participants if v[u'id'] == data[u'id']][0],
                 message=data.get(u'message', u'')
             )
             if scientist_response not in project.responses:
@@ -116,6 +119,8 @@ class ProjectBL(object):
         except Exception, ex:
             logging.exception(ex)
 
+    @classmethod
+    @gen.coroutine
     def accept_response(cls, data):
         """
 
@@ -126,17 +131,28 @@ class ProjectBL(object):
         try:
             project = yield Project.get_by_id(data[u'project_id'])
             scientist = yield Scientist.get_by_id(data[u'scientist_id'])
-
-            project.missed_participants = [p for p in project.missed_participants if p[u'vacancy_id'] != data[u'vacancy_id']]
+            excluded_vacancy = [p for p in project.missed_participants if p[u'id'] == data[u'vacancy_id']][0]
+            project.missed_participants.remove(excluded_vacancy)
 
             project.participants.append(dict(
-                role_name=u' '.join([scientist[u'first_name']])
+                full_name=u' '.join(map(lambda x: x.decode('utf8'), [scientist.last_name, scientist.first_name,
+                                                                     scientist.middle_name])),
+                scientist_id=data[u'scientist_id'],
+                role_name=excluded_vacancy[u'vacancy_name']
             ))
-            yield project.save(fields=[u'missed_participants'])
+            print scientist.desired_vacancies, data, scientist.id
+            desired_vacancy = [v for v in scientist.desired_vacancies if v[u'vacancy_id'] == data[u'vacancy_id']][0]
+            [v.update(status=environment.STATUS_ACCEPTED) for v in scientist.desired_vacancies if
+             v[u'vacancy_id'] == data[u'vacancy_id']]
 
+            scientist.participating_projects.append(dict(
+                project_id=desired_vacancy[u'project_id'],
+                role_id=desired_vacancy[u'vacancy_id']
+            ))
 
-            scientist.desired_vacancies = [v for v in scientist.desired_vacancies if v[u'project_id'] != project.id]
-
-            yield scientist.save(fields=[u'desired_vacancies'])
+            yield project.save(fields=[u'missed_participants', u'participants'],
+                               columns=[u'missed_participants', u'participants'])
+            yield scientist.save(fields=[u'desired_vacancies', u'participating_projects'],
+                                 columns=[u'desired_vacancies', u'participating_projects'])
         except Exception, ex:
             logging.exception(ex)

@@ -30,7 +30,7 @@ MODELS = dict(
         # app activity
         u'participating_projects': JsonArray(db_type='json'),                       # [{project_id, role_id}]
         u'liked_projects': JsonArray(db_type='bigint[]'),                           # [project_id]
-        u'desired_vacancies': JsonArray(db_type='json'),                            # [{project_id, vacancy_id}]
+        u'desired_vacancies': JsonArray(db_type='json'),                            # [{project_id, vacancy_id, status}]
         u'managing_project_ids': JsonArray(db_type='bigint[]'),
         u'achievements': JsonArray(db_type='bigint[]'),                             # [achievement_id]
 
@@ -47,7 +47,7 @@ MODELS = dict(
         u'title': Text(required=True),                                              # название проекта
         u'description_short': Text(required=True),                                  # краткое описание для обложки
         u'likes': Integer(),                                                        # количество лайков
-        u'responses': JsonArray(db_type='jsonb'),                                   # [{scientist_id, vacancy_id, message}]
+        u'responses': JsonArray(db_type='jsonb'),                                   # [{scientist_id, vacancy_id, vacancy_name, message}]
         u'university_connection': JsonArray(db_type='jsonb'),                       # [{country, city, university, faculty, chair}]
 
         # project info

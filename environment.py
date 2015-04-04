@@ -68,3 +68,7 @@ ROLES_TABLE = u'roles'
 
 ROLE_ADMIN = 1
 ROLE_USER = 2
+
+STATUS_ACCEPTED = u'accepted'
+STATUS_DECLINED = u'declined'
+STATUS_WAITING = u'waiting'

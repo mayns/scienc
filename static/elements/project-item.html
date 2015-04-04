@@ -79,7 +79,11 @@
                 <p>
                     <span class="short-descr">Краткое описание: </span>{{ description_short }}
                 </p>
-                <core-icon class="{{ {'like-icon': true, 'bottom': true, 'liked': liked} | tokenList}}" icon="favorite"></core-icon>
+                <core-icon  id="likeIcon"
+                            class="like-icon bottom"
+                            on-click="{{ toggleLike }}"
+                            icon="favorite">
+                </core-icon>
             </article>
         </template>
 	</template>
@@ -92,6 +96,10 @@
                 if(this.app.user && this.app.user.liked_projects.indexOf(this.data.id) !== -1) {
                     this.liked = true;
                 }
+            },
+            toggleLike: function() {
+                this.liked = !this.liked;
+                this.$.likeIcon.classList.toggle('liked');
             }
 		});
 	</script>

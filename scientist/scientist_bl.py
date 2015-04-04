@@ -238,7 +238,7 @@ class ScientistBL(object):
 
             project_data = dict(zip(project_columns, project_data))
             project_data.update(project_id=project_id)
-            missed_participants = project_data.pop(u'missed_participants', [])
+            # missed_participants = project_data.pop(u'missed_participants', [])
             raw_responses = project_data.pop(u'responses', [])
 
             if not raw_responses:
@@ -249,27 +249,16 @@ class ScientistBL(object):
             responses = []
 
             for response in raw_responses:
-                scientist_id = response.get(u'scientist_id')
-                if not scientist_id:
-                    raise Exception(u'No scientist id')
-
-                scientist_columns = [u'first_name', u'middle_name', u'last_name']
-                sql_query = get_select_query(Scientist.TABLE, columns=scientist_columns,
-                                             where=dict(column='id', value=scientist_id))
-                cursor = yield momoko.Op(conn.execute, sql_query)
-                scientist_name = cursor.fetchone()
-                if not scientist_name:
-                    raise Exception(u'No scientist name, weird asshole!')
-
-                scientist_name = u' '.join(map(lambda x: x.decode('utf8'), scientist_name))
-                vacancy_name = [k[u'vacancy_name'] for k in missed_participants if k[u'id'] == response[u'vacancy_id']]
-                if not vacancy_name:
-                    raise Exception(u'No vacancy name!')
+                scientist = yield Scientist.get_by_id(response[u'scientist_id'])
+                scientist_name = u' '.join(map(lambda x: x.decode('utf8'), [scientist.last_name, scientist.first_name,
+                                                                            scientist.middle_name]))
                 responses.append(dict(
                     scientist_name=scientist_name,
-                    scientist_id=scientist_id,
+                    scientist_id=scientist.id,
                     message=response[u'message'],
-                    vacancy_name=vacancy_name[0]
+                    vacancy_name=response[u'vacancy_name'],
+                    vacancy_id=response[u'vacancy_id'],
+                    status=response.get(u'status', environment.STATUS_WAITING)
                 ))
             project_data.update(responses=responses)
 
