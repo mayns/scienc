@@ -142,8 +142,11 @@ class ProjectBL(object):
             ))
             print scientist.desired_vacancies, data, scientist.id
             desired_vacancy = [v for v in scientist.desired_vacancies if v[u'vacancy_id'] == data[u'vacancy_id']][0]
-            [v.update(status=environment.STATUS_ACCEPTED) for v in scientist.desired_vacancies if
-             v[u'vacancy_id'] == data[u'vacancy_id']]
+
+            for v in scientist.desired_vacancies:
+                if v[u'vacancy_id'] != data[u'vacancy_id']:
+                    continue
+                v[u'status'] = environment.STATUS_ACCEPTED
 
             scientist.participating_projects.append(dict(
                 project_id=desired_vacancy[u'project_id'],
