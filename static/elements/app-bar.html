@@ -100,7 +100,7 @@
 		<app-ajax id="ajax" url="/api/logout" method="POST" on-core-response="{{onSignOutResponse}}"></app-ajax>
 	</template>
 	<script>
-		Polymer({
+		Polymer('app-bar', {
 			ready: function() {
 				this.app = $$.byId('app');
 			},

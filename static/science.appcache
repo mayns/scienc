@@ -1,0 +1,9 @@
+CACHE MANIFEST
+# v4
+
+CACHE:
+/favicon.ico
+/static/css/main.css
+
+NETWORK:
+*

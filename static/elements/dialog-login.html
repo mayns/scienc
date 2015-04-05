@@ -3,7 +3,7 @@
 <link rel="import" href="/static/elements/core-overlay/core-overlay.html"/>
 <link rel="import" href="/static/elements/app-ajax.html"/>
 
-<polymer-element name="dialog-login" >
+<polymer-element name="dialog-login">
 	<template>
 		<core-overlay opened="false" layered backdrop id="loginDialog" autoCloseDisabled>
 			<div class="login-dialog">
@@ -52,7 +52,7 @@
 		</core-overlay>
 	</template>
 	<script>
-		Polymer({
+		Polymer('dialog-login', {
 			open: function() {
 				this.$.loginDialog.open();
 			},

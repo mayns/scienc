@@ -67,7 +67,7 @@
         </div>
     </template>
     <script>
-        Polymer({
+        Polymer('my-project', {
             acceptResponse: function(e) {
                 var response = e.target.templateInstance.model.r;
                 var ajax = this.$.ajax;

@@ -2,7 +2,7 @@
 <link rel="import" href="/static/elements/core-ajax/core-ajax.html"/>
 <link rel="import" href="/static/elements/project-item.html"/>
 
-<polymer-element name="project-list" noscript class="container main" >
+<polymer-element name="project-list" class="container main" >
 	<template>
         <style>
             :host {
@@ -23,4 +23,7 @@
             <project-item data="{{ project }}"></project-item>
         </template>
 	</template>
+    <script>
+        Polymer('project-list', {});
+    </script>
 </polymer-element>
