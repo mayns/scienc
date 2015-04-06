@@ -215,35 +215,25 @@ class ScientistBL(object):
 
     @classmethod
     @gen.coroutine
-    @psql_connection
-    def get_my_projects(cls, conn, scientist_id):
-        sql_query = get_select_query(Scientist.TABLE, columns=[u'managing_project_ids'],
-                                     where=dict(column='id', value=scientist_id))
+    def get_my_projects(cls, scientist_id):
+        scientist_columns = [u'managing_project_ids']
+        scientist_json = yield Scientist.get_json_by_id(scientist_id, columns=scientist_columns)
 
         # [{scientist_id, vacancy_id, message}]
-        cursor = yield momoko.Op(conn.execute, sql_query)
-        project_ids = cursor.fetchone()[0]
+        project_ids = scientist_json.get(u'managing_project_ids', [])
         if not project_ids:
             raise gen.Return([])
 
         projects = []
         for project_id in project_ids:
             project_columns = [u'title', u'responses', u'missed_participants']
-            sql_query = get_select_query(Project.TABLE, columns=project_columns,
-                                         where=dict(column='id', value=int(project_id)))
-            cursor = yield momoko.Op(conn.execute, sql_query)
-            project_data = cursor.fetchone()
-            if not project_data:
-                raise Exception(u'No project')
-
-            project_data = dict(zip(project_columns, project_data))
-            project_data.update(project_id=project_id)
-            # missed_participants = project_data.pop(u'missed_participants', [])
-            raw_responses = project_data.pop(u'responses', [])
+            project_json = yield Project.get_json_by_id(project_id, columns=project_columns)
+            project_json.update(project_id=project_id)
+            raw_responses = project_json.pop(u'responses', [])
 
             if not raw_responses:
-                project_data.update(responses=[])
-                projects.append(project_data)
+                project_json.update(responses=[])
+                projects.append(project_json)
                 continue
 
             responses = []
@@ -260,9 +250,9 @@ class ScientistBL(object):
                     vacancy_id=response[u'vacancy_id'],
                     status=response.get(u'status', environment.STATUS_WAITING)
                 ))
-            project_data.update(responses=responses)
+            project_json.update(responses=responses)
 
-            projects.append(project_data)
+            projects.append(project_json)
         raise gen.Return(projects)
 
     @classmethod
