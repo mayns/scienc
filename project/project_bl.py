@@ -142,7 +142,6 @@ class ProjectBL(object):
                 scientist_id=data[u'scientist_id'],
                 role_name=excluded_vacancy[u'vacancy_name']
             ))
-            print scientist.desired_vacancies, data, scientist.id
             desired_vacancy = [v for v in scientist.desired_vacancies if v[u'vacancy_id'] == data[u'vacancy_id']][0]
 
             for v in scientist.desired_vacancies:
@@ -157,6 +156,7 @@ class ProjectBL(object):
 
             yield project.save(fields=[u'missed_participants', u'participants'],
                                columns=[u'missed_participants', u'participants'])
+
             yield scientist.save(fields=[u'desired_vacancies', u'participating_projects'],
                                  columns=[u'desired_vacancies', u'participating_projects'])
         except Exception, ex:

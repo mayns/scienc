@@ -257,33 +257,22 @@ class ScientistBL(object):
 
     @classmethod
     @gen.coroutine
-    @psql_connection
-    def get_participation_projects(cls, conn, scientist_id):
-        sql_query = get_select_query(Scientist.TABLE, columns=[u'participating_projects'],
-                                     where=dict(column='id', value=scientist_id))
+    def get_participation_projects(cls, scientist_id):
+        cols = [u'participating_projects']
+        sc_json = yield Scientist.get_json_by_id(scientist_id, columns=cols)
         # [{project_id, role_id}]
-        cursor = yield momoko.Op(conn.execute, sql_query)
-        participating_data = cursor.fetchone()
-        if not participating_data:
-            raise gen.Return([])
 
         projects = []
-        for participation in participating_data:
+        for participation in sc_json.get(u'participating_projects', []):
             project_columns = [u'title', u'participants']
-            sql_query = get_select_query(Project.TABLE, columns=project_columns,
-                                         where=dict(column='id', value=participation[u'project_id']))
-            cursor = yield momoko.Op(conn.execute, sql_query)
-            project_data = cursor.fetchone()
-            if not project_data:
-                raise Exception(u'No project')
-            project_data = dict(zip(project_columns, project_data))
+            project_data = yield Project.get_json_by_id(participation[u'project_id'], columns=project_columns)
             participants = project_data.pop(u'participants')
             project_data.update(project_id=participation[u'project_id'],
                                 role_name=[k[u'role_name'] for k in participants if k[u'id'] == participation[u'role_id']][0]
             )
 
-            print project_data
             projects.append(project_data)
+        print projects
         raise gen.Return(projects)
 
 
@@ -291,25 +280,14 @@ class ScientistBL(object):
     @gen.coroutine
     @psql_connection
     def get_desired_projects(cls, conn, scientist_id):
-
-        sql_query = get_select_query(Scientist.TABLE, columns=[u'desired_vacancies'],
-                                     where=dict(column='id', value=scientist_id))
-        cursor = yield momoko.Op(conn.execute, sql_query)
-        applications = cursor.fetchall()
-        if not applications:
-            raise gen.Return([])
+        cols = [u'desired_vacancies']
+        sc_json = yield Scientist.get_json_by_id(scientist_id, columns=cols)
 
         # [{project_id, vacancy_id}]
         projects = []
-        for application in applications:
+        for application in sc_json(u'desired_vacancies', []):
             project_columns = [u'title', u'missed_participants']
-            sql_query = get_select_query(Project.TABLE, columns=project_columns,
-                                         where=dict(column='id', value=application[u'project_id']))
-            cursor = yield momoko.Op(conn.execute, sql_query)
-            project_data = cursor.fetchone()
-            if not project_data:
-                raise Exception(u'No project')
-            project_data = dict(zip(project_columns, project_data))
+            project_data = yield Project.get_json_by_id(application[u'project_id'], columns=project_columns)
 
             missed_participants = project_data.pop(u'missed_participants', [])
             project_data.update(project_id=application[u'project_id'],
@@ -318,6 +296,6 @@ class ScientistBL(object):
                                               k[u'id'] == application[u'vacancy_id']][0]
             )
 
-            print project_data
             projects.append(project_data)
+        print projects
         raise gen.Return(projects)
