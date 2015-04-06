@@ -79,13 +79,15 @@ class ProjectBL(object):
     def add_participation(cls, data):
         # message, scientist_id, vacancy_id, project_id
         scientist_id = data[u'scientist_id']
-        print scientist_id
         try:
             project = yield Project.get_by_id(data[u'project_id'])
+            vacancy_name = [v[u'vacancy_name'] for v in project.missed_participants if v[u'id'] == data[u'id']]
+            if not vacancy_name:
+                raise Exception(u'No vacancy name')
             scientist_response = dict(
                 scientist_id=scientist_id,
                 vacancy_id=data[u'id'],
-                vacancy_name=[v[u'vacancy_name'] for v in project.missed_participants if v[u'id'] == data[u'id']][0],
+                vacancy_name=vacancy_name[0],
                 message=data.get(u'message', u'')
             )
             if scientist_response not in project.responses:

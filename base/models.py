@@ -155,6 +155,12 @@ class PSQLModel(object):
             if not v:
                 setattr(instance, k, MODELS[cls.TABLE][k].default)
             else:
+                restore = MODELS[cls.TABLE][k].restore
+                if restore:
+                    try:
+                        v = restore(v)
+                    except:
+                        pass
                 setattr(instance, k, v)
 
         raise gen.Return(instance)
