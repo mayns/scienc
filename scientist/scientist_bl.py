@@ -248,7 +248,8 @@ class ScientistBL(object):
                     message=response[u'message'],
                     vacancy_name=response[u'vacancy_name'],
                     vacancy_id=response[u'vacancy_id'],
-                    status=response.get(u'status', environment.STATUS_WAITING)
+                    # status=response.get(u'status', environment.STATUS_WAITING)
+                    status=scientist.desired_vacancies.get(u'status', environment.STATUS_WAITING)
                 ))
             project_json.update(responses=responses)
 
