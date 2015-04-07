@@ -161,3 +161,16 @@ class ProjectBL(object):
                                  columns=[u'desired_vacancies', u'participating_projects'])
         except Exception, ex:
             logging.exception(ex)
+
+    @classmethod
+    @gen.coroutine
+    def decline_response(cls, data):
+        try:
+            scientist = yield Scientist.get_by_id(data[u'scientist_id'])
+            for v in scientist.desired_vacancies:
+                if v[u'vacancy_id'] != data[u'vacancy_id']:
+                    continue
+                v[u'status'] = environment.STATUS_DECLINED
+            yield scientist.save(fields=[u'desired_vacancies'], columns=[u'desired_vacancies'])
+        except Exception, ex:
+            logging.exception(ex)

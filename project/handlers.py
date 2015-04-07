@@ -219,8 +219,13 @@ class ProjectsParticipationHandler(BaseRequestHandler):
 class ProjectsResponseHandler(BaseRequestHandler):
 
     @gen.coroutine
-    def post(self, project_id, **kwargs):
-        print 'accept response'
+    def post(self, project_id, result, **kwargs):
+        if result == u'a':
+            print 'accept response'
+        if result == u'd':
+            print 'decline response'
+        else:
+            self.send_error(status_code=404)
 
         data = json.loads(self.get_argument(u'data', u'{}'))
         print data
@@ -230,7 +235,10 @@ class ProjectsResponseHandler(BaseRequestHandler):
         data.update(project_id=project_id)
         response = {}
         try:
-            yield ProjectBL.accept_response(data)
+            if result == u'a':
+                yield ProjectBL.accept_response(data)
+            if result == u'd':
+                yield ProjectBL.decline_response(data)
         except Exception, ex:
             logging.info('Exc on accept response:')
             logging.exception(ex)
