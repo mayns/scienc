@@ -72,3 +72,4 @@ ROLE_USER = 2
 STATUS_ACCEPTED = u'accepted'
 STATUS_DECLINED = u'declined'
 STATUS_WAITING = u'waiting'
+STATUS_DELETED = u'deleted'

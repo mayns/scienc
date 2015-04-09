@@ -276,7 +276,6 @@ class ScientistBL(object):
         print projects
         raise gen.Return(projects)
 
-
     @classmethod
     @gen.coroutine
     def get_desired_projects(cls, scientist_id):
@@ -299,3 +298,38 @@ class ScientistBL(object):
             projects.append(project_data)
         print projects
         raise gen.Return(projects)
+
+    @classmethod
+    @gen.coroutine
+    def delete_desired_project(cls, scientist_id, data):
+        """
+
+        :param scientist_id:
+        :param data: {project_id, vacancy_id}
+        """
+        scientist = yield Scientist.get_by_id(scientist_id)
+        project = yield Project.get_by_id(data[u'project_id'])
+        scientist.desired_vacancies = [scientist.desired_vacancies[i] for i in xrange(len(scientist.desired_vacancies))
+                                       if scientist.desired_vacancies[i][u'vacancy_id'] != data[u'vacancy_id']]
+        yield scientist.save(fields=[u'desired_vacancies'])
+        project.responses = [project.responses[i] for i in xrange(len(project.responses))
+                             if (project.responses[i][u'scientist_id'] != scientist_id) and
+                             (project.responses[u'vacancy_id'] != data[u'vacancy_id'])]
+        yield project.save(fields=[u'responses'])
+
+    @classmethod
+    @gen.coroutine
+    def delete_participation(cls, scientist_id, data):
+        """
+
+        :param scientist_id:
+        :param data: {role_id, project_id}
+        """
+        scientist = yield Scientist.get_by_id(scientist_id)
+        project = yield Project.get_by_id(data[u'project_id'])
+        scientist.participating_projects.remove(dict(project_id=project.id, role_id=data[u'role_id']))
+        yield scientist.save(fields=[u'participating_projects'])
+        for i in xrange(len(project.participants)):
+            if project.participants[i][u'id'] == data[u'role_id']:
+                project.participants[i][u'status'] = environment.STATUS_DELETED
+        yield project.save(fields=[u'participants'])
