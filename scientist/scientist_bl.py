@@ -279,8 +279,7 @@ class ScientistBL(object):
 
     @classmethod
     @gen.coroutine
-    @psql_connection
-    def get_desired_projects(cls, conn, scientist_id):
+    def get_desired_projects(cls, scientist_id):
         cols = [u'desired_vacancies']
         sc_json = yield Scientist.get_json_by_id(scientist_id, columns=cols)
 
