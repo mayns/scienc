@@ -20,6 +20,7 @@ class ScienceApplication(web.Application):
             cookie_secret=settings.COOKIE_SECRET,
             login_url=u"/login",
             template_path=settings.TEMPLATE_PATH,
+            static_path=settings.STATIC_PATH,
         )
         web.Application.__init__(self, handlers, **settings_app)
 
