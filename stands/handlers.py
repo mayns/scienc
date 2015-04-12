@@ -7,4 +7,4 @@ __author__ = 'mayns'
 
 class ServerGenTemplateHandler(BaseRequestHandler):
     def get(self, *args, **kwargs):
-        self.write(self.template_loader.load("projects_list.html").generate(name="Alice", where=u'in Wonderland'))
+        self.render("projects_list.html", name="Alice", where=u'in Wonderland')
