@@ -20,7 +20,7 @@ PROJECT_TITLE = u'ScienceMates'
 SERVER_IP = u'localhost'
 PROJECT_PATH = os.path.join(os.path.dirname(__file__))
 
-STATIC_PATH = os.path.join(os.path.dirname(__file__), u'static')
+STATIC_PATH = os.path.dirname(__file__)
 TEMPLATE_PATH = os.path.join(os.path.dirname(__file__), u'stands/templates')
 
 COOKIE_SECRET = unicode(hash(u"Alice was beginning to get very tired of sitting by her sister on the bank"))
