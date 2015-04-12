@@ -1,8 +1,11 @@
 # -*- coding: utf-8 -*-
 
 import logging
+import settings
 from tornado import web, gen
 from scientist.models import Scientist
+
+from tornado.template import Loader
 
 __author__ = 'oks'
 
@@ -34,6 +37,7 @@ class BaseRequestHandler(web.RequestHandler):
         super(BaseRequestHandler, self).__init__(*args, **kwargs)
         self.payload = dict()
         self.current_user_id = self.get_secure_cookie(u'scientist')
+        self.template_loader = Loader(settings.TEMPLATE_PATH)
 
     @gen.coroutine
     def get_current_user(self):
