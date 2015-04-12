@@ -2,13 +2,47 @@
 <html>
 <head lang="en">
     <meta charset="UTF-8">
-    <title></title>
+    <link rel="stylesheet" href="/static/css/stand.css"/>
+    <title>Science.im</title>
 </head>
 <body>
-    {% for project in projects %}
-        <div>
-            {{ project['title'] }}
+<div class="row-flex flex">
+    <div class="flex">
+        <div class="core-header page-header-wrapper">
+            <div class="page-header container">
+                <div class="page-header-logo">
+                    <a href="/">
+                        <span class="color-yellow">Science</span><span class="color-grey">.im</span>
+                    </a>
+                </div>
+                <div class="flex"></div>
+                <div></div>
+            </div>
         </div>
-    {% end for %}
+        <div>
+            {% for project in projects %}
+            <article class="project">
+                <header class="project-header">
+                    <h1>
+                        <a href="/project/{{ project['id'] }}">{{ project['title'] }}</a>
+                    </h1>
+                    <div horizontal layout justified center>
+                        <div horizontal layout center flex>
+                            {% for conn in project['university_connection'] %}
+                                <span class="project-holder">{{ conn['university'] }}</span>
+                            {% end %}
+                        </div>
+                        <core-icon class="like-icon liked top" icon="favorite"></core-icon>
+                    </div>
+                </header>
+                <p>
+                    <span class="short-descr">Краткое описание: </span>{{ project['description_short'] }}
+                </p>
+                <div class="like-icon bottom"></div>
+            </article>
+            {% end %}
+        </div>
+    </div>
+</div>
 </body>
 </html>
