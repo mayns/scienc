@@ -5,6 +5,7 @@ import fauxfactory
 from db.orm import MODELS
 from common.utils import zip_values
 from scientist.models import Scientist
+from project.models import Project
 import datetime
 import environment
 
@@ -83,3 +84,8 @@ def generate_users(n=10):
         users.append(user_dict)
 
     return users
+
+
+def generate_projects(n=10):
+    projects = []
+    create_fields = dict(zip_values(Project.CREATE_FIELDS, MODELS[Project.TABLE], empty_fields=1))
