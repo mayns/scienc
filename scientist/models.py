@@ -23,3 +23,12 @@ class Scientist(PSQLModel):
 
     JSON_FIELDS = [u'participating_projects', u'desired_vacancies']
 
+    SEARCH_MAIN_FIELDS = [u'first_name', u'middle_name', u'last_name']
+
+    SEARCH_INTERESTS = [u'interests']
+
+    SEARCH_FIELDS = classmethod(lambda cls, s_type: {
+        u'interests': cls.SEARCH_INTERESTS,
+        u'main': cls.SEARCH_MAIN_FIELDS
+    }[s_type])
+

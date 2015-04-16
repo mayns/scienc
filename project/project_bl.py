@@ -174,3 +174,8 @@ class ProjectBL(object):
             yield scientist.save(fields=[u'desired_vacancies'], columns=[u'desired_vacancies'])
         except Exception, ex:
             logging.exception(ex)
+
+    @classmethod
+    @gen.coroutine
+    def search_projects(cls, data):
+        pass

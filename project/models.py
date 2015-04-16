@@ -23,3 +23,12 @@ class Project(PSQLModel):
     SYSTEM_INFO = [u'dt_created', u'title_tsvector', u'description_short_tsvector']
 
     JSON_FIELDS = [u'responses', u'participants', u'missed_participants']
+
+    SEARCH_MAIN_FIELDS = u'title'
+
+    SEARCH_VACANCIES = [u'vacancies']
+
+    SEARCH_FIELDS = classmethod(lambda cls, s_type: {
+        u'vacancies': cls.SEARCH_VACANCIES,
+        u'main': cls.SEARCH_MAIN_FIELDS
+    }[s_type])

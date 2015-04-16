@@ -103,3 +103,16 @@ def get_exists_query(tbl, where):
                                                                                              column=where['column'],
                                                                                              value=where['value'])
     return sql_string
+
+
+def get_search_query(tbl, select_field, select_query, limit_field=None, limit_num=None):
+    if not any([limit_field, limit_num]):
+        sql_string = "SELECT {s_field} FROM {table} WHERE {s_field} @@ '{s_query}'".format(
+            s_field=select_field, table=tbl, s_query=select_query
+        )
+        return sql_string
+
+    sql_string = "SELECT {s_field} FROM {table} WHERE {s_field} @@ '{s_query}' ORDER BY {l_field} limit {l_num}".format(
+        s_field=select_field, table=tbl, s_query=select_query, l_field=limit_field, l_num=limit_num
+    )
+    return sql_string

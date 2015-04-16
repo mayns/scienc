@@ -8,8 +8,7 @@ from common.utils import generate_id
 
 from common.decorators import psql_connection
 from common.exceptions import PSQLException
-from db.orm import MODELS
-from db.utils import get_update_query, get_insert_query, get_select_query, get_delete_query, get_exists_query
+from db.utils import *
 from common.utils import zip_values
 
 
@@ -23,6 +22,7 @@ class PSQLModel(object):
     JSON_FIELDS = None
     CREATE_FIELDS = None
     SYSTEM_INFO = None
+    SEARCH_FIELDS = None
 
     def __init__(self, *args, **kwargs):
         super(PSQLModel, self).__init__()
@@ -230,6 +230,15 @@ class PSQLModel(object):
             data_list.append(data_dict)
         logging.info(data_list)
         raise gen.Return(data_list)
+
+    @classmethod
+    @gen.coroutine
+    @psql_connection
+    def search(cls, conn, s_type, s_query):
+        sql_query = get_search_query(cls.TABLE, cls.SEARCH_FIELDS(s_type), s_query)
+        cursor = yield momoko.Op(conn.execute, sql_query)
+        data = cursor.fetchall()
+        print data
 
     @classmethod
     @gen.coroutine

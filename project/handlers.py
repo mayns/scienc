@@ -5,6 +5,7 @@ from base.handlers import BaseRequestHandler
 import json
 import logging
 from project.project_bl import ProjectBL
+from project.models import Project
 
 __author__ = 'oks'
 
@@ -23,7 +24,8 @@ class ProjectsListHandler(BaseRequestHandler):
         print u'projects list get'
 
         try:
-            response = yield ProjectBL.get_all()
+            # response = yield ProjectBL.get_all()
+            response = yield Project.search(s_type=u'main', s_query=u'factorize')
         except Exception, ex:
             logging.info('Exc on get all projects:')
             logging.exception(ex)
