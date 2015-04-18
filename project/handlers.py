@@ -24,8 +24,8 @@ class ProjectsListHandler(BaseRequestHandler):
         print u'projects list get'
 
         try:
-            # response = yield ProjectBL.get_all()
-            response = yield Project.search(s_type=u'main', s_query=u'factorize')
+            response = yield ProjectBL.get_all()
+            # response = yield Project.search(s_type=u'main', s_query=u'factorize')
         except Exception, ex:
             logging.info('Exc on get all projects:')
             logging.exception(ex)
