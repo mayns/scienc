@@ -1,6 +1,0 @@
-{
-  "cwd": "./",
-  "directory": "./elements/",
-  "analytics": true,
-  "timeout": 120000
-}

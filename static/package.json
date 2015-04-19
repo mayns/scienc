@@ -1,0 +1,16 @@
+{
+  "name": "static",
+  "version": "1.0.0",
+  "description": "Science.im static",
+  "main": "index.js",
+  "dependencies": {},
+  "devDependencies": {
+    "ampersand-app": "^1.0.3",
+    "ampersand-router": "^3.0.2"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC"
+}
