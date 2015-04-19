@@ -24,7 +24,7 @@ class Project(PSQLModel):
 
     JSON_FIELDS = [u'responses', u'participants', u'missed_participants']
 
-    SEARCH_MAIN_FIELDS = u'title'
+    SEARCH_MAIN_FIELDS = [u'title', u'short_description', u'tags']
 
     SEARCH_VACANCIES = [u'vacancies']
 

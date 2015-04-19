@@ -6,6 +6,7 @@ import logging
 
 from base.handlers import BaseRequestHandler
 from scientist.scientist_bl import ScientistBL
+from scientist.models import Scientist
 
 __author__ = 'oks'
 
@@ -26,6 +27,24 @@ class ScientistsListHandler(BaseRequestHandler):
             )
         scientists = yield self.get_response(response)
         self.finish(json.dumps(scientists))
+
+
+class ScientistsSearchHandler(BaseRequestHandler):
+
+    @gen.coroutine
+    def get(self, *args, **kwargs):
+        print u'scientist search'
+        search_data = json.loads(self.get_argument(u'data', u'{}'))
+        try:
+            response = yield Scientist.search(search_data)
+        except Exception, ex:
+            logging.info('Exc on search scientists:')
+            logging.exception(ex)
+            response = dict(
+                message=ex.message
+            )
+        search_result = yield self.get_response(response)
+        self.finish(json.dumps(search_result))
 
 
 class ScientistHandler(BaseRequestHandler):
