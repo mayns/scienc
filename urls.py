@@ -19,6 +19,7 @@ url_handlers = [
     (r"/api/scientist(/\d+)?", sc_handlers.ScientistHandler),
     (r"/api/scientist/role", sc_handlers.ScientistRoleHandler),
     (r"/api/scientists", sc_handlers.ScientistsListHandler),
+    (r"/api/scientists/search", sc_handlers.ScientistsSearchHandler),
     (r"/api/scientist/my-projects", sc_handlers.ScientistManagedProjectsHandler),
     (r"/api/scientist/participation", sc_handlers.ScientistParticipationProjectsHandler),
     (r"/api/scientist/desired", sc_handlers.ScientistDesiredProjectsHandler),
@@ -26,6 +27,7 @@ url_handlers = [
     # projects
     (r"/api/project(/\d+)?", pr_handlers.ProjectHandler),
     (r"/api/projects", pr_handlers.ProjectsListHandler),
+    (r"/api/projects/search", pr_handlers.ProjectsSearchHandler),
     (r"/api/project/(\d+)/like", pr_handlers.ProjectsLikeHandler),
     (r"/api/project/(\d+)/responses/[a|d]?", pr_handlers.ProjectsResponseHandler),
     (r"/api/project/(\d+)/participation", pr_handlers.ProjectsParticipationHandler),

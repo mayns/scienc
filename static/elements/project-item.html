@@ -10,6 +10,7 @@
 		<style>
 			:host {
                 display: block;
+                width: 1000px;
 				border-bottom: 2px solid #ccc;
 				padding: 10px;
 				position: relative;
@@ -20,14 +21,14 @@
             .project-header h1 {
                 font-size: 28px;
 				margin-bottom: 10px;
-                font-family: 'Roboto Slab';
+                font-family: 'Roboto Slab' sans-serif;
 			}
             .project p {
                 padding-bottom: 10px;
                 line-height: 1.6;
             }
             .short-descr {
-                font-family: 'Roboto Slab';
+                font-family: 'Roboto Slab' sans-serif;
                 font-size: 16px;
                 font-weight: bold;
             }
@@ -59,6 +60,20 @@
 				fill: #FF334F;
 				stroke: #FF334F;
 			}
+            .icon {
+                width: 60px;
+                height: 60px;
+            }
+            .science-field-item:after {
+                content: '+';
+                font-size: 26px;
+                color: #d1d1d1;
+                margin-left: 10px;
+                margin-right: 10px;
+            }
+            .science-field-item:last-child:after {
+                content: '';
+            }
 		</style>
 		<template bind="{{ data }}">
             <article class="project">
@@ -72,18 +87,31 @@
                                 <span class="project-holder">{{ university }}</span>
                             </template>
                         </div>
-                        <core-icon class="like-icon liked top" icon="favorite"></core-icon>
-                        <div>{{ data.likes || 0 }}</div>
                     </div>
                 </header>
                 <p>
                     <span class="short-descr">Краткое описание: </span>{{ description_short }}
                 </p>
-                <core-icon  id="likeIcon"
-                            class="like-icon bottom"
-                            on-click="{{ toggleLike }}"
-                            icon="favorite">
-                </core-icon>
+                <!--<core-icon  id="likeIcon"-->
+                            <!--class="like-icon bottom"-->
+                            <!--on-click="{{ toggleLike }}"-->
+                            <!--icon="favorite">-->
+                <!--</core-icon>-->
+                <div horizontal layout justified center>
+
+                    <div horizontal layout center flex>
+                        <template repeat="{{ research_fields }}">
+                            <span class="science-field-item row-flex middle">
+                                <img class="icon" src="/static/images/{{ id }}.svg" alt="{{ name }}"/>
+                            </span>
+                        </template>
+                    </div>
+
+                    <div class="row-flex middle">
+                        <div style="margin-right: 10px; font-size: 26px; color: #808080">{{ data.likes || 0 }}</div>
+                        <core-icon class="like-icon liked top" icon="favorite"></core-icon>
+                    </div>
+                </div>
             </article>
         </template>
 	</template>
