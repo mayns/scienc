@@ -235,10 +235,14 @@ class PSQLModel(object):
     @gen.coroutine
     @psql_connection
     def search(cls, conn, s_type, s_query):
-        sql_query = get_search_query(cls.TABLE, cls.SEARCH_FIELDS(s_type), s_query)
-        cursor = yield momoko.Op(conn.execute, sql_query)
-        data = cursor.fetchall()
-        raise gen.Return(data)
+        result_data = []
+        for f in cls.SEARCH_FIELDS(s_type):
+            sql_query = get_search_query(cls.TABLE, f, s_query)
+            cursor = yield momoko.Op(conn.execute, sql_query)
+            data = cursor.fetchall()
+            result_data.extend(data)
+        result_data = reduce(lambda x, y: x + y, result_data)
+        raise gen.Return(result_data)
 
     @classmethod
     @gen.coroutine
