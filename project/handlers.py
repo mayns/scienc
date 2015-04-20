@@ -38,11 +38,12 @@ class ProjectsListHandler(BaseRequestHandler):
 
 class ProjectsSearchHandler(BaseRequestHandler):
     @gen.coroutine
-    def get(self, *args, **kwargs):
+    def post(self, *args, **kwargs):
         print u'search projects'
         search_data = json.loads(self.get_argument(u'data', u'{}'))
+        print search_data
         try:
-            response = yield Project.search(search_data)
+            response = yield Project.search(search_data[u's_type'], search_data[u's_query'])
         except Exception, ex:
             logging.info('Exc on search projects:')
             logging.exception(ex)
