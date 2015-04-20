@@ -236,13 +236,19 @@ class PSQLModel(object):
     @psql_connection
     def search(cls, conn, s_type, s_query):
         result_data = []
+        final_dict = {}
         for f in cls.SEARCH_FIELDS(s_type):
             sql_query = get_search_query(cls.TABLE, f, s_query)
             cursor = yield momoko.Op(conn.execute, sql_query)
             data = cursor.fetchall()
-            result_data.extend(data)
-        result_data = reduce(lambda x, y: x + y, result_data)
-        raise gen.Return(result_data)
+            for d in data:
+                result_data.append(dict(
+                    id=int(d[0]),
+                    field_value=d[1],
+                    field_name=f))
+        for l in result_data:
+            final_dict.setdefault(l[u'id'], []).append(dict(field=l[u'field_name'], result=l[u'field_value']))
+        raise gen.Return(sorted([dict(id=i, value=v) for i, v in final_dict.iteritems()], key=lambda x: len(x)))
 
     @classmethod
     @gen.coroutine
