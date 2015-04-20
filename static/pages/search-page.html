@@ -46,10 +46,14 @@
             </select>
             <input id="searchQuery" on-keyup="{{ search }}" class="search-query" type="text" flex/>
         </div>
+        <div>
+            {{ results }}
+        </div>
         <core-ajax
             id="ajax"
             method="POST"
             handleAs="json"
+            on-core-response="{{ showSearchResults }}"
             response="{{ json }}">
         </core-ajax>
     </template>
@@ -98,6 +102,9 @@
                 formData.append('data', JSON.stringify(data));
                 ajax.body = formData;
                 ajax.go();
+            },
+            showSearchResults: function(e, detail, sender) {
+                this.results = JSON.stringify(detail.response);
             }
         });
     </script>
