@@ -238,7 +238,7 @@ class PSQLModel(object):
         sql_query = get_search_query(cls.TABLE, cls.SEARCH_FIELDS(s_type), s_query)
         cursor = yield momoko.Op(conn.execute, sql_query)
         data = cursor.fetchall()
-        print data
+        raise gen.Return(data)
 
     @classmethod
     @gen.coroutine
