@@ -108,7 +108,7 @@ def get_exists_query(tbl, where):
 def get_search_query(tbl, select_field, select_query, limit_field=None, limit_num=None):
     if not any([limit_field, limit_num]):
         sql_string = "SELECT id, {s_field} FROM {table} WHERE {s_field} @@ '{s_query}'".format(
-            s_field=select_field, table=tbl, s_query=select_query
+            s_field=select_field, table=tbl, s_query=select_query.encode('utf-8')
         )
         return sql_string
 
