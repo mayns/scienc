@@ -25,7 +25,6 @@ class ProjectsListHandler(BaseRequestHandler):
 
         try:
             response = yield ProjectBL.get_all()
-            # response = yield Project.search(s_type=u'main', s_query=u'factorize')
         except Exception, ex:
             logging.info('Exc on get all projects:')
             logging.exception(ex)
@@ -35,6 +34,25 @@ class ProjectsListHandler(BaseRequestHandler):
 
         response_data = yield self.get_response(response)
         self.finish(response_data)
+
+
+class ProjectsSearchHandler(BaseRequestHandler):
+    @gen.coroutine
+    def post(self, *args, **kwargs):
+        print u'search projects'
+        search_data = json.loads(self.get_argument(u'data', u'{}'))
+        print search_data
+        try:
+            response = yield Project.search(search_data[u's_type'], search_data[u's_query'])
+        except Exception, ex:
+            logging.info('Exc on search projects:')
+            logging.exception(ex)
+            response = dict(
+                message=ex.message
+            )
+
+        search_result = yield self.get_response(response)
+        self.finish(search_result)
 
 
 class ProjectHandler(BaseRequestHandler):

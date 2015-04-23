@@ -1,16 +1,111 @@
 <link rel="import" href="/static/elements/polymer/polymer.html"/>
 <link rel="import" href="/static/elements/core-ajax/core-ajax.html"/>
 
-<polymer-element name="search-page">
+<polymer-element name="search-page" class="container">
     <template>
         <style>
+            :host {
+                display: block;
+            }
 
+            .search-wrapper {
+                padding: 20px 10px 10px;
+            }
+
+            .search-label {
+                width: 100px;
+            }
+
+            .search-type {
+                -webkit-appearance: none;
+                width: 150px;
+                margin-right: 20px;
+                background-color: white;
+                font-size: 16px;
+                font-family: 'Roboto', sans-serif;
+                cursor: pointer;
+                border-top: 0;
+                border-left: 0;
+                border-right: 0;
+            }
+
+            .search-type:focus {
+                outline: none;
+            }
+
+            .search-query {
+
+            }
         </style>
-        <core-ajax></core-ajax>
+        <div class="search-wrapper row-flex middle">
+            <label class="search-label" for="searchType">Искать по</label>
+            <select id="searchType" class="search-type">
+                <option value="projects">проектам</option>
+                <option value="scientists">участникам</option>
+                <option value="vacancies">вакансиям</option>
+            </select>
+            <input id="searchQuery" on-keyup="{{ search }}" class="search-query" type="text" flex/>
+        </div>
+        <div>
+            {{ results }}
+        </div>
+        <core-ajax
+            id="ajax"
+            method="POST"
+            handleAs="json"
+            on-core-response="{{ showSearchResults }}"
+            response="{{ json }}">
+        </core-ajax>
     </template>
     <script>
         Polymer('search-page', {
+            search: function(e) {
+                var searchType,
+                    ajax,
+                    data,
+                    searchQuery,
+                    formData;
 
+                searchQuery = this.$.searchQuery.value;
+
+                if (e.keyCode !== 13 || searchQuery === '') {
+                    return;
+                }
+                searchType = this.$.searchType.value;
+                searchQuery = this.$.searchQuery.value;
+                formData = new FormData();
+                ajax = this.$.ajax;
+
+                switch(searchType) {
+                    case 'projects':
+                        data = {
+                            s_type: 'main',
+                            s_query: searchQuery
+                        };
+                        ajax.url = '/api/projects/search';
+                        break;
+                    case 'vacancies':
+                        data = {
+                            s_type: 'vacancies',
+                            s_query: searchQuery
+                        };
+                        ajax.url = '/api/projects/search';
+                        break;
+                    case 'scientists':
+                        data = {
+                            s_type: 'main',
+                            s_query: searchQuery
+                        };
+                        ajax.url = '/api/scientists/search';
+                        break;
+                }
+                formData.append('data', JSON.stringify(data));
+                ajax.body = formData;
+                ajax.go();
+            },
+            showSearchResults: function(e, detail, sender) {
+                this.results = JSON.stringify(detail.response);
+            }
         });
     </script>
 </polymer-element>

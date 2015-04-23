@@ -46,6 +46,9 @@ class ProjectBL(object):
     @gen.coroutine
     def get_all(cls):
         projects_data = yield Project.get_all_json(columns=Project.OVERVIEW_FIELDS)
+        for project in projects_data:
+            if u'research_fields' in project:
+                project.update(research_fields=[dict(id=f, name=environment.SCIENCE_FIELDS_MAP[f]) for f in project[u'research_fields']])
         raise gen.Return(projects_data)
 
     @classmethod
