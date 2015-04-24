@@ -2,13 +2,13 @@
 
 var app = require('ampersand-app');
 //var MainView = require('./views/main');
-//var User = require('./models/me');
+var User = require('../models/user');
 var Router = require('./router');
 
 
 app.extend({
 	init: function () {
-		//this.user = new User();
+		var user = new User();
 		// Our main view
 		//this.view = new MainView({
 		//	el: document.body,
