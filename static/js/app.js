@@ -9,6 +9,7 @@ var Router = require('./router');
 app.extend({
 	init: function () {
 		var user = new User();
+        user.fetch();
 		// Our main view
 		//this.view = new MainView({
 		//	el: document.body,
