@@ -1,27 +1,28 @@
 var AmpersandRouter = require('ampersand-router');
 
 var AppRouter = AmpersandRouter.extend({
+	routes: {
+		"": "projects",
+		"scientists": "scientists",
+		"scientist/:id": "scientist",
+		"scientist/my-projects": "myProjects",
+		"": ""
+	},
+	projects: function() {
 
-  routes: {
-    "scientist": "scientist",
-    "scientists": "search",
-    "search/:query/p:page": "search"
-  },
+	},
+	scientists: function () {
 
-  scientist: function() {
-    //...
-  },
+	},
+	scientist: function () {
 
-  search: function(query, page) {
-    //...
-  }
+	}
 
 });
 
 module.exports = AppRouter;
 
 //<app-route path="/" element="project-list"></app-route>
-//<app-route path="/scientist" element="scientist-form"></app-route>
 //<app-route path="/scientists" element="scientists-list"></app-route>
 //<app-route path="/scientist/my-projects" element="my-projects"></app-route>
 //<app-route path="/scientist/:id" element="scientist-page"></app-route>
