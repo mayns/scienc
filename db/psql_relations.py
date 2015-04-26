@@ -142,33 +142,7 @@ def create_relation_scientists():
     yield momoko.Op(conn.execute, u"CREATE INDEX first_name_idx ON scientists (first_name);")
     yield momoko.Op(conn.execute, u"CREATE INDEX last_name_idx ON scientists (last_name);")
     yield momoko.Op(conn.execute, u"CREATE INDEX middle_name_idx ON scientists (middle_name);")
-    # yield momoko.Op(conn.execute, u"UPDATE scientists SET interests_tsvector = (to_tsvector('international', interests));")
     yield momoko.Op(conn.execute, u"CREATE INDEX interests_idx ON scientists USING GIN(interests);")
-
-
-    # yield momoko.Op(conn.execute, u"""DROP FUNCTION IF EXISTS scientist_vector_update() CASCADE;""")
-    #
-    # yield momoko.Op(conn.execute, u"""DROP TRIGGER IF EXISTS tsvectorupdate on scientists CASCADE;""")
-    #
-    # yield momoko.Op(conn.execute,
-    # u"""CREATE FUNCTION scientist_vector_update() RETURNS TRIGGER AS $$
-    #     BEGIN
-    #         IF TG_OP = 'INSERT' THEN
-    #             new.interests_tsvector = to_tsvector('international', COALESCE(NEW.interests, ''));
-    #         END IF;
-    #         IF TG_OP = 'UPDATE' THEN
-    #             IF NEW.title <> OLD.title THEN
-    #                 new.interests_tsvector = to_tsvector('international', COALESCE(NEW.interests, ''));
-    #             END IF;
-    #         END IF;
-    #         RETURN NEW;
-    #     END
-    #     $$ LANGUAGE 'plpgsql';""")
-    #
-    # yield momoko.Op(conn.execute, u"CREATE TRIGGER tsvectorupdate BEFORE INSERT OR UPDATE "
-    #                               u"ON scientists FOR EACH ROW EXECUTE PROCEDURE scientist_vector_update();")
-
-
 
 
 @gen.coroutine
