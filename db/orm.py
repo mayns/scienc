@@ -44,8 +44,8 @@ MODELS = dict(
         u'id': ID(),
         u'manager_id': Integer(required=True, db_references='scientists(id)'),      # person added the project
         u'research_fields': JsonArray(required=True),                               # области науки
-        u'title': Text(required=True),                                              # название проекта
-        u'description_short': Text(required=True),                                  # краткое описание для обложки
+        u'title': Text(required=True, length=100),                                  # название проекта
+        u'description_short': Text(required=True, length=300),                      # краткое описание для обложки
         u'likes': Integer(),                                                        # количество лайков
         u'responses': JsonArray(db_type='jsonb'),                                   # [{scientist_id, vacancy_id, vacancy_name, message}]
         u'university_connection': JsonArray(db_type='jsonb'),                       # [{country, city, university, faculty, chair}]
@@ -53,11 +53,11 @@ MODELS = dict(
         # project info
         u'in_progress': Text(default=u'true'),                                      # закончен / не закончен
         u'objective': Text(length=300),                                             # цель исследования
-        u'description_full': Text(length=300),                                      # полное описание
+        u'description_full': Text(length=500),                                      # полное описание
         u'usage_possibilities': Text(length=300),                                   # возможности применения результатов
         u'results': Text(length=300),                                               # достигнутые результаты и практическое применение
         u'related_data': JsonArray(db_type='jsonb'),                                # [{id, title, project_id, source_link, description}]
-        u'leader': JsonObject(),                                                    # [{id, scientist_id, full_name}]
+        u'leader': JsonObject(),                                                    # {id, scientist_id, full_name}
         u'participants': JsonArray(db_type='jsonb'),                                # [{id, role_name, scientist_id, full_name}]
         u'missed_participants': JsonArray(db_type='jsonb'),                         # [{id, vacancy_name, description, difficulty}]
         u'tags': JsonArray(db_type='text[]'),                                       # тэги

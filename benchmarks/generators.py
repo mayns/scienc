@@ -3,7 +3,7 @@
 import random
 import fauxfactory
 from db.orm import MODELS
-from common.utils import zip_values
+from common.utils import zip_values, generate_id
 from scientist.models import Scientist
 from project.models import Project
 import datetime
@@ -89,3 +89,79 @@ def generate_users(n=10):
 def generate_projects(n=10):
     projects = []
     create_fields = dict(zip_values(Project.CREATE_FIELDS, MODELS[Project.TABLE], empty_fields=1))
+
+    for project in xrange(n):
+        project_dict = {}
+
+        for key, value in create_fields.iteritems():
+            if key == u'id':
+                project_dict[key] = project + 1
+            if value.type == int:
+                if key == u'manager_id':
+                    project_dict[key] = 1
+                else:
+                    project_dict[key] = fauxfactory.gen_integer(1, n)
+
+            if value.type == basestring:
+                if key == 'in_progress':
+                    project_dict[key] = fauxfactory.gen_choice([u'true', u'false'])
+                if key == 'project_site':
+                    project_dict[key] = fauxfactory.gen_url()
+                else:
+                    project_dict[key] = fauxfactory.gen_cyrillic(value.length)
+
+            if value.type == datetime.date:
+                project_dict[key] = fauxfactory.gen_date()
+
+            if value.type == dict:
+                if key == u'leader':
+                    project_dict[key] = dict(
+                        id=generate_id(17),
+                        scientist_id=fauxfactory.gen_integer(1, n),
+                        full_name=fauxfactory.gen_alpha(),
+                    )
+
+            if value.type == list:
+                values = []
+                if value.db_type == 'text[]':
+                    for i in xrange(random.randint(1, 10)):
+                        values.append(fauxfactory.gen_cyrillic())
+
+                if value.db_type == 'jsonb':
+                    for i in xrange(random.randint(1, 5)):
+                        value_json = {}
+                        if key == u'university_connection':
+                            value_json[u'country'] = fauxfactory.gen_cyrillic()
+                            value_json[u'city'] = fauxfactory.gen_cyrillic()
+                            value_json[u'university'] = fauxfactory.gen_cyrillic(length=20)
+                            value_json[u'faculty'] = fauxfactory.gen_cyrillic(length=20)
+                            value_json[u'chair'] = fauxfactory.gen_cyrillic(length=20)
+
+                        if key == u'related_data':
+                            value_json[u'id'] = generate_id(17)
+                            value_json[u'title'] = fauxfactory.gen_cyrillic(length=20)
+                            value_json[u'project_id'] = fauxfactory.gen_integer(1, project+1)
+                            value_json[u'source_link'] = fauxfactory.gen_url()
+                            value_json[u'description'] = fauxfactory.gen_cyrillic(length=50)
+
+                        if key == u'participants':
+                            value_json[u'id'] = generate_id(17)
+                            value_json[u'role_name'] = fauxfactory.gen_cyrillic(length=20)
+                            value_json[u'full_name'] = fauxfactory.gen_cyrillic(length=20)
+
+                        if key == u'missed_participants':
+                            value_json[u'id'] = generate_id(17)
+                            value_json[u'vacancy_name'] = fauxfactory.gen_cyrillic(length=10)
+                            value_json[u'description'] = fauxfactory.gen_cyrillic(length=30)
+                            value_json[u'difficulty'] = fauxfactory.gen_integer(1, 10)
+
+                        if key == u'contacts':
+                            value_json[u'name'] = fauxfactory.gen_cyrillic(length=10)
+                            value_json[u'connection'] = random.choice(environment.CONTACT_TYPES)
+                            value_json[u'number'] = fauxfactory.gen_alphanumeric()
+
+                        values.append(value_json)
+                project_dict[key] = values
+        projects.append(project_dict)
+
+    return projects
