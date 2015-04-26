@@ -36,7 +36,6 @@ MODELS = dict(
 
         # system info
         u'dt_created': Datetime(db_type='timestamp')
-        # u'interests_tsvector': TSvector()
     },
 
     projects={

@@ -43,11 +43,12 @@ def create_db():
     cursor = con.cursor()
     cursor.execute(u"SELECT 1 FROM pg_database WHERE datname='{}'".format(dbs_param[u'database']))
     exist_db = cursor.fetchone()
-    if not exist_db:
-        cursor.execute(u'CREATE DATABASE {}'.format(dbs_param[u'database']))
-
+    if exist_db:
+        cursor.execute(u'DROP database {};'.format(dbs_param[u'database']))
+    cursor.execute(u'CREATE DATABASE {}'.format(dbs_param[u'database']))
     con.commit()
     con.close()
+
 
 
 @gen.coroutine
@@ -69,6 +70,7 @@ def create_relations():
 
     except (psycopg2.Warning, psycopg2.Error) as error:
         raise Exception(str(error))
+
 
 
 @gen.coroutine
@@ -94,9 +96,9 @@ def create_config():
 
         ALTER TEXT SEARCH CONFIGURATION international ALTER MAPPING FOR hword, hword_part, word WITH russian_ispell, russian_stem;
         ALTER TEXT SEARCH CONFIGURATION international ALTER MAPPING FOR asciihword, asciiword, hword_asciipart WITH english_ispell, english_stem;
-
         """)
-        print 'OK'
+
+        print 'configuration for text search has been created'
     except (psycopg2.Warning, psycopg2.Error) as error:
         raise Exception(str(error))
 
