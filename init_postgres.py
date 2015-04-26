@@ -22,8 +22,11 @@ if __name__ == "__main__":
     from db.psql_relations import create_db
     create_db()
 
-    # from db.psql_relations import create_relations
-    # _ioloop.run_sync(partial(create_relations))
+    from db.psql_relations import create_config
+    _ioloop.run_sync(partial(create_config))
+
+    from db.psql_relations import create_relations
+    _ioloop.run_sync(partial(create_relations))
 
 
     # from postgres_fill import insert_data

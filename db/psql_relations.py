@@ -45,6 +45,7 @@ def create_db():
     exist_db = cursor.fetchone()
     if not exist_db:
         cursor.execute(u'CREATE DATABASE {}'.format(dbs_param[u'database']))
+
     con.commit()
     con.close()
 
@@ -66,6 +67,36 @@ def create_relations():
         yield create_relation_schools()
         print u'done'
 
+    except (psycopg2.Warning, psycopg2.Error) as error:
+        raise Exception(str(error))
+
+
+@gen.coroutine
+def create_config():
+    conn = PSQLClient.get_client()
+    try:
+        yield momoko.Op(conn.execute, u"""
+        CREATE TEXT SEARCH DICTIONARY russian_ispell (
+        TEMPLATE = ispell,
+        DictFile = russian,
+        AffFile = russian,
+        StopWords = russian
+        );
+
+        CREATE TEXT SEARCH DICTIONARY english_ispell (
+        TEMPLATE = ispell,
+        DictFile = english,
+        AffFile = english,
+        StopWords = english
+        );
+
+        CREATE TEXT SEARCH CONFIGURATION international ( COPY = russian );
+
+        ALTER TEXT SEARCH CONFIGURATION international ALTER MAPPING FOR hword, hword_part, word WITH russian_ispell, russian_stem;
+        ALTER TEXT SEARCH CONFIGURATION international ALTER MAPPING FOR asciihword, asciiword, hword_asciipart WITH english_ispell, english_stem;
+
+        """)
+        print 'OK'
     except (psycopg2.Warning, psycopg2.Error) as error:
         raise Exception(str(error))
 
@@ -108,8 +139,37 @@ def create_relation_scientists():
     query = prepare_creation(table)
     yield momoko.Op(conn.execute, query)
 
-    # INDEXES:
-    # yield momoko.Op(conn.execute, u"CREATE INDEX scientists_projects_gin ON scientists USING GIN(project_ids);")
+    yield momoko.Op(conn.execute, u"CREATE INDEX first_name_idx ON scientists (first_name);")
+    yield momoko.Op(conn.execute, u"CREATE INDEX last_name_idx ON scientists (last_name);")
+    yield momoko.Op(conn.execute, u"CREATE INDEX middle_name_idx ON scientists (middle_name);")
+    # yield momoko.Op(conn.execute, u"UPDATE scientists SET interests_tsvector = (to_tsvector('international', interests));")
+    yield momoko.Op(conn.execute, u"CREATE INDEX interests_idx ON scientists USING GIN(interests);")
+
+
+    # yield momoko.Op(conn.execute, u"""DROP FUNCTION IF EXISTS scientist_vector_update() CASCADE;""")
+    #
+    # yield momoko.Op(conn.execute, u"""DROP TRIGGER IF EXISTS tsvectorupdate on scientists CASCADE;""")
+    #
+    # yield momoko.Op(conn.execute,
+    # u"""CREATE FUNCTION scientist_vector_update() RETURNS TRIGGER AS $$
+    #     BEGIN
+    #         IF TG_OP = 'INSERT' THEN
+    #             new.interests_tsvector = to_tsvector('international', COALESCE(NEW.interests, ''));
+    #         END IF;
+    #         IF TG_OP = 'UPDATE' THEN
+    #             IF NEW.title <> OLD.title THEN
+    #                 new.interests_tsvector = to_tsvector('international', COALESCE(NEW.interests, ''));
+    #             END IF;
+    #         END IF;
+    #         RETURN NEW;
+    #     END
+    #     $$ LANGUAGE 'plpgsql';""")
+    #
+    # yield momoko.Op(conn.execute, u"CREATE TRIGGER tsvectorupdate BEFORE INSERT OR UPDATE "
+    #                               u"ON scientists FOR EACH ROW EXECUTE PROCEDURE scientist_vector_update();")
+
+
+
 
 @gen.coroutine
 def create_relation_projects():
