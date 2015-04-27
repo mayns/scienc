@@ -31,30 +31,7 @@ iconv -c -f koi8-r -t utf-8 < /gen/scienc/db/ispell-russian/russian.dict > /usr/
 iconv -c -f koi8-r -t utf-8 < /gen/scienc/db/ispell-english/english.aff > /usr/share/postgresql/9.4/tsearch_data/english.affix
 iconv -c -f koi8-r -t utf-8 < /gen/scienc/db/ispell-english/english.dict > /usr/share/postgresql/9.4/tsearch_data/english.dict
 
-
-sudo su postgres
-psql science
-
-CREATE TEXT SEARCH DICTIONARY russian_ispell (
-    TEMPLATE = ispell,
-    DictFile = russian,
-    AffFile = russian,
-    StopWords = russian
-);
-
-CREATE TEXT SEARCH DICTIONARY english_ispell (
-TEMPLATE = ispell,
-DictFile = english,
-AffFile = english,
-StopWords = english
-);
-
-CREATE TEXT SEARCH CONFIGURATION international ( COPY = russian );
-
-ALTER TEXT SEARCH CONFIGURATION international ALTER MAPPING FOR hword, hword_part, word WITH russian_ispell, russian_stem;
-ALTER TEXT SEARCH CONFIGURATION international ALTER MAPPING FOR asciihword, asciiword, hword_asciipart WITH english_ispell, english_stem;
-
-
+python init_postgres.py
 
 # проверка
 

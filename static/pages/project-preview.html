@@ -136,7 +136,7 @@
                         </template>
                     </div>
                 </template>
-                <template if="{{ leader.fullname || participants.length > 0 || missed_participants.length > 0 }}">
+                <template if="{{ leader.fullname || participants.length > 0 || vacancies.length > 0 }}">
                     <section>
                         <h1 class="team">Команда</h1>
                         <template if="{{ leader.full_name }}">
@@ -160,12 +160,12 @@
                                 </ol>
                             </div>
                         </template>
-                        <template if="{{ missed_participants.length > 0 }}">
+                        <template if="{{ vacancies.length > 0 }}">
                             <h2>Не хватает</h2>
                             <p>
-                                <template repeat="{{ p in missed_participants }}">
-                                    <project-missed-participant data="[[ {vacancy_name: p.vacancy_name, description: p.description, project_id: id, vacancy_id: p.id  } ]]">
-                                    </project-missed-participant>
+                                <template repeat="{{ p in vacancies }}">
+                                    <project-vacancy data="[[ {vacancy_name: p.vacancy_name, description: p.description, project_id: id, vacancy_id: p.id  } ]]">
+                                    </project-vacancy>
                                 </template>
                             </p>
                         </template>

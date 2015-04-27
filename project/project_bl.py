@@ -2,7 +2,13 @@
 
 import logging
 import environment
+import momoko
 from tornado import gen
+
+from common.decorators import psql_connection
+from common.exceptions import *
+from db.utils import *
+
 from project.models import Project
 from scientist.models import Scientist
 
@@ -15,13 +21,59 @@ class ProjectBL(object):
     def create(cls, project_dict):
 
         editable_data = Project.get_editable_data(project_dict, update=False)
-
         project = Project(**editable_data)
         project_id = yield project.save(update=False, fields=editable_data.keys())
+
+        participant_ids = []
+        participants = editable_data.pop(u'participants', [])
+        vacancies = editable_data.pop(u'vacancies', [])
+        for participant in participants:
+            participant.update(project_id=project_id)
+            participant_id = yield cls.add_participant(participant)
+            participant_ids.append(participant_id)
+
+        vacancy_ids = []
+        for vacancy in vacancies:
+            vacancy.update(project_id=project_id)
+            v_id = yield cls.add_vacancy(vacancy)
+            vacancy_ids.append(v_id)
+
+        project.participants = participant_ids
+        project.vacancies = vacancy_ids
+        yield project.save(fields=[u'participants', u'vacancies'])
+
         scientist = yield Scientist.get_by_id(editable_data[u'manager_id'])
         scientist.managing_project_ids.append(project_id)
         yield scientist.save(fields=[u'managing_project_ids'], columns=[u'managing_project_ids'])
         raise gen.Return(dict(id=project_id))
+
+    @classmethod
+    @gen.coroutine
+    @psql_connection
+    def add_participant(cls, conn, participant_data):
+        participant_id = 0
+        sqp_query = get_insert_query(environment.TABLE_PARTICIPANTS, participant_data)
+        try:
+            cursor = yield momoko.Op(conn.execute, sqp_query)
+            participant_id = cursor.fetchone()[0]
+        except PSQLException, ex:
+            print ex
+
+        raise gen.Return(participant_id)
+
+    @classmethod
+    @gen.coroutine
+    @psql_connection
+    def add_vacancy(cls, conn, vacancy_data):
+        vacancy_id = 0
+        sqp_query = get_insert_query(environment.TABLE_VACANCIES, vacancy_data)
+        try:
+            cursor = yield momoko.Op(conn.execute, sqp_query)
+            vacancy_id = cursor.fetchone()[0]
+        except PSQLException, ex:
+            print ex
+
+        raise gen.Return(vacancy_id)
 
     @classmethod
     @gen.coroutine
@@ -84,7 +136,7 @@ class ProjectBL(object):
         scientist_id = data[u'scientist_id']
         try:
             project = yield Project.get_by_id(data[u'project_id'])
-            vacancy_name = [v[u'vacancy_name'] for v in project.missed_participants if v[u'id'] == data[u'id']]
+            vacancy_name = [v[u'vacancy_name'] for v in project.vacancies if v[u'id'] == data[u'id']]
             if not vacancy_name:
                 raise Exception(u'No vacancy name')
             scientist_response = dict(
@@ -136,8 +188,8 @@ class ProjectBL(object):
         try:
             project = yield Project.get_by_id(data[u'project_id'])
             scientist = yield Scientist.get_by_id(data[u'scientist_id'])
-            excluded_vacancy = [p for p in project.missed_participants if p[u'id'] == data[u'vacancy_id']][0]
-            project.missed_participants.remove(excluded_vacancy)
+            excluded_vacancy = [p for p in project.vacancies if p[u'id'] == data[u'vacancy_id']][0]
+            project.vacancies.remove(excluded_vacancy)
 
             project.participants.append(dict(
                 full_name=u' '.join(map(lambda x: x.decode('utf8'), [scientist.last_name, scientist.first_name,
@@ -157,8 +209,8 @@ class ProjectBL(object):
                 role_id=desired_vacancy[u'vacancy_id']
             ))
 
-            yield project.save(fields=[u'missed_participants', u'participants'],
-                               columns=[u'missed_participants', u'participants'])
+            yield project.save(fields=[u'vacancies', u'participants'],
+                               columns=[u'vacancies', u'participants'])
 
             yield scientist.save(fields=[u'desired_vacancies', u'participating_projects'],
                                  columns=[u'desired_vacancies', u'participating_projects'])

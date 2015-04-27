@@ -50,31 +50,6 @@ def create_db():
     con.close()
 
 
-
-@gen.coroutine
-def create_relations():
-    try:
-        yield delete_tables()
-        yield create_relation_roles()
-        yield create_relation_scientists()
-        yield create_relation_projects()
-        yield create_relation_vacancies()
-        yield create_relation_participants()
-        yield create_relation_countries()
-        yield create_relation_cities()
-        yield create_relation_main_cities()
-        yield create_relation_universities()
-        yield create_relation_faculties()
-        yield create_relation_chairs()
-        yield create_relation_schools()
-        yield create_relation_responses()
-        print u'done'
-
-    except (psycopg2.Warning, psycopg2.Error) as error:
-        raise Exception(str(error))
-
-
-
 @gen.coroutine
 def create_config():
     conn = PSQLClient.get_client()
@@ -101,6 +76,29 @@ def create_config():
         """)
 
         print 'configuration for text search has been created'
+    except (psycopg2.Warning, psycopg2.Error) as error:
+        raise Exception(str(error))
+
+
+@gen.coroutine
+def create_relations():
+    try:
+        yield delete_tables()
+        yield create_relation_roles()
+        yield create_relation_scientists()
+        yield create_relation_projects()
+        yield create_relation_participants()
+        yield create_relation_vacancies()
+        yield create_relation_responses()
+        yield create_relation_countries()
+        yield create_relation_cities()
+        yield create_relation_main_cities()
+        yield create_relation_universities()
+        yield create_relation_faculties()
+        yield create_relation_chairs()
+        yield create_relation_schools()
+        print u'done'
+
     except (psycopg2.Warning, psycopg2.Error) as error:
         raise Exception(str(error))
 
@@ -137,7 +135,7 @@ def prepare_creation(table):
     query_table = query_table[:-2]
     if composite_key:
         return """CREATE TABLE {table} ({query}, PRIMARY KEY({key}));""".format(table=table, query=query_table,
-                                                                               key=','.join(composite_key))
+                                                                                key=','.join(composite_key))
     return """CREATE TABLE {table} ({query});""".format(table=table, query=query_table)
 
 
@@ -169,10 +167,6 @@ def create_relation_participants():
     yield momoko.Op(conn.execute, u"CREATE INDEX participants_role_name_idx ON participants (role_name);")
 
 
-
-
-
-
 @gen.coroutine
 def create_relation_projects():
     table = u'projects'
@@ -194,8 +188,6 @@ def create_relation_projects():
                                   u"USING GIN (description_short_tsvector);")
 
     yield momoko.Op(conn.execute, u"CREATE INDEX tags_idx ON projects(tags);")
-
-
 
     yield momoko.Op(conn.execute, u"""DROP FUNCTION IF EXISTS project_vector_update() CASCADE;""")
 
@@ -226,7 +218,6 @@ def create_relation_projects():
                                   u"ON projects FOR EACH ROW EXECUTE PROCEDURE project_vector_update();")
 
 
-
 @gen.coroutine
 def create_relation_vacancies():
     table = u'vacancies'
@@ -240,19 +231,16 @@ def create_relation_vacancies():
 
     yield momoko.Op(conn.execute, u"UPDATE vacancies SET vacancy_description_tsvector"
                                   u" = (to_tsvector('international', description));")
-    #
+
     yield momoko.Op(conn.execute, u"CREATE INDEX vacancy_name_idx ON vacancies "
                                   u"USING GIN(vacancy_name_tsvector);")
 
     yield momoko.Op(conn.execute, u"CREATE INDEX vacancy_description_idx ON vacancies "
                                   u"USING GIN(vacancy_description_tsvector);")
 
-
-
     yield momoko.Op(conn.execute, u"""DROP FUNCTION IF EXISTS vacancy_vector_update() CASCADE;""")
 
     yield momoko.Op(conn.execute, u"""DROP TRIGGER IF EXISTS tsvectorupdate on vacancies CASCADE;""")
-
 
     yield momoko.Op(conn.execute,
 
@@ -277,7 +265,6 @@ def create_relation_vacancies():
         RETURN NEW;
     END
     $$ LANGUAGE 'plpgsql';""")
-
 
     yield momoko.Op(conn.execute, u"CREATE TRIGGER tsvectorupdate BEFORE INSERT OR UPDATE "
                                   u"ON vacancies FOR EACH ROW EXECUTE PROCEDURE vacancy_vector_update();")

@@ -13,7 +13,7 @@ from db.connections import psql_client
 from base.models import get_insert_query
 
 
-INIT_TABLES = [u'roles', u'scientists', u'projects']
+INIT_TABLES = [u'roles', u'scientists', u'projects', u'vacancies', u'participants', u'responses']
 
 
 # TODO new tables
@@ -212,34 +212,18 @@ def fill_init_data():
     except Exception, ex:
         print ex
 
-    print 'Creating init vacancies'
-    conn = psql_client.get_client()
-    missed_participants=[
-                dict(
-                    vacancy_id=0,
-                    vacancy_name=u'tester',
-                    description=u'WE need AAAALLLL kinds of TESTS!',
-                    difficulty=1,
-                ),
-                dict(
-                    vacancy_id=1,
-                    vacancy_name=u'admin',
-                    description=u'we need static to load SUPER FAST',
-                    difficulty=1,
-                ),
-                dict(
-                    vacancy_id=2,
-                    vacancy_name=u'a cat',
-                    description=u'just a cat',
-                    difficulty=10)
-                ]
-
+    print 'Creating init participants'
+    participants_data = Project.get_participants()
     try:
-        for i in missed_participants:
-            v = i[u'vacancy_name']
-            d = i[u'description']
-            query = """INSERT INTO vacancies(project_id, vacancy_name, description) values
-            ('{project_id}', '{vacancy_name}', '{description}')""".format(project_id=1L, vacancy_name=v, description=d)
-            yield momoko.Op(conn.execute, query)
+        for val in participants_data:
+            yield ProjectBL.add_participant(val)
+    except Exception, ex:
+        print ex
+
+    print 'Creating init vacancies'
+    vacancies_data = Project.get_vacancies()
+    try:
+        for val in vacancies_data:
+            yield ProjectBL.add_vacancy(val)
     except Exception, ex:
         print ex

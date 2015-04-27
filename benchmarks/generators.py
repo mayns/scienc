@@ -149,7 +149,7 @@ def generate_projects(n=10):
                             value_json[u'role_name'] = fauxfactory.gen_cyrillic(length=20)
                             value_json[u'full_name'] = fauxfactory.gen_cyrillic(length=20)
 
-                        if key == u'missed_participants':
+                        if key == u'vacancies':
                             value_json[u'id'] = generate_id(17)
                             value_json[u'vacancy_name'] = fauxfactory.gen_cyrillic(length=10)
                             value_json[u'description'] = fauxfactory.gen_cyrillic(length=30)

@@ -363,18 +363,18 @@
                             </template>
                             <div class="row-flex middle">
                                 <label for="">Разыскиваются</label>
-                                <img on-click="{{ addItem }}" data-itemtype="missed_participants" class="action icon"
+                                <img on-click="{{ addItem }}" data-itemtype="vacancies" class="action icon"
                                      src="/static/images/plus.svg"
                                      alt="" />
                             </div>
-                            <template repeat="{{ missed_participants }}">
+                            <template repeat="{{ vacancies }}">
                                 <div class="row-flex">
                                     <div class="col-lg-5">
                                         <div class="row-flex between top">
                                             <input type="text"
                                                    placeholder="Должность"
                                                    value="{{ vacancy_name }}"
-                                                   data-json="missed_participants[][vacancy_name]"
+                                                   data-json="vacancies[][vacancy_name]"
                                                    flex/>
                                         </div>
                                     </div>
@@ -382,11 +382,11 @@
                                             <textarea rows="1"
                                                       placeholder="Описание"
                                                       value="{{ description }}"
-                                                      data-json="missed_participants[][description]"
+                                                      data-json="vacancies[][description]"
                                                       flex></textarea>
 
                                     </div>
-                                    <img on-click="{{ deleteItem }}" data-itemtype="missed_participants" class="action icon"
+                                    <img on-click="{{ deleteItem }}" data-itemtype="vacancies" class="action icon"
                                          src="/static/images/minus.svg"
                                          alt="" />
                                 </div>
@@ -441,7 +441,7 @@
                     related_data: [1],
                     contacts: [1],
                     participants: [1],
-                    missed_participants: [1]
+                    vacancies: [1]
                 },
                 formType: 'short',
                 viewType: 'create'

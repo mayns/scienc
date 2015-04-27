@@ -64,7 +64,10 @@ DATETIME_FORMAT = dict(
     )
 )
 
-ROLES_TABLE = u'roles'
+TABLE_ROLES = u'roles'
+TABLE_VACANCIES = u'vacancies'
+TABLE_PARTICIPANTS = u'participants'
+TABLE_RESPONSES = u'responses'
 
 ROLE_ADMIN = 1
 ROLE_USER = 2

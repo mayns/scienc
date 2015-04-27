@@ -8,7 +8,7 @@ __author__ = 'mayns'
 class Project(object):
 
     project_dict = {
-        0: dict(
+        1: dict(
             manager_id=2,
             research_fields=[environment.MATH, environment.BIOLOGY],
             title=u'New Algorithms for Nonnegative Matrix Factorization and Beyond',
@@ -85,6 +85,38 @@ class Project(object):
                 scientist_id=2,
                 full_name=u'K. A.'
             ),
+            participants=[
+                dict(
+                    role_name=u'backend monkey',
+                    scientist_id=1,
+                    first_name=u'Oksana',
+                    last_name=u'Gorobets',
+                    middle_name=u'V.',
+                ),
+                dict(
+                    role_name=u'DB manager',
+                    first_name=u'Dmitry',
+                    last_name=u'Makhotin',
+                    middle_name=u'V.',
+                ),
+            ],
+            vacancies=[
+                dict(
+                    vacancy_name=u'Tester',
+                    description=u'Functional and Unit Tests',
+                    difficulty=8,
+                ),
+                dict(
+                    vacancy_name=u'System Administrator',
+                    description=u'Great job for trouble seekers',
+                    difficulty=8,
+                ),
+                dict(
+                    vacancy_name=u'A cat',
+                    description=u'Just a cat',
+                    difficulty=10,
+                ),
+            ],
             tags=[u'number theory', u'calculations', u'matrices', u'linear algebra'],
             project_site=u'http://math.mit.edu/seminars/lunchseminar/',
             contacts=[
@@ -114,50 +146,6 @@ class Project(object):
         )
     ]
 
-    participants = [
-        dict(
-            id=1,
-            project_id=1,
-            role_name=u'backend monkey',
-            scientist_id=1,
-            first_name=u'Oksana',
-            last_name=u'Gorobets',
-            middle_name=u'V.',
-        ),
-        dict(
-            id=2,
-            project_id=1,
-            role_name=u'DB manager',
-            first_name=u'Dmitry',
-            last_name=u'Makhotin',
-            middle_name=u'V.',
-        ),
-    ]
-
-    vacancies = [
-        dict(
-            id=1,
-            project_id=1,
-            vacancy_name=u'Tester',
-            description=u'Functional and Unit Tests',
-            difficulty=8,
-        ),
-        dict(
-            id=2,
-            project_id=1,
-            vacancy_name=u'Administrator',
-            description=u'Great job for trouble seekers',
-            difficulty=8,
-        ),
-        dict(
-            id=3,
-            project_id=1,
-            vacancy_name=u'A cat',
-            description=u'Just a cat',
-            difficulty=10,
-        ),
-    ]
-
     @classmethod
     def get_project(cls, num=None):
         if not num:
@@ -165,9 +153,5 @@ class Project(object):
         return cls.project_dict[num]
 
     @classmethod
-    def get_participants(cls):
-        return cls.participants
-
-    @classmethod
-    def get_vacancies(cls):
-        return cls.vacancies
+    def get_responses(cls):
+        return cls.responses

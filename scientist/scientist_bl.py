@@ -121,7 +121,7 @@ class ScientistBL(object):
         if not both_fields:
             raise RequiredFields([u'Email', u'Password'])
 
-        sql_query = get_select_query(environment.ROLES_TABLE, functions="count(*)", where=dict(column=u'email',
+        sql_query = get_select_query(environment.TABLE_ROLES, functions="count(*)", where=dict(column=u'email',
                                                                                                value=email))
         cursor = yield momoko.Op(conn.execute, sql_query)
         count = cursor.fetchone()
@@ -133,7 +133,7 @@ class ScientistBL(object):
     @psql_connection
     def check_login(cls, conn, email, pwd):
 
-        sql_query = get_select_query(environment.ROLES_TABLE, columns=['id', 'pwd'],
+        sql_query = get_select_query(environment.TABLE_ROLES, columns=['id', 'pwd'],
                                      where=dict(column='email', value=email))
 
         cursor = yield momoko.Op(conn.execute, sql_query)
@@ -157,7 +157,7 @@ class ScientistBL(object):
             pwd=pwd,
             role=scientist_dict.pop(u'role', environment.ROLE_USER)
         )
-        sqp_query = get_insert_query(environment.ROLES_TABLE, params)
+        sqp_query = get_insert_query(environment.TABLE_ROLES, params)
 
         yield momoko.Op(conn.execute, sqp_query)
 
@@ -168,7 +168,7 @@ class ScientistBL(object):
 
         try:
             print 'deleting from postgres'
-            yield Scientist.delete(scientist_id, tbl=environment.ROLES_TABLE)
+            yield Scientist.delete(scientist_id, tbl=environment.TABLE_ROLES)
         except PSQLException, ex:
             raise ex
 
@@ -226,7 +226,7 @@ class ScientistBL(object):
 
         projects = []
         for project_id in project_ids:
-            project_columns = [u'title', u'responses', u'missed_participants']
+            project_columns = [u'title', u'responses', u'vacancies']
             project_json = yield Project.get_json_by_id(project_id, columns=project_columns)
             project_json.update(project_id=project_id)
             raw_responses = project_json.pop(u'responses', [])
@@ -285,13 +285,13 @@ class ScientistBL(object):
         # [{project_id, vacancy_id}]
         projects = []
         for application in sc_json(u'desired_vacancies', []):
-            project_columns = [u'title', u'missed_participants']
+            project_columns = [u'title', u'vacancies']
             project_data = yield Project.get_json_by_id(application[u'project_id'], columns=project_columns)
 
-            missed_participants = project_data.pop(u'missed_participants', [])
+            vacancies = project_data.pop(u'vacancies', [])
             project_data.update(project_id=application[u'project_id'],
                                 vacancy_id=application[u'vacancy_id'],
-                                vacancy_name=[k[u'vacancy_name'] for k in missed_participants if
+                                vacancy_name=[k[u'vacancy_name'] for k in vacancies if
                                               k[u'id'] == application[u'vacancy_id']][0]
             )
 
