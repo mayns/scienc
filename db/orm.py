@@ -92,9 +92,9 @@ MODELS = dict(
     },
 
     responses = {
-        u'scientist_id': Integer(is_composite=True),
-        u'project_id': Integer(is_composite=True),
-        u'vacancy_id': Integer(is_composite=True),
+        u'scientist_id': Integer(is_composite=True, db_references='scientists(id)'),
+        u'project_id': Integer(is_composite=True, db_references='projects(id)'),
+        u'vacancy_id': Integer(is_composite=True, db_references='vacancies(id)'),
         u'vacancy_name': Text(),
         u'message': Text(),
         u'status': Text()

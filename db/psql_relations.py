@@ -67,6 +67,7 @@ def create_relations():
         yield create_relation_faculties()
         yield create_relation_chairs()
         yield create_relation_schools()
+        yield create_relation_responses()
         print u'done'
 
     except (psycopg2.Warning, psycopg2.Error) as error:
@@ -135,7 +136,7 @@ def prepare_creation(table):
         query_table += ', '
     query_table = query_table[:-2]
     if composite_key:
-        return """CREATE TABLE {table} ({query}) PRIMARY KEY({key});""".format(table=table, query=query_table,
+        return """CREATE TABLE {table} ({query}, PRIMARY KEY({key}));""".format(table=table, query=query_table,
                                                                                key=','.join(composite_key))
     return """CREATE TABLE {table} ({query});""".format(table=table, query=query_table)
 
@@ -165,6 +166,7 @@ def create_relation_participants():
     yield momoko.Op(conn.execute, u"CREATE INDEX participants_first_name_idx ON participants (first_name);")
     yield momoko.Op(conn.execute, u"CREATE INDEX participants_last_name_idx ON participants (last_name);")
     yield momoko.Op(conn.execute, u"CREATE INDEX participants_middle_name_idx ON participants (middle_name);")
+
 
 
 
