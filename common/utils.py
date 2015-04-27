@@ -110,3 +110,7 @@ def zip_values(iterable, dict2, empty_fields=False):
             zipped.append((k, dict2.get(k)))
 
     return zipped
+
+
+def list_of_dict_cmp():
+    pass

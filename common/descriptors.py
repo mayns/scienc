@@ -47,11 +47,11 @@ class TSvector(FieldDescriptor):
         self.db_type = 'tsvector'
 
 
-class JsonArray(FieldDescriptor):
+class Array(FieldDescriptor):
 
     def __init__(self, default=None, db_type=None, **kwargs):
         """:rtype: list"""
-        super(JsonArray, self).__init__(default=default, db_type=db_type, **kwargs)
+        super(Array, self).__init__(default=default, db_type=db_type, **kwargs)
         self.db_type = db_type or 'text[]'
         self.store = lambda x: json.dumps(x).replace(u'[', u'{').replace(u']', u'}').replace(u'{{', u'[{').replace(u'}}', u'}]') \
             if self.db_type != 'text[]' else '{' + ', '.join(x) + '}'
