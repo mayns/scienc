@@ -6,8 +6,16 @@
   "dependencies": {},
   "devDependencies": {
     "ampersand-app": "^1.0.3",
+    "ampersand-dom": "^1.4.0",
     "ampersand-model": "^5.0.3",
-    "ampersand-router": "^3.0.2"
+    "ampersand-router": "^3.0.2",
+    "ampersand-view": "^7.3.0",
+    "ampersand-view-switcher": "^2.0.0",
+    "browserify": "^9.0.8",
+    "domthing": "^0.4.0",
+    "jade": "^1.9.2",
+    "jadeify": "^4.2.0",
+    "templatizer": "^1.3.0"
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"

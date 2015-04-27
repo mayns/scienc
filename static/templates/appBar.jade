@@ -1,0 +1,23 @@
+div.appBar
+	if user
+		a.app-bar-item(href='/scientists')
+			img.membersIcon(src='/static/images/members.svg', alt='')
+		div#signIn.action.app-bar-item
+			img.loginIcon(src='/static/images/login.svg', alt='')
+		a.app-bar-item(href='/signup')
+			img.registerIcon(src='/static/images/register.svg', alt='')
+		a.app-bar-item(href='/search')
+			img.searchIcon(src='/static/images/search.svg', alt='')
+	else
+		a.app-bar-item(href='/project')
+			img.addProjectIcon(src='/static/images/add_project.svg', alt='')
+		a.app-bar-item(href='/scientist/my-projects')
+			img.favoriteProjectsIcon(src='/static/images/favorite.svg', alt='')
+		a.app-bar-item(href='/scientists')
+			img.membersIcon(src='/static/images/members.svg', alt='')
+		a.app-bar-item(href='/scientist/')
+			img.profileIcon(alt='')
+		a.app-bar-item(href='/search')
+			img.searchIcon(src='/static/images/search.svg', alt='')
+		div#signOut.action.app-bar-item
+			img.logoutIcon(src='/static/images/logout.svg', alt='')

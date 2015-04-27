@@ -1,22 +1,22 @@
 var AmpersandRouter = require('ampersand-router');
+var ProjectsView = require('')
 
 var AppRouter = AmpersandRouter.extend({
-	routes: {
-		"": "projects",
-		"scientists": "scientists",
-		"scientist/:id": "scientist",
-		"scientist/my-projects": "myProjects",
-		"": ""
-	},
-	projects: function() {
+    routes: {
+        "": "projects",
+        "scientists": "scientists",
+        "scientist/:id": "scientist",
+        "scientist/my-projects": "myProjects"
+    },
+    projects: function () {
+        this.trigger('newPage', new ProjectsView());
+    },
+    scientists: function () {
 
-	},
-	scientists: function () {
+    },
+    scientist: function () {
 
-	},
-	scientist: function () {
-
-	}
+    }
 
 });
 
