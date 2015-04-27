@@ -276,6 +276,14 @@ def create_relation_vacancies():
                                   u"ON vacancies FOR EACH ROW EXECUTE PROCEDURE vacancy_vector_update();")
 
 
+@gen.coroutine
+def create_relation_responses():
+    table = u'responses'
+    print u'creating {} relation'.format(table)
+    conn = PSQLClient.get_client()
+    query = prepare_creation(table)
+    yield momoko.Op(conn.execute, query)
+
 
 @gen.coroutine
 def create_relation_roles():

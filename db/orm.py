@@ -92,12 +92,11 @@ MODELS = dict(
     },
 
     responses = {
-        # u'id',
-        u'scientist_id',
-        u'project_id',
-        u'vacancy_id',
-        u'vacancy_name',
-        u'message',
-        u'status',
+        u'scientist_id': ID(is_composite=True),
+        u'project_id': ID(is_composite=True),
+        u'vacancy_id': ID(is_composite=True),
+        u'vacancy_name': Text(),
+        u'message': Text(),
+        u'status': Text()
     }
 )
