@@ -188,6 +188,8 @@ def create_relation_projects():
     yield momoko.Op(conn.execute, u"CREATE INDEX description_short_idx ON projects "
                                   u"USING GIN (description_short_tsvector);")
 
+    yield momoko.Op(conn.execute, u"CREATE INDEX tags_idx ON projects(tags);")
+
 
 
     yield momoko.Op(conn.execute, u"""DROP FUNCTION IF EXISTS project_vector_update() CASCADE;""")
