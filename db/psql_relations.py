@@ -119,6 +119,7 @@ def delete_tables():
 
 def prepare_creation(table):
     query_table = ''
+    composite_key = []
     for k, v in ALL_TABLES[table].iteritems():
         query_table += k
         query_table += ' '
@@ -129,8 +130,13 @@ def prepare_creation(table):
             query_table += ' REFERENCES %s ON DELETE CASCADE' % v.db_references
         if v.db_default:
             query_table += ' DEFAULT %s' % v.db_default
+        if v.is_composite:
+            composite_key.append(k)
         query_table += ', '
     query_table = query_table[:-2]
+    if composite_key:
+        return """CREATE TABLE {table} ({query}) PRIMARY KEY({key});""".format(table=table, query=query_table,
+                                                                               key=','.join(composite_key))
     return """CREATE TABLE {table} ({query});""".format(table=table, query=query_table)
 
 

@@ -10,7 +10,7 @@ class Project(object):
     project_dict = {
         0: dict(
             manager_id=2,
-            research_fields=['math', 'biology'],
+            research_fields=[environment.MATH, environment.BIOLOGY],
             title=u'New Algorithms for Nonnegative Matrix Factorization and Beyond',
             description_short=u'In biology most of the phenomena, whether at the scale of individual development or at '
                               u'that of 'u'Darwinian evolution, are temporally extended. Taking into account repeated '
@@ -19,16 +19,7 @@ class Project(object):
                               u'growth: leaf venation and the formation of the phyllotactic spirals, I will discuss how'
                               u'characteristic structures emerge out of temporally iterated',
             likes=13,
-            responses=[
-                dict(
-                    scientist_id=1,
-                    vacancy_id=2
-                ),
-                dict(
-                    scientist_id=1,
-                    vacancy_id=1
-                )
-            ],
+            responses=[1, 2],
             university_connection=[
                 dict(
                     country=u'USA',
@@ -95,40 +86,8 @@ class Project(object):
                 scientist_id=2,
                 full_name=u'Kostin Andrey Vasili4'
             ),
-            participants=[
-                dict(
-                    id=0,
-                    role_name=u'backend monkey',
-                    scientist_id=1,
-                    full_name=u'Oks',
-                ),
-                dict(
-                    id=1,
-                    role_name=u'could he care less',
-                    scientist_id=None,
-                    full_name=u'Dmitry',
-                ),
-            ],
-            missed_participants=[
-                dict(
-                    id=0,
-                    vacancy_name=u'tester',
-                    description=u'WE need AAAALLLL kinds of TESTS!',
-                    difficulty=1,
-                ),
-                dict(
-                    id=1,
-                    vacancy_name=u'admin',
-                    description=u'we need static to load SUPER FAST',
-                    difficulty=1,
-                ),
-                dict(
-                    id=2,
-                    vacancy_name=u'a cat',
-                    description=u'just a cat',
-                    difficulty=10,
-                ),
-            ],
+            participants=[1, 2],
+            missed_participants=[1, 2, 3],
             tags=[u'number theory', u'calculations', u'matrices', u'linear algebra'],
             project_site=u'http://math.mit.edu/seminars/lunchseminar/',
             contacts=[
@@ -140,6 +99,85 @@ class Project(object):
             ],
         )
     }
+
+    # vacancies = {
+    #     u'id': ID(),
+    #     u'project_id': Integer(required=True, db_references='projects(id)'),
+    #     u'vacancy_name': Text(),
+    #     u'vacancy_name_tsvector': TSvector(),
+    #     u'description': Text(),
+    #     u'vacancy_description_tsvector': TSvector(),
+    #     u'difficulty': Text()
+    # },
+
+    # participants = {
+    #     u'id': ID(),
+    #     u'project_id': Integer(required=True, db_references='projects(id)'),
+    #     u'role_name': Text(required=True, length=50),
+    #     u'scientist_id': Integer(),
+    #     u'first_name': Text(required=True, length=20),
+    #     u'last_name': Text(required=True, length=20),
+    #     u'middle_name': Text(length=20)
+    # },
+    #
+    # responses = {
+    #     # u'id',
+    #     u'scientist_id',
+    #     u'project_id',
+    #     u'vacancy_id',
+    #     u'vacancy_name',
+    #     u'message',
+    #     u'status',
+    # }
+
+    responses = [
+        dict(
+            scientist_id=1,
+            project_id=1,
+            vacancy_id=2,
+
+        ),
+        dict(
+            scientist_id=1,
+            vacancy_id=1
+        )
+    ]
+
+    participants = [
+        dict(
+            id=0,
+            role_name=u'backend monkey',
+            scientist_id=1,
+            full_name=u'Oks',
+        ),
+        dict(
+            id=1,
+            role_name=u'could he care less',
+            scientist_id=None,
+            full_name=u'Dmitry',
+        ),
+    ]
+
+    vacancies = [
+        dict(
+            id=0,
+            vacancy_name=u'tester',
+            description=u'WE need AAAALLLL kinds of TESTS!',
+            difficulty=1,
+        ),
+        dict(
+            id=1,
+            vacancy_name=u'admin',
+            description=u'we need static to load SUPER FAST',
+            difficulty=1,
+        ),
+        dict(
+            id=2,
+            vacancy_name=u'a cat',
+            description=u'just a cat',
+            difficulty=10,
+        ),
+    ]
 
     @classmethod
     def get_project(cls, num=None):
