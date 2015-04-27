@@ -59,6 +59,7 @@ def create_relations():
         yield create_relation_scientists()
         yield create_relation_projects()
         yield create_relation_vacancies()
+        yield create_relation_participants()
         yield create_relation_countries()
         yield create_relation_cities()
         yield create_relation_main_cities()
@@ -141,10 +142,24 @@ def create_relation_scientists():
     query = prepare_creation(table)
     yield momoko.Op(conn.execute, query)
 
-    yield momoko.Op(conn.execute, u"CREATE INDEX first_name_idx ON scientists (first_name);")
-    yield momoko.Op(conn.execute, u"CREATE INDEX last_name_idx ON scientists (last_name);")
-    yield momoko.Op(conn.execute, u"CREATE INDEX middle_name_idx ON scientists (middle_name);")
-    yield momoko.Op(conn.execute, u"CREATE INDEX interests_idx ON scientists USING GIN(interests);")
+    yield momoko.Op(conn.execute, u"CREATE INDEX scientists_first_name_idx ON scientists (first_name);")
+    yield momoko.Op(conn.execute, u"CREATE INDEX scientists_last_name_idx ON scientists (last_name);")
+    yield momoko.Op(conn.execute, u"CREATE INDEX scientists_middle_name_idx ON scientists (middle_name);")
+    yield momoko.Op(conn.execute, u"CREATE INDEX scientists_interests_idx ON scientists USING GIN(interests);")
+
+
+@gen.coroutine
+def create_relation_participants():
+    table = u'participants'
+    print u'creating {} relation'.format(table)
+    conn = PSQLClient.get_client()
+    query = prepare_creation(table)
+    yield momoko.Op(conn.execute, query)
+
+    yield momoko.Op(conn.execute, u"CREATE INDEX participants_first_name_idx ON participants (first_name);")
+    yield momoko.Op(conn.execute, u"CREATE INDEX participants_last_name_idx ON participants (last_name);")
+    yield momoko.Op(conn.execute, u"CREATE INDEX participants_middle_name_idx ON participants (middle_name);")
+
 
 
 @gen.coroutine
@@ -166,6 +181,7 @@ def create_relation_projects():
 
     yield momoko.Op(conn.execute, u"CREATE INDEX description_short_idx ON projects "
                                   u"USING GIN (description_short_tsvector);")
+
 
 
     yield momoko.Op(conn.execute, u"""DROP FUNCTION IF EXISTS project_vector_update() CASCADE;""")
