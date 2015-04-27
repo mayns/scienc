@@ -29,7 +29,7 @@ MODELS = dict(
 
         # app activity
         u'participating_projects': Array(db_type='json'),                           # [{project_id, role_id}]
-        u'liked_projects': Array(db_type='bigint[]'),                               # [project_id]
+        u'liked_projects': Array(db_type='bigint[]'),                               # [project_ids]
         u'desired_vacancies': Array(db_type='json'),                                # [{project_id, vacancy_id, status}]
         u'managing_project_ids': Array(db_type='bigint[]'),
         u'achievements': Array(db_type='bigint[]'),                                 # [achievement_id]
@@ -58,8 +58,8 @@ MODELS = dict(
         u'results': Text(length=300),                                               # достигнутые результаты и практическое применение
         u'related_data': Array(db_type='jsonb'),                                    # [{id, title, project_id, source_link, description}]
         u'leader': JsonObject(),                                                    # {id, scientist_id, full_name}
-        u'missed_participants': Array(db_type='text[]'),                            # [vacancy_ids]
         u'participants': Array(db_type='text[]'),                                   # [participant_ids]
+        u'missed_participants': Array(db_type='text[]'),                            # [vacancy_ids]
         u'tags': Array(db_type='text[]'),                                           # тэги
         u'project_site': Text(length=20),
         u'contacts': Array(db_type='jsonb'),                                        # [{name, connection, number}]
@@ -92,9 +92,9 @@ MODELS = dict(
     },
 
     responses = {
-        u'scientist_id': ID(is_composite=True),
-        u'project_id': ID(is_composite=True),
-        u'vacancy_id': ID(is_composite=True),
+        u'scientist_id': Integer(is_composite=True),
+        u'project_id': Integer(is_composite=True),
+        u'vacancy_id': Integer(is_composite=True),
         u'vacancy_name': Text(),
         u'message': Text(),
         u'status': Text()
