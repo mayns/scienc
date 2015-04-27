@@ -59,7 +59,7 @@ class ProjectBL(object):
             participant_id = cursor.fetchone()[0]
         except PSQLException, ex:
             print ex
-        raise gen.Return(participant_id)
+        raise gen.Return(int(participant_id))
 
     @classmethod
     @gen.coroutine
@@ -72,7 +72,7 @@ class ProjectBL(object):
             vacancy_id = cursor.fetchone()[0]
         except PSQLException, ex:
             print ex
-        raise gen.Return(vacancy_id)
+        raise gen.Return(int(vacancy_id))
 
     @classmethod
     @gen.coroutine
