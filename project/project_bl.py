@@ -20,13 +20,14 @@ class ProjectBL(object):
     @gen.coroutine
     def create(cls, project_dict):
 
+        participants = project_dict.get(u'participants', [])
+        vacancies = project_dict.get(u'vacancies', [])
+
         editable_data = Project.get_editable_data(project_dict, update=False)
         project = Project(**editable_data)
         project_id = yield project.save(update=False, fields=editable_data.keys())
 
         participant_ids = []
-        participants = editable_data.pop(u'participants', [])
-        vacancies = editable_data.pop(u'vacancies', [])
         for participant in participants:
             participant.update(project_id=project_id)
             participant_id = yield cls.add_participant(participant)
@@ -40,7 +41,7 @@ class ProjectBL(object):
 
         project.participants = participant_ids
         project.vacancies = vacancy_ids
-        yield project.save(fields=[u'participants', u'vacancies'])
+        yield project.save(fields=[u'participants', u'vacancies'], columns=[u'participants', u'vacancies'])
 
         scientist = yield Scientist.get_by_id(editable_data[u'manager_id'])
         scientist.managing_project_ids.append(project_id)
@@ -58,7 +59,6 @@ class ProjectBL(object):
             participant_id = cursor.fetchone()[0]
         except PSQLException, ex:
             print ex
-
         raise gen.Return(participant_id)
 
     @classmethod
@@ -72,7 +72,6 @@ class ProjectBL(object):
             vacancy_id = cursor.fetchone()[0]
         except PSQLException, ex:
             print ex
-
         raise gen.Return(vacancy_id)
 
     @classmethod

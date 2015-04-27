@@ -18,7 +18,7 @@ class Project(PSQLModel):
                        u'results', u'related_data', u'leader', u'participants', u'vacancies',
                        u'tags', u'project_site', u'contacts']
 
-    CREATE_FIELDS = EDITABLE_FIELDS.remove(u'participants').remove(u'vacancies') + [u'manager_id', u'dt_created']
+    CREATE_FIELDS = list(set(EDITABLE_FIELDS) - {u'participants', u'vacancies'}) + [u'manager_id', u'dt_created']
 
     SYSTEM_INFO = [u'dt_created', u'title_tsvector', u'description_short_tsvector']
 

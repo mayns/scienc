@@ -211,19 +211,3 @@ def fill_init_data():
             yield ProjectBL.create(val)
     except Exception, ex:
         print ex
-
-    print 'Creating init participants'
-    participants_data = Project.get_participants()
-    try:
-        for val in participants_data:
-            yield ProjectBL.add_participant(val)
-    except Exception, ex:
-        print ex
-
-    print 'Creating init vacancies'
-    vacancies_data = Project.get_vacancies()
-    try:
-        for val in vacancies_data:
-            yield ProjectBL.add_vacancy(val)
-    except Exception, ex:
-        print ex
