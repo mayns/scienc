@@ -166,6 +166,9 @@ def create_relation_participants():
     yield momoko.Op(conn.execute, u"CREATE INDEX participants_first_name_idx ON participants (first_name);")
     yield momoko.Op(conn.execute, u"CREATE INDEX participants_last_name_idx ON participants (last_name);")
     yield momoko.Op(conn.execute, u"CREATE INDEX participants_middle_name_idx ON participants (middle_name);")
+    yield momoko.Op(conn.execute, u"CREATE INDEX participants_role_name_idx ON participants (role_name);")
+
+
 
 
 
