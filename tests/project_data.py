@@ -83,15 +83,13 @@ class Project(object):
             leader=dict(
                 id=1,
                 scientist_id=2,
-                full_name=u'Kostin Andrey Vasili4'
+                full_name=u'K. A.'
             ),
-            participants=[1, 2],
-            missed_participants=[1, 2, 3],
             tags=[u'number theory', u'calculations', u'matrices', u'linear algebra'],
             project_site=u'http://math.mit.edu/seminars/lunchseminar/',
             contacts=[
                 dict(
-                    name=u'Oks-ks',
+                    name=u'Oks',
                     connection=environment.PHONE,
                     number=u'617-253-4359',
                 )
@@ -165,3 +163,11 @@ class Project(object):
         if not num:
             return cls.project_dict
         return cls.project_dict[num]
+
+    @classmethod
+    def get_participants(cls):
+        return cls.participants
+
+    @classmethod
+    def get_vacancies(cls):
+        return cls.vacancies
