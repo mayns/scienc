@@ -76,7 +76,7 @@
                   id="form"
                   ajaxMethod="{{ ajaxMethod }}"
                   on-form-response="{{ onFormResponse }}"
-                  action="/api/project"
+                  action="/api/projects"
                   redirect="/">
                 <template bind="{{ data }}">
                     <fieldset>
@@ -439,7 +439,7 @@
         Polymer('project-modify', Polymer.mixin({
             ready: function() {
                 if (this.viewType === 'update') {
-                    this.$.form.setAttribute('action', '/api/project/' + this.data.id);
+                    this.$.form.setAttribute('action', '/api/projects/' + this.data.id);
                     this.$.form.redirect = '/project/' + this.data.id;
                 }
             },

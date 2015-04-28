@@ -49,7 +49,7 @@
         </div>
         </template>
         <app-ajax id="ajax"
-                  url="/api/project/{{ data.project_id }}/participation"
+                  url="/api/projects/{{ data.project_id }}/participation"
                   on-core-response="{{ onSubmitSuccess }}"
                   method="POST">
         </app-ajax>
