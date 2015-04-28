@@ -78,6 +78,8 @@ class ProjectBL(object):
     @gen.coroutine
     def update(cls, project_id, project_dict):
 
+        print project_dict
+
         if not project_id:
             raise Exception(u'No project id provided')
 
