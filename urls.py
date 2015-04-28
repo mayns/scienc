@@ -25,12 +25,12 @@ url_handlers = [
     (r"/api/scientist/desired", sc_handlers.ScientistDesiredProjectsHandler),
 
     # projects
-    (r"/api/project(/\d+)?", pr_handlers.ProjectHandler),
-    (r"/api/projects", pr_handlers.ProjectsListHandler),
+    # (r"/api/project(/\d+)?", pr_handlers.ProjectHandler),
+    (r"/api/projects(/\w+)?", pr_handlers.ProjectHandler),
     (r"/api/projects/search", pr_handlers.ProjectsSearchHandler),
-    (r"/api/project/(\d+)/like", pr_handlers.ProjectsLikeHandler),
-    (r"/api/project/(\d+)/responses/[a|d]?", pr_handlers.ProjectsResponseHandler),
-    (r"/api/project/(\d+)/participation", pr_handlers.ProjectsParticipationHandler),
+    (r"/api/projects/(\d+)/like", pr_handlers.ProjectsLikeHandler),
+    (r"/api/projects/(\d+)/responses/[a|d]?", pr_handlers.ProjectsResponseHandler),
+    (r"/api/projects/(\d+)/participation", pr_handlers.ProjectsParticipationHandler),
     # (r"/ckeditor/samples/", CkeditorSampleHandler),
 
     # test stands
