@@ -1,12 +1,7 @@
 # -*- coding: utf-8 -*-
 
-from tornado import gen
-import momoko
 import environment
 from base.models import PSQLModel
-from common.decorators import psql_connection
-from db.utils import *
-from common.exceptions import *
 
 __author__ = 'oks'
 

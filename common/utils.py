@@ -113,15 +113,12 @@ def zip_values(iterable, dict2, empty_fields=False):
 
 
 def extended_cmp(val1, val2):
-    print 'V1, V2::', val1, val2
     if not isinstance(val1, list):
         return cmp(val1, val2)
-    eq = 0
     for i, v in enumerate(val1):
         if cmp(v, val2[i]):
-            print v, val2[i]
             if isinstance(v, dict):
                 cum_eq = sum([cmp(x, y) for x, y in zip_values(v, val2[i])])
-                print cum_eq
+                return cum_eq
             return 1
-    return eq
+    return 0
