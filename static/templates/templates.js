@@ -32,5 +32,34 @@
         return buf.join("");
     };
 
+    // project.jade compiled template
+    templatizer["project"] = function tmpl_project(locals) {
+        var buf = [];
+        var jade_mixins = {};
+        var jade_interp;
+        var locals_for_with = locals || {};
+        (function(data, undefined) {
+            buf.push("<div>");
+            (function() {
+                var $obj = data;
+                if ("number" == typeof $obj.length) {
+                    for (var $index = 0, $l = $obj.length; $index < $l; $index++) {
+                        var project = $obj[$index];
+                        buf.push('<article class="project"><header class="project-header"><h1><a href="/project/{{ id }}"></a></h1><div><div><template repeat="{{ university_connection }}"><span class="project-holder">{{ university }}</span></template></div></div></header><p><span class="short-descr">Краткое описание: {{ description_short }}</span></p><div><div><template repeat="{{ research_fields }}"><span class="science-field-item row-flex middle"><img src="/static/images/{{ id }}.svg" class="icon"/></span></template></div><div class="row-flex middle"><div style="margin-right: 10px; font-size: 26px; color: #808080"></div></div></div></article>');
+                    }
+                } else {
+                    var $l = 0;
+                    for (var $index in $obj) {
+                        $l++;
+                        var project = $obj[$index];
+                        buf.push('<article class="project"><header class="project-header"><h1><a href="/project/{{ id }}"></a></h1><div><div><template repeat="{{ university_connection }}"><span class="project-holder">{{ university }}</span></template></div></div></header><p><span class="short-descr">Краткое описание: {{ description_short }}</span></p><div><div><template repeat="{{ research_fields }}"><span class="science-field-item row-flex middle"><img src="/static/images/{{ id }}.svg" class="icon"/></span></template></div><div class="row-flex middle"><div style="margin-right: 10px; font-size: 26px; color: #808080"></div></div></div></article>');
+                    }
+                }
+            }).call(this);
+            buf.push("</div>");
+        }).call(this, "data" in locals_for_with ? locals_for_with.data : typeof data !== "undefined" ? data : undefined, "undefined" in locals_for_with ? locals_for_with.undefined : typeof undefined !== "undefined" ? undefined : undefined);
+        return buf.join("");
+    };
+
     return templatizer;
 }));

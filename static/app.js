@@ -2,7 +2,7 @@
 
 var app = require('ampersand-app');
 var MainView = require('./views/main');
-var AppBarView = require('./views/app_bar');
+var AppBarView = require('./views/appBar');
 var User = require('./models/user');
 var Router = require('./router');
 var dom = require('ampersand-dom');
@@ -16,17 +16,17 @@ app.extend({
 	init: function () {
         var self = this,
             views = {},
+            models = {},
             router = new Router(),
             user = new User();
 
         app.views = views;
+        app.models = models;
         app.router = router;
         app.user = user;
 
-        user.fetch();
-
 		views.main = new MainView({
-			el: dom.byId('content')
+			el: dom.byId('main')
 		});
         views.appBar = new AppBarView({
             el: dom.byId('appBar'),

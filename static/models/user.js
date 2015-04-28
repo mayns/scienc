@@ -1,6 +1,9 @@
-var AmpersandModel = require('ampersand-model');
+var Model = require('ampersand-model');
 
-var User = AmpersandModel.extend({
+var User = Model.extend({
+    initialize: function() {
+        this.fetch();
+    },
     urlRoot: '/api/user',
     props: {
         id: 'number',

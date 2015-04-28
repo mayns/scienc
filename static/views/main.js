@@ -7,24 +7,22 @@ var AmpersandView = require('ampersand-view');
 var ViewSwitcher = require('ampersand-view-switcher');
 var app = require('ampersand-app');
 
-module.exports = AmpersandView.extend({
+var MainView = AmpersandView.extend({
     initialize: function () {
-        app.router.on('route', function(){
-           console.log(arguments);
+        var self = this;
+
+        app.router.on('newPage', function(view){
+           self.pageSwitcher.set(view);
         });
-        app.router.on('newPage', function(){
-           console.log(arguments);
-        });
+
         // init and configure our page switcher
-        this.pageSwitcher = new ViewSwitcher(this.el, {
+        self.pageSwitcher = new ViewSwitcher(self.el, {
             show: function (newView, oldView) {
                 // store an additional reference, just because
                 app.views.active = newView;
             }
         });
-    },
-    setPage: function (view) {
-        // tell the view switcher to render the new one
-        this.pageSwitcher.set(view);
     }
 });
+
+module.exports = MainView;

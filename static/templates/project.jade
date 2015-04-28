@@ -1,18 +1,20 @@
-article.project
-	header.project-header
-		h1
-			a(href='/project/{{ id }}')
-		div
+div
+	each project in data
+		article.project
+			header.project-header
+				h1
+					a(href='/project/{{ id }}')
+				div
+					div
+						template(repeat='{{ university_connection }}')
+							span.project-holder {{ university }}
+			p
+				span.short-descr Краткое описание: {{ description_short }}
 			div
-				template(repeat='{{ university_connection }}')
-					span.project-holder {{ university }}
-	p
-		span.short-descr Краткое описание: {{ description_short }}
-	div
-		div
-			template(repeat='{{ research_fields }}')
-				span.science-field-item.row-flex.middle
-					img.icon(src='/static/images/{{ id }}.svg')
-		.row-flex.middle
-			div(style='margin-right: 10px; font-size: 26px; color: #808080')
+				div
+					template(repeat='{{ research_fields }}')
+						span.science-field-item.row-flex.middle
+							img.icon(src='/static/images/{{ id }}.svg')
+				.row-flex.middle
+					div(style='margin-right: 10px; font-size: 26px; color: #808080')
 
