@@ -344,9 +344,17 @@
                                 <div class="row-flex">
                                     <div class="col-lg-5">
                                         <input type="text"
-                                               value="{{ full_name }}"
-                                               placeholder="ФИО"
-                                               data-json="participants[][full_name]"/>
+                                               value="{{ last_name }}"
+                                               placeholder="Ф"
+                                               data-json="participants[][last_name]"/>
+                                        <input type="text"
+                                               value="{{ first_name }}"
+                                               placeholder="И"
+                                               data-json="participants[][first_name]"/>
+                                        <input type="text"
+                                               value="{{ middle_name }}"
+                                               placeholder="О"
+                                               data-json="participants[][middle_name]"/>
                                     </div>
                                     <div class="col-lg-5 col-lg-offset-1">
                                         <input type="text"
