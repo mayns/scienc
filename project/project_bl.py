@@ -30,13 +30,13 @@ class ProjectBL(object):
         participant_ids = []
         for participant in participants:
             participant.update(project_id=project_id)
-            participant_id = yield cls.add_participant(participant)
+            participant_id = yield cls.update_participants(participant)
             participant_ids.append(participant_id)
 
         vacancy_ids = []
         for vacancy in vacancies:
             vacancy.update(project_id=project_id)
-            v_id = yield cls.add_vacancy(vacancy)
+            v_id = yield cls.update_vacancies(vacancy)
             vacancy_ids.append(v_id)
 
         project.participants = participant_ids
@@ -51,7 +51,7 @@ class ProjectBL(object):
     @classmethod
     @gen.coroutine
     @psql_connection
-    def add_participant(cls, conn, participant_data):
+    def update_participants(cls, conn, participant_data):
         participant_id = 0
         sqp_query = get_insert_query(environment.TABLE_PARTICIPANTS, participant_data)
         try:
@@ -64,7 +64,7 @@ class ProjectBL(object):
     @classmethod
     @gen.coroutine
     @psql_connection
-    def add_vacancy(cls, conn, vacancy_data):
+    def update_vacancies(cls, conn, vacancy_data):
         vacancy_id = 0
         sqp_query = get_insert_query(environment.TABLE_VACANCIES, vacancy_data)
         try:

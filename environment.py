@@ -5,25 +5,31 @@ __author__ = 'mayns'
 
 # ---------- SCIENCE FIELDS ---------- #
 
-MATH = u'Математика, информатика и механика'
-PHYSICS = u'Физика и астрономия'
-CHEMISTRY = u'Химия'
-BIOLOGY = u'Биология и медицинская наука'
-EARTH = u'Науки о Земле'
-ENGINEERING = u'Инженерные науки'
-IT = u'Информационные технологии и вычислительные системы'
+V_MATH = u'Математика, информатика и механика'
+V_PHYSICS = u'Физика и астрономия'
+V_CHEMISTRY = u'Химия'
+V_BIOLOGY = u'Биология и медицинская наука'
+V_EARTH = u'Науки о Земле'
+V_ENGINEERING = u'Инженерные науки'
+V_IT = u'Информационные технологии и вычислительные системы'
 
-SCIENCE_FIELDS = [MATH, PHYSICS, CHEMISTRY, BIOLOGY, EARTH, ENGINEERING, IT]
+K_MATH = u'math'
+K_PHYSICS = u'physics'
+K_CHEMISTRY = u'chemistry'
+K_BIOLOGY = u'biology'
+K_EARTH = u'earth'
+K_ENGINEERING = u'engineering'
+K_IT = u'it'
 
-SCIENCE_FIELDS_MAP = dict(
-    math=MATH,
-    physics=PHYSICS,
-    chemistry=CHEMISTRY,
-    biology=BIOLOGY,
-    earth=EARTH,
-    engineering=ENGINEERING,
-    it=IT,
-)
+SCIENCE_FIELDS_MAP = {
+    K_MATH: V_MATH,
+    K_PHYSICS: V_PHYSICS,
+    K_CHEMISTRY: V_CHEMISTRY,
+    K_BIOLOGY: V_BIOLOGY,
+    K_EARTH: V_EARTH,
+    K_ENGINEERING: V_ENGINEERING,
+    K_IT: V_IT,
+}
 
 
 # ---------- CONTACT TYPES ----------- #
