@@ -59,7 +59,7 @@ class ProjectBL(object):
             participant_id = cursor.fetchone()[0]
         except PSQLException, ex:
             print ex
-        raise gen.Return(int(participant_id))
+        raise gen.Return(participant_id)
 
     @classmethod
     @gen.coroutine
@@ -72,7 +72,7 @@ class ProjectBL(object):
             vacancy_id = cursor.fetchone()[0]
         except PSQLException, ex:
             print ex
-        raise gen.Return(int(vacancy_id))
+        raise gen.Return(vacancy_id)
 
     @classmethod
     @gen.coroutine
@@ -104,8 +104,34 @@ class ProjectBL(object):
 
     @classmethod
     @gen.coroutine
+    @psql_connection
+    def get_vacancy(cls, conn, v_id):
+        pass
+
+    @classmethod
+    @gen.coroutine
+    @psql_connection
+    def get_participant(cls, conn, p_id):
+        pass
+
+    @classmethod
+    @gen.coroutine
     def get(cls, project_id):
         project_data = yield Project.get_json_by_id(project_id)
+        vacancies = []
+        participants = []
+
+        for vacancy_id in project_data.get(u'vacancies', []):
+            vacancy = yield cls.get_vacancy(vacancy_id)
+            vacancies.append(vacancy)
+        for p_id in project_data.get(u'participants', []):
+            p = yield cls.get_participant(p_id)
+            participants.append(p)
+
+        project_data.update(
+            vacancies=vacancies,
+            participants=participants
+        )
         raise gen.Return(project_data)
 
     @classmethod
