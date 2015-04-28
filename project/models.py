@@ -1,7 +1,12 @@
 # -*- coding: utf-8 -*-
 
 from tornado import gen
+import momoko
+import environment
 from base.models import PSQLModel
+from common.decorators import psql_connection
+from db.utils import *
+from common.exceptions import *
 
 __author__ = 'oks'
 
@@ -27,6 +32,14 @@ class Project(PSQLModel):
     SEARCH_MAIN_FIELDS = [u'title', u'description_short']
 
     SEARCH_VACANCIES = [u'vacancies']
+
+    RELATED_TABLES = [environment.TABLE_VACANCIES, environment.TABLE_PARTICIPANTS]
+
+    RELATED_COLUMNS = {
+        environment.TABLE_VACANCIES: [u'id', u'vacancy_name', u'description', u'difficulty'],
+        environment.TABLE_PARTICIPANTS: [u'id', u'role_name', u'scientist_id', u'first_name',
+                                         u'last_name', u'middle_name'],
+    }
 
     SEARCH_FIELDS = classmethod(lambda cls, s_type: {
         u'vacancies': cls.SEARCH_VACANCIES,

@@ -2,6 +2,7 @@
 
 from tornado import gen
 from base.models import PSQLModel
+from common.decorators import psql_connection
 
 __author__ = 'oks'
 
@@ -31,4 +32,9 @@ class Scientist(PSQLModel):
         u'interests': cls.SEARCH_INTERESTS,
         u'main': cls.SEARCH_MAIN_FIELDS
     }[s_type])
+
+    @gen.coroutine
+    @psql_connection
+    def load_data(self, conn):
+        pass
 

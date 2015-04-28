@@ -117,7 +117,6 @@ class ProjectHandler(BaseRequestHandler):
             self.send_error(status_code=403)
             return
         project_dict = json.loads(self.get_argument(u'data', u'{}'))
-        print project_dict
         if u'in_progress' in project_dict:
             project_dict.update(in_progress='true')
         else:
