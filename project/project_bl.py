@@ -107,7 +107,7 @@ class ProjectBL(object):
     @gen.coroutine
     @psql_connection
     def get_vacancy(cls, conn, v_id):
-        columns = [u'vacancy_name', u'description', u'difficulty']
+        columns = [u'id', u'vacancy_name', u'description', u'difficulty']
         sql_query = get_select_query(environment.TABLE_VACANCIES, columns=columns,
                                      where=dict(column=u'id', value=str(v_id)))
         cursor = yield momoko.Op(conn.execute, sql_query)
@@ -118,12 +118,11 @@ class ProjectBL(object):
     @gen.coroutine
     @psql_connection
     def get_participant(cls, conn, p_id):
-        columns = [u'role_name', u'scientist_id', u'first_name', u'middle_name', u'last_name']
+        columns = [u'id', u'role_name', u'scientist_id', u'first_name', u'middle_name', u'last_name']
         sql_query = get_select_query(environment.TABLE_PARTICIPANTS, columns=columns,
                                      where=dict(column=u'id', value=str(p_id)))
         cursor = yield momoko.Op(conn.execute, sql_query)
         data = cursor.fetchone()
-        print 'PART DATA', dict(zip(columns, data))
         raise gen.Return(dict(zip(columns, data)))
 
     @classmethod

@@ -3,7 +3,7 @@
 <link rel="import" href="/static/elements/science-app.html"/>
 
 
-<polymer-element name="project-missed-participant">
+<polymer-element name="project-vacancy">
     <template>
         <style>
             :host {
@@ -55,7 +55,7 @@
         </app-ajax>
     </template>
     <script>
-        Polymer('project-missed-participant', {
+        Polymer('project-vacancy', {
             ready: function(){
                 this.app = $$.byId('app');
                 this.participate = this.app.user && this.app.user.desired_vacancies.indexOf(this.data.project_id + '_' + this.data.vacancy_id) !== -1;
