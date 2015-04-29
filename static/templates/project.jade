@@ -1,20 +1,22 @@
 div
-	each project in model.data
+	each project in data
 		article.project
 			header.project-header
 				h1
-					a(href='/project/{{ id }}')
+					a(href='/project/' + project.id)
+						= project.title
 				div
 					div
-						template(repeat='{{ university_connection }}')
-							span.project-holder {{ university }}
+						each university_connection in project
+							span.project-holder
+								= university_connection.university
 			p
-				span.short-descr Краткое описание: {{ description_short }}
+				span.short-descr Краткое описание: #{project.description_short}
 			div
 				div
-					template(repeat='{{ research_fields }}')
+					each field in project.research_fields
 						span.science-field-item.row-flex.middle
-							img.icon(src='/static/images/{{ id }}.svg')
+							img.icon(src='/static/images/#{field.id}.svg')
 				.row-flex.middle
 					div(style='margin-right: 10px; font-size: 26px; color: #808080')
 
