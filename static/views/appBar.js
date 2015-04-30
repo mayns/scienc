@@ -1,8 +1,7 @@
-var AmpersandView = require('ampersand-view');
-var dom = require('ampersand-dom');
+var View = require('ampersand-view');
 var templates = require('../templates/templates');
 
-var AppBarView = AmpersandView.extend({
+var AppBarView = View.extend({
     template: templates.appBar
 });
 

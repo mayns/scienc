@@ -2,8 +2,9 @@
 'use strict';
 
 var app = require('ampersand-app');
-var MainView = require('./views/main');
+var ContentView = require('./views/content');
 var AppBarView = require('./views/appBar');
+var MainView = require('./views/main');
 var User = require('./models/user');
 var Router = require('./router');
 var dom = require('ampersand-dom');
@@ -26,8 +27,12 @@ app.extend({
         app.router = router;
         app.user = user;
 
-		views.main = new MainView({
-			el: dom.byId('main')
+        views.main = new MainView({
+	        el: document.body
+        });
+
+		views.content = new ContentView({
+			el: dom.byId('content')
 		});
         views.appBar = new AppBarView({
             el: dom.byId('appBar'),
@@ -41,7 +46,7 @@ app.extend({
 });
 
 app.init();
-},{"./models/user":3,"./router":418,"./templates/templates":419,"./views/appBar":420,"./views/main":421,"ampersand-app":4,"ampersand-dom":61}],2:[function(require,module,exports){
+},{"./models/user":3,"./router":418,"./templates/templates":419,"./views/appBar":420,"./views/content":421,"./views/main":422,"ampersand-app":4,"ampersand-dom":61}],2:[function(require,module,exports){
 var Model = require('ampersand-model');
 
 var Projects = Model.extend({
@@ -11380,7 +11385,7 @@ module.exports = AppRouter;
 //<app-route path="/page-not-found" element="page-not-found"></app-route>
 //<app-route path="/search" element="search-page"></app-route>
 //<app-route path="*" redirect="/page-not-found"></app-route>
-},{"./models/projects":2,"./templates/templates":419,"./views/projects":422,"ampersand-router":191}],419:[function(require,module,exports){
+},{"./models/projects":2,"./templates/templates":419,"./views/projects":423,"ampersand-router":191}],419:[function(require,module,exports){
 (function (root, factory) {
     if (typeof define === 'function' && define.amd) {
         define([], factory);
@@ -11405,7 +11410,7 @@ module.exports = AppRouter;
         var locals_for_with = locals || {};
         (function(user) {
             buf.push('<div class="appBar">');
-            if (user) {
+            if (user.id) {
                 buf.push('<a href="/scientists" class="app-bar-item"><img src="/static/images/members.svg" alt="" class="membersIcon"/></a><div id="signIn" class="action app-bar-item"><img src="/static/images/login.svg" alt="" class="loginIcon"/></div><a href="/signup" class="app-bar-item"><img src="/static/images/register.svg" alt="" class="registerIcon"/></a><a href="/search" class="app-bar-item"><img src="/static/images/search.svg" alt="" class="searchIcon"/></a>');
             } else {
                 buf.push('<a href="/project" class="app-bar-item"><img src="/static/images/add_project.svg" alt="" class="addProjectIcon"/></a><a href="/scientist/my-projects" class="app-bar-item"><img src="/static/images/favorite.svg" alt="" class="favoriteProjectsIcon"/></a><a href="/scientists" class="app-bar-item"><img src="/static/images/members.svg" alt="" class="membersIcon"/></a><a href="/scientist/" class="app-bar-item"><img alt="" class="profileIcon"/></a><a href="/search" class="app-bar-item"><img src="/static/images/search.svg" alt="" class="searchIcon"/></a><div id="signOut" class="action app-bar-item"><img src="/static/images/logout.svg" alt="" class="logoutIcon"/></div>');
@@ -11428,7 +11433,7 @@ module.exports = AppRouter;
                 if ("number" == typeof $obj.length) {
                     for (var $index = 0, $l = $obj.length; $index < $l; $index++) {
                         var project = $obj[$index];
-                        buf.push('<article class="project"><header class="project-header"><h1><a' + jade.attr("href", "/project/" + project.id, true, false) + ">" + jade.escape(null == (jade_interp = project.title) ? "" : jade_interp) + "</a></h1><div><div>");
+                        buf.push('<article class="project"><header class="project-header"><h1><a' + jade.attr("href", "/project/" + project.id, true, false) + ' class="js-link">' + jade.escape(null == (jade_interp = project.title) ? "" : jade_interp) + "</a></h1><div><div>");
                         (function() {
                             var $obj = project;
                             if ("number" == typeof $obj.length) {
@@ -11469,7 +11474,7 @@ module.exports = AppRouter;
                     for (var $index in $obj) {
                         $l++;
                         var project = $obj[$index];
-                        buf.push('<article class="project"><header class="project-header"><h1><a' + jade.attr("href", "/project/" + project.id, true, false) + ">" + jade.escape(null == (jade_interp = project.title) ? "" : jade_interp) + "</a></h1><div><div>");
+                        buf.push('<article class="project"><header class="project-header"><h1><a' + jade.attr("href", "/project/" + project.id, true, false) + ' class="js-link">' + jade.escape(null == (jade_interp = project.title) ? "" : jade_interp) + "</a></h1><div><div>");
                         (function() {
                             var $obj = project;
                             if ("number" == typeof $obj.length) {
@@ -11514,27 +11519,21 @@ module.exports = AppRouter;
 
     return templatizer;
 }));
-},{"fs":423}],420:[function(require,module,exports){
-var AmpersandView = require('ampersand-view');
-var dom = require('ampersand-dom');
+},{"fs":424}],420:[function(require,module,exports){
+var View = require('ampersand-view');
 var templates = require('../templates/templates');
 
-var AppBarView = AmpersandView.extend({
+var AppBarView = View.extend({
     template: templates.appBar
 });
 
 module.exports = AppBarView;
-},{"../templates/templates":419,"ampersand-dom":61,"ampersand-view":237}],421:[function(require,module,exports){
-/*global app, me, $*/
-// This app view is responsible for rendering all content that goes into
-// <html>. It's initted right away and renders iteslf on DOM ready.
-
-// This view also handles all the 'document' level events such as keyboard shortcuts.
-var AmpersandView = require('ampersand-view');
-var ViewSwitcher = require('ampersand-view-switcher');
+},{"../templates/templates":419,"ampersand-view":237}],421:[function(require,module,exports){
 var app = require('ampersand-app');
+var View = require('ampersand-view');
+var ViewSwitcher = require('ampersand-view-switcher');
 
-var MainView = AmpersandView.extend({
+var PageView = View.extend({
     initialize: function () {
         var self = this;
 
@@ -11552,8 +11551,23 @@ var MainView = AmpersandView.extend({
     }
 });
 
-module.exports = MainView;
+module.exports = PageView;
 },{"ampersand-app":4,"ampersand-view":237,"ampersand-view-switcher":236}],422:[function(require,module,exports){
+var app = require('ampersand-app');
+var View = require('ampersand-view');
+
+var MainView = View.extend({
+	events: {
+		'click .js-link': 'handleLinkClick'
+	},
+	handleLinkClick: function (e) {
+		e.preventDefault();
+		app.router.navigate(e.target.href);
+	}
+});
+
+module.exports = MainView;
+},{"ampersand-app":4,"ampersand-view":237}],423:[function(require,module,exports){
 var View = require('ampersand-view');
 var templates = require('../templates/templates');
 
@@ -11566,6 +11580,6 @@ var ProjectsView = View.extend({
 });
 
 module.exports = ProjectsView;
-},{"../templates/templates":419,"ampersand-view":237}],423:[function(require,module,exports){
+},{"../templates/templates":419,"ampersand-view":237}],424:[function(require,module,exports){
 
 },{}]},{},[1]);

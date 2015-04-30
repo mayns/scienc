@@ -22,7 +22,7 @@
         var locals_for_with = locals || {};
         (function(user) {
             buf.push('<div class="appBar">');
-            if (user) {
+            if (user.id) {
                 buf.push('<a href="/scientists" class="app-bar-item"><img src="/static/images/members.svg" alt="" class="membersIcon"/></a><div id="signIn" class="action app-bar-item"><img src="/static/images/login.svg" alt="" class="loginIcon"/></div><a href="/signup" class="app-bar-item"><img src="/static/images/register.svg" alt="" class="registerIcon"/></a><a href="/search" class="app-bar-item"><img src="/static/images/search.svg" alt="" class="searchIcon"/></a>');
             } else {
                 buf.push('<a href="/project" class="app-bar-item"><img src="/static/images/add_project.svg" alt="" class="addProjectIcon"/></a><a href="/scientist/my-projects" class="app-bar-item"><img src="/static/images/favorite.svg" alt="" class="favoriteProjectsIcon"/></a><a href="/scientists" class="app-bar-item"><img src="/static/images/members.svg" alt="" class="membersIcon"/></a><a href="/scientist/" class="app-bar-item"><img alt="" class="profileIcon"/></a><a href="/search" class="app-bar-item"><img src="/static/images/search.svg" alt="" class="searchIcon"/></a><div id="signOut" class="action app-bar-item"><img src="/static/images/logout.svg" alt="" class="logoutIcon"/></div>');
@@ -45,7 +45,7 @@
                 if ("number" == typeof $obj.length) {
                     for (var $index = 0, $l = $obj.length; $index < $l; $index++) {
                         var project = $obj[$index];
-                        buf.push('<article class="project"><header class="project-header"><h1><a' + jade.attr("href", "/project/" + project.id, true, false) + ">" + jade.escape(null == (jade_interp = project.title) ? "" : jade_interp) + "</a></h1><div><div>");
+                        buf.push('<article class="project"><header class="project-header"><h1><a' + jade.attr("href", "/project/" + project.id, true, false) + ' class="js-link">' + jade.escape(null == (jade_interp = project.title) ? "" : jade_interp) + "</a></h1><div><div>");
                         (function() {
                             var $obj = project;
                             if ("number" == typeof $obj.length) {
@@ -86,7 +86,7 @@
                     for (var $index in $obj) {
                         $l++;
                         var project = $obj[$index];
-                        buf.push('<article class="project"><header class="project-header"><h1><a' + jade.attr("href", "/project/" + project.id, true, false) + ">" + jade.escape(null == (jade_interp = project.title) ? "" : jade_interp) + "</a></h1><div><div>");
+                        buf.push('<article class="project"><header class="project-header"><h1><a' + jade.attr("href", "/project/" + project.id, true, false) + ' class="js-link">' + jade.escape(null == (jade_interp = project.title) ? "" : jade_interp) + "</a></h1><div><div>");
                         (function() {
                             var $obj = project;
                             if ("number" == typeof $obj.length) {
