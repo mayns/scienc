@@ -71,8 +71,8 @@ MODELS = dict(
     },
 
 
-    vacancies = {
-        u'id': ID(),
+    vacancies={
+        u'id': Text(primary_key=True),
         u'project_id': Integer(required=True, db_references='projects(id)'),
         u'vacancy_name': Text(),
         u'description': Text(),
@@ -83,8 +83,8 @@ MODELS = dict(
         u'vacancy_description_tsvector': TSvector(),
     },
 
-    participants = {
-        u'id': ID(),
+    participants={
+        u'id': Text(primary_key=True),
         u'project_id': Integer(required=True, db_references='projects(id)'),
         u'role_name': Text(required=True, length=50),
         u'scientist_id': Integer(),
@@ -93,10 +93,10 @@ MODELS = dict(
         u'middle_name': Text(length=20)
     },
 
-    responses = {
+    responses={
         u'scientist_id': Integer(is_composite=True, db_references='scientists(id)'),
         u'project_id': Integer(is_composite=True, db_references='projects(id)'),
-        u'vacancy_id': Integer(is_composite=True, db_references='vacancies(id)'),
+        u'vacancy_id': Text(is_composite=True, db_references='vacancies(id)'),
         u'message': Text(),
         u'status': Text()
     }

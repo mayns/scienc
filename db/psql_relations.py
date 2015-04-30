@@ -123,7 +123,7 @@ def prepare_creation(table):
         query_table += k
         query_table += ' '
         query_table += v.db_type
-        if isinstance(v, ID):
+        if isinstance(v, ID) or v.primary_key:
             query_table += ' primary key'
         if v.db_references:
             query_table += ' REFERENCES %s ON DELETE CASCADE' % v.db_references
