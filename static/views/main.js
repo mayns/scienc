@@ -6,8 +6,10 @@ var MainView = View.extend({
 		'click .js-link': 'handleLinkClick'
 	},
 	handleLinkClick: function (e) {
+        var link = e.target;
+        var path = link.pathname.slice(1);
 		e.preventDefault();
-		app.router.navigate(e.target.href);
+		app.router.navigate(path);
 	}
 });
 

@@ -7,7 +7,7 @@ var User = Model.extend({
     urlRoot: '/api/user',
     props: {
         id: 'number',
-        image_url: 'string',
+        image_url: 'string',  
         desired_vacancies: 'array',
         liked_projects: 'array',
         managing_project_ids: 'array'
