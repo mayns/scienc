@@ -333,6 +333,13 @@
                                        value="{{ leader.full_name }}"
                                        id="leader"
                                        class="col-lg-12">
+                                <input type="text"
+                                       value="{{ leader.scientist_id }}"
+                                       placeholder="Ссылка на участника"
+                                       data-json="leader[scientist_id]"/>
+                                <input hidden
+                                       value="{{ leader.id }}"
+                                       data-json="leader[id]"/>
                             </div>
                             <div class="row-flex middle">
                                 <label for="">Участники проекта</label>

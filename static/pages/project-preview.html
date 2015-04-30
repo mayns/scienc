@@ -143,7 +143,12 @@
                             <h2>Научный руководитель</h2>
                             <template bind="{{ leader }}">
                                 <p>
-                                    <a is="html5-history-anchor" class="link" pushstate popstate href="/scientist/{{ scientist_id }}">{{ full_name }}</a>
+                                    <template if="{{ scientist_id }}">
+                                        <a is="html5-history-anchor" class="link" pushstate popstate href="/scientist/{{ scientist_id }}">{{ full_name }}</a>
+                                    </template>
+                                    <template if="{{ !scientist_id }}">
+                                        <span is="html5-history-anchor">{{ full_name }}</span>
+                                    </template>
                                 </p>
                             </template>
                         </template>
