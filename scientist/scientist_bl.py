@@ -36,6 +36,7 @@ class ScientistBL(object):
         yield cls.update_roles(scientist_id, scientist_dict)
 
         editable_data = Scientist.get_editable_data(scientist_dict, update=False)
+        editable_data.update(id=scientist_id)
 
         image_url = yield cls.upload_avatar(scientist_id, scientist_photo)
 
@@ -43,8 +44,7 @@ class ScientistBL(object):
             editable_data.update(image_url=image_url)
 
         scientist = Scientist(**editable_data)
-        scientist_id = yield scientist.save(update=False, fields=editable_data.keys())
-        print 'SC id from DB', scientist_id
+        yield scientist.save(update=False, fields=editable_data.keys())
 
         image_url = environment.GET_IMG(image_url, environment.IMG_S) if image_url else u''
         raise gen.Return(dict(scientist_id=scientist_id, image_url=image_url))

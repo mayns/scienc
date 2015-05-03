@@ -7,6 +7,7 @@ from tornado import gen
 
 from common.decorators import psql_connection
 from common.exceptions import *
+from common.utils import generate_id
 from db.utils import *
 
 from project.models import Project
@@ -23,9 +24,10 @@ class ProjectBL(object):
         participants = project_dict.get(u'participants', [])
         vacancies = project_dict.get(u'vacancies', [])
 
+        # create ID
+        project_id = generate_id(21)
+
         editable_data = Project.get_editable_data(project_dict, update=False)
-        project = Project(**editable_data)
-        project_id = yield project.save(update=False, fields=editable_data.keys())
 
         participant_ids = []
         for participant in participants:
@@ -39,9 +41,14 @@ class ProjectBL(object):
             v_id = yield cls.update_vacancies(vacancy)
             vacancy_ids.append(v_id)
 
-        project.participants = participant_ids
-        project.vacancies = vacancy_ids
-        yield project.save(fields=[u'participants', u'vacancies'], columns=[u'participants', u'vacancies'])
+        editable_data.update(
+            id=project_id,
+            participants=participant_ids,
+            vacancies=vacancy_ids
+        )
+
+        project = Project(**editable_data)
+        yield project.save(update=False, fields=editable_data.keys())
 
         scientist = yield Scientist.get_by_id(editable_data[u'manager_id'])
         scientist.managing_project_ids.append(project_id)
@@ -52,11 +59,10 @@ class ProjectBL(object):
     @gen.coroutine
     @psql_connection
     def update_participants(cls, conn, participant_data):
-        participant_id = 0
+        participant_id = generate_id(21)
         sqp_query = get_insert_query(environment.TABLE_PARTICIPANTS, participant_data)
         try:
-            cursor = yield momoko.Op(conn.execute, sqp_query)
-            participant_id = cursor.fetchone()[0]
+            yield momoko.Op(conn.execute, sqp_query)
         except PSQLException, ex:
             print ex
         raise gen.Return(participant_id)
@@ -65,11 +71,10 @@ class ProjectBL(object):
     @gen.coroutine
     @psql_connection
     def update_vacancies(cls, conn, vacancy_data):
-        vacancy_id = 0
+        vacancy_id = generate_id(21)
         sqp_query = get_insert_query(environment.TABLE_VACANCIES, vacancy_data)
         try:
-            cursor = yield momoko.Op(conn.execute, sqp_query)
-            vacancy_id = cursor.fetchone()[0]
+            yield momoko.Op(conn.execute, sqp_query)
         except PSQLException, ex:
             print ex
         raise gen.Return(vacancy_id)
