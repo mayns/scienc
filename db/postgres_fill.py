@@ -200,7 +200,7 @@ def fill_init_data():
     print 'Creating init scientists'
     try:
         for k, val in scientist_data.iteritems():
-            yield ScientistBL.create(scientist_dict=val)
+            yield ScientistBL.create(scientist_dict=val, test_mode=True)
     except Exception, ex:
         print ex
 
@@ -208,6 +208,6 @@ def fill_init_data():
     print 'Creating init projects'
     try:
         for k, val in project_data.iteritems():
-            yield ProjectBL.create(val)
+            yield ProjectBL.create(val, test_mode=True)
     except Exception, ex:
         print ex

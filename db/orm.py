@@ -28,10 +28,10 @@ MODELS = dict(
         u'contacts': Array(db_type='json'),                                         # [{connection, number}]
 
         # app activity
-        u'participating_projects': Array(db_type='bigint[]'),                       # [participant_ids]
-        u'liked_projects': Array(db_type='bigint[]'),                               # [project_ids]
-        u'desired_vacancies': Array(db_type='bigint[]'),                            # [vacancy_ids]
-        u'managing_project_ids': Array(db_type='bigint[]'),                         # [project_ids]
+        u'participating_projects': Array(db_type='text[]'),                         # [participant_ids]
+        u'liked_projects': Array(db_type='text[]'),                                 # [project_ids]
+        u'desired_vacancies': Array(db_type='text[]'),                              # [vacancy_ids]
+        u'managing_project_ids': Array(db_type='text[]'),                           # [project_ids]
         u'achievements': Array(db_type='bigint[]'),                                 # [achievement_id]
 
         # system info
@@ -57,9 +57,9 @@ MODELS = dict(
         u'results': Text(length=300),                                               # достигнутые результаты и практическое применение
         u'related_data': Array(db_type='jsonb'),                                    # [{id, title, project_id, source_link, description}]
         u'leader': JsonObject(),                                                    # {id, scientist_id, full_name}
-        u'participants': Array(db_type='bigint[]'),                                 # [participant_ids]
-        u'vacancies': Array(db_type='bigint[]'),                                    # [vacancy_ids]
-        u'responses': Array(db_type='bigint[]'),                                    # [response_ids]
+        u'participants': Array(db_type='text[]'),                                   # [participant_ids]
+        u'vacancies': Array(db_type='text[]'),                                      # [vacancy_ids]
+        u'responses': Array(db_type='text[]'),                                      # [response_ids]
         u'tags': Array(db_type='text[]'),                                           # тэги
         u'project_site': Text(length=20),
         u'contacts': Array(db_type='jsonb'),                                        # [{name, connection, number}]

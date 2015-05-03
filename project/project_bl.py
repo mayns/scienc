@@ -19,15 +19,21 @@ __author__ = 'oks'
 class ProjectBL(object):
     @classmethod
     @gen.coroutine
-    def create(cls, project_dict):
+    def create(cls, project_dict, test_mode=False):
 
-        participants = project_dict.get(u'participants', [])
-        vacancies = project_dict.get(u'vacancies', [])
+        participants = project_dict.pop(u'participants', [])
+        vacancies = project_dict.pop(u'vacancies', [])
 
         # create ID
-        project_id = generate_id(21)
+        if test_mode:
+            project_id = project_dict.get(u'id')
+        else:
+            project_id = generate_id(21)
 
         editable_data = Project.get_editable_data(project_dict, update=False)
+        editable_data.update(id=project_id)
+        project = Project(**editable_data)
+        yield project.save(update=False, fields=editable_data.keys())
 
         participant_ids = []
         for participant in participants:
@@ -41,14 +47,10 @@ class ProjectBL(object):
             v_id = yield cls.update_vacancies(vacancy)
             vacancy_ids.append(v_id)
 
-        editable_data.update(
-            id=project_id,
-            participants=participant_ids,
-            vacancies=vacancy_ids
-        )
+        project.participants = participant_ids
+        project.vacancies = vacancy_ids
 
-        project = Project(**editable_data)
-        yield project.save(update=False, fields=editable_data.keys())
+        yield project.save(fields=[u'participants', u'vacancies'])
 
         scientist = yield Scientist.get_by_id(editable_data[u'manager_id'])
         scientist.managing_project_ids.append(project_id)
@@ -60,11 +62,10 @@ class ProjectBL(object):
     @psql_connection
     def update_participants(cls, conn, participant_data):
         participant_id = generate_id(21)
+        participant_data.update(id=participant_id)
+
         sqp_query = get_insert_query(environment.TABLE_PARTICIPANTS, participant_data)
-        try:
-            yield momoko.Op(conn.execute, sqp_query)
-        except PSQLException, ex:
-            print ex
+        yield momoko.Op(conn.execute, sqp_query)
         raise gen.Return(participant_id)
 
     @classmethod
@@ -72,11 +73,10 @@ class ProjectBL(object):
     @psql_connection
     def update_vacancies(cls, conn, vacancy_data):
         vacancy_id = generate_id(21)
+        vacancy_data.update(id=vacancy_id)
         sqp_query = get_insert_query(environment.TABLE_VACANCIES, vacancy_data)
-        try:
-            yield momoko.Op(conn.execute, sqp_query)
-        except PSQLException, ex:
-            print ex
+        yield momoko.Op(conn.execute, sqp_query)
+
         raise gen.Return(vacancy_id)
 
     @classmethod

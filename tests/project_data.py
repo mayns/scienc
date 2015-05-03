@@ -9,7 +9,8 @@ class Project(object):
 
     project_dict = {
         1: dict(
-            manager_id=2,
+            id=u'1',
+            manager_id=u'2',
             research_fields=[environment.K_MATH, environment.K_BIOLOGY],
             title=u'New Algorithms for Nonnegative Matrix Factorization and Beyond',
             description_short=u'In biology most of the phenomena, whether at the scale of individual development or at '
@@ -65,30 +66,30 @@ class Project(object):
                     u'anim id est laborum.',
             related_data=[
                 dict(
-                    id=1,
+                    id=u'1',
                     title=u'A Bloody Mary, Maria, substitute. Sweet, sour and tart with some heat.',
                     project_id=None,
                     source_link=u'http://www.fireballwhisky.com/recipes/',
                     description=u'officia deserunt mollitia animi, id est laborum et dolorum fuga'
                 ),
                 dict(
-                    id=2,
+                    id=u'2',
                     title=u'Whoa!',
-                    project_id=3,
+                    project_id=u'1',
                     source_link=None,
                     description=u'Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor '
                                 u'incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud',
                 )
             ],
             leader=dict(
-                id=1,
-                scientist_id=2,
+                id=u'1',
+                scientist_id=u'2',
                 full_name=u'K. A.'
             ),
             participants=[
                 dict(
                     role_name=u'backend monkey',
-                    scientist_id=1,
+                    scientist_id=u'1',
                     first_name=u'Oksana',
                     last_name=u'Gorobets',
                     middle_name=u'V.',
@@ -131,16 +132,16 @@ class Project(object):
 
     responses = [
         dict(
-            scientist_id=1,
-            project_id=1,
-            vacancy_id=1,
+            scientist_id=u'1',
+            project_id=u'1',
+            vacancy_id=u'1',
             message=u'Please take me',
             status=environment.STATUS_DECLINED,
         ),
         dict(
-            scientist_id=1,
-            project_id=1,
-            vacancy_id=2,
+            scientist_id=u'1',
+            project_id=u'1',
+            vacancy_id=u'2',
             message=u'i am the best',
             status=environment.STATUS_WAITING,
         )

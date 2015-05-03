@@ -24,13 +24,16 @@ class ScientistBL(object):
 
     @classmethod
     @gen.coroutine
-    def create(cls, scientist_dict=None, scientist_photo=None):
+    def create(cls, scientist_dict=None, scientist_photo=None, test_mode=False):
 
         # check if user can create account
         yield cls.validate_credentials(scientist_dict)
 
         # create ID
-        scientist_id = generate_id(21)
+        if test_mode:
+            scientist_id = scientist_dict.get(u'id')
+        else:
+            scientist_id = generate_id(21)
 
         # create account
         yield cls.update_roles(scientist_id, scientist_dict)

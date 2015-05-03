@@ -8,6 +8,7 @@ class Scientist(object):
     scientist_dict = {
 
         1: dict(
+            id=u'1',
             email=u'oksgorobets@gmail.com',
             pwd=u'alice',
             first_name=u'Оксана',
@@ -73,31 +74,10 @@ class Scientist(object):
                 )
             ],
 
-            liked_projects=[1],
-
-            participating_projects=[
-                dict(
-                    project_id=0,
-                    role_id=0
-                ),
-
-                dict(
-                    project_id=1,
-                    role_id=0
-                )
-            ],
-            desired_vacancies=[
-                dict(
-                    project_id=666,
-                    vacancy_id=0
-                )
-            ],
-            managing_project_ids=[1],
-
-            achievements=[1],
         ),
 
         2: dict(
+            id=u'2',
             email=u'losogudok@yandex.ru',
             pwd=u'qwe',
             first_name=u'Андрей',
@@ -159,28 +139,10 @@ class Scientist(object):
                 )
             ],
 
-            liked_projects=[1],
+            liked_projects=[u'1'],
 
-            participating_projects=[
-                dict(
-                    project_id=0,
-                    role_id=1
-                ),
+            managing_project_ids=[u'1'],
 
-                dict(
-                    project_id=1,
-                    role_id=1
-                )
-            ],
-            desired_vacancies=[
-                dict(
-                    project_id=666,
-                    vacancy_id=1
-                )
-            ],
-            managing_project_ids=[1],
-
-            achievements=[1],
         )
 
     }
