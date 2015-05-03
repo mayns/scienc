@@ -10,7 +10,7 @@ from PIL import Image
 import environment
 from db.utils import get_select_query, get_insert_query
 from common.media_server import upload, delete, get_url
-from common.utils import set_password, check_password
+from common.utils import set_password, check_password, generate_id
 from common.decorators import psql_connection
 from scientist.models import Scientist
 from project.models import Project
@@ -28,20 +28,23 @@ class ScientistBL(object):
 
         # check if user can create account
         yield cls.validate_credentials(scientist_dict)
+
+        # create ID
+        scientist_id = generate_id(21)
+
         # create account
-        yield cls.update_roles(scientist_dict)
+        yield cls.update_roles(scientist_id, scientist_dict)
 
         editable_data = Scientist.get_editable_data(scientist_dict, update=False)
-
-        scientist = Scientist(**editable_data)
-        scientist_id = yield scientist.save(update=False, fields=editable_data.keys())
 
         image_url = yield cls.upload_avatar(scientist_id, scientist_photo)
 
         if image_url:
-            scientist = yield Scientist.get_by_id(scientist_id)
-            scientist.image_url = image_url
-            yield scientist.save(fields=[u'image_url'])
+            editable_data.update(image_url=image_url)
+
+        scientist = Scientist(**editable_data)
+        scientist_id = yield scientist.save(update=False, fields=editable_data.keys())
+        print 'SC id from DB', scientist_id
 
         image_url = environment.GET_IMG(image_url, environment.IMG_S) if image_url else u''
         raise gen.Return(dict(scientist_id=scientist_id, image_url=image_url))
@@ -149,10 +152,11 @@ class ScientistBL(object):
     @classmethod
     @gen.coroutine
     @psql_connection
-    def update_roles(cls, conn, scientist_dict):
+    def update_roles(cls, conn, scientist_id, scientist_dict):
         pwd = set_password(scientist_dict.pop(u'pwd'))
 
         params = dict(
+            id=scientist_id,
             email=scientist_dict.get(u'email'),
             pwd=pwd,
             role=scientist_dict.pop(u'role', environment.ROLE_USER)

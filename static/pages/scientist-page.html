@@ -12,8 +12,8 @@
                 display: block;
             }
         </style>
-        <core-ajax auto url="/api/scientist/{{ id }}" method="GET" handleAs="json" response="{{ json }}"></core-ajax>
-        <core-ajax id="ajaxDelete" on-core-response="{{ onDeleteSuccess }}"  url="/api/scientist/{{ id }}" method="DELETE"></core-ajax>
+        <core-ajax auto url="/api/scientists/{{ id }}" method="GET" handleAs="json" response="{{ json }}"></core-ajax>
+        <core-ajax id="ajaxDelete" on-core-response="{{ onDeleteSuccess }}"  url="/api/scientists/{{ id }}" method="DELETE"></core-ajax>
         <template if="{{ id == app.user.id }}">
             <page-actions class="row-flex">
                 <template if="{{ preview }}">

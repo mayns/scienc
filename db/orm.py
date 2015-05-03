@@ -9,7 +9,7 @@ MODELS = dict(
     scientists={
 
         # common info
-        u'id': ID(db_references='roles(id)'),
+        u'id': Text(db_references='roles(id)', primary_key=True),
         u'email': Text(required=True, length=20),
         u'first_name': Text(required=True, length=20),
         u'last_name': Text(required=True, length=20),
@@ -41,8 +41,8 @@ MODELS = dict(
     projects={
 
         # common info
-        u'id': ID(),
-        u'manager_id': Integer(required=True, db_references='scientists(id)'),      # person added the project
+        u'id': Text(primary_key=True),
+        u'manager_id': Text(required=True, db_references='scientists(id)'),         # person added the project
         u'research_fields': Array(required=True),                                   # области науки
         u'title': Text(required=True, length=100),                                  # название проекта
         u'description_short': Text(required=True, length=300),                      # краткое описание для обложки
@@ -73,7 +73,7 @@ MODELS = dict(
 
     vacancies={
         u'id': Text(primary_key=True),
-        u'project_id': Integer(required=True, db_references='projects(id)'),
+        u'project_id': Text(required=True, db_references='projects(id)'),
         u'vacancy_name': Text(),
         u'description': Text(),
         u'difficulty': Integer(),
@@ -85,19 +85,26 @@ MODELS = dict(
 
     participants={
         u'id': Text(primary_key=True),
-        u'project_id': Integer(required=True, db_references='projects(id)'),
+        u'project_id': Text(required=True, db_references='projects(id)'),
         u'role_name': Text(required=True, length=50),
-        u'scientist_id': Integer(),
+        u'scientist_id': Text(),
         u'first_name': Text(required=True, length=20),
         u'last_name': Text(required=True, length=20),
         u'middle_name': Text(length=20)
     },
 
     responses={
-        u'scientist_id': Integer(is_composite=True, db_references='scientists(id)'),
-        u'project_id': Integer(is_composite=True, db_references='projects(id)'),
+        u'scientist_id': Text(is_composite=True, db_references='scientists(id)'),
+        u'project_id': Text(is_composite=True, db_references='projects(id)'),
         u'vacancy_id': Text(is_composite=True, db_references='vacancies(id)'),
         u'message': Text(),
         u'status': Text()
-    }
+    },
+
+    roles={
+        u'id': Text(primary_key=True),
+        u'email': Text(),
+        u'pwd': Text(),
+        u'role': Integer()
+    },
 )

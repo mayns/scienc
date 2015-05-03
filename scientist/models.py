@@ -18,7 +18,7 @@ class Scientist(PSQLModel):
                        u'image_url', u'location', u'middle_education', u'high_education',
                        u'publications', u'interests', u'about', u'contacts']
 
-    CREATE_FIELDS = EDITABLE_FIELDS + [u'dt_created']
+    CREATE_FIELDS = EDITABLE_FIELDS + [u'id', u'dt_created']
 
     SYSTEM_INFO = [u'dt_created']
 

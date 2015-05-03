@@ -20,25 +20,6 @@ class CkeditorSampleHandler(BaseRequestHandler):
         self.render(u'/ckeditor/samples/index.html')
 
 
-# class ProjectsListHandler(BaseRequestHandler):
-#
-#     @gen.coroutine
-#     def get(self, *args, **kwargs):
-#         print u'projects list get'
-#
-#         try:
-#             response = yield ProjectBL.get_all()
-#         except Exception, ex:
-#             logging.info('Exc on get all projects:')
-#             logging.exception(ex)
-#             response = dict(
-#                 message=ex.message
-#             )
-#
-#         response_data = yield self.get_response(response)
-#         self.finish(response_data)
-
-
 class ProjectsSearchHandler(BaseRequestHandler):
     @gen.coroutine
     def post(self, *args, **kwargs):

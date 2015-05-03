@@ -16,17 +16,15 @@ url_handlers = [
     (r"/api/user", cm_handlers.UserHandler),
 
     # scientists
-    (r"/api/scientist(/\d+)?", sc_handlers.ScientistHandler),
-    (r"/api/scientist/role", sc_handlers.ScientistRoleHandler),
-    (r"/api/scientists", sc_handlers.ScientistsListHandler),
+    (r"/api/scientists(/\d+)?", sc_handlers.ScientistHandler),
     (r"/api/scientists/search", sc_handlers.ScientistsSearchHandler),
-    (r"/api/scientist/my-projects", sc_handlers.ScientistManagedProjectsHandler),
-    (r"/api/scientist/participation", sc_handlers.ScientistParticipationProjectsHandler),
-    (r"/api/scientist/desired", sc_handlers.ScientistDesiredProjectsHandler),
+    (r"/api/scientists/role", sc_handlers.ScientistRoleHandler),
+    (r"/api/scientists/my-projects", sc_handlers.ScientistManagedProjectsHandler),
+    (r"/api/scientists/participation", sc_handlers.ScientistParticipationProjectsHandler),
+    (r"/api/scientists/desired", sc_handlers.ScientistDesiredProjectsHandler),
 
     # projects
-    # (r"/api/project(/\d+)?", pr_handlers.ProjectHandler),
-    (r"/api/projects(/\w+)?", pr_handlers.ProjectHandler),
+    (r"/api/projects(/\d+)?", pr_handlers.ProjectHandler),
     (r"/api/projects/search", pr_handlers.ProjectsSearchHandler),
     (r"/api/projects/(\d+)/like", pr_handlers.ProjectsLikeHandler),
     (r"/api/projects/(\d+)/responses/[a|d]?", pr_handlers.ProjectsResponseHandler),

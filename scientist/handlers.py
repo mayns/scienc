@@ -11,22 +11,8 @@ from scientist.models import Scientist
 __author__ = 'oks'
 
 
-class ScientistsListHandler(BaseRequestHandler):
-
-    @gen.coroutine
-    def get(self):
-        print u'scientists list get'
-
-        try:
-            response = yield ScientistBL.get_all()
-        except Exception, ex:
-            logging.info('Exc on get all scientists:')
-            logging.exception(ex)
-            response = dict(
-                message=ex.message
-            )
-        scientists = yield self.get_response(response)
-        self.finish(json.dumps(scientists))
+SC_EXC = lambda scientist=None: 'Exc on get scientist: {}'.format(scientist) if scientist else \
+    'Exc on get scietists'
 
 
 class ScientistsSearchHandler(BaseRequestHandler):
@@ -50,16 +36,19 @@ class ScientistsSearchHandler(BaseRequestHandler):
 class ScientistHandler(BaseRequestHandler):
 
     @gen.coroutine
-    def get(self, scientist_id):
-
-        scientist_id = int(scientist_id.replace(u'/', u''))
-
-        print u'get scientist:', scientist_id
-
+    def get(self, *args, **kwargs):
+        scientist_id = None
         try:
-            response = yield ScientistBL.get(scientist_id)
+            if not any(args):
+                print u'scientists list get'
+                response = yield ScientistBL.get_all()
+            else:
+                scientist_id = int(args[0].replace(u'/', u''))
+                print u'get scientist:', scientist_id
+                response = yield ScientistBL.get(scientist_id)
+
         except Exception, ex:
-            logging.info('Exc on get scientist: {}'.format(scientist_id))
+            logging.info(SC_EXC(scientist=scientist_id))
             logging.exception(ex)
             response = dict(
                 message=ex.message
