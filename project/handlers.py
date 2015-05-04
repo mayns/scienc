@@ -71,7 +71,7 @@ class ProjectHandler(BaseRequestHandler):
             project_dict.update(in_progress='true')
         else:
             project_dict.update(in_progress='false')
-        print project_dict
+
         manager_id = self.current_user_id
         if not manager_id:
             self.send_error(status_code=403)

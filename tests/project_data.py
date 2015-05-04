@@ -105,17 +105,17 @@ class Project(object):
                 dict(
                     vacancy_name=u'Tester',
                     description=u'Functional and Unit Tests',
-                    difficulty=8,
+                    # difficulty=8,
                 ),
                 dict(
                     vacancy_name=u'System Administrator',
                     description=u'Great job for trouble seekers',
-                    difficulty=8,
+                    # difficulty=8,
                 ),
                 dict(
                     vacancy_name=u'A cat',
                     description=u'Just a cat',
-                    difficulty=10,
+                    # difficulty=10,
                 ),
             ],
             tags=[u'number theory', u'calculations', u'matrices', u'linear algebra'],
@@ -225,17 +225,17 @@ class Project(object):
                 dict(
                     vacancy_name=u'Tester',
                     description=u'Functional and Unit Tests',
-                    difficulty=8,
+                    # difficulty=8,
                 ),
                 dict(
                     vacancy_name=u'System Administrator',
                     description=u'Great job for trouble seekers',
-                    difficulty=8,
+                    # difficulty=8,
                 ),
                 dict(
                     vacancy_name=u'A cat',
                     description=u'Just a cat',
-                    difficulty=10,
+                    # difficulty=10,
                 ),
             ],
             tags=[u'number theory', u'calculations', u'matrices', u'linear algebra'],

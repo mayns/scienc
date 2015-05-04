@@ -83,8 +83,6 @@ class ProjectBL(object):
     @gen.coroutine
     def update(cls, project_id, project_dict):
 
-        print project_dict
-
         if not project_id:
             raise Exception(u'No project id provided')
 
@@ -114,7 +112,8 @@ class ProjectBL(object):
     @gen.coroutine
     @psql_connection
     def get_vacancy(cls, conn, v_id):
-        columns = [u'id', u'vacancy_name', u'description', u'difficulty']
+        # columns = [u'id', u'vacancy_name', u'description', u'difficulty']
+        columns = [u'id', u'vacancy_name', u'description']
         sql_query = get_select_query(environment.TABLE_VACANCIES, columns=columns,
                                      where=dict(column=u'id', value=str(v_id)))
         cursor = yield momoko.Op(conn.execute, sql_query)

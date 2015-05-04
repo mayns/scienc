@@ -115,6 +115,8 @@ def zip_values(iterable, dict2, empty_fields=False):
 def extended_cmp(val1, val2):
     if not isinstance(val1, list):
         return cmp(val1, val2)
+    if len(val1) != len(val2):
+        return 1
     for i, v in enumerate(val1):
         if cmp(v, val2[i]):
             if isinstance(v, dict):
