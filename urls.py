@@ -27,8 +27,8 @@ url_handlers = [
     (r"/api/projects(/\w+)?", pr_handlers.ProjectHandler),
     (r"/api/projects/search", pr_handlers.ProjectsSearchHandler),
     (r"/api/projects/(\w+)/like", pr_handlers.ProjectsLikeHandler),
-    (r"/api/projects/(\w+)/responses/[a|d]?", pr_handlers.ProjectsResponseHandler),
-    (r"/api/projects/(\w+)/participation", pr_handlers.ProjectsParticipationHandler),
+    (r"/api/projects/(\w+)/responses/?", pr_handlers.ResponseHandler),
+    # (r"/api/projects/(\w+)/participation", pr_handlers.ProjectsParticipationHandler),
     # (r"/ckeditor/samples/", CkeditorSampleHandler),
 
     # test stands
