@@ -24,9 +24,12 @@ class ProjectBL(object):
         participants = project_dict.pop(u'participants', [])
         vacancies = project_dict.pop(u'vacancies', [])
 
+        if not project_dict.get(u'manager_id'):
+            raise Exception(u'No manager ID in creating project')
+
         # create ID
         if test_mode:
-            project_id = project_dict.get(u'id')
+            project_id = project_dict.pop(u'id')
         else:
             project_id = generate_id(21)
 
@@ -44,7 +47,7 @@ class ProjectBL(object):
         vacancy_ids = []
         for vacancy in vacancies:
             vacancy.update(project_id=project_id)
-            v_id = yield cls.update_vacancies(vacancy)
+            v_id = yield cls.add_vacancy(vacancy)
             vacancy_ids.append(v_id)
 
         project.participants = participant_ids
@@ -60,24 +63,73 @@ class ProjectBL(object):
     @classmethod
     @gen.coroutine
     @psql_connection
-    def update_participants(cls, conn, participant_data):
+    def add_participant(cls, conn, participant_data):
         participant_id = generate_id(21)
         participant_data.update(id=participant_id)
 
         sqp_query = get_insert_query(environment.TABLE_PARTICIPANTS, participant_data)
-        yield momoko.Op(conn.execute, sqp_query)
+        try:
+            yield momoko.Op(conn.execute, sqp_query)
+        except PSQLException, ex:
+            logging.exception(ex)
         raise gen.Return(participant_id)
 
     @classmethod
     @gen.coroutine
     @psql_connection
-    def update_vacancies(cls, conn, vacancy_data):
+    def update_participant(cls, conn, participant_data):
+        sqp_query = get_update_query(environment.TABLE_PARTICIPANTS, participant_data,
+                                     where_params=dict(id=participant_data[u'id']))
+        try:
+            yield momoko.Op(conn.execute, sqp_query)
+        except PSQLException, ex:
+            logging.exception(ex)
+        raise gen.Return(participant_data[u'id'])
+
+    @classmethod
+    @gen.coroutine
+    @psql_connection
+    def delete_participant(cls, conn, participant_id):
+        sqp_query = get_delete_query(environment.TABLE_PARTICIPANTS, dict(column=u'id', value=participant_id))
+        try:
+            yield momoko.Op(conn.execute, sqp_query)
+        except PSQLException, ex:
+            logging.exception(ex)
+
+    @classmethod
+    @gen.coroutine
+    @psql_connection
+    def add_vacancy(cls, conn, vacancy_data):
         vacancy_id = generate_id(21)
         vacancy_data.update(id=vacancy_id)
         sqp_query = get_insert_query(environment.TABLE_VACANCIES, vacancy_data)
-        yield momoko.Op(conn.execute, sqp_query)
-
+        try:
+            yield momoko.Op(conn.execute, sqp_query)
+        except PSQLException, ex:
+            logging.exception(ex)
         raise gen.Return(vacancy_id)
+
+    @classmethod
+    @gen.coroutine
+    @psql_connection
+    def update_vacancy(cls, conn, vacancy_data):
+        sqp_query = get_update_query(environment.TABLE_VACANCIES, vacancy_data,
+                                     where_params=dict(id=vacancy_data[u'id']))
+        yield momoko.Op(conn.execute, sqp_query)
+        try:
+            raise gen.Return(vacancy_data[u'id'])
+        except PSQLException, ex:
+            logging.exception(ex)
+
+    @classmethod
+    @gen.coroutine
+    @psql_connection
+    def delete_vacancy(cls, conn, vacancy_id):
+        sqp_query = get_delete_query(environment.TABLE_VACANCIES, dict(column=u'id', value=vacancy_id))
+        try:
+            yield momoko.Op(conn.execute, sqp_query)
+        except PSQLException, ex:
+            logging.exception(ex)
 
     @classmethod
     @gen.coroutine
@@ -88,6 +140,59 @@ class ProjectBL(object):
 
         project = yield Project.get_by_id(project_id)
         updated_data = project.get_updated_data(project_dict)
+        if u'vacancies' in updated_data.keys():
+            vacancies = updated_data.pop(u'vacancies', [])
+            del_vacancy_ids = set(project.vacancies) - set([v[u'id'] for v in vacancies])
+            vacancy_ids = []
+            for vacancy in vacancies:
+                # новые вакансии
+                if not vacancy.get(u'id'):
+                    vacancy.update(project_id=project_id)
+                    v_id = yield cls.add_vacancy(vacancy)
+
+                # ищем те, которые изменились
+                elif vacancy.get(u'id') in project.vacancies:
+                    v_id = yield cls.update_vacancy(vacancy)
+
+                else:
+                    raise Exception(u'Strange vacancy id: {}'.format(vacancy[u'id']))
+
+                vacancy_ids.append(v_id)
+
+            for vacancy_id in del_vacancy_ids:
+                yield cls.delete_vacancy(vacancy_id)
+
+            logging.info(u'New ordered vacancies={}; '
+                         u'Deleted vacancies={}'.format(vacancy_ids, del_vacancy_ids))
+            updated_data.update(vacancies=vacancy_ids)
+
+
+        if u'participants' in updated_data.keys():
+            participants = project_dict.pop(u'participants', [])
+            del_participant_ids = set(project.participants) - set([v[u'id'] for v in participants])
+            participant_ids = []
+            for participant in participants:
+                # новые вакансии
+                if not participant.get(u'id'):
+                    participant.update(project_id=project_id)
+                    p_id = yield cls.add_participant(participant)
+
+                # ищем те, которые изменились
+                elif participant.get(u'id') in project.participants:
+                    p_id = yield cls.update_participant(participant)
+
+                else:
+                    raise Exception(u'Strange participant id: {}'.format(participant[u'id']))
+
+                participant_ids.append(p_id)
+
+            for participant_id in del_participant_ids:
+                yield cls.delete_participant(participant_id)
+
+            logging.info(u'New ordered participants={}; '
+                         u'Deleted participants={}'.format(participant_ids, del_participant_ids))
+            updated_data.update(participants=participant_ids)
+
         project.populate_fields(updated_data)
 
         yield project.save(fields=updated_data.keys())

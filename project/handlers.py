@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-from tornado import gen, web
+from tornado import gen
 from base.handlers import BaseRequestHandler
 import json
 import logging
@@ -49,7 +49,7 @@ class ProjectHandler(BaseRequestHandler):
                 print u'projects list get'
                 response = yield ProjectBL.get_all()
             else:
-                project_id = int(args[0].replace(u'/', u''))
+                project_id = args[0].replace(u'/', u'')
                 print u'get project:', project_id
                 response = yield ProjectBL.get(project_id)
 
@@ -93,7 +93,7 @@ class ProjectHandler(BaseRequestHandler):
     def put(self, project_id):
         print u'update project'
         try:
-            project_id = int(project_id.replace(u'/', u''))
+            project_id = project_id.replace(u'/', u'')
         except:
             self.send_error(status_code=403)
             return
@@ -119,7 +119,7 @@ class ProjectHandler(BaseRequestHandler):
     def delete(self, project_id):
         print u'delete project:', project_id
         response = {}
-        project_id = int(project_id.replace(u'/', u''))
+        project_id = project_id.replace(u'/', u'')
         try:
             yield ProjectBL.delete(project_id)
         except Exception, ex:

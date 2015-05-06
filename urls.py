@@ -16,7 +16,7 @@ url_handlers = [
     (r"/api/user", cm_handlers.UserHandler),
 
     # scientists
-    (r"/api/scientists(/\d+)?", sc_handlers.ScientistHandler),
+    (r"/api/scientists(/\w+)?", sc_handlers.ScientistHandler),
     (r"/api/scientists/search", sc_handlers.ScientistsSearchHandler),
     (r"/api/scientists/role", sc_handlers.ScientistRoleHandler),
     (r"/api/scientists/my-projects", sc_handlers.ScientistManagedProjectsHandler),
@@ -24,11 +24,11 @@ url_handlers = [
     (r"/api/scientists/desired", sc_handlers.ScientistDesiredProjectsHandler),
 
     # projects
-    (r"/api/projects(/\d+)?", pr_handlers.ProjectHandler),
+    (r"/api/projects(/\w+)?", pr_handlers.ProjectHandler),
     (r"/api/projects/search", pr_handlers.ProjectsSearchHandler),
-    (r"/api/projects/(\d+)/like", pr_handlers.ProjectsLikeHandler),
-    (r"/api/projects/(\d+)/responses/[a|d]?", pr_handlers.ProjectsResponseHandler),
-    (r"/api/projects/(\d+)/participation", pr_handlers.ProjectsParticipationHandler),
+    (r"/api/projects/(\w+)/like", pr_handlers.ProjectsLikeHandler),
+    (r"/api/projects/(\w+)/responses/[a|d]?", pr_handlers.ProjectsResponseHandler),
+    (r"/api/projects/(\w+)/participation", pr_handlers.ProjectsParticipationHandler),
     # (r"/ckeditor/samples/", CkeditorSampleHandler),
 
     # test stands
