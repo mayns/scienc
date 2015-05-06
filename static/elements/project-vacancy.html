@@ -3,7 +3,7 @@
 <link rel="import" href="/static/elements/science-app.html"/>
 
 
-<polymer-element name="project-missed-participant">
+<polymer-element name="project-vacancy">
     <template>
         <style>
             :host {
@@ -49,13 +49,13 @@
         </div>
         </template>
         <app-ajax id="ajax"
-                  url="/api/project/{{ data.project_id }}/participation"
+                  url="/api/projects/{{ data.project_id }}/participation"
                   on-core-response="{{ onSubmitSuccess }}"
                   method="POST">
         </app-ajax>
     </template>
     <script>
-        Polymer('project-missed-participant', {
+        Polymer('project-vacancy', {
             ready: function(){
                 this.app = $$.byId('app');
                 this.participate = this.app.user && this.app.user.desired_vacancies.indexOf(this.data.project_id + '_' + this.data.vacancy_id) !== -1;

@@ -1,0 +1,116 @@
+-- PL/PROXY SETUP
+
+cd gen/scienc/db/
+sudo tar -zxvf plproxy-2.5.tar.gz -C /opt/db/plproxy
+cd /opt/db/plproxy
+make
+make install
+
+
+—-ON PROXY server after proxy_science creation
+
+sudo su postgres
+psql -f /opt/db/plproxy/plproxy-2.5/sql/plproxy.sql proxy_science
+psql proxy_science
+
+create schema plproxy;
+
+CREATE OR REPLACE FUNCTION plproxy.get_cluster_partitions(cluster_name text)
+RETURNS SETOF text AS $$
+BEGIN
+    IF cluster_name = 'science_cluster' THEN
+        RETURN NEXT 'dbname=science_00 host=127.0.0.1';
+        RETURN NEXT 'dbname=science_01 host=127.0.0.1';
+        RETURN;
+    END IF;
+    RAISE EXCEPTION 'Unknown cluster';
+END;
+$$ LANGUAGE plpgsql;
+
+
+CREATE OR REPLACE FUNCTION plproxy.get_cluster_version(cluster_name text)
+RETURNS int4 AS $$
+BEGIN
+    IF cluster_name = 'science_cluster' THEN
+        RETURN 1;
+    END IF;
+    RAISE EXCEPTION 'Unknown cluster';
+END;
+$$ LANGUAGE plpgsql;
+
+CREATE OR REPLACE FUNCTION plproxy.get_cluster_config(
+    in cluster_name text,
+    out key text,
+    out val text)
+RETURNS SETOF record AS $$
+BEGIN
+    -- lets use same config for all clusters
+    key := 'connection_lifetime';
+    val := 30*60; -- 30m
+    RETURN NEXT;
+    RETURN;
+END;
+$$ LANGUAGE plpgsql;
+
+CREATE FOREIGN DATA WRAPPER plproxy;
+
+
+-- define real node's ip
+
+CREATE SERVER science_cluster FOREIGN DATA WRAPPER plproxy
+OPTIONS (connection_lifetime '1800',
+         p0 'dbname= science_00 host=127.0.0.1',
+         p1 'dbname= science_01 host=127.0.0.1' );
+
+
+CREATE USER MAPPING FOR postgres SERVER science_cluster;
+
+GRANT USAGE ON FOREIGN SERVER science_cluster TO postgres;
+
+
+CREATE OR REPLACE FUNCTION insert_update (id text, query text)
+RETURNS void AS $$
+    CLUSTER 'science_cluster';
+    RUN ON hashtext(id);
+$$ LANGUAGE plproxy;
+
+
+
+-- ON NODES
+-- create science db and projects table
+
+sudo su postgres
+psql
+
+-- if not created
+
+
+create database science_00; -- on node_0
+create database science_01; -- on node_1
+
+\connect science_00; -- on node_0
+\connect science_01; -- on node_1
+
+
+
+CREATE TABLE projects (results text, related_data jsonb, title_tsvector tsvector,
+id text primary key, research_fields text[], title text, participants bigint[],
+university_connection jsonb, objective text, description_short text, leader jsonb,
+manager_id bigint REFERENCES scientists(id) ON DELETE CASCADE, project_site text,
+responses bigint[], usage_possibilities text, tags text[], description_short_tsvector tsvector,
+dt_created timestamp DEFAULT NULL, in_progress text, description_full text,
+vacancies bigint[], contacts jsonb, likes bigint);
+
+
+
+CREATE OR REPLACE FUNCTION insert_update (id text, query text)
+RETURNS void AS $$
+BEGIN
+    EXECUTE query;
+END;
+$$ LANGUAGE plpgsql;;
+
+
+
+
+

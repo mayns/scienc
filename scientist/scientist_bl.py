@@ -10,7 +10,7 @@ from PIL import Image
 import environment
 from db.utils import get_select_query, get_insert_query
 from common.media_server import upload, delete, get_url
-from common.utils import set_password, check_password
+from common.utils import set_password, check_password, generate_id
 from common.decorators import psql_connection
 from scientist.models import Scientist
 from project.models import Project
@@ -24,24 +24,30 @@ class ScientistBL(object):
 
     @classmethod
     @gen.coroutine
-    def create(cls, scientist_dict=None, scientist_photo=None):
+    def create(cls, scientist_dict=None, scientist_photo=None, test_mode=False):
 
         # check if user can create account
         yield cls.validate_credentials(scientist_dict)
+
+        # create ID
+        if test_mode:
+            scientist_id = scientist_dict.get(u'id')
+        else:
+            scientist_id = generate_id(21)
+
         # create account
-        yield cls.update_roles(scientist_dict)
+        yield cls.update_roles(scientist_id, scientist_dict)
 
         editable_data = Scientist.get_editable_data(scientist_dict, update=False)
-
-        scientist = Scientist(**editable_data)
-        scientist_id = yield scientist.save(update=False, fields=editable_data.keys())
+        editable_data.update(id=scientist_id)
 
         image_url = yield cls.upload_avatar(scientist_id, scientist_photo)
 
         if image_url:
-            scientist = yield Scientist.get_by_id(scientist_id)
-            scientist.image_url = image_url
-            yield scientist.save(fields=[u'image_url'])
+            editable_data.update(image_url=image_url)
+
+        scientist = Scientist(**editable_data)
+        yield scientist.save(update=False, fields=editable_data.keys())
 
         image_url = environment.GET_IMG(image_url, environment.IMG_S) if image_url else u''
         raise gen.Return(dict(scientist_id=scientist_id, image_url=image_url))
@@ -121,7 +127,7 @@ class ScientistBL(object):
         if not both_fields:
             raise RequiredFields([u'Email', u'Password'])
 
-        sql_query = get_select_query(environment.ROLES_TABLE, functions="count(*)", where=dict(column=u'email',
+        sql_query = get_select_query(environment.TABLE_ROLES, functions="count(*)", where=dict(column=u'email',
                                                                                                value=email))
         cursor = yield momoko.Op(conn.execute, sql_query)
         count = cursor.fetchone()
@@ -133,7 +139,7 @@ class ScientistBL(object):
     @psql_connection
     def check_login(cls, conn, email, pwd):
 
-        sql_query = get_select_query(environment.ROLES_TABLE, columns=['id', 'pwd'],
+        sql_query = get_select_query(environment.TABLE_ROLES, columns=['id', 'pwd'],
                                      where=dict(column='email', value=email))
 
         cursor = yield momoko.Op(conn.execute, sql_query)
@@ -149,15 +155,16 @@ class ScientistBL(object):
     @classmethod
     @gen.coroutine
     @psql_connection
-    def update_roles(cls, conn, scientist_dict):
+    def update_roles(cls, conn, scientist_id, scientist_dict):
         pwd = set_password(scientist_dict.pop(u'pwd'))
 
         params = dict(
+            id=scientist_id,
             email=scientist_dict.get(u'email'),
             pwd=pwd,
             role=scientist_dict.pop(u'role', environment.ROLE_USER)
         )
-        sqp_query = get_insert_query(environment.ROLES_TABLE, params)
+        sqp_query = get_insert_query(environment.TABLE_ROLES, params)
 
         yield momoko.Op(conn.execute, sqp_query)
 
@@ -168,7 +175,7 @@ class ScientistBL(object):
 
         try:
             print 'deleting from postgres'
-            yield Scientist.delete(scientist_id, tbl=environment.ROLES_TABLE)
+            yield Scientist.delete(scientist_id, tbl=environment.TABLE_ROLES)
         except PSQLException, ex:
             raise ex
 
@@ -226,7 +233,7 @@ class ScientistBL(object):
 
         projects = []
         for project_id in project_ids:
-            project_columns = [u'title', u'responses', u'missed_participants']
+            project_columns = [u'title', u'responses', u'vacancies']
             project_json = yield Project.get_json_by_id(project_id, columns=project_columns)
             project_json.update(project_id=project_id)
             raw_responses = project_json.pop(u'responses', [])
@@ -285,13 +292,13 @@ class ScientistBL(object):
         # [{project_id, vacancy_id}]
         projects = []
         for application in sc_json(u'desired_vacancies', []):
-            project_columns = [u'title', u'missed_participants']
+            project_columns = [u'title', u'vacancies']
             project_data = yield Project.get_json_by_id(application[u'project_id'], columns=project_columns)
 
-            missed_participants = project_data.pop(u'missed_participants', [])
+            vacancies = project_data.pop(u'vacancies', [])
             project_data.update(project_id=application[u'project_id'],
                                 vacancy_id=application[u'vacancy_id'],
-                                vacancy_name=[k[u'vacancy_name'] for k in missed_participants if
+                                vacancy_name=[k[u'vacancy_name'] for k in vacancies if
                                               k[u'id'] == application[u'vacancy_id']][0]
             )
 

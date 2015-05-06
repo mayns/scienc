@@ -76,7 +76,7 @@
                   id="form"
                   ajaxMethod="{{ ajaxMethod }}"
                   on-form-response="{{ onFormResponse }}"
-                  action="/api/project"
+                  action="/api/projects"
                   redirect="/">
                 <template bind="{{ data }}">
                     <fieldset>
@@ -135,7 +135,7 @@
                                                     <input class="checkbox" type="checkbox" value="earth" id="earth" data-json="research_fields[]"/>
                                                 </div>
                                                 <div class="row-flex middle">
-                                                    <img class="icon" src="/static/images/engineer.svg" alt=""/>
+                                                    <img class="icon" src="/static/images/engineering.svg" alt=""/>
                                                     <label for="engeneering" class="action col-lg-10 label">Инженерные науки</label>
                                                     <input class="checkbox" type="checkbox" value="engeneering" id="engeneering" data-json="research_fields[]"/>
                                                 </div>
@@ -333,6 +333,13 @@
                                        value="{{ leader.full_name }}"
                                        id="leader"
                                        class="col-lg-12">
+                                <input type="text"
+                                       value="{{ leader.scientist_id }}"
+                                       placeholder="Ссылка на участника"
+                                       data-json="leader[scientist_id]"/>
+                                <input hidden
+                                       value="{{ leader.id }}"
+                                       data-json="leader[id]"/>
                             </div>
                             <div class="row-flex middle">
                                 <label for="">Участники проекта</label>
@@ -344,9 +351,24 @@
                                 <div class="row-flex">
                                     <div class="col-lg-5">
                                         <input type="text"
-                                               value="{{ full_name }}"
-                                               placeholder="ФИО"
-                                               data-json="participants[][full_name]"/>
+                                               value="{{ last_name }}"
+                                               placeholder="Ф"
+                                               data-json="participants[][last_name]"/>
+                                        <input type="text"
+                                               value="{{ first_name }}"
+                                               placeholder="И"
+                                               data-json="participants[][first_name]"/>
+                                        <input type="text"
+                                               value="{{ middle_name }}"
+                                               placeholder="О"
+                                               data-json="participants[][middle_name]"/>
+                                        <input type="text"
+                                               value="{{ scientist_id }}"
+                                               placeholder="Ссылка на участника"
+                                               data-json="participants[][scientist_id]"/>
+                                        <input hidden
+                                               value="{{ id }}"
+                                               data-json="participants[][id]"/>
                                     </div>
                                     <div class="col-lg-5 col-lg-offset-1">
                                         <input type="text"
@@ -362,31 +384,43 @@
                                 </div>
                             </template>
                             <div class="row-flex middle">
-                                <label for="">Разыскиваются</label>
-                                <img on-click="{{ addItem }}" data-itemtype="missed_participants" class="action icon"
+                                <label for="">Вакансии</label>
+                                <img on-click="{{ addItem }}" data-itemtype="vacancies" class="action icon"
                                      src="/static/images/plus.svg"
                                      alt="" />
                             </div>
-                            <template repeat="{{ missed_participants }}">
+                            <template repeat="{{ vacancies }}">
                                 <div class="row-flex">
                                     <div class="col-lg-5">
                                         <div class="row-flex between top">
                                             <input type="text"
                                                    placeholder="Должность"
                                                    value="{{ vacancy_name }}"
-                                                   data-json="missed_participants[][vacancy_name]"
+                                                   data-json="vacancies[][vacancy_name]"
                                                    flex/>
                                         </div>
+                                        <!--<div class="row-flex between top">-->
+                                            <!--<input type="text"-->
+                                                   <!--placeholder="Сложность"-->
+                                                   <!--value="{{ difficulty }}"-->
+                                                   <!--data-json="vacancies[][difficulty]"-->
+                                                   <!--flex/>-->
+                                        <!--</div>-->
+                                        <input hidden
+                                               value="{{ id }}"
+                                               data-json="vacancies[][id]"/>
                                     </div>
                                     <div class="col-lg-5 col-lg-offset-1">
+                                        <div class="row-flex between top">
                                             <textarea rows="1"
-                                                      placeholder="Описание"
-                                                      value="{{ description }}"
-                                                      data-json="missed_participants[][description]"
-                                                      flex></textarea>
+                                                  placeholder="Описание"
+                                                  value="{{ description }}"
+                                                  data-json="vacancies[][description]"
+                                                  flex></textarea>
 
+                                        </div>
                                     </div>
-                                    <img on-click="{{ deleteItem }}" data-itemtype="missed_participants" class="action icon"
+                                    <img on-click="{{ deleteItem }}" data-itemtype="vacancies" class="action icon"
                                          src="/static/images/minus.svg"
                                          alt="" />
                                 </div>
@@ -431,7 +465,7 @@
         Polymer('project-modify', Polymer.mixin({
             ready: function() {
                 if (this.viewType === 'update') {
-                    this.$.form.setAttribute('action', '/api/project/' + this.data.id);
+                    this.$.form.setAttribute('action', '/api/projects/' + this.data.id);
                     this.$.form.redirect = '/project/' + this.data.id;
                 }
             },
@@ -441,7 +475,7 @@
                     related_data: [1],
                     contacts: [1],
                     participants: [1],
-                    missed_participants: [1]
+                    vacancies: [1]
                 },
                 formType: 'short',
                 viewType: 'create'

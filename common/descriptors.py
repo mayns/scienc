@@ -10,10 +10,10 @@ __author__ = 'mayns'
 class FieldDescriptor(object):
 
     __slots__ = ['store', 'restore', 'to_json', 'from_json', 'type', 'db_type',
-                 'default', 'db_default', 'db_references', 'required', 'length']
+                 'default', 'db_default', 'db_references', 'required', 'length', 'is_composite', 'primary_key']
 
     def __init__(self, store=None, restore=None, to_json=None, from_json=None, type=type, db_type=None, default=None,
-                 db_default=None, db_references=None, required=False, length=None):
+                 db_default=None, db_references=None, required=False, length=None, is_composite=False, primary_key=False):
 
         self.store = store
         self.restore = restore
@@ -26,6 +26,8 @@ class FieldDescriptor(object):
         self.db_references = db_references
         self.required = required
         self.length = length
+        self.is_composite = is_composite
+        self.primary_key = primary_key
 
 
 class Text(FieldDescriptor):
@@ -47,11 +49,11 @@ class TSvector(FieldDescriptor):
         self.db_type = 'tsvector'
 
 
-class JsonArray(FieldDescriptor):
+class Array(FieldDescriptor):
 
     def __init__(self, default=None, db_type=None, **kwargs):
         """:rtype: list"""
-        super(JsonArray, self).__init__(default=default, db_type=db_type, **kwargs)
+        super(Array, self).__init__(default=default, db_type=db_type, **kwargs)
         self.db_type = db_type or 'text[]'
         self.store = lambda x: json.dumps(x).replace(u'[', u'{').replace(u']', u'}').replace(u'{{', u'[{').replace(u'}}', u'}]') \
             if self.db_type != 'text[]' else '{' + ', '.join(x) + '}'

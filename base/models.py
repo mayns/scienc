@@ -9,7 +9,7 @@ from common.utils import generate_id
 from common.decorators import psql_connection
 from common.exceptions import PSQLException
 from db.utils import *
-from common.utils import zip_values
+from common.utils import zip_values, extended_cmp
 
 
 __author__ = 'oks'
@@ -23,6 +23,8 @@ class PSQLModel(object):
     CREATE_FIELDS = None
     SYSTEM_INFO = None
     SEARCH_FIELDS = None
+    RELATED_TABLES = None
+    RELATED_COLUMNS = None
 
     def __init__(self, *args, **kwargs):
         super(PSQLModel, self).__init__()
@@ -39,6 +41,23 @@ class PSQLModel(object):
             data.update(dt_created=datetime.utcnow())
             editable_data = dict(zip_values(cls.CREATE_FIELDS, data, empty_fields=1))
         return editable_data
+
+    @gen.coroutine
+    @psql_connection
+    def load_data(self, conn):
+        for relative_table in self.RELATED_TABLES:
+            _ids = getattr(self, relative_table)
+            _attr = []
+            for _id in _ids:
+                sql_query = get_select_query(relative_table, columns=self.RELATED_COLUMNS[relative_table],
+                                             where=dict(column=u'id', value=_id))
+                try:
+                    cursor = yield momoko.Op(conn.execute, sql_query)
+                    raw_data = cursor.fetchone()
+                    _attr.append(dict(zip(self.RELATED_COLUMNS[relative_table], raw_data)))
+                except PSQLException, ex:
+                    print ex
+            setattr(self, relative_table, _attr)
 
     def get_updated_data(self, data, update=True):
 
@@ -65,7 +84,7 @@ class PSQLModel(object):
             if from_json:
                 value = from_json(value)
 
-            if not cmp(value, attr):
+            if not extended_cmp(value, attr):
                 print 'EQ:', key, attr, value
                 continue
 
@@ -162,6 +181,8 @@ class PSQLModel(object):
                     except:
                         pass
                 setattr(instance, k, v)
+
+        yield instance.load_data()
 
         raise gen.Return(instance)
 

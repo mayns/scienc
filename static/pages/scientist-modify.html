@@ -104,7 +104,7 @@
                   on-form-response="{{ onFormResponse }}"
                   redirect="/scientists"
                   ajaxMethod="{{ ajaxMethod }}"
-                  action="/api/scientist">
+                  action="/api/scientists">
                 <template bind="{{ json }}">
                     <fieldset>
                         <legend>Общие сведения</legend>
@@ -433,7 +433,7 @@
                 var self = this;
 
                 if (self.viewType === 'update') {
-                    self.$.form.setAttribute('action', '/api/scientist/' + self.json.id);
+                    self.$.form.setAttribute('action', '/api/scientists/' + self.json.id);
                     self.$.form.redirect = '/scientist/' + self.json.id;
                 }
                 this.$.form.addCustomFields = function(jsonData, formData) {

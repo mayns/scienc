@@ -1,7 +1,7 @@
 <link rel="import" href="/static/elements/polymer/polymer.html"/>
 <link rel="import" href="/static/elements/core-ajax/core-ajax.html"/>
 <link rel="import" href="/static/elements/core-icon/core-icon.html"/>
-<link rel="import" href="/static/elements/project-missed-participant.html"/>
+<link rel="import" href="/static/elements/project-vacancy.html"/>
 
 <polymer-element name="project-preview" attributes="data">
     <template>
@@ -136,14 +136,19 @@
                         </template>
                     </div>
                 </template>
-                <template if="{{ leader.fullname || participants.length > 0 || missed_participants.length > 0 }}">
+                <template if="{{ leader.fullname || participants.length > 0 || vacancies.length > 0 }}">
                     <section>
                         <h1 class="team">Команда</h1>
                         <template if="{{ leader.full_name }}">
                             <h2>Научный руководитель</h2>
                             <template bind="{{ leader }}">
                                 <p>
-                                    <a is="html5-history-anchor" class="link" pushstate popstate href="/scientist/{{ scientist_id }}">{{ full_name }}</a>
+                                    <template if="{{ scientist_id }}">
+                                        <a is="html5-history-anchor" class="link" pushstate popstate href="/scientist/{{ scientist_id }}">{{ full_name }}</a>
+                                    </template>
+                                    <template if="{{ !scientist_id }}">
+                                        <span is="html5-history-anchor">{{ full_name }}</span>
+                                    </template>
                                 </p>
                             </template>
                         </template>
@@ -153,19 +158,24 @@
                                 <ol>
                                     <template repeat="{{ participants }}">
                                         <li>
-                                            <a class="link" is="html5-history-anchor" pushstate popstate href="/scientist/{{ scientist_id }}">{{ full_name }}</a>
+                                            <template if="{{ scientist_id }}">
+                                                <a class="link" is="html5-history-anchor" pushstate popstate href="/scientist/{{ scientist_id }}">{{ first_name }} {{ middle_name }} {{last_name}}</a>
+                                            </template>
+                                            <template if="{{ !scientist_id }}">
+                                                <span is="html5-history-anchor">{{ first_name }} {{ middle_name }} {{last_name}}</span>
+                                            </template>
                                             <div class="meta">{{ role_name }}</div>
                                         </li>
                                     </template>
                                 </ol>
                             </div>
                         </template>
-                        <template if="{{ missed_participants.length > 0 }}">
+                        <template if="{{ vacancies.length > 0 }}">
                             <h2>Не хватает</h2>
                             <p>
-                                <template repeat="{{ p in missed_participants }}">
-                                    <project-missed-participant data="[[ {vacancy_name: p.vacancy_name, description: p.description, project_id: id, vacancy_id: p.id  } ]]">
-                                    </project-missed-participant>
+                                <template repeat="{{ p in vacancies }}">
+                                    <project-vacancy data="[[ {vacancy_name: p.vacancy_name, description: p.description, project_id: id, vacancy_id: p.id  } ]]">
+                                    </project-vacancy>
                                 </template>
                             </p>
                         </template>

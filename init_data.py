@@ -17,8 +17,8 @@ from tornado import ioloop
 if __name__ == "__main__":
     _ioloop = ioloop.IOLoop.instance()
 
-    from db.psql_relations import create_relations
-    _ioloop.run_sync(partial(create_relations))
+    # from db.psql_relations import create_relations
+    # _ioloop.run_sync(partial(create_relations))
 
     # from db.postgres_fill import truncate_init_tables
     # _ioloop.run_sync(truncate_init_tables)
@@ -27,6 +27,5 @@ if __name__ == "__main__":
     # _ioloop.run_sync(insert_data)
     # _ioloop.run_sync(delete_kinder_garden)
 
-
-    from db.postgres_fill import fill_init_data
-    _ioloop.run_sync(fill_init_data)
+    # from db.postgres_fill import fill_init_data
+    # _ioloop.run_sync(fill_init_data)
