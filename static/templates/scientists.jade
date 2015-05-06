@@ -1,0 +1,12 @@
+div.page__content
+	each scientist in data
+		div.scientist-thumb
+			div.scientist-thumb__photo-block
+				img.scientist-thumb__photo(src='#{scientist.image_url}')
+			div.scientist-thumb__details-block
+				a.link.js-link.scientist-thumb__name(href='/scientist/#{scientist.id}')
+					= scientist.full_name
+				div.scientist-thumb__education= scientist.location
+				div.scientist-thumb__projects
+					span.scientist-thumb__project-label Проектов
+					span.scientist-thumb__project-count= scientist.projects

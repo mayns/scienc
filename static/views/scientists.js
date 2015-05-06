@@ -2,7 +2,7 @@ var BaseView = require('./base');
 var templates = require('../templates/templates');
 
 var ProjectsView = BaseView.extend({
-    template: templates.projects
+    template: templates.scientists
 });
 
 module.exports = ProjectsView;

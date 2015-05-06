@@ -1,0 +1,18 @@
+.link {
+	color: inherit;
+	text-decoration: none;
+	margin: 0;
+	padding: 0;
+	border: 0;
+	outline: 0;
+	box-sizing: border-box;
+}
+
+.link_type_primary {
+	transition: color, 0.3s ease;
+	color: #0095E5;
+}
+
+.link_type_primary:hover {
+	color: darken(#0095E5, 20);
+}

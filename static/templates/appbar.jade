@@ -1,0 +1,23 @@
+div.appbar
+	if id
+		a.link.js-link(href='/project')
+			img.appbar__icon.appbar__icon-add(src='/static/images/add_project.svg')
+		a.link.js-link(href='/scientist/my-projects')
+			img.appbar__icon.appbar__icon-fav(src='/static/images/favorite.svg')
+		a.link.js-link(href='/scientists')
+			img.appbar__icon.appbar__icon-members(src='/static/images/members.svg')
+		a.link.js-link(href='/scientist/#{id}')
+			img.appbar__icon.appbar__icon-scientist(src='#{image_url}')
+		a.link.js-link(href='/search')
+			img.appbar__icon.appbar__icon-search(src='/static/images/search.svg')
+		div#signOut
+			img.appbar__icon.appbar__icon-logout(src='/static/images/logout.svg')
+	else
+		a.link.js-link(href='/scientists')
+			img.appbar__icon.appbar__icon-members(src='/static/images/members.svg')
+		div#signIn
+			img.appbar__icon.appbar__icon-login(src='/static/images/login.svg')
+		a.link.js-link(href='/signup')
+			img.appbar__icon.appbar__icon-register(src='/static/images/register.svg')
+		a.link.js-link(href='/search')
+			img.appbar__icon.appbar__icon-search(src='/static/images/search.svg')

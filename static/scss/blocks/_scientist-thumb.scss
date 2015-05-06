@@ -1,0 +1,20 @@
+.scientist-thumb {
+	width: 400px;
+	box-sizing: border-box;
+	margin-right: 20px;
+	border: 1px solid #ccc;
+	padding: 20px;
+	margin-bottom: 20px;
+	display: flex;
+
+	&__photo-block {
+		margin-right: 20px;
+		flex: 0 0 100px;
+	}
+
+	&__photo {
+		border-radius: 50%;
+		width: 100px;
+		height: 100px;
+	}
+}

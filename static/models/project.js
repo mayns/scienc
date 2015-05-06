@@ -3,7 +3,7 @@ var Model = require('ampersand-model');
 var Project = Model.extend({
 	idAttribute: 'id',
     props: {
-    	id: 'number',
+    	id: ['number', true, ''],
     	title: ['string', true, ''],
     	description_short: ['string', true, ''],
     	research_fields: ['array', true, []],

@@ -7,6 +7,7 @@
   "devDependencies": {
     "ampersand-app": "^1.0.3",
     "ampersand-dom": "^1.4.0",
+    "ampersand-form-view": "^3.1.1",
     "ampersand-model": "^5.0.3",
     "ampersand-router": "^3.0.2",
     "ampersand-view": "^7.3.0",

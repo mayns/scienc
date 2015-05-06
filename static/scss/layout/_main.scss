@@ -1,12 +1,4 @@
-app-router {
-  width: 100%;
-}
-
-html /deep/ .container {
-  width: 1200px;
-  margin: 0 auto;
-}
-
-html /deep/ .container.main {
-  padding: 30px;
+.page {
+	margin: 0;
+	padding: 0;
 }

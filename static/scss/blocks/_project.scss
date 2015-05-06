@@ -1,0 +1,33 @@
+.project {
+	border-bottom: 2px solid #ccc;
+	padding: 10px;
+	position: relative;
+}
+
+.project + .project {
+	margin-top: 20px;
+}
+
+.project__header {
+ 	font-size: 28px;
+	margin-bottom: 10px;
+	font-family: 'Roboto Slab', sans-serif;
+}
+
+.project__holder {
+	background-color: #21303F;
+	color: white;
+	padding: 3px 8px 3px 8px;
+	font-size: 16px;
+}
+
+.project__description {
+	padding-bottom: 10px;
+	line-height: 1.6;
+}
+
+.project__description-header {
+	font-family: 'Roboto Slab', sans-serif;
+	font-size: 16px;
+	font-weight: bold;
+}

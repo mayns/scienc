@@ -1,0 +1,21 @@
+div.page__content
+	each project in data
+		article.project
+			h1.project__header
+				a.link.js-link(href='/project/#{project.id}')
+					= project.title
+			div.project__holders
+				each connection in project.university_connection
+					span.project__holder
+						= connection.university
+			p.project__description
+				span.project__description-header Краткое описание:&nbsp;
+				span= project.description_short
+			div
+				div
+					each field in project.research_fields
+						span.science-field-item.row-flex.middle
+							img.icon(src='/static/images/#{field.id}.svg')
+				.row-flex.middle
+					div(style='margin-right: 10px; font-size: 26px; color: #808080')
+

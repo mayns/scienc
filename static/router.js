@@ -1,11 +1,13 @@
 var Router = require('ampersand-router');
 var ProjectsView = require('./views/projects');
 var Projects = require('./models/projects');
-var templates = require('./templates/templates');
+var ScientistsView = require('./views/scientists');
+var Scientists = require('./models/scientists');
 
 var AppRouter = Router.extend({
     routes: {
         "": "projects",
+	    "projects/:id": "project",
         "scientists": "scientists",
         "scientist/:id": "scientist",
         "scientist/my-projects": "myProjects"
@@ -14,17 +16,39 @@ var AppRouter = Router.extend({
         var self = this;
         var projects = new Projects();
 
-        projects.on('sync', function(model, data, xhr){
+        projects.on('sync', function(){
             self.trigger('newPage', new ProjectsView({
-                model: model,
-                template: templates.project
+                model: projects
             }));
         });
 
         projects.fetch();
     },
-    scientists: function () {
+	project: function(id) {
+		var self = this;
+		var project = new Project({
+			id: id
+		});
 
+		project.on('sync', function(){
+			self.trigger('newPage', new ProjectView({
+				model: project
+			}));
+		});
+
+		project.fetch();
+	},
+    scientists: function () {
+		var self = this;
+	    var scientists = new Scientists();
+
+	    scientists.on('sync', function(){
+            self.trigger('newPage', new ScientistsView({
+                model: scientists
+            }));
+        });
+
+        scientists.fetch();
     },
     scientist: function () {
 

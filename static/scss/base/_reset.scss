@@ -1,22 +1,22 @@
-html /deep/ h1,
-html /deep/ h2,
-html /deep/ h3,
-html /deep/ h4,
-html /deep/ h5,
-html /deep/ h6,
-html /deep/ p,
-html /deep/ img,
-html /deep/ dl,
-html /deep/ dt,
-html /deep/ dd,
-html /deep/ ol,
-html /deep/ ul,
-html /deep/ li,
-html /deep/ fieldset,
-html /deep/ form,
-html /deep/ label,
-html /deep/ legend,
-html /deep/ caption {
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p,
+img,
+dl,
+dt,
+dd,
+ol,
+ul,
+li,
+fieldset,
+form,
+label,
+legend,
+caption {
   margin: 0;
   padding: 0;
   border: 0;
@@ -24,7 +24,7 @@ html /deep/ caption {
   box-sizing: border-box;
 }
 
-html /deep/ a {
+a {
   text-decoration: none;
   color: inherit;
   margin: 0;

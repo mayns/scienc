@@ -19,8 +19,7 @@
 }
 
 
-html /deep/ [class^="icon-"]:before,
-html /deep/ [class*=" icon-"]:before {
+.icon:before {
   font-family: "fontello";
   font-style: normal;
   font-weight: normal;
@@ -51,7 +50,7 @@ html /deep/ [class*=" icon-"]:before {
   /* text-shadow: 1px 1px 1px rgba(127, 127, 127, 0.3); */
 }
 
-html /deep/ .icon-search:before { content: '\e802'; } /* '' */
-html /deep/ .icon-camera:before { content: '\e803'; } /* '' */
-html /deep/ .icon-ok:before { content: '\e804'; } /* '' */
-html /deep/ .icon-cancel:before { content: '\e805'; } /* '' */
+.icon_type_search:before { content: '\e802'; } /* '' */
+.icon_type_camera:before { content: '\e803'; } /* '' */
+.icon_type_ok:before { content: '\e804'; } /* '' */
+.icon_type_cancel:before { content: '\e805'; } /* '' */

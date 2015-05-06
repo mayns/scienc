@@ -1,26 +1,16 @@
 // Base
 @import "base/fonts";
 @import "base/icons";
-@import 'base/helpers';
-@import "base/reset";
 @import "base/main";
-@import "base/grid";
 
-
-// Controls
-@import "controls/buttons";
-@import "controls/text";
-@import "controls/checkbox";
-@import "controls/radio";
-@import "controls/scroll";
-
-// Layout
-@import "layout/main";
-@import "layout/page-header";
-
-// Components
-@import "components/dialogs";
-
+// Blocks
+@import "blocks/page";
+@import "blocks/header";
+@import "blocks/link";
+@import "blocks/logo";
+@import "blocks/appbar";
+@import "blocks/project";
+@import "blocks/scientist-thumb";
 
 
 

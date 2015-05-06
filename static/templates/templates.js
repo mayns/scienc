@@ -14,55 +14,55 @@
     var templatizer = {};
 
 
-    // appBar.jade compiled template
-    templatizer["appBar"] = function tmpl_appBar(locals) {
+    // appbar.jade compiled template
+    templatizer["appbar"] = function tmpl_appbar(locals) {
         var buf = [];
         var jade_mixins = {};
         var jade_interp;
         var locals_for_with = locals || {};
-        (function(user) {
-            buf.push('<div class="appBar">');
-            if (user.id) {
-                buf.push('<a href="/scientists" class="app-bar-item"><img src="/static/images/members.svg" alt="" class="membersIcon"/></a><div id="signIn" class="action app-bar-item"><img src="/static/images/login.svg" alt="" class="loginIcon"/></div><a href="/signup" class="app-bar-item"><img src="/static/images/register.svg" alt="" class="registerIcon"/></a><a href="/search" class="app-bar-item"><img src="/static/images/search.svg" alt="" class="searchIcon"/></a>');
+        (function(id, image_url) {
+            buf.push('<div class="appbar">');
+            if (id) {
+                buf.push('<a href="/project" class="link js-link"><img src="/static/images/add_project.svg" class="appbar__icon appbar__icon-add"/></a><a href="/scientist/my-projects" class="link js-link"><img src="/static/images/favorite.svg" class="appbar__icon appbar__icon-fav"/></a><a href="/scientists" class="link js-link"><img src="/static/images/members.svg" class="appbar__icon appbar__icon-members"/></a><a' + jade.attr("href", "/scientist/" + id + "", true, false) + ' class="link js-link"><img' + jade.attr("src", "" + image_url + "", true, false) + ' class="appbar__icon appbar__icon-scientist"/></a><a href="/search" class="link js-link"><img src="/static/images/search.svg" class="appbar__icon appbar__icon-search"/></a><div id="signOut"><img src="/static/images/logout.svg" class="appbar__icon appbar__icon-logout"/></div>');
             } else {
-                buf.push('<a href="/project" class="app-bar-item"><img src="/static/images/add_project.svg" alt="" class="addProjectIcon"/></a><a href="/scientist/my-projects" class="app-bar-item"><img src="/static/images/favorite.svg" alt="" class="favoriteProjectsIcon"/></a><a href="/scientists" class="app-bar-item"><img src="/static/images/members.svg" alt="" class="membersIcon"/></a><a href="/scientist/" class="app-bar-item"><img alt="" class="profileIcon"/></a><a href="/search" class="app-bar-item"><img src="/static/images/search.svg" alt="" class="searchIcon"/></a><div id="signOut" class="action app-bar-item"><img src="/static/images/logout.svg" alt="" class="logoutIcon"/></div>');
+                buf.push('<a href="/scientists" class="link js-link"><img src="/static/images/members.svg" class="appbar__icon appbar__icon-members"/></a><div id="signIn"><img src="/static/images/login.svg" class="appbar__icon appbar__icon-login"/></div><a href="/signup" class="link js-link"><img src="/static/images/register.svg" class="appbar__icon appbar__icon-register"/></a><a href="/search" class="link js-link"><img src="/static/images/search.svg" class="appbar__icon appbar__icon-search"/></a>');
             }
             buf.push("</div>");
-        }).call(this, "user" in locals_for_with ? locals_for_with.user : typeof user !== "undefined" ? user : undefined);
+        }).call(this, "id" in locals_for_with ? locals_for_with.id : typeof id !== "undefined" ? id : undefined, "image_url" in locals_for_with ? locals_for_with.image_url : typeof image_url !== "undefined" ? image_url : undefined);
         return buf.join("");
     };
 
-    // project.jade compiled template
-    templatizer["project"] = function tmpl_project(locals) {
+    // projects.jade compiled template
+    templatizer["projects"] = function tmpl_projects(locals) {
         var buf = [];
         var jade_mixins = {};
         var jade_interp;
         var locals_for_with = locals || {};
         (function(data, undefined) {
-            buf.push("<div>");
+            buf.push('<div class="page__content">');
             (function() {
                 var $obj = data;
                 if ("number" == typeof $obj.length) {
                     for (var $index = 0, $l = $obj.length; $index < $l; $index++) {
                         var project = $obj[$index];
-                        buf.push('<article class="project"><header class="project-header"><h1><a' + jade.attr("href", "/project/" + project.id, true, false) + ' class="js-link">' + jade.escape(null == (jade_interp = project.title) ? "" : jade_interp) + "</a></h1><div><div>");
+                        buf.push('<article class="project"><h1 class="project__header"><a' + jade.attr("href", "/project/" + project.id + "", true, false) + ' class="link js-link">' + jade.escape(null == (jade_interp = project.title) ? "" : jade_interp) + '</a></h1><div class="project__holders">');
                         (function() {
-                            var $obj = project;
+                            var $obj = project.university_connection;
                             if ("number" == typeof $obj.length) {
                                 for (var $index = 0, $l = $obj.length; $index < $l; $index++) {
-                                    var university_connection = $obj[$index];
-                                    buf.push('<span class="project-holder">' + jade.escape(null == (jade_interp = university_connection.university) ? "" : jade_interp) + "</span>");
+                                    var connection = $obj[$index];
+                                    buf.push('<span class="project__holder">' + jade.escape(null == (jade_interp = connection.university) ? "" : jade_interp) + "</span>");
                                 }
                             } else {
                                 var $l = 0;
                                 for (var $index in $obj) {
                                     $l++;
-                                    var university_connection = $obj[$index];
-                                    buf.push('<span class="project-holder">' + jade.escape(null == (jade_interp = university_connection.university) ? "" : jade_interp) + "</span>");
+                                    var connection = $obj[$index];
+                                    buf.push('<span class="project__holder">' + jade.escape(null == (jade_interp = connection.university) ? "" : jade_interp) + "</span>");
                                 }
                             }
                         }).call(this);
-                        buf.push('</div></div></header><p><span class="short-descr">Краткое описание: ' + jade.escape((jade_interp = project.description_short) == null ? "" : jade_interp) + "</span></p><div><div>");
+                        buf.push('</div><p class="project__description"><span class="project__description-header">Краткое описание:&nbsp;</span><span>' + jade.escape(null == (jade_interp = project.description_short) ? "" : jade_interp) + "</span></p><div><div>");
                         (function() {
                             var $obj = project.research_fields;
                             if ("number" == typeof $obj.length) {
@@ -86,24 +86,24 @@
                     for (var $index in $obj) {
                         $l++;
                         var project = $obj[$index];
-                        buf.push('<article class="project"><header class="project-header"><h1><a' + jade.attr("href", "/project/" + project.id, true, false) + ' class="js-link">' + jade.escape(null == (jade_interp = project.title) ? "" : jade_interp) + "</a></h1><div><div>");
+                        buf.push('<article class="project"><h1 class="project__header"><a' + jade.attr("href", "/project/" + project.id + "", true, false) + ' class="link js-link">' + jade.escape(null == (jade_interp = project.title) ? "" : jade_interp) + '</a></h1><div class="project__holders">');
                         (function() {
-                            var $obj = project;
+                            var $obj = project.university_connection;
                             if ("number" == typeof $obj.length) {
                                 for (var $index = 0, $l = $obj.length; $index < $l; $index++) {
-                                    var university_connection = $obj[$index];
-                                    buf.push('<span class="project-holder">' + jade.escape(null == (jade_interp = university_connection.university) ? "" : jade_interp) + "</span>");
+                                    var connection = $obj[$index];
+                                    buf.push('<span class="project__holder">' + jade.escape(null == (jade_interp = connection.university) ? "" : jade_interp) + "</span>");
                                 }
                             } else {
                                 var $l = 0;
                                 for (var $index in $obj) {
                                     $l++;
-                                    var university_connection = $obj[$index];
-                                    buf.push('<span class="project-holder">' + jade.escape(null == (jade_interp = university_connection.university) ? "" : jade_interp) + "</span>");
+                                    var connection = $obj[$index];
+                                    buf.push('<span class="project__holder">' + jade.escape(null == (jade_interp = connection.university) ? "" : jade_interp) + "</span>");
                                 }
                             }
                         }).call(this);
-                        buf.push('</div></div></header><p><span class="short-descr">Краткое описание: ' + jade.escape((jade_interp = project.description_short) == null ? "" : jade_interp) + "</span></p><div><div>");
+                        buf.push('</div><p class="project__description"><span class="project__description-header">Краткое описание:&nbsp;</span><span>' + jade.escape(null == (jade_interp = project.description_short) ? "" : jade_interp) + "</span></p><div><div>");
                         (function() {
                             var $obj = project.research_fields;
                             if ("number" == typeof $obj.length) {
@@ -121,6 +121,35 @@
                             }
                         }).call(this);
                         buf.push('</div><div class="row-flex middle"><div style="margin-right: 10px; font-size: 26px; color: #808080"></div></div></div></article>');
+                    }
+                }
+            }).call(this);
+            buf.push("</div>");
+        }).call(this, "data" in locals_for_with ? locals_for_with.data : typeof data !== "undefined" ? data : undefined, "undefined" in locals_for_with ? locals_for_with.undefined : typeof undefined !== "undefined" ? undefined : undefined);
+        return buf.join("");
+    };
+
+    // scientists.jade compiled template
+    templatizer["scientists"] = function tmpl_scientists(locals) {
+        var buf = [];
+        var jade_mixins = {};
+        var jade_interp;
+        var locals_for_with = locals || {};
+        (function(data, undefined) {
+            buf.push('<div class="page__content">');
+            (function() {
+                var $obj = data;
+                if ("number" == typeof $obj.length) {
+                    for (var $index = 0, $l = $obj.length; $index < $l; $index++) {
+                        var scientist = $obj[$index];
+                        buf.push('<div class="scientist-thumb"><div class="scientist-thumb__photo-block"><img' + jade.attr("src", "" + scientist.image_url + "", true, false) + ' class="scientist-thumb__photo"/></div><div class="scientist-thumb__details-block"><a' + jade.attr("href", "/scientist/" + scientist.id + "", true, false) + ' class="link js-link scientist-thumb__name">' + jade.escape(null == (jade_interp = scientist.full_name) ? "" : jade_interp) + '</a><div class="scientist-thumb__education">' + jade.escape(null == (jade_interp = scientist.location) ? "" : jade_interp) + '</div><div class="scientist-thumb__projects"><span class="scientist-thumb__project-label">Проектов</span><span class="scientist-thumb__project-count">' + jade.escape(null == (jade_interp = scientist.projects) ? "" : jade_interp) + "</span></div></div></div>");
+                    }
+                } else {
+                    var $l = 0;
+                    for (var $index in $obj) {
+                        $l++;
+                        var scientist = $obj[$index];
+                        buf.push('<div class="scientist-thumb"><div class="scientist-thumb__photo-block"><img' + jade.attr("src", "" + scientist.image_url + "", true, false) + ' class="scientist-thumb__photo"/></div><div class="scientist-thumb__details-block"><a' + jade.attr("href", "/scientist/" + scientist.id + "", true, false) + ' class="link js-link scientist-thumb__name">' + jade.escape(null == (jade_interp = scientist.full_name) ? "" : jade_interp) + '</a><div class="scientist-thumb__education">' + jade.escape(null == (jade_interp = scientist.location) ? "" : jade_interp) + '</div><div class="scientist-thumb__projects"><span class="scientist-thumb__project-label">Проектов</span><span class="scientist-thumb__project-count">' + jade.escape(null == (jade_interp = scientist.projects) ? "" : jade_interp) + "</span></div></div></div>");
                     }
                 }
             }).call(this);

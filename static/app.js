@@ -2,7 +2,7 @@
 
 var app = require('ampersand-app');
 var ContentView = require('./views/content');
-var AppBarView = require('./views/appBar');
+var AppBarView = require('./views/appbar');
 var MainView = require('./views/main');
 var User = require('./models/user');
 var Router = require('./router');

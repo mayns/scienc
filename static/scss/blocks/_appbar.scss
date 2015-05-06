@@ -1,0 +1,42 @@
+.appbar {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+
+	&__icon {
+		margin-right: 30px;
+		cursor: pointer;
+
+		&-add {
+			width: 60px;
+		}
+
+		&-fav {
+			width: 60px;
+		}
+
+		&-members {
+			width: 60px;
+		}
+
+		&-scientist {
+
+		}
+
+		&-search {
+			width: 103px;
+		}
+
+		&-logout {
+			width: 80px;
+		}
+
+		&-login {
+			width: 25px;
+		}
+
+		&-register {
+			width: 25px;
+		}
+	}
+}

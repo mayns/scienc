@@ -1,0 +1,9 @@
+.textarea {
+	border: none;
+	border-bottom: 1px solid #eee;
+	resize: vertical;
+
+	&:focus {
+		outline: none;
+	}
+}
