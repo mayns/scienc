@@ -41,7 +41,7 @@ class ProjectBL(object):
         participant_ids = []
         for participant in participants:
             participant.update(project_id=project_id)
-            participant_id = yield cls.update_participants(participant)
+            participant_id = yield cls.add_participant(participant)
             participant_ids.append(participant_id)
 
         vacancy_ids = []
@@ -64,6 +64,12 @@ class ProjectBL(object):
     @gen.coroutine
     @psql_connection
     def add_participant(cls, conn, participant_data):
+        """
+        Добавить участника в таблицу участников
+        :param conn:
+        :param participant_data: {project_id, role_name, scientist_id, first_name, last_name, middle_name}
+        :type participant_data: dict
+        """
         participant_id = generate_id(21)
         participant_data.update(id=participant_id)
 
@@ -166,13 +172,12 @@ class ProjectBL(object):
                          u'Deleted vacancies={}'.format(vacancy_ids, del_vacancy_ids))
             updated_data.update(vacancies=vacancy_ids)
 
-
         if u'participants' in updated_data.keys():
             participants = project_dict.pop(u'participants', [])
             del_participant_ids = set(project.participants) - set([v[u'id'] for v in participants])
             participant_ids = []
             for participant in participants:
-                # новые вакансии
+                # новые участники
                 if not participant.get(u'id'):
                     participant.update(project_id=project_id)
                     p_id = yield cls.add_participant(participant)
@@ -201,6 +206,20 @@ class ProjectBL(object):
     @classmethod
     @gen.coroutine
     def delete(cls, project_id):
+        """
+        Удалить участников, удалить вакансии, поставить статус откликам - удаленные.
+        У ученого убрать из managing_project_ids.
+        """
+        project = yield Project.get_by_id(project_id)
+        for participant_id in project.participants:
+            yield cls.delete_participant(participant_id)
+        for vacancy_id in project.vacancies:
+            yield cls.delete_vacancy(vacancy_id)
+        for response_id in project.responses:
+            yield cls.set_del_status_response(response_id)
+        scientist = yield Scientist.get_by_id(project.manager_id)
+        scientist.managing_project_ids.remove(project_id)
+        yield scientist.save(fields=[u'managing_project_ids'], columns=[u'managing_project_ids'])
         yield Project.delete(project_id, tbl=Project.TABLE)
 
     @classmethod
@@ -278,103 +297,89 @@ class ProjectBL(object):
 
     @classmethod
     @gen.coroutine
-    def add_participation(cls, data):
-        # message, scientist_id, vacancy_id, project_id
-        scientist_id = data[u'scientist_id']
-        try:
-            project = yield Project.get_by_id(data[u'project_id'])
-            vacancy_name = [v[u'vacancy_name'] for v in project.vacancies if v[u'id'] == data[u'id']]
-            if not vacancy_name:
-                raise Exception(u'No vacancy name')
-            scientist_response = dict(
-                scientist_id=scientist_id,
-                vacancy_id=data[u'id'],
-                vacancy_name=vacancy_name[0],
-                message=data.get(u'message', u'')
-            )
-            if scientist_response not in project.responses:
-                project.responses.append(scientist_response)
-                yield project.save(fields=[u'responses'], columns=[u'responses'])
-                scientist = yield Scientist.get_by_id(scientist_id)
-                scientist.desired_vacancies = scientist.desired_vacancies or []
-                scientist.desired_vacancies.append(dict(
-                    project_id=project.id,
-                    vacancy_id=data[u'id']
-                ))
-                yield scientist.save(fields=[u'desired_vacancies'], columns=[u'desired_vacancies'])
-        except Exception, ex:
-            logging.exception(ex)
-
-
-    @classmethod
-    @gen.coroutine
-    def delete_participation(cls, data):
-        # scientist_id, project_id
-        scientist_id = data[u'scientist_id']
-        try:
-            project = yield Project.get_by_id(data[u'project_id'])
-            project.responses = [sc for sc in project.responses if sc[u'scientist_id'] != scientist_id]
-            yield project.save(fields=[u'responses'])
-
-            scientist = yield Scientist.get_by_id(scientist_id)
-            scientist.desired_vacancies = [v for v in scientist.desired_vacancies if v[u'project_id'] != project.id]
-
-            yield scientist.save(fields=[u'desired_vacancies'])
-        except Exception, ex:
-            logging.exception(ex)
-
-    @classmethod
-    @gen.coroutine
-    def accept_response(cls, data):
+    @psql_connection
+    def add_response(cls, conn, data):
         """
-
-        :param data: {scientist_id, project_id, vacancy_id}
+        Участник нажимает кнопку "Участвовать" у проекта. Добавляем втаблицу откликов новое значение.
+        Прописываем отклик у ученого и у проекта.
+        :param data: {scientist_id, project_id, vacancy_id, message}
         :type data: dict
-
         """
+        project = yield Project.get_by_id(data[u'project_id'])
+        scientist = yield Scientist.get_by_id(data[u'scientist_id'])
+        sql_query = get_insert_query(environment.TABLE_RESPONSES, data)
+        print sql_query
         try:
-            project = yield Project.get_by_id(data[u'project_id'])
-            scientist = yield Scientist.get_by_id(data[u'scientist_id'])
-            excluded_vacancy = [p for p in project.vacancies if p[u'id'] == data[u'vacancy_id']][0]
-            project.vacancies.remove(excluded_vacancy)
-
-            project.participants.append(dict(
-                full_name=u' '.join(map(lambda x: x.decode('utf8'), [scientist.last_name, scientist.first_name,
-                                                                     scientist.middle_name])),
-                scientist_id=data[u'scientist_id'],
-                role_name=excluded_vacancy[u'vacancy_name']
-            ))
-            desired_vacancy = [v for v in scientist.desired_vacancies if v[u'vacancy_id'] == data[u'vacancy_id']][0]
-
-            for v in scientist.desired_vacancies:
-                if v[u'vacancy_id'] != data[u'vacancy_id']:
-                    continue
-                v[u'status'] = environment.STATUS_ACCEPTED
-
-            scientist.participating_projects.append(dict(
-                project_id=desired_vacancy[u'project_id'],
-                role_id=desired_vacancy[u'vacancy_id']
-            ))
-
-            yield project.save(fields=[u'vacancies', u'participants'],
-                               columns=[u'vacancies', u'participants'])
-
-            yield scientist.save(fields=[u'desired_vacancies', u'participating_projects'],
-                                 columns=[u'desired_vacancies', u'participating_projects'])
-        except Exception, ex:
+            yield momoko.Op(conn.execute, sql_query)
+        except PSQLException, ex:
             logging.exception(ex)
+            raise
+        response_id = u'{}:{}:{}'.format(data[u'scientist_id'], data[u'project_id'], data[u'vacancy_id'])
+        scientist.desired_vacancies += [response_id]
+        project.responses += [response_id]
+        yield Scientist.save(fields=[u'desired_vacancies'], columns=[u'desired_vacancies'])
+        yield Project.save(fields=[u'responses'], columns=[u'responses'])
 
     @classmethod
     @gen.coroutine
-    def decline_response(cls, data):
+    @psql_connection
+    def update_response(cls, conn, data):
+        """
+        Принять, отклонить. Решает менеджер проекта.
+        Обновляется статус в самом отклике. Если статус == Принять,
+        участник добавляется в участники проекта с ролью в виде названия вакансии.
+        Вакансия не удаляется на случай, если нужно несколько участников.
+        Другим участникам также ничего не прислыается.
+        Можно отправить Отклонить всех со страницы Мои проекты.
+
+        :param data: {scientist_id, project_id, vacancy_id, result}
+        :type data: dict
+        """
+        sql_query = get_update_query(environment.TABLE_RESPONSES, dict(status=data[u'status']),
+                                     where_params=dict(scientist_id=data[u'scientist_id'],
+                                                       project_id=data[u'project_id'],
+                                                       vacancy_id=data[u'vacancy_id']))
         try:
+            yield momoko.Op(conn.execute, sql_query)
+        except PSQLException, ex:
+            logging.exception(ex)
+
+        if data[u'result'] == environment.STATUS_ACCEPTED:
+
+            vacancy_name = get_select_query(environment.TABLE_VACANCIES, columns=[u'vacancy_name'],
+                                            where=dict(id=data[u'vacancy_id']))
+
             scientist = yield Scientist.get_by_id(data[u'scientist_id'])
-            for v in scientist.desired_vacancies:
-                if v[u'vacancy_id'] != data[u'vacancy_id']:
-                    continue
-                v[u'status'] = environment.STATUS_DECLINED
-            yield scientist.save(fields=[u'desired_vacancies'], columns=[u'desired_vacancies'])
-        except Exception, ex:
+            participant_data = dict(
+                project_id=data[u'project_id'],
+                scientist_id=data[u'scientist_id'],
+                role_name=vacancy_name,
+                first_name=scientist.first_name,
+                last_name=scientist.last_name,
+                middle_name=scientist.middle_name,
+            )
+            project = yield Project.get_by_id(data[u'project_id'])
+            participant_id = yield cls.add_participant(participant_data)
+            project.participants += [participant_id]
+            yield project.save(fields=[u'participants'], columns=[u'participants'])
+
+    @classmethod
+    @gen.coroutine
+    def delete_response(cls, response_id):
+        pass
+
+    @classmethod
+    @gen.coroutine
+    @psql_connection
+    def set_del_status_response(cls, conn, response_id):
+        sc_id, p_id, v_id = response_id.split(u':')
+        sql_query = get_update_query(environment.TABLE_RESPONSES, dict(status=environment.STATUS_DELETED),
+                                     where_params=dict(scientist_id=sc_id,
+                                                       project_id=p_id,
+                                                       vacancy_id=v_id))
+        try:
+            yield momoko.Op(conn.execute, sql_query)
+        except PSQLException, ex:
             logging.exception(ex)
 
     @classmethod

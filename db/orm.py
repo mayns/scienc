@@ -28,9 +28,9 @@ MODELS = dict(
         u'contacts': Array(db_type='json'),                                         # [{connection, number}]
 
         # app activity
-        u'participating_projects': Array(db_type='text[]'),                         # [participant_ids]
+        # u'participating_projects': Array(db_type='text[]'),                         # [participant_ids]
         u'liked_projects': Array(db_type='text[]'),                                 # [project_ids]
-        u'desired_vacancies': Array(db_type='text[]'),                              # [vacancy_ids]
+        u'desired_vacancies': Array(db_type='text[]'),                              # [response_ids]
         u'managing_project_ids': Array(db_type='text[]'),                           # [project_ids]
         u'achievements': Array(db_type='bigint[]'),                                 # [achievement_id]
 
@@ -76,6 +76,7 @@ MODELS = dict(
         u'project_id': Text(required=True, db_references='projects(id)'),
         u'vacancy_name': Text(),
         u'description': Text(),
+        u'status': Text(default=environment.STATUS_ACTIVE),
         # u'difficulty': Text(),
 
         # system info
@@ -98,7 +99,7 @@ MODELS = dict(
         u'project_id': Text(is_composite=True, db_references='projects(id)'),
         u'vacancy_id': Text(is_composite=True, db_references='vacancies(id)'),
         u'message': Text(),
-        u'status': Text()
+        u'status': Text(default=environment.STATUS_WAITING)
     },
 
     roles={
