@@ -166,13 +166,12 @@ class ProjectBL(object):
                          u'Deleted vacancies={}'.format(vacancy_ids, del_vacancy_ids))
             updated_data.update(vacancies=vacancy_ids)
 
-
         if u'participants' in updated_data.keys():
             participants = project_dict.pop(u'participants', [])
             del_participant_ids = set(project.participants) - set([v[u'id'] for v in participants])
             participant_ids = []
             for participant in participants:
-                # новые вакансии
+                # новые участники
                 if not participant.get(u'id'):
                     participant.update(project_id=project_id)
                     p_id = yield cls.add_participant(participant)
