@@ -206,7 +206,20 @@ class ProjectBL(object):
     @classmethod
     @gen.coroutine
     def delete(cls, project_id):
-        # TODO: delete participants, responses, vacancies, notifications on delete project
+        """
+        Удалить участников, удалить вакансии, поставить статус откликам - удаленные.
+        У ученого убрать из managing_project_ids.
+        """
+        project = yield Project.get_by_id(project_id)
+        for participant_id in project.participants:
+            yield cls.delete_participant(participant_id)
+        for vacancy_id in project.vacancies:
+            yield cls.delete_vacancy(vacancy_id)
+        for response_id in project.responses:
+            yield cls.set_del_status_response(response_id)
+        scientist = yield Scientist.get_by_id(project.manager_id)
+        scientist.managing_project_ids.remove(project_id)
+        yield scientist.save(fields=[u'managing_project_ids'], columns=[u'managing_project_ids'])
         yield Project.delete(project_id, tbl=Project.TABLE)
 
     @classmethod
@@ -354,6 +367,20 @@ class ProjectBL(object):
     @gen.coroutine
     def delete_response(cls, response_id):
         pass
+
+    @classmethod
+    @gen.coroutine
+    @psql_connection
+    def set_del_status_response(cls, conn, response_id):
+        sc_id, p_id, v_id = response_id.split(u':')
+        sql_query = get_update_query(environment.TABLE_RESPONSES, dict(status=environment.STATUS_DELETED),
+                                     where_params=dict(scientist_id=sc_id,
+                                                       project_id=p_id,
+                                                       vacancy_id=v_id))
+        try:
+            yield momoko.Op(conn.execute, sql_query)
+        except PSQLException, ex:
+            logging.exception(ex)
 
     @classmethod
     @gen.coroutine

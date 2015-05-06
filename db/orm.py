@@ -28,7 +28,7 @@ MODELS = dict(
         u'contacts': Array(db_type='json'),                                         # [{connection, number}]
 
         # app activity
-        u'participating_projects': Array(db_type='text[]'),                         # [participant_ids]
+        # u'participating_projects': Array(db_type='text[]'),                         # [participant_ids]
         u'liked_projects': Array(db_type='text[]'),                                 # [project_ids]
         u'desired_vacancies': Array(db_type='text[]'),                              # [response_ids]
         u'managing_project_ids': Array(db_type='text[]'),                           # [project_ids]
