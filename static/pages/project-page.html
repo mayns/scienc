@@ -22,7 +22,7 @@
             response="{{ json }}">
         </core-ajax>
         <!--<core-ajax id="ajaxDelete" url="/api/project/{{ id }}"  method="DELETE" on-core-response="{{ onDeleteSuccess }}"></core-ajax>-->
-        <template if="{{ json.data.manager_id == app.user.id }}">
+        <template if="{{ json.data.manager_id && json.data.manager_id == app.user.id }}">
             <page-actions class="row-flex">
                 <template if="{{ preview }}">
                     <div on-tap="{{ edit }}" class="action col-lg-2">Редактирование</div>
