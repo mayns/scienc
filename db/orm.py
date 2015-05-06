@@ -76,7 +76,7 @@ MODELS = dict(
         u'project_id': Text(required=True, db_references='projects(id)'),
         u'vacancy_name': Text(),
         u'description': Text(),
-        u'status': environment.STATUS_ACTIVE,
+        u'status': Text(default=environment.STATUS_ACTIVE),
         # u'difficulty': Text(),
 
         # system info

@@ -23,6 +23,7 @@ class Scientist(PSQLModel):
     SYSTEM_INFO = [u'dt_created']
 
     # JSON_FIELDS = [u'participating_projects', u'desired_vacancies']
+    JSON_FIELDS = []
 
     SEARCH_MAIN_FIELDS = [u'first_name', u'middle_name', u'last_name']
 
