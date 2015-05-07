@@ -115,12 +115,12 @@ class PSQLModel(object):
                     continue
                 [k.update(id=generate_id()) for k in v if not k.get(u'id')]
         if update:
-            sqp_query = get_update_query(self.TABLE, data, where_params=dict(id=self.id),
+            sql_query = get_update_query(self.TABLE, data, where_params=dict(id=self.id),
                                          editable_columns=columns or self.EDITABLE_FIELDS)
         else:
-            sqp_query = get_insert_query(self.TABLE, data, self.CREATE_FIELDS)
+            sql_query = get_insert_query(self.TABLE, data, self.CREATE_FIELDS)
         try:
-            cursor = yield momoko.Op(conn.execute, sqp_query)
+            cursor = yield momoko.Op(conn.execute, sql_query)
             self.id = cursor.fetchone()[0]
         except Exception, ex:
             raise PSQLException(ex)
@@ -172,7 +172,8 @@ class PSQLModel(object):
         instance = cls()
         for k, v in data.iteritems():
             if not v:
-                setattr(instance, k, MODELS[cls.TABLE][k].default)
+                default = copy.deepcopy(MODELS[cls.TABLE][k].default)
+                setattr(instance, k, default)
             else:
                 restore = MODELS[cls.TABLE][k].restore
                 if restore:

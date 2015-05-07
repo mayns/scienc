@@ -245,7 +245,8 @@ class ProjectBL(object):
                                      where=dict(column=u'id', value=str(v_id)))
         cursor = yield momoko.Op(conn.execute, sql_query)
         data = cursor.fetchone()
-        raise gen.Return(dict(zip(columns, data)))
+        zipper = {k[0]: k[1] for k in zip(columns, data) if k[1]}
+        raise gen.Return(zipper)
 
     @classmethod
     @gen.coroutine
@@ -256,7 +257,8 @@ class ProjectBL(object):
                                      where=dict(column=u'id', value=str(p_id)))
         cursor = yield momoko.Op(conn.execute, sql_query)
         data = cursor.fetchone()
-        raise gen.Return(dict(zip(columns, data)))
+        zipper = {k[0]: k[1] for k in zip(columns, data) if k[1]}
+        raise gen.Return(zipper)
 
     @classmethod
     @gen.coroutine
