@@ -148,7 +148,8 @@ class ProjectBL(object):
         updated_data = project.get_updated_data(project_dict)
         if u'vacancies' in updated_data.keys():
             vacancies = updated_data.pop(u'vacancies', [])
-            del_vacancy_ids = set(project.vacancies) - set([v[u'id'] for v in vacancies])
+            project_v_ids = [v[u'id'] for v in project.vacancies]
+            del_vacancy_ids = set(project_v_ids) - set([v[u'id'] for v in vacancies if u'id' in v])
             vacancy_ids = []
             for vacancy in vacancies:
                 # новые вакансии
@@ -157,7 +158,7 @@ class ProjectBL(object):
                     v_id = yield cls.add_vacancy(vacancy)
 
                 # ищем те, которые изменились
-                elif vacancy.get(u'id') in project.vacancies:
+                elif vacancy.get(u'id') in project_v_ids:
                     v_id = yield cls.update_vacancy(vacancy)
 
                 else:
@@ -174,7 +175,8 @@ class ProjectBL(object):
 
         if u'participants' in updated_data.keys():
             participants = project_dict.pop(u'participants', [])
-            del_participant_ids = set(project.participants) - set([v[u'id'] for v in participants])
+            project_p_ids = [v[u'id'] for v in project.participants]
+            del_participant_ids = set(project_p_ids) - set([p[u'id'] for p in participants if u'id' in p])
             participant_ids = []
             for participant in participants:
                 # новые участники
@@ -183,7 +185,7 @@ class ProjectBL(object):
                     p_id = yield cls.add_participant(participant)
 
                 # ищем те, которые изменились
-                elif participant.get(u'id') in project.participants:
+                elif participant.get(u'id') in project_p_ids:
                     p_id = yield cls.update_participant(participant)
 
                 else:
@@ -195,7 +197,7 @@ class ProjectBL(object):
                 yield cls.delete_participant(participant_id)
 
             logging.info(u'New ordered participants={}; '
-                         u'Deleted participants={}'.format(participant_ids, del_participant_ids))
+                         u'Deleted participants={}'.format(participant_ids, list(del_participant_ids)))
             updated_data.update(participants=participant_ids)
 
         project.populate_fields(updated_data)
