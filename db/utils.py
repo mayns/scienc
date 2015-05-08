@@ -11,7 +11,7 @@ ALL_TABLES = copy.deepcopy(MODELS)
 ALL_TABLES.update(TABLES)
 
 
-def get_update_query(tbl, update_params, where_params=None, editable_columns=None):
+def get_update_query(tbl, update_params, where_params=None, editable_columns=None, returning=u'id'):
     if where_params is None:
         where_params = {}
 
@@ -42,7 +42,9 @@ def get_update_query(tbl, update_params, where_params=None, editable_columns=Non
         if i < len(where_params.keys()) - 1:
             sql_string += u' AND '
 
-    sql_string += ' RETURNING id'
+    returning = u'RETURNING {r_id}'.format(r_id=returning) if returning else u''
+    sql_string += returning
+
     return sql_string
 
 
@@ -87,8 +89,18 @@ def get_select_query(tbl, columns=None, where=None, functions=None):
                                                               columns=functions if functions else u', '.join(columns))
     if not where:
         return sql_string
-    sql_string += u" WHERE {column}='{value}'".format(column=where['column'],
-                                                      value=where['value'])
+
+    if isinstance(where, dict):
+        sql_string += u" WHERE {column}='{value}'".format(column=where['column'],
+                                                          value=where['value'])
+    if isinstance(where, list):
+        for i, clause in enumerate(where):
+            if i == 0:
+                sql_string += u" WHERE "
+            sql_string += u"{column}='{value}'".format(column=clause['column'],
+                                                       value=clause['value'])
+            if i != len(where) - 1:
+                sql_string += u" AND "
     return sql_string
 
 

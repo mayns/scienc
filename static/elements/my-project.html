@@ -41,7 +41,7 @@
                 </a>
             </h1>
             <template if="{{ data.responses.length > 0 }}">
-                <div class="responses">Отлклики</div>
+                <div class="responses">Отклики</div>
                 <template repeat="{{ r in data.responses }}">
                     <div class="response">
                         <div class="row-flex between">
@@ -61,7 +61,7 @@
                         </div>
                         <div class="message">{{ message }}</div>
                     </div>
-                    <app-ajax id="ajax" url="/api/projects/{{ data.project_id }}/responses/a"></app-ajax>
+                    <app-ajax id="ajax" url="/api/projects/{{ data.project_id }}/responses"></app-ajax>
                 </template>
             </template>
         </div>
@@ -74,14 +74,25 @@
                 var formData = new FormData();
                 var json = {
                     scientist_id: response.scientist_id,
-                    vacancy_id: response.vacancy_id
+                    vacancy_id: response.vacancy_id,
+                    result: 'accepted'
                 };
-                ajax.method = 'POST';
+                ajax.method = 'PUT';
                 formData.append('data', JSON.stringify(json));
                 ajax.makeRequest(formData);
             },
-            declineResponse: function() {
-
+            declineResponse: function(e) {
+                var response = e.target.templateInstance.model.r;
+                var ajax = this.$.ajax;
+                var formData = new FormData();
+                var json = {
+                    scientist_id: response.scientist_id,
+                    vacancy_id: response.vacancy_id,
+                    result: 'declined'
+                };
+                ajax.method = 'PUT';
+                formData.append('data', JSON.stringify(json));
+                ajax.makeRequest(formData);
             }
         });
     </script>

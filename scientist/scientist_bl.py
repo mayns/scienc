@@ -222,9 +222,9 @@ class ScientistBL(object):
 
     @classmethod
     @gen.coroutine
-    def get_my_projects(cls, scientist_id):
+    def get_my_projects(cls, manager_id):
         scientist_columns = [u'managing_project_ids']
-        scientist_json = yield Scientist.get_json_by_id(scientist_id, columns=scientist_columns)
+        scientist_json = yield Scientist.get_json_by_id(manager_id, columns=scientist_columns)
 
         # [{scientist_id, vacancy_id, message}]
         project_ids = scientist_json.get(u'managing_project_ids', [])
@@ -233,7 +233,7 @@ class ScientistBL(object):
 
         projects = []
         for project_id in project_ids:
-            project_columns = [u'title', u'responses', u'vacancies']
+            project_columns = [u'title', u'responses']
             project_json = yield Project.get_json_by_id(project_id, columns=project_columns)
             project_json.update(project_id=project_id)
             raw_responses = project_json.pop(u'responses', [])
@@ -246,22 +246,63 @@ class ScientistBL(object):
             responses = []
 
             for response in raw_responses:
-                scientist = yield Scientist.get_by_id(response[u'scientist_id'])
-                scientist_name = u' '.join(map(lambda x: x.decode('utf8'), [scientist.last_name, scientist.first_name,
-                                                                            scientist.middle_name]))
-                responses.append(dict(
-                    scientist_name=scientist_name,
-                    scientist_id=scientist.id,
-                    message=response[u'message'],
-                    vacancy_name=response[u'vacancy_name'],
-                    vacancy_id=response[u'vacancy_id'],
-                    status=response.get(u'status', environment.STATUS_WAITING)
-                    # status=scientist.desired_vacancies.get(u'status', environment.STATUS_WAITING)
-                ))
+                response_data = yield cls.get_response_data(response)
+                responses.append(response_data)
             project_json.update(responses=responses)
 
             projects.append(project_json)
         raise gen.Return(projects)
+
+    @classmethod
+    @gen.coroutine
+    @psql_connection
+    def get_response_data(cls, conn, response_id):
+        scientist_id = response_id[:response_id.find(u':')]
+        project_id = response_id[response_id.find(u':')+1:response_id.rfind(u':')]
+        vacancy_id = response_id[response_id.rfind(u':')+1:]
+
+        response_data = dict(
+            scientist_id=scientist_id,
+            vacancy_id=vacancy_id
+        )
+
+        # get message and status
+        columns = [u'message', u'status']
+        where_list = [
+            dict(
+                column=u'scientist_id',
+                value=scientist_id
+            ),
+            dict(
+                column=u'project_id',
+                value=project_id
+            ),
+            dict(
+                column=u'vacancy_id',
+                value=vacancy_id
+            )
+        ]
+        sql_query = get_select_query(environment.TABLE_RESPONSES, columns=columns, where=where_list)
+        cursor = yield momoko.Op(conn.execute, sql_query)
+        data = cursor.fetchone()
+        response_data.update(dict(zip(columns, data)))
+
+        # get vacancy name
+        v_col = [u'vacancy_name']
+        sql_query = get_select_query(environment.TABLE_VACANCIES, columns=v_col, where=dict(column=u'id',
+                                                                                            value=vacancy_id))
+        cursor = yield momoko.Op(conn.execute, sql_query)
+        data = cursor.fetchone()
+        response_data.update(dict(zip(v_col, data)))
+
+        # get scientist name
+        scientist = yield Scientist.get_by_id(scientist_id)
+        scientist_name = u' '.join(map(lambda x: x.decode('utf8'), [scientist.last_name, scientist.first_name,
+                                                                    scientist.middle_name]))
+        response_data.update(dict(
+            scientist_name=scientist_name,
+        ))
+        raise gen.Return(response_data)
 
     @classmethod
     @gen.coroutine

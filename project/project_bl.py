@@ -340,10 +340,10 @@ class ProjectBL(object):
         :param data: {scientist_id, project_id, vacancy_id, result}
         :type data: dict
         """
-        sql_query = get_update_query(environment.TABLE_RESPONSES, dict(status=data[u'status']),
+        sql_query = get_update_query(environment.TABLE_RESPONSES, dict(status=data[u'result']),
                                      where_params=dict(scientist_id=data[u'scientist_id'],
                                                        project_id=data[u'project_id'],
-                                                       vacancy_id=data[u'vacancy_id']))
+                                                       vacancy_id=data[u'vacancy_id']), returning=u'')
         try:
             yield momoko.Op(conn.execute, sql_query)
         except PSQLException, ex:
@@ -352,7 +352,7 @@ class ProjectBL(object):
         if data[u'result'] == environment.STATUS_ACCEPTED:
 
             vacancy_name = get_select_query(environment.TABLE_VACANCIES, columns=[u'vacancy_name'],
-                                            where=dict(id=data[u'vacancy_id']))
+                                            where=dict(column=u'id', value=data[u'vacancy_id']))
 
             scientist = yield Scientist.get_by_id(data[u'scientist_id'])
             participant_data = dict(
