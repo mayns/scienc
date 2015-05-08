@@ -202,7 +202,9 @@ class ProjectBL(object):
 
         project.populate_fields(updated_data)
 
-        yield project.save(fields=updated_data.keys())
+        if updated_data.keys():
+            yield project.save(fields=updated_data.keys())
+
         raise gen.Return(dict(project_id=project_id))
 
     @classmethod
