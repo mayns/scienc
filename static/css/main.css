@@ -1,5 +1,11 @@
 @charset "UTF-8";
 @font-face {
+  font-family: 'Cooper Black';
+  src: url("/static/fonts/cooper-black/Cooper_Black.ttf") format("truetype");
+  font-weight: normal;
+  font-style: normal;
+}
+@font-face {
   font-family: 'Roboto';
   src: url("/static/fonts/roboto/Roboto-Regular.ttf") format("truetype");
   font-weight: 400;
@@ -110,8 +116,8 @@ html {
   margin: 0 auto;
 }
 
-/* line 1, ../scss/blocks/_header.scss */
-.header {
+/* line 1, ../scss/blocks/_page-header.scss */
+.page-header {
   height: 100px;
   display: flex;
   align-items: center;
@@ -120,8 +126,8 @@ html {
   margin: 0 auto;
 }
 
-/* line 10, ../scss/blocks/_header.scss */
-.header__logo {
+/* line 10, ../scss/blocks/_page-header.scss */
+.page-header__logo {
   font-size: 48px;
 }
 
@@ -135,16 +141,19 @@ html {
   outline: 0;
   box-sizing: border-box;
 }
-
 /* line 11, ../scss/blocks/_link.scss */
 .link_type_primary {
   transition: color, 0.3s ease;
   color: #0095E5;
 }
-
-/* line 16, ../scss/blocks/_link.scss */
+/* line 15, ../scss/blocks/_link.scss */
 .link_type_primary:hover {
   color: #00537f;
+}
+
+/* line 1, ../scss/blocks/_logo.scss */
+.logo {
+  font-family: 'Cooper Black';
 }
 
 /* line 5, ../scss/blocks/_logo.scss */
@@ -257,4 +266,115 @@ html {
   border-radius: 50%;
   width: 100px;
   height: 100px;
+}
+
+/* line 2, ../scss/blocks/_modal.scss */
+.modal__overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  background-color: rgba(5, 5, 5, 0.81);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+/* line 14, ../scss/blocks/_modal.scss */
+.modal__body {
+  position: relative;
+}
+/* line 18, ../scss/blocks/_modal.scss */
+.modal__close {
+  border-radius: 50%;
+  position: absolute;
+  top: -16px;
+  right: -16px;
+  width: 30px;
+  height: 30px;
+  color: white;
+  background-color: #7A9FC2;
+  text-align: center;
+  font-weight: bold;
+  z-index: 1;
+  border: none;
+  cursor: pointer;
+}
+
+/* line 4, ../scss/blocks/_form.scss */
+.form__section {
+  margin-bottom: 20px;
+}
+/* line 9, ../scss/blocks/_form.scss */
+.form_type_signin {
+  background-color: #ffffff;
+  border: 5px solid #DADADA;
+  border-radius: 3px;
+  padding: 10px 20px 5px;
+  position: relative;
+  width: 400px;
+}
+/* line 17, ../scss/blocks/_form.scss */
+.form_type_signin .heading {
+  color: #00A17D;
+  text-align: center;
+}
+/* line 22, ../scss/blocks/_form.scss */
+.form_type_signin .input__field {
+  padding: 20px;
+}
+
+/* line 2, ../scss/blocks/_input.scss */
+.input__field {
+  border: none;
+  border-bottom: 1px solid #eee;
+  font-size: 16px;
+  padding: 5px;
+  box-sizing: border-box;
+  width: 100%;
+}
+/* line 10, ../scss/blocks/_input.scss */
+.input__field:focus {
+  outline: none;
+}
+
+/* line 1, ../scss/blocks/_button.scss */
+.button {
+  outline: none;
+  border: none;
+  cursor: pointer;
+  font-size: 16px;
+  font-weight: bold;
+  user-select: none;
+}
+/* line 9, ../scss/blocks/_button.scss */
+.button:focus {
+  outline: none;
+}
+/* line 14, ../scss/blocks/_button.scss */
+.button_type_submit {
+  color: #FFFFFF;
+  background-color: #00A17D;
+  padding: 10px 50px;
+  box-shadow: 2px 2px 0 2px #95CFC0;
+  margin: 0 auto;
+  display: block;
+}
+
+/* line 1, ../scss/blocks/_heading.scss */
+.heading {
+  margin: 0;
+  font-weight: bold;
+}
+/* line 6, ../scss/blocks/_heading.scss */
+.heading_level_alpha {
+  font-size: 28px;
+}
+/* line 10, ../scss/blocks/_heading.scss */
+.heading_level_beta {
+  font-size: 24px;
+}
+/* line 14, ../scss/blocks/_heading.scss */
+.heading_level_gamma {
+  font-size: 20px;
 }

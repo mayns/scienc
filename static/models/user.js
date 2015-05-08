@@ -1,17 +1,53 @@
 var Model = require('ampersand-model');
+var sync = require('ampersand-sync');
+require('setimmediate');
 
 var User = Model.extend({
-    initialize: function() {
-        this.fetch();
-    },
-    urlRoot: '/api/user',
-    props: {
-        id: 'number',
-        image_url: ['string', false, '/static/images/profile.svg'],
-        desired_vacancies: 'array',
-        liked_projects: 'array',
-        managing_project_ids: 'array'
-    }
+	urlRoot: '/api/user',
+	props: {
+		id: 'number',
+		image_url: ['string', false, '/static/images/profile.svg'],
+		desired_vacancies: 'array',
+		liked_projects: 'array',
+		managing_project_ids: 'array'
+	},
+	session: {
+		isLoggedIn: 'boolean',
+		xsrf: 'string'
+	},
+	initialize: function () {
+		var self = this;
+		var user = this.getCookie('scientist');
+		var xsrf = this.getCookie('_xsrf');
+
+		if (user || !xsrf) {
+			this.fetch();
+		}
+		else {
+			this.set('xsrf', xsrf);
+			setImmediate(function(){
+				self.trigger('sync');
+			});
+		}
+	},
+	signIn: function (data) {
+		var formData = new FormData();
+		formData.append('data', JSON.stringify(data));
+
+		sync('create', this, {
+			url: '/api/login',
+			data: formData
+		});
+	},
+	signOut: function () {
+		sync('create', this, {
+			url: '/api/logout'
+		});
+	},
+	getCookie: function (name) {
+		var match = document.cookie.match("\\b" + name + "=([^;]*)\\b");
+		return match ? match[1] : match;
+	}
 });
 
 module.exports = User;

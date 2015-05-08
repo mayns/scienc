@@ -1,7 +1,27 @@
 .form {
-	padding-bottom: 70px;
+	//padding-bottom: 70px;
 
 	&__section {
 		margin-bottom: 20px;
+	}
+
+	&_type {
+		&_signin {
+			background-color: #ffffff;
+			border: 5px solid #DADADA;
+			border-radius: 3px;
+			padding: 10px 20px 5px;
+			position: relative;
+			width: 400px;
+
+			.heading {
+				color: #00A17D;
+				text-align: center;
+			}
+
+			.input__field {
+				padding: 20px;
+			}
+		}
 	}
 }

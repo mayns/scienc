@@ -1,0 +1,23 @@
+.button {
+	outline: none;
+	border: none;
+	cursor: pointer;
+  	font-size: 16px;
+  	font-weight: bold;
+	user-select: none;
+
+	&:focus {
+		outline: none;
+	}
+
+	&_type {
+		&_submit {
+			color: #FFFFFF;
+			background-color: #00A17D;
+			padding: 10px 50px;
+			box-shadow: 2px 2px 0 2px #95CFC0;
+			margin: 0 auto;
+  			display: block;
+		}
+	}
+}
