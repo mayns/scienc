@@ -312,7 +312,7 @@ class ProjectBL(object):
         """
         project = yield Project.get_by_id(data[u'project_id'])
         scientist = yield Scientist.get_by_id(data[u'scientist_id'])
-        sql_query = get_insert_query(environment.TABLE_RESPONSES, data)
+        sql_query = get_insert_query(environment.TABLE_RESPONSES, data, returning=u'')
         print sql_query
         try:
             yield momoko.Op(conn.execute, sql_query)
@@ -322,8 +322,8 @@ class ProjectBL(object):
         response_id = u'{}:{}:{}'.format(data[u'scientist_id'], data[u'project_id'], data[u'vacancy_id'])
         scientist.desired_vacancies += [response_id]
         project.responses += [response_id]
-        yield Scientist.save(fields=[u'desired_vacancies'], columns=[u'desired_vacancies'])
-        yield Project.save(fields=[u'responses'], columns=[u'responses'])
+        yield scientist.save(fields=[u'desired_vacancies'], columns=[u'desired_vacancies'])
+        yield project.save(fields=[u'responses'], columns=[u'responses'])
 
     @classmethod
     @gen.coroutine

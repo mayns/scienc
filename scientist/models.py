@@ -1,8 +1,11 @@
 # -*- coding: utf-8 -*-
 
+import momoko
 from tornado import gen
 from base.models import PSQLModel
 from common.decorators import psql_connection
+from common.exceptions import *
+from db.utils import *
 
 __author__ = 'oks'
 
@@ -38,4 +41,3 @@ class Scientist(PSQLModel):
     @psql_connection
     def load_data(self, conn):
         pass
-

@@ -46,8 +46,7 @@ def get_update_query(tbl, update_params, where_params=None, editable_columns=Non
     return sql_string
 
 
-def get_insert_query(tbl, insert_data, create_columns=None):
-
+def get_insert_query(tbl, insert_data, create_columns=None, returning=u'id'):
     """
 
     :type insert_data: dict
@@ -71,9 +70,12 @@ def get_insert_query(tbl, insert_data, create_columns=None):
     values = u"'" + u"', '".join([v for v in values]) + u"'" if len(values) > 1 else u"'{}'".format(values[0])
     values = values.replace(u'%', u'%%')
 
-    sql_string = u'INSERT INTO {table_name} ({fields}) VALUES ({values}) RETURNING id'.format(table_name=tbl,
-                                                                                              fields=fields,
-                                                                                              values=values)
+    returning = u'RETURNING {r_id}'.format(r_id=returning) if returning else u''
+
+    sql_string = u'INSERT INTO {table_name} ({fields}) VALUES ({values}) {ret}'.format(table_name=tbl,
+                                                                                       fields=fields,
+                                                                                       values=values,
+                                                                                       ret=returning)
     return sql_string
 
 

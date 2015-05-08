@@ -224,8 +224,8 @@ class ProjectsParticipationHandler(BaseRequestHandler):
 class ResponseHandler(BaseRequestHandler):
 
     @gen.coroutine
-    def post(self, project_id, **kwargs):
-        print 'response handler', project_id
+    def put(self, project_id, **kwargs):
+        print 'updating response', project_id
 
         data = json.loads(self.get_argument(u'data', u'{}'))
         if not self.current_user_id:
@@ -240,6 +240,31 @@ class ResponseHandler(BaseRequestHandler):
 
         except Exception, ex:
             logging.info('Exc on accept response:')
+            logging.exception(ex)
+            response = dict(
+                message=ex.message
+            )
+
+        response_data = yield self.get_response(response)
+        self.finish(response_data)
+
+    @gen.coroutine
+    def post(self, project_id, **kwargs):
+        print 'creating response'
+        data = json.loads(self.get_argument(u'data', u'{}'))
+        if not self.current_user_id:
+            self.send_error(status_code=403)
+
+        print data
+
+        data.update(project_id=project_id)
+        data.update(scientist_id=self.current_user_id)
+        response = {}
+        try:
+            yield ProjectBL.add_response(data)
+
+        except Exception, ex:
+            logging.info('Exc on add response:')
             logging.exception(ex)
             response = dict(
                 message=ex.message
