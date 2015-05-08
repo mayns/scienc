@@ -4,6 +4,7 @@ __author__ = 'nyash myash'
 
 import time
 import cPickle
+import logging
 
 from tornado import gen
 import momoko
@@ -202,7 +203,8 @@ def fill_init_data():
         for k, val in scientist_data.iteritems():
             yield ScientistBL.create(scientist_dict=val, test_mode=True)
     except Exception, ex:
-        print ex
+        logging.exception(ex)
+        raise
 
     project_data = Project.get_project()
     print 'Creating init projects'
@@ -210,4 +212,5 @@ def fill_init_data():
         for k, val in project_data.iteritems():
             yield ProjectBL.create(val, test_mode=True)
     except Exception, ex:
-        print ex
+        logging.exception(ex)
+        raise

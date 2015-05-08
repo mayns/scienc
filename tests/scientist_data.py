@@ -139,10 +139,6 @@ class Scientist(object):
                 )
             ],
 
-            liked_projects=[u'1'],
-
-            managing_project_ids=[u'1'],
-
         )
 
     }

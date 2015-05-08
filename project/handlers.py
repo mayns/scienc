@@ -13,11 +13,11 @@ PROJECT_EXC = lambda project_id=None: 'Exc on get project: {}'.format(project_id
 __author__ = 'oks'
 
 
-class CkeditorSampleHandler(BaseRequestHandler):
-    @gen.coroutine
-    def get(self, *args, **kwargs):
-        print u'ckeditor get'
-        self.render(u'/ckeditor/samples/index.html')
+# class CkeditorSampleHandler(BaseRequestHandler):
+#     @gen.coroutine
+#     def get(self, *args, **kwargs):
+#         print u'ckeditor get'
+#         self.render(u'/ckeditor/samples/index.html')
 
 
 class ProjectsSearchHandler(BaseRequestHandler):
@@ -221,31 +221,50 @@ class ProjectsParticipationHandler(BaseRequestHandler):
         self.finish(response_data)
 
 
-class ProjectsResponseHandler(BaseRequestHandler):
+class ResponseHandler(BaseRequestHandler):
 
     @gen.coroutine
-    def post(self, project_id, result, **kwargs):
-        if result == u'a':
-            print 'accept response'
-        if result == u'd':
-            print 'decline response'
-        else:
-            self.send_error(status_code=404)
+    def put(self, project_id, **kwargs):
+        print 'updating response', project_id
 
         data = json.loads(self.get_argument(u'data', u'{}'))
-        print data
         if not self.current_user_id:
             self.send_error(status_code=403)
+
+        print data
 
         data.update(project_id=project_id)
         response = {}
         try:
-            if result == u'a':
-                yield ProjectBL.accept_response(data)
-            if result == u'd':
-                yield ProjectBL.decline_response(data)
+            yield ProjectBL.update_response(data)
+
         except Exception, ex:
             logging.info('Exc on accept response:')
+            logging.exception(ex)
+            response = dict(
+                message=ex.message
+            )
+
+        response_data = yield self.get_response(response)
+        self.finish(response_data)
+
+    @gen.coroutine
+    def post(self, project_id, **kwargs):
+        print 'creating response'
+        data = json.loads(self.get_argument(u'data', u'{}'))
+        if not self.current_user_id:
+            self.send_error(status_code=403)
+
+        print data
+
+        data.update(project_id=project_id)
+        data.update(scientist_id=self.current_user_id)
+        response = {}
+        try:
+            yield ProjectBL.add_response(data)
+
+        except Exception, ex:
+            logging.info('Exc on add response:')
             logging.exception(ex)
             response = dict(
                 message=ex.message

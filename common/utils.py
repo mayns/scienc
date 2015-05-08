@@ -102,7 +102,6 @@ def zip_values(iterable, dict2, empty_fields=False):
             if (not empty_fields and (k not in dict2.keys())) or (not empty_fields and (dict2.get(k) is None)):
                 continue
             zipped.append((v, dict2.get(k)))
-
     elif isinstance(iterable, list):
         for k in iterable:
             if (not empty_fields and (k not in dict2.keys())) or (not empty_fields and (dict2.get(k) is None)):
@@ -114,13 +113,18 @@ def zip_values(iterable, dict2, empty_fields=False):
 
 def extended_cmp(val1, val2):
     if not isinstance(val1, list):
+        val1 = val1.decode('utf-8') if isinstance(val1, str) else val1
+        val2 = val2.decode('utf-8') if isinstance(val2, str) else val2
         return cmp(val1, val2)
     if len(val1) != len(val2):
         return 1
     for i, v in enumerate(val1):
-        if cmp(v, val2[i]):
-            if isinstance(v, dict):
-                cum_eq = sum([cmp(x, y) for x, y in zip_values(v, val2[i])])
-                return cum_eq
+        if isinstance(v, dict):
+            z = zip_values(v, val2[i])
+            zipped = map(lambda x: (x[0].decode('utf-8'), x[1]) if isinstance(x[0], str) else x, z)
+            zipped_res = map(lambda y: (y[0], y[1].decode('utf-8')) if isinstance(y[1], str) else y, zipped)
+            cum_eq = sum([cmp(x, y) for x, y in zipped_res])
+            return cum_eq
+        elif cmp(v, val2[i]):
             return 1
     return 0

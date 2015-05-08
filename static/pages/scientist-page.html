@@ -18,7 +18,7 @@
             <page-actions class="row-flex">
                 <template if="{{ preview }}">
                     <div on-tap="{{ edit }}" class="action col-lg-2">Редактирование</div>
-                    <!--<div on-tap="{{ delete }}" class="action">Удалить профиль</div>-->
+                    <div on-tap="{{ delete }}" class="action">Удалить профиль</div>
                 </template>
                 <template if="{{ !preview }}">
                     <div on-tap="{{ show }}" class="action">Просмотр</div>
@@ -44,9 +44,9 @@
             edit: function() {
                 this.preview = false;
             },
-//            delete: function() {
-//                this.$.ajaxDelete.go();
-//            },
+            delete: function() {
+                this.$.ajaxDelete.go();
+            },
             onDeleteSuccess: function() {
                 this.app.user = null;
                 $$.byId('router').go('/scientists');
