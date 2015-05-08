@@ -73,9 +73,9 @@ class ProjectBL(object):
         participant_id = generate_id(21)
         participant_data.update(id=participant_id)
 
-        sqp_query = get_insert_query(environment.TABLE_PARTICIPANTS, participant_data)
+        sql_query = get_insert_query(environment.TABLE_PARTICIPANTS, participant_data)
         try:
-            yield momoko.Op(conn.execute, sqp_query)
+            yield momoko.Op(conn.execute, sql_query)
         except PSQLException, ex:
             logging.exception(ex)
         raise gen.Return(participant_id)
@@ -351,21 +351,23 @@ class ProjectBL(object):
 
         if data[u'result'] == environment.STATUS_ACCEPTED:
 
-            vacancy_name = get_select_query(environment.TABLE_VACANCIES, columns=[u'vacancy_name'],
+            sql_query = get_select_query(environment.TABLE_VACANCIES, columns=[u'vacancy_name'],
                                             where=dict(column=u'id', value=data[u'vacancy_id']))
+            cursor = yield momoko.Op(conn.execute, sql_query)
+            vacancy_name = cursor.fetchone()[0]
 
             scientist = yield Scientist.get_by_id(data[u'scientist_id'])
             participant_data = dict(
                 project_id=data[u'project_id'],
                 scientist_id=data[u'scientist_id'],
                 role_name=vacancy_name,
-                first_name=scientist.first_name,
-                last_name=scientist.last_name,
-                middle_name=scientist.middle_name,
+                first_name=scientist.first_name.decode('utf-8') if isinstance(scientist.first_name, str) else scientist.first_name,
+                last_name=scientist.last_name.decode('utf-8') if isinstance(scientist.last_name, str) else scientist.last_name,
+                middle_name=scientist.middle_name.decode('utf-8') if isinstance(scientist.middle_name, str) else scientist.middle_name,
             )
             project = yield Project.get_by_id(data[u'project_id'])
             participant_id = yield cls.add_participant(participant_data)
-            project.participants += [participant_id]
+            project.participants = [p[u'id'] for p in project.participants] + [participant_id]
             yield project.save(fields=[u'participants'], columns=[u'participants'])
 
     @classmethod
