@@ -55,6 +55,10 @@
             }
         };
 
+	    PolymerExpressions.prototype.inArray = function(array, value){
+			return array.indexOf(value) !== -1;
+		};
+
         window.AppMixins.utils = utils;
         window.$$ = utils;
     })();
