@@ -43,7 +43,7 @@ class ScientistHandler(BaseRequestHandler):
                 print u'scientists list get'
                 response = yield ScientistBL.get_all()
             else:
-                scientist_id = int(args[0].replace(u'/', u''))
+                scientist_id = args[0].replace(u'/', u'')
                 print u'get scientist:', scientist_id
                 response = yield ScientistBL.get(scientist_id)
 
@@ -120,7 +120,7 @@ class ScientistHandler(BaseRequestHandler):
         print u'scientist delete: ', scientist_id
 
         try:
-            yield ScientistBL.delete(int(scientist_id.replace(u'/', u'')))
+            yield ScientistBL.delete(scientist_id.replace(u'/', u''))
             self.clear_cookie(u'scientist')
             return
         except Exception, ex:
