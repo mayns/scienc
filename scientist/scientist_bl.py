@@ -149,7 +149,7 @@ class ScientistBL(object):
         _id, enc_pwd = data
         exists = check_password(pwd, enc_pwd)
         if exists:
-            raise gen.Return(int(_id))
+            raise gen.Return(_id)
         raise Exception(u'Incorrect pwd')
 
     @classmethod
