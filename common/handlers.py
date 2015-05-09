@@ -59,11 +59,12 @@ class LogoutHandler(BaseRequestHandler):
 class UserHandler(BaseRequestHandler):
 
     @gen.coroutine
-    def get(self):
+    def get(self, *args, **kwargs):
         print 'user handler'
         scientist = yield self.get_current_user()
+
         if not scientist:
-            return
+            self.finish()
         image_url = scientist.image_url and environment.GET_IMG(scientist.image_url, environment.IMG_S)
         desired_vacancies = [v[v.find(u':')+1:] for v in scientist.desired_vacancies]
 
