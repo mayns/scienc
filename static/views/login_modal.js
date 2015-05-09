@@ -24,7 +24,7 @@ var LoginModalView = View.extend({
 				}),
 				new AppInputView({
 					el: self.query('.js-password'),
-					name: 'password',
+					name: 'pwd',
 					placeholder: 'Password',
 		            value: '',
 		            required: true

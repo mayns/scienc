@@ -37,10 +37,14 @@ app.extend({
             el: dom.byId('appBar'),
             model: user
         });
+		// Wait for user to get xsrf token
+		user.once('sync', function(){
+			// Create and fire up the router
+			router.history.start();
+		});
 
+		// Global ref for debugging
         window.app = app;
-		// Create and fire up the router
-		router.history.start();
 	}
 });
 

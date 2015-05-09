@@ -11,7 +11,7 @@ var AppBarView = BaseView.extend({
 	initialize: function () {
 		var self = this;
 
-		self.model.on('sync', function () {
+		self.model.once('sync', function () {
 			self.render();
 		});
 		self.model.on('change:isLoggedIn', function(){

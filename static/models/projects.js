@@ -1,6 +1,6 @@
-var Model = require('ampersand-model');
+var BaseModel = require('./base');
 
-var Projects = Model.extend({
+var Projects = BaseModel.extend({
     urlRoot: '/api/projects',
 	props: {
 		data: 'array'

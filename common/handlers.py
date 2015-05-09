@@ -41,7 +41,7 @@ class LoginHandler(BaseRequestHandler):
             self.send_error(status_code=403)
             return
         self.set_secure_cookie(u'scientist', str(scientist_id))
-        self.redirect(self.get_argument(u'next', u'/'))
+        # self.redirect(self.get_argument(u'next', u'/'))
 
     @gen.coroutine
     def get(self, *args, **kwargs):
@@ -53,7 +53,7 @@ class LogoutHandler(BaseRequestHandler):
         if not self.current_user_id:
             raise Exception(u'WTF?')
         self.clear_cookie(u'scientist')
-        self.redirect(self.get_argument(u'next', u'/'))
+        # self.redirect(self.get_argument(u'next', u'/'))
 
 
 class UserHandler(BaseRequestHandler):
