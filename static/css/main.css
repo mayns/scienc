@@ -189,19 +189,24 @@ html {
 .appbar__icon-members {
   width: 60px;
 }
-/* line 26, ../scss/blocks/_appbar.scss */
+/* line 22, ../scss/blocks/_appbar.scss */
+.appbar__icon-scientist {
+  width: 60px;
+  border-radius: 50%;
+}
+/* line 27, ../scss/blocks/_appbar.scss */
 .appbar__icon-search {
   width: 103px;
 }
-/* line 30, ../scss/blocks/_appbar.scss */
+/* line 31, ../scss/blocks/_appbar.scss */
 .appbar__icon-logout {
   width: 80px;
 }
-/* line 34, ../scss/blocks/_appbar.scss */
+/* line 35, ../scss/blocks/_appbar.scss */
 .appbar__icon-login {
   width: 25px;
 }
-/* line 38, ../scss/blocks/_appbar.scss */
+/* line 39, ../scss/blocks/_appbar.scss */
 .appbar__icon-register {
   width: 25px;
 }

@@ -44,6 +44,7 @@ class BaseRequestHandler(web.RequestHandler):
         raise gen.Return(user)
 
     @gen.coroutine
+    @base_request
     def get_response(self, data):
         return data
 

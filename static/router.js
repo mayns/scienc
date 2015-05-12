@@ -3,6 +3,8 @@ var ProjectsView = require('./views/projects');
 var Projects = require('./models/projects');
 var ScientistsView = require('./views/scientists');
 var Scientists = require('./models/scientists');
+var ScientistView = require('./views/scientist_form');
+var Scientist = require('./models/scientist');
 
 var AppRouter = Router.extend({
     routes: {
@@ -50,8 +52,19 @@ var AppRouter = Router.extend({
 
         scientists.fetch();
     },
-    scientist: function () {
+    scientist: function (id) {
+        var self = this;
+        var scientist = new Scientist({
+	        id: id
+        });
 
+        scientist.on('sync', function(){
+            self.trigger('newPage', new ScientistView({
+                model: scientists
+            }));
+        });
+
+        scientist.fetch();
     }
 
 });

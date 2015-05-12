@@ -11,15 +11,26 @@ var AppBarView = BaseView.extend({
 	initialize: function () {
 		var self = this;
 
-		self.model.once('sync', function () {
-			self.render();
-		});
-		self.model.on('change:isLoggedIn', function(){
+		self.model.once('sync', self.onFirstSync, self);
+	},
+	template: templates.appbar,
+	onFirstSync: function() {
+		var self = this;
+
+		self.render();
+
+		self.model.on('change:isLoggedIn', function(model, value){
+			if (value) {
+				self.closeSignInModal();
+			}
+			else {
+				self.model.clear();
+			}
 			self.render();
 		});
 	},
-	template: templates.appbar,
 	openSignInModal: function () {
+		var self = this;
 		var loginView = new LoginModalView().render();
 		var modal = new ModalView({
 			view: templates.modal,
@@ -27,6 +38,10 @@ var AppBarView = BaseView.extend({
 		});
 
 		modal.openIn('body');
+		self.modal = modal;
+	},
+	closeSignInModal: function() {
+		this.modal && this.modal.close();
 	},
 	signOut: function() {
 		this.model.signOut();

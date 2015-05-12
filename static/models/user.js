@@ -2,24 +2,17 @@ var BaseModel = require('./base');
 var sync = require('ampersand-sync');
 require('setimmediate');
 
-var User = BaseModel.extend({
-	initialize: function() {
-		var self = this;
-
-		self.on('change:id', function() {
-			self.isLoggedIn = Boolean(self.id);
-		});
-	},
+var UserModel = BaseModel.extend({
 	urlRoot: '/api/user',
 	props: {
-		id: ['string', false, ''],
-		image_url: ['string', false, '/static/images/profile.svg'],
+		id: ['string', true, ''],
+		image_url: ['string', true, '/static/images/profile.svg'],
 		desired_vacancies: 'array',
 		liked_projects: 'array',
 		managing_project_ids: 'array'
 	},
 	session: {
-		isLoggedIn: 'boolean',
+		isLoggedIn: ['boolean', true, false],
 		xsrf: 'string'
 	},
 	initialize: function() {
@@ -44,6 +37,10 @@ var User = BaseModel.extend({
 				self.trigger('sync');
 			});
 		}
+
+		self.on('change:id', function() {
+			self.isLoggedIn = Boolean(self.id);
+		});
 	},
 	signIn: function (data) {
 		var self = this;
@@ -81,7 +78,7 @@ var User = BaseModel.extend({
 	}
 });
 
-module.exports = User;
+module.exports = UserModel;
 
 //desired_vacancies: []
 //id: 2
