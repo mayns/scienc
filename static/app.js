@@ -8,6 +8,7 @@ var User = require('./models/user');
 var Router = require('./router');
 var dom = require('ampersand-dom');
 var templates = require('./templates/templates');
+var counter = 0;
 
 dom.byId = function(id) {
     return document.getElementById(id);
@@ -45,6 +46,9 @@ app.extend({
 
 		// Global ref for debugging
         window.app = app;
+	},
+	getId: function() {
+		return counter++;
 	}
 });
 

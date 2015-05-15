@@ -48,6 +48,9 @@ class ProjectHandler(BaseRequestHandler):
             if not any(args):
                 print u'projects list get'
                 response = yield ProjectBL.get_all()
+                response = dict(
+                    projects=response
+                )
             else:
                 project_id = args[0].replace(u'/', u'')
                 print u'get project:', project_id

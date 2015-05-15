@@ -1,0 +1,12 @@
+.fieldset {
+	padding: 20px 20px 30px;
+	border: 1px solid #cccccc;
+
+	&_nested {
+		border: none;
+	}
+
+	&__heading {
+		font-size: 30px;
+	}
+}

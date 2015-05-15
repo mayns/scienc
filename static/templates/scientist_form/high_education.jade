@@ -1,0 +1,23 @@
+fieldset.fieldset.fieldset_nested
+	div.form__line.row.row_align_middle
+		label.col.col_type_lg_size_4 Страна
+		input.col.col_type_lg_size_20(type='text', name='high_education[][country]')
+	div.form__line.row.row_align_middle
+		label.col.col_type_lg_size_4.action Город
+		input.col.col_type_lg_size_20(type='text', name='high_education[][city]')
+	div.form__line.row.row_align_middle
+		label.col.col_type_lg_size_4.action Университет
+		input.col.col_type_lg_size_20(type='text', name='high_education[][university]')
+	div.form__line.row.row_align_middle
+		label.col.col_type_lg_size_4.action Факультет
+		input.col.col_type_lg_size_20(type='text', name='high_education[][faculty]')
+	div.form__line.row.row_align_middle
+		label.col.col_type_lg_size_4.action Кафедра
+		input.col.col_type_lg_size_20(type='text', name='high_education[][chair]')
+	div.form__line.row.row_align_middle
+		label.col.col_type_lg_size_4.action(for='high_education_degree') Степень
+		input.col.col_type_lg_size_20(type='text', name='high_education[][degree]')
+	div.form__line.row.row_align_middle
+		label.action.col.col_type_lg_size_4(for='high_education_graduation_year') Год выпуска
+		input.col.col_type_lg_size_4(type='number', name='high_education[][graduation_year]')
+	img.icon.icon_size_small.js-delete-education(src='/static/images/minus.svg', alt='', data-_id="#{model._id}")

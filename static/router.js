@@ -5,6 +5,7 @@ var ScientistsView = require('./views/scientists');
 var Scientists = require('./models/scientists');
 var ScientistView = require('./views/scientist_form');
 var Scientist = require('./models/scientist');
+var App = require('ampersand-app');
 
 var AppRouter = Router.extend({
     routes: {
@@ -57,13 +58,15 @@ var AppRouter = Router.extend({
         var scientist = new Scientist({
 	        id: id
         });
-
-        scientist.on('sync', function(){
-            self.trigger('newPage', new ScientistView({
-                model: scientists
-            }));
+	    var scientistView = new ScientistView({
+            model: scientist
         });
 
+        scientist.on('sync', function(){
+            self.trigger('newPage', scientistView);
+        });
+		App.models.active = scientist;
+		App.views.active = scientistView;
         scientist.fetch();
     }
 

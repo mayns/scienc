@@ -42,6 +42,9 @@ class ScientistHandler(BaseRequestHandler):
             if not any(args):
                 print u'scientists list get'
                 response = yield ScientistBL.get_all()
+                response = dict(
+                    scientists=response
+                )
             else:
                 scientist_id = args[0].replace(u'/', u'')
                 print u'get scientist:', scientist_id

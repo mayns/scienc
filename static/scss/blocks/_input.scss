@@ -11,6 +11,15 @@
 			outline: none;
 		}
 	}
+	&__message {
+		font-size: 14px;
+
+		&_type {
+			&_error {
+				color: red;
+			}
+		}
+	}
 }
 
 

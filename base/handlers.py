@@ -10,19 +10,10 @@ __author__ = 'oks'
 
 def base_request(function):
     def wrapper(*args, **kwargs):
-        from base.ajax_data import AJAX_STATUS_SUCCESS, AJAX_STATUS_ERROR
-        response_data = dict(
-            status=AJAX_STATUS_ERROR
-        )
+        response_data = dict()
         try:
             data = function(*args, **kwargs)
-            if u'message' not in data:
-                response_data = dict(
-                    status=AJAX_STATUS_SUCCESS
-                )
-                response_data.update(dict(data=data))
-            else:
-                response_data.update(data)
+            response_data.update(data)
         except Exception, ex:
             logging.exception(ex)
         return response_data

@@ -11,7 +11,7 @@ var LoginModalView = View.extend({
 
 		self.renderWithTemplate();
 		self.form = new FormView({
-			el: self.query('form'),
+			el: self.query('.js-form'),
 			model: app.user,
 			autoAppend: false,
 			fields:  [

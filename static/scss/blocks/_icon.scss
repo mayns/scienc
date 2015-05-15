@@ -1,0 +1,10 @@
+.icon {
+	cursor: pointer;
+
+	&_size {
+		&_small {
+			width: 20px;
+			height: 20px;
+		}
+	}
+}
