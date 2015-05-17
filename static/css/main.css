@@ -1444,9 +1444,10 @@ html /deep/ .container.main {
 .page-header-logo {
   color: #E9A611;
   font-size: 48px;
+  font-family: 'Roboto Slab';
 }
 
-/* line 18, ../scss/layout/_page-header.scss */
+/* line 19, ../scss/layout/_page-header.scss */
 .page-header-controls {
   color: white;
   display: flex;
@@ -1454,7 +1455,7 @@ html /deep/ .container.main {
   width: 250px;
 }
 
-/* line 25, ../scss/layout/_page-header.scss */
+/* line 26, ../scss/layout/_page-header.scss */
 .page-header-search {
   font-size: 24px;
 }
