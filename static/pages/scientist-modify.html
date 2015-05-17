@@ -105,7 +105,7 @@
                   redirect="/scientists"
                   ajaxMethod="{{ ajaxMethod }}"
                   action="/api/scientists">
-                <template bind="{{ json }}">
+                <template bind="{{ data }}">
                     <fieldset>
                         <legend>Общие сведения</legend>
                         <div class="row-flex fieldblock">
@@ -419,7 +419,7 @@
 	<script>
         Polymer('scientist-modify', Polymer.mixin({
             publish: {
-                json: {
+                data: {
                     publications: [new Date()],
                     high_education: [new Date()],
                     contacts: [1]
