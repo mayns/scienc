@@ -1,5 +1,11 @@
 @charset "UTF-8";
 @font-face {
+  font-family: 'Cooper Black';
+  src: url("/static/fonts/cooper-black/Cooper_Black.ttf") format("truetype");
+  font-weight: normal;
+  font-style: normal;
+}
+@font-face {
   font-family: 'Roboto';
   src: url("/static/fonts/roboto/Roboto-Regular.ttf") format("truetype");
   font-weight: 400;
@@ -1444,7 +1450,7 @@ html /deep/ .container.main {
 .page-header-logo {
   color: #E9A611;
   font-size: 48px;
-  font-family: 'Roboto Slab';
+  font-family: 'Cooper Black';
 }
 
 /* line 19, ../scss/layout/_page-header.scss */
