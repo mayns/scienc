@@ -8,6 +8,34 @@ var HighEducation = AmpState.extend({
 		this.set({_id: App.getId()});
 	},
 	props: {
+		link: ['string', false, ''],
+		source: ['string', false, ''],
+		title: ['string', false, ''],
+		year: ['string', false, '']
+	},
+	session: {
+		_id: 'number'
+	}
+});
+
+var Publication = AmpState.extend({
+	initialize: function() {
+		this.set({_id: App.getId()});
+	},
+	props: {
+		connection: ['string', false, ''],
+		number: ['string', false, '']
+	},
+	session: {
+		_id: 'number'
+	}
+});
+
+var Contact = AmpState.extend({
+	initialize: function() {
+		this.set({_id: App.getId()});
+	},
+	props: {
 		chair: ['string', false, ''],
 		city: ['string', false, ''],
 		country: ['string', false, ''],
@@ -21,8 +49,18 @@ var HighEducation = AmpState.extend({
 	}
 });
 
-var HighEducationCollection = BaseCollection.extend({
+var HighEducationsCollection = BaseCollection.extend({
 	model: HighEducation,
+	mainIndex: '_id'
+});
+
+var PublicationsCollection = BaseCollection.extend({
+	model: Publication,
+	mainIndex: '_id'
+});
+
+var ContactsCollection = BaseCollection.extend({
+	model: Contact,
 	mainIndex: '_id'
 });
 
@@ -46,9 +84,9 @@ var ScientistModel = BaseModel.extend({
 		about: ['string', false, '']
 	},
 	collections: {
-		high_education: HighEducationCollection,
-		publications: BaseCollection,
-		contacts: BaseCollection
+		high_educations: HighEducationsCollection,
+		publications: PublicationsCollection,
+		contacts: ContactsCollection
 	},
 	derived: {
 		formType: {

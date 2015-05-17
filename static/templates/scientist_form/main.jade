@@ -8,23 +8,23 @@ div.page__content
 					div.form__line.input.js-first-name
 						div.row.row_align_middle
 							label.col.col_type_lg_size_8.input__label(for='scientist_first_name') Имя
-							input.col.col_type_lg_size_16.input__field(type='text', name='first_name')
+							input.col.col_type_lg_size_16.input__field(type='text', name='first_name', placeholder="Иван")
 						div.row
 							div.col.col_type_lg_size_16.col_offset_type_lg_size_8.input__message-container(data-hook="message-container")
-								div.input__message_type_error Поле обязательно для заполнения
+								div.input__message.input__message_type_error Поле обязательно для заполнения
 
 					div.form__line.input.js-last-name
 						div.row.row_align_middle
 							label.col.col_type_lg_size_8.input__label(for='scientist_last_name') Фамилия
-							input.col.col_type_lg_size_16.input__field(type='text', name='last_name')
+							input.col.col_type_lg_size_16.input__field(type='text', name='last_name', placeholder="Иванов")
 						div.row
 							div.col.col_type_lg_size_16.col_offset_type_lg_size_8.input__message-container(data-hook="message-container")
-								div.input__message_type_error Поле обязательно для заполнения
+								div.input__message.input__message_type_error Поле обязательно для заполнения
 
 					div.form__line.input.js-middle-name
 						div.row.row_align_middle
 							label.col.col_type_lg_size_8.input__label(for='scientist_middle_name') Отчество
-							input.col.col_type_lg_size_16.input__field(type='text', name='middle_name')
+							input.col.col_type_lg_size_16.input__field(type='text', name='middle_name', placeholder="Иванович")
 						div.row
 							div.col.col_type_lg_size_16.col_offset_type_lg_size_8.input__message-container(data-hook="message-container")
 								div.input__message.input__message_type_error Поле обязательно для заполнения
@@ -44,7 +44,7 @@ div.page__content
 							input.col.col_type_lg_size_16.input__field(type='text', name='dob')
 						div.row
 							div.col.col_type_lg_size_16.col_offset_type_lg_size_8.input__message-container(data-hook="message-container")
-								div.input__message_type_error Неверноый формат даты
+								div.input__message.input__message_type_error Неверный формат даты
 
 					div.form__line.input.js-middle-name
 						div.row.row_align_middle
@@ -54,8 +54,6 @@ div.page__content
 
 				div.col.col_type_lg_size_8
 					input-photo#photo(size='{"width": 250, "height": 250}', imageuri='#{image_url}')
-		button.button.button_type_submit(type="submit")
-			= formType === 'create' ? 'Создать' : 'Сохранить'
 		fieldset.fieldset
 			legend.fieldset__heading Сведения об образовании
 			fieldset.fieldset.fieldset_nested
@@ -76,60 +74,40 @@ div.page__content
 			fieldset.fieldset.fieldset_nested
 				legend.fieldset__heading
 					span Высшее образование
-					img.icon.icon_size_small.js-add-education(src='/static/images/plus.svg', alt='')
-				div.js-high-education
-	//	fieldset
-	//		legend Научная деятельность
-	//		.fieldblock
-	//			fieldset
-	//				legend
-	//					span Публикации
-	//					img.action.icon(on-click='{{ addItem }}', data-itemtype='publications', src='/static/images/plus.svg', alt='')
-	//				template(repeat='{{ publications }}')
-	//					.fieldblock
-	//						.row-flex.middle
-	//							label.action.col-lg-3(for='publicationName') Название
-	//							input.col-lg-8(type='text', data-json='publications[][title]', value='{{ title }}')
-	//						.row-flex.middle
-	//							label.action.col-lg-3(for='publishingHouse') Издательство
-	//							input.col-lg-8(type='text', data-json='publications[][source]', value='{{ source }}')
-	//						.row-flex.middle
-	//							label.action.col-lg-3(for='publicationYear') Год издания
-	//							input.col-lg-8(type='text', data-json='publications[][year]', value='{{ year }}')
-	//						.row-flex.middle
-	//							label.col-lg-3.action(for='publicationLink') Ссылка
-	//							input.col-lg-8(type='url', data-json='publications[][link]', value='{{ link }}')
-	//						img.deleteItem.icon.action(data-itemtype='publications', on-click='{{ deleteItem }}', src='/static/images/minus.svg', alt='')
-	//			fieldset
-	//				legend О себе
-	//				.fieldblock.row-flex
-	//					textarea#about.col-lg-12(data-json='about', value='{{ about }}')
-	//			fieldset
-	//				legend Сфера научных интересов
-	//				.fieldblock
-	//					input-tags#science_interests.col-lg-12(data-json='interests[]', value='{{ interests }}')
-	//	fieldset
-	//		legend
-	//			span Контакты
-	//			img.action.icon(on-click='{{ addItem }}', data-itemtype='contacts', src='/static/images/plus.svg', alt='')
-	//		.fieldblock
-	//			.col-lg-8
-	//				template(repeat='{{ contacts }}')
-	//					.row-flex.middle.between
-	//						label.action Тип
-	//						input(type='text', data-json='contacts[][connection]', value='{{ connection }}')
-	//						label.action Номер
-	//						input(type='text', data-json='contacts[][number]', value='{{ number }}')
-	//						img.action.icon(on-click='{{ deleteItem }}', data-itemtype='contacts', src='/static/images/minus.svg', alt='')
-	//template(if="{{ viewType === 'create' }}")
-	//	fieldset
-	//		.row-flex.fieldblock
-	//			.col-lg-9
-	//				.row-flex.middle
-	//					label.col-lg-3(for='email') Email
-	//					input#email.col-lg-5(type='email', data-json='email', required='')
-	//				.row-flex.middle
-	//					label.col-lg-3(for='pwd') Пароль
-	//					input#pwd.col-lg-5(type='password', data-json='pwd', required='')
-		input(type='hidden', value='{{ data.id }}', data-json='scientist_id')
+					img.icon.icon_size_small.js-add-item(data-type="high_educations", src='/static/images/plus.svg', alt='')
+				div.js-high-educations
+		fieldset.fieldset
+			legend.fieldset__heading Научная деятельность
+			fieldset.fieldset.fieldset_nested
+				legend.fieldset__heading
+					span Публикации
+					img.icon.icon_size_small.js-add-item(data-type='publications', src='/static/images/plus.svg', alt='')
+				div.js-publications
+			fieldset.fieldset.fieldset_nested
+				legend.fieldset__heading О себе
+				div.row.fieldset.fieldset_nested
+					textarea.col.col_type_lg_size_24(name='about')
+			fieldset.fieldset.fieldset_nested
+				legend.fieldset__heading Интересы
+				div.row
+					input.col.col_type_lg_size_24(name='interests[]')
+		fieldset.fieldset
+			legend.fieldset__heading
+				span Контакты
+				img.icon.icon_size_small.js-add-item(data-type='contacts', src='/static/images/plus.svg', alt='')
+			fieldset.row.fieldset.fieldset_nested
+				div.col.col_type_lg_size_16.js-contacts
+
+		if formType === 'create'
+			fieldset.row.fieldset
+				div.col.col_type_lg_size_18
+					div.row.row_align_middle
+						label.col.col_type_lg_size_6(for='email') Email
+						input.col.col_type_lg_size_10(type='email', name='email')
+					div.row.row_align_middle
+						label.col.col_type_lg_size_6(for='pwd') Пароль
+						input.col.col_type_lg_size_10(type='password', name='pwd')
+
+		button.button.button_type_submit(type="submit")
+			= formType === 'create' ? 'Создать' : 'Сохранить'
 

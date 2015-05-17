@@ -1,0 +1,14 @@
+div.fieldset.fieldset_nested
+	div.form__line.row.row_align_middle
+		label.col.col_type_lg_size_6(for='publicationName') Название
+		input.col.col_type_lg_size_16(type='text', name='publications[][title]')
+	div.form__line.row.row_align_middle
+		label.col.col_type_lg_size_6(for='publishingHouse') Издательство
+		input.col.col_type_lg_size_16(type='text', name='publications[][source]')
+	div.form__line.row.row_align_middle
+		label.col.col_type_lg_size_6(for='publicationYear') Год издания
+		input.col.col_type_lg_size_16(type='text', name='publications[][year]')
+	div.form__line.row.row_align_middle
+		label.col.col_type_lg_size_6(for='publicationLink') Ссылка
+		input.col.col_type_lg_size_16(type='url', name='publications[][link]')
+	img.icon.icon_size_small.js-delete-item(src='/static/images/minus.svg', alt='', data-_id="#{model._id}", data-type="publications")
