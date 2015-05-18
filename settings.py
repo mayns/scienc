@@ -47,3 +47,12 @@ SCIENCE_DB = dict(
 
 PSQL_MIN_CONNECTIONS = 1
 PSQL_MAX_CONNECTIONS = 100
+
+SCIENCE_DB_TEST_MAP = dict(
+    NO_SHARD=dict(
+        database=u'science', host=u'localhost', port=5432, user=PSQL_ROOT_USER, password=PSQL_ROOT_PASSWORD
+    ),
+    SHARD=dict(
+        database=u'science', host=u'localhost', port=6432, user=PSQL_ROOT_USER, password=PSQL_ROOT_PASSWORD
+    )
+)

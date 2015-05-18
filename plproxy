@@ -7,11 +7,11 @@ make
 make install
 
 
-—-ON PROXY server after proxy_science creation
+—-ON PROXY server after science creation
 
 sudo su postgres
-psql -f /opt/db/plproxy/plproxy-2.5/sql/plproxy.sql proxy_science
-psql proxy_science
+psql -f /opt/db/plproxy/plproxy-2.5/sql/plproxy.sql science
+psql science
 
 create schema plproxy;
 
@@ -19,8 +19,8 @@ CREATE OR REPLACE FUNCTION plproxy.get_cluster_partitions(cluster_name text)
 RETURNS SETOF text AS $$
 BEGIN
     IF cluster_name = 'science_cluster' THEN
-        RETURN NEXT 'dbname=science_00 host=127.0.0.1';
-        RETURN NEXT 'dbname=science_01 host=127.0.0.1';
+        RETURN NEXT 'dbname=science_1 host=188.44.43.21';
+        RETURN NEXT 'dbname=science_2 host=188.44.43.22';
         RETURN;
     END IF;
     RAISE EXCEPTION 'Unknown cluster';
@@ -59,8 +59,8 @@ CREATE FOREIGN DATA WRAPPER plproxy;
 
 CREATE SERVER science_cluster FOREIGN DATA WRAPPER plproxy
 OPTIONS (connection_lifetime '1800',
-         p0 'dbname= science_00 host=127.0.0.1',
-         p1 'dbname= science_01 host=127.0.0.1' );
+         p0 'dbname=science_1 host=188.44.43.21',
+         p1 'dbname=science_2 host=188.44.43.22');
 
 
 CREATE USER MAPPING FOR postgres SERVER science_cluster;
@@ -68,10 +68,17 @@ CREATE USER MAPPING FOR postgres SERVER science_cluster;
 GRANT USAGE ON FOREIGN SERVER science_cluster TO postgres;
 
 
-CREATE OR REPLACE FUNCTION insert_update (id text, query text)
+CREATE OR REPLACE FUNCTION execute_query (id text, query text)
 RETURNS void AS $$
     CLUSTER 'science_cluster';
     RUN ON hashtext(id);
+$$ LANGUAGE plproxy;
+
+
+CREATE OR REPLACE FUNCTION get_query (query text)
+RETURNS SETOF text AS $$
+    CLUSTER 'science_cluster';
+    RUN ON ALL;
 $$ LANGUAGE plproxy;
 
 
@@ -84,33 +91,29 @@ psql
 
 -- if not created
 
+create database science_1; -- on node_1
+create database science_2; -- on node_2
 
-create database science_00; -- on node_0
-create database science_01; -- on node_1
+\connect science_1; -- on node_1
+\connect science_2; -- on node_2
 
-\connect science_00; -- on node_0
-\connect science_01; -- on node_1
+CREATE TABLE projects (id text primary key, research_fields text[], title text, description_short text);
 
-
-
-CREATE TABLE projects (results text, related_data jsonb, title_tsvector tsvector,
-id text primary key, research_fields text[], title text, participants bigint[],
-university_connection jsonb, objective text, description_short text, leader jsonb,
-manager_id bigint REFERENCES scientists(id) ON DELETE CASCADE, project_site text,
-responses bigint[], usage_possibilities text, tags text[], description_short_tsvector tsvector,
-dt_created timestamp DEFAULT NULL, in_progress text, description_full text,
-vacancies bigint[], contacts jsonb, likes bigint);
-
-
-
-CREATE OR REPLACE FUNCTION insert_update (id text, query text)
+CREATE OR REPLACE FUNCTION execute_query (id text, query text)
 RETURNS void AS $$
 BEGIN
     EXECUTE query;
 END;
-$$ LANGUAGE plpgsql;;
+$$ LANGUAGE plpgsql;
 
 
-
-
-
+CREATE OR REPLACE FUNCTION get_query (query text)
+RETURNS SETOF text AS $$
+DECLARE t text;
+BEGIN
+    FOR t in EXECUTE query LOOP
+        RETURN NEXT t;
+    END LOOP;
+    RETURN;
+END;
+$$ LANGUAGE plpgsql;
