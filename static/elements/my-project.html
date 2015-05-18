@@ -72,9 +72,16 @@
                 </template>
             </template>
         </div>
+	    <core-ajax
+            id="projects"
+            url="/api/scientists/my-projects"
+            method="GET"
+            on-core-response="{{ onProjectsUpdate }}"
+            handleAs="json">
+        </core-ajax>
     </template>
     <script>
-        Polymer('my-project', {
+        Polymer('my-project', Polymer.mixin({
             acceptResponse: function(e) {
                 var response = e.target.templateInstance.model.r;
                 var ajax = this.$.ajax;
@@ -101,9 +108,22 @@
                 formData.append('data', JSON.stringify(json));
                 ajax.makeRequest(formData);
             },
-            onSuccess: function(e, detail, sender) {
-				console.log(detail);
-            }
-        });
+            onSuccess: function() {
+				this.$.projects.go();
+            },
+	        onProjectsUpdate: function(e, detail, sender) {
+		        var projectId = this.data.project_id;
+		        var projects = detail.response.data;
+		        var i = 0;
+
+		        for (; i < projects.length; i++) {
+			        if (projects[i].project_id === projectId) {
+				        break;
+			        }
+		        }
+
+		        this.mix(this.data, projects[i]);
+	        }
+        }, AppMixins.utils));
     </script>
 </polymer-element>
