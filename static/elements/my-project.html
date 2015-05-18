@@ -54,14 +54,21 @@
                                 </a>
                             </div>
                             <div>{{ r.vacancy_name }}</div>
-                            <div>
-                                <span class="icon-ok action" on-tap="{{ acceptResponse }}"></span>
-                                <span class="icon-cancel action" on-tap="{{ declineResponse }}"></span>
-                            </div>
+	                        <template if="{{ r.status }}">
+		                        <div>
+			                        <span>{{ r.status }}</span>
+		                        </div>
+	                        </template>
+                            <template if="{{ !r.status }}">
+	                            <div>
+	                                <span class="icon-ok action" on-tap="{{ acceptResponse }}"></span>
+	                                <span class="icon-cancel action" on-tap="{{ declineResponse }}"></span>
+	                            </div>
+                            </template>
                         </div>
                         <div class="message">{{ message }}</div>
                     </div>
-                    <app-ajax id="ajax" url="/api/projects/{{ data.project_id }}/responses"></app-ajax>
+                    <app-ajax id="ajax" url="/api/projects/{{ data.project_id }}/responses" on-core-response="{{ onSuccess }}"></app-ajax>
                 </template>
             </template>
         </div>
@@ -93,6 +100,9 @@
                 ajax.method = 'PUT';
                 formData.append('data', JSON.stringify(json));
                 ajax.makeRequest(formData);
+            },
+            onSuccess: function(e, detail, sender) {
+				console.log(detail);
             }
         });
     </script>
