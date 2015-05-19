@@ -178,7 +178,7 @@ def generate_projects_to_file(n=100, filename=None):
     with open(filename, 'a') as f:
 
         for project in xrange(n):
-            body = u'?'
+            body = u''
             for key, value in create_fields.iteritems():
                 body += u'{}='.format(key)
                 if value.type == basestring:
