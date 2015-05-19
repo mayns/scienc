@@ -32,7 +32,7 @@ def make_ammo(method, url, headers, case, body):
         "%d %s\n"
         "%s"
     )
-    return ammo_template % (len(req), case, req)
+    return ammo_template % (len(req) - 9, case, req)
 
 
 def main():
