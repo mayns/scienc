@@ -1,0 +1,6 @@
+2015-05-19 15:21:55.784 +0000 [info] [] Start
+2015-05-19 15:21:55.977 +0000 [error] [phantom_logger] bq_sleep: Operation canceled
+2015-05-19 15:21:55.977 +0000 [error] [monitor_io] bq_sleep: Operation canceled
+2015-05-19 15:21:55.977 +0000 [error] [benchmark_io stream_method brief_logger] bq_sleep: Operation canceled
+2015-05-19 15:21:55.977 +0000 [error] [monitor_io] bq_sleep: Operation canceled
+2015-05-19 15:21:56.003 +0000 [info] [] Exit

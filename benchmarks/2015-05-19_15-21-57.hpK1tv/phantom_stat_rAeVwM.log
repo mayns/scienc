@@ -1,0 +1,47 @@
+"2015-05-19 15:21:55.976 +0000" : {
+  "main_scheduler" : {
+    "bqs" : {
+      "32112" : {
+        "mmconts" : [0, 410, 503],
+        "acts" : [503, 2622],
+        "tstate" : { "idle" : 151201, "run" : 38530, "locked" : 2077, "mmap" : 12 }
+      },
+      "32113" : {
+        "mmconts" : [0, 409, 502],
+        "acts" : [6, 31],
+        "tstate" : { "idle" : 127838, "run" : 57457, "locked" : 99, "mmap" : 6307 }
+      }
+    }
+  },
+  "benchmark_io" : {
+    "simple_times" : {
+      "mcount" : {
+        "mcount" : { "41 -- 65" : 1 }
+      }
+    },
+    "stream_method" : {
+      "conns" : [1, 5],
+      "in" : [7271, 37801],
+      "out" : [67, 348],
+      "mmtasks" : [0, 0, 1],
+      "load" : 0.008,
+      "mcount" : {
+        "mcount" : { "Success" : 1 }
+      },
+      "http_proto0" : {
+        "mcount" : {
+          "mcount" : { "OK" : 1 }
+        }
+      },
+      "source_log" : {
+        "delta" : [0, 0, 7282]
+      },
+      "loggers" : {
+        "brief_logger" : {
+          "records" : [1, 5],
+          "out" : [60, 311]
+        }
+      }
+    }
+  }
+}

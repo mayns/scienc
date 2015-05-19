@@ -1,0 +1,659 @@
+2015-05-19 15:21:03,993 [DEBUG] tankcore Flushing config to: /var/lock/lunapark_j6bvD7.lock
+2015-05-19 15:21:03,993 [INFO] Tank.ConsoleWorker No config passed via cmdline, using ./load.ini
+2015-05-19 15:21:03,994 [DEBUG] tankcore Adding artifact file to collect (keep=True): /gen/scienc/benchmarks/load.ini
+2015-05-19 15:21:03,994 [INFO] tankcore Loading configs...
+2015-05-19 15:21:03,994 [DEBUG] tankcore Config file not found: /home/mahotin/.yandex-tank
+2015-05-19 15:21:03,994 [DEBUG] tankcore Reading configs: ['/etc/yandex-tank/00-base.ini', '/home/mahotin/.yandex-tank', '/gen/scienc/benchmarks/load.ini']
+2015-05-19 15:21:03,995 [DEBUG] tankcore Looking in section 'tank' for options starting with ''
+2015-05-19 15:21:03,995 [DEBUG] tankcore Option: pid
+2015-05-19 15:21:03,995 [DEBUG] tankcore Option: pid matched
+2015-05-19 15:21:03,995 [DEBUG] tankcore Option: lock_dir
+2015-05-19 15:21:03,995 [DEBUG] tankcore Option: lock_dir matched
+2015-05-19 15:21:03,995 [DEBUG] tankcore Option: plugin_rcheck
+2015-05-19 15:21:03,995 [DEBUG] tankcore Option: plugin_rcheck matched
+2015-05-19 15:21:03,995 [DEBUG] tankcore Option: plugin_shellexec
+2015-05-19 15:21:03,996 [DEBUG] tankcore Option: plugin_shellexec matched
+2015-05-19 15:21:03,996 [DEBUG] tankcore Option: plugin_phantom
+2015-05-19 15:21:03,996 [DEBUG] tankcore Option: plugin_phantom matched
+2015-05-19 15:21:03,996 [DEBUG] tankcore Option: plugin_aggreg
+2015-05-19 15:21:03,996 [DEBUG] tankcore Option: plugin_aggreg matched
+2015-05-19 15:21:03,996 [DEBUG] tankcore Option: plugin_autostop
+2015-05-19 15:21:03,996 [DEBUG] tankcore Option: plugin_autostop matched
+2015-05-19 15:21:03,996 [DEBUG] tankcore Option: plugin_monitoring
+2015-05-19 15:21:03,996 [DEBUG] tankcore Option: plugin_monitoring matched
+2015-05-19 15:21:03,996 [DEBUG] tankcore Option: plugin_console
+2015-05-19 15:21:03,996 [DEBUG] tankcore Option: plugin_console matched
+2015-05-19 15:21:03,996 [DEBUG] tankcore Option: plugin_web
+2015-05-19 15:21:03,997 [DEBUG] tankcore Option: plugin_web matched
+2015-05-19 15:21:03,997 [DEBUG] tankcore Option: plugin_tips
+2015-05-19 15:21:03,997 [DEBUG] tankcore Option: plugin_tips matched
+2015-05-19 15:21:03,997 [DEBUG] tankcore Option: plugin_totalautostop
+2015-05-19 15:21:03,997 [DEBUG] tankcore Option: plugin_totalautostop matched
+2015-05-19 15:21:03,997 [DEBUG] tankcore Option: plugin_loadosophia
+2015-05-19 15:21:03,997 [DEBUG] tankcore Option: plugin_loadosophia matched
+2015-05-19 15:21:03,997 [DEBUG] tankcore Option: plugin_graphite
+2015-05-19 15:21:03,997 [DEBUG] tankcore Option: plugin_graphite matched
+2015-05-19 15:21:03,997 [DEBUG] tankcore Option: plugin_rcassert
+2015-05-19 15:21:03,997 [DEBUG] tankcore Option: plugin_rcassert matched
+2015-05-19 15:21:03,997 [DEBUG] tankcore Option: plugin_report
+2015-05-19 15:21:03,998 [DEBUG] tankcore Option: plugin_report matched
+2015-05-19 15:21:03,998 [DEBUG] tankcore Found options: [('pid', '32056'), ('lock_dir', '/var/lock'), ('plugin_rcheck', 'Tank/Plugins/ResourceCheck.py'), ('plugin_shellexec', 'Tank/Plugins/ShellExec.py'), ('plugin_phantom', 'Tank/Plugins/Phantom.py'), ('plugin_aggreg', 'Tank/Plugins/Aggregator.py'), ('plugin_autostop', 'Tank/Plugins/Autostop.py'), ('plugin_monitoring', 'Tank/Plugins/Monitoring.py'), ('plugin_console', 'Tank/Plugins/ConsoleOnline.py'), ('plugin_web', 'Tank/Plugins/WebOnline.py'), ('plugin_tips', 'Tank/Plugins/TipsAndTricks.py'), ('plugin_totalautostop', 'Tank/Plugins/TotalAutostop.py'), ('plugin_loadosophia', 'Tank/Plugins/Loadosophia.py'), ('plugin_graphite', 'Tank/Plugins/GraphiteUploader.py'), ('plugin_rcassert', 'Tank/Plugins/RCAssert.py'), ('plugin_report', 'Tank/Plugins/Report.py')]
+2015-05-19 15:21:03,998 [DEBUG] tankcore Flushing config to: /var/lock/lunapark_j6bvD7.lock
+2015-05-19 15:21:03,998 [DEBUG] tankcore Adding artifact file to collect (keep=False): /var/lock/lunapark_j6bvD7.lock
+2015-05-19 15:21:03,998 [DEBUG] tankcore Flushing config to: /var/lock/lunapark_j6bvD7.lock
+2015-05-19 15:21:03,998 [DEBUG] tankcore Flushing config to: /var/lock/lunapark_j6bvD7.lock
+2015-05-19 15:21:03,999 [INFO] tankcore Loading plugins...
+2015-05-19 15:21:03,999 [DEBUG] tankcore Flushing config to: /var/lock/lunapark_j6bvD7.lock
+2015-05-19 15:21:03,999 [DEBUG] tankcore Flushing config to: /var/lock/lunapark_j6bvD7.lock
+2015-05-19 15:21:03,999 [DEBUG] tankcore Looking in section 'tank' for options starting with 'plugin_'
+2015-05-19 15:21:03,999 [DEBUG] tankcore Option: pid
+2015-05-19 15:21:03,999 [DEBUG] tankcore Option: lock_dir
+2015-05-19 15:21:04,000 [DEBUG] tankcore Option: plugin_rcheck
+2015-05-19 15:21:04,000 [DEBUG] tankcore Option: plugin_rcheck matched
+2015-05-19 15:21:04,000 [DEBUG] tankcore Option: plugin_shellexec
+2015-05-19 15:21:04,000 [DEBUG] tankcore Option: plugin_shellexec matched
+2015-05-19 15:21:04,000 [DEBUG] tankcore Option: plugin_phantom
+2015-05-19 15:21:04,000 [DEBUG] tankcore Option: plugin_phantom matched
+2015-05-19 15:21:04,000 [DEBUG] tankcore Option: plugin_aggreg
+2015-05-19 15:21:04,000 [DEBUG] tankcore Option: plugin_aggreg matched
+2015-05-19 15:21:04,000 [DEBUG] tankcore Option: plugin_autostop
+2015-05-19 15:21:04,000 [DEBUG] tankcore Option: plugin_autostop matched
+2015-05-19 15:21:04,000 [DEBUG] tankcore Option: plugin_monitoring
+2015-05-19 15:21:04,001 [DEBUG] tankcore Option: plugin_monitoring matched
+2015-05-19 15:21:04,001 [DEBUG] tankcore Option: plugin_console
+2015-05-19 15:21:04,001 [DEBUG] tankcore Option: plugin_console matched
+2015-05-19 15:21:04,001 [DEBUG] tankcore Option: plugin_web
+2015-05-19 15:21:04,001 [DEBUG] tankcore Option: plugin_web matched
+2015-05-19 15:21:04,001 [DEBUG] tankcore Option: plugin_tips
+2015-05-19 15:21:04,001 [DEBUG] tankcore Option: plugin_tips matched
+2015-05-19 15:21:04,001 [DEBUG] tankcore Option: plugin_totalautostop
+2015-05-19 15:21:04,001 [DEBUG] tankcore Option: plugin_totalautostop matched
+2015-05-19 15:21:04,001 [DEBUG] tankcore Option: plugin_loadosophia
+2015-05-19 15:21:04,001 [DEBUG] tankcore Option: plugin_loadosophia matched
+2015-05-19 15:21:04,001 [DEBUG] tankcore Option: plugin_graphite
+2015-05-19 15:21:04,002 [DEBUG] tankcore Option: plugin_graphite matched
+2015-05-19 15:21:04,002 [DEBUG] tankcore Option: plugin_rcassert
+2015-05-19 15:21:04,002 [DEBUG] tankcore Option: plugin_rcassert matched
+2015-05-19 15:21:04,002 [DEBUG] tankcore Option: plugin_report
+2015-05-19 15:21:04,002 [DEBUG] tankcore Option: plugin_report matched
+2015-05-19 15:21:04,002 [DEBUG] tankcore Option: flush_config_to
+2015-05-19 15:21:04,002 [DEBUG] tankcore Option: artifacts_base_dir
+2015-05-19 15:21:04,002 [DEBUG] tankcore Option: artifacts_dir
+2015-05-19 15:21:04,002 [DEBUG] tankcore Found options: [('rcheck', 'Tank/Plugins/ResourceCheck.py'), ('shellexec', 'Tank/Plugins/ShellExec.py'), ('phantom', 'Tank/Plugins/Phantom.py'), ('aggreg', 'Tank/Plugins/Aggregator.py'), ('autostop', 'Tank/Plugins/Autostop.py'), ('monitoring', 'Tank/Plugins/Monitoring.py'), ('console', 'Tank/Plugins/ConsoleOnline.py'), ('web', 'Tank/Plugins/WebOnline.py'), ('tips', 'Tank/Plugins/TipsAndTricks.py'), ('totalautostop', 'Tank/Plugins/TotalAutostop.py'), ('loadosophia', 'Tank/Plugins/Loadosophia.py'), ('graphite', 'Tank/Plugins/GraphiteUploader.py'), ('rcassert', 'Tank/Plugins/RCAssert.py'), ('report', 'Tank/Plugins/Report.py')]
+2015-05-19 15:21:04,002 [DEBUG] tankcore Loading plugin rcheck from Tank/Plugins/ResourceCheck.py
+2015-05-19 15:21:04,002 [DEBUG] tankcore Append to path: /usr/lib/yandex-tank/Tank/Plugins
+2015-05-19 15:21:04,003 [DEBUG] tankcore sys.path: ['/usr/lib/yandex-tank', '/usr/lib/python2.7', '/usr/lib/python2.7/plat-x86_64-linux-gnu', '/usr/lib/python2.7/lib-tk', '/usr/lib/python2.7/lib-old', '/usr/lib/python2.7/lib-dynload', '/usr/local/lib/python2.7/dist-packages', '/usr/local/lib/python2.7/dist-packages/PIL', '/usr/lib/python2.7/dist-packages', '/usr/lib/python2.7/dist-packages/gtk-2.0', '/usr/lib/pymodules/python2.7', '/usr/bin', '/usr/lib/yandex-tank/Tank/Plugins']
+2015-05-19 15:21:04,004 [DEBUG] tankcore Exec: res=ResourceCheck.ResourceCheckPlugin(self)
+2015-05-19 15:21:04,004 [DEBUG] tankcore Instantiated: <ResourceCheck.ResourceCheckPlugin instance at 0x7f6d4d4d3488>
+2015-05-19 15:21:04,005 [DEBUG] tankcore Loading plugin shellexec from Tank/Plugins/ShellExec.py
+2015-05-19 15:21:04,005 [DEBUG] tankcore sys.path: ['/usr/lib/yandex-tank', '/usr/lib/python2.7', '/usr/lib/python2.7/plat-x86_64-linux-gnu', '/usr/lib/python2.7/lib-tk', '/usr/lib/python2.7/lib-old', '/usr/lib/python2.7/lib-dynload', '/usr/local/lib/python2.7/dist-packages', '/usr/local/lib/python2.7/dist-packages/PIL', '/usr/lib/python2.7/dist-packages', '/usr/lib/python2.7/dist-packages/gtk-2.0', '/usr/lib/pymodules/python2.7', '/usr/bin', '/usr/lib/yandex-tank/Tank/Plugins']
+2015-05-19 15:21:04,006 [DEBUG] tankcore Exec: res=ShellExec.ShellExecPlugin(self)
+2015-05-19 15:21:04,007 [DEBUG] tankcore Instantiated: <ShellExec.ShellExecPlugin instance at 0x7f6d4d4d3638>
+2015-05-19 15:21:04,007 [DEBUG] tankcore Loading plugin phantom from Tank/Plugins/Phantom.py
+2015-05-19 15:21:04,007 [DEBUG] tankcore sys.path: ['/usr/lib/yandex-tank', '/usr/lib/python2.7', '/usr/lib/python2.7/plat-x86_64-linux-gnu', '/usr/lib/python2.7/lib-tk', '/usr/lib/python2.7/lib-old', '/usr/lib/python2.7/lib-dynload', '/usr/local/lib/python2.7/dist-packages', '/usr/local/lib/python2.7/dist-packages/PIL', '/usr/lib/python2.7/dist-packages', '/usr/lib/python2.7/dist-packages/gtk-2.0', '/usr/lib/pymodules/python2.7', '/usr/bin', '/usr/lib/yandex-tank/Tank/Plugins']
+2015-05-19 15:21:04,059 [DEBUG] tankcore Exec: res=Phantom.PhantomPlugin(self)
+2015-05-19 15:21:04,060 [DEBUG] tankcore Instantiated: <Phantom.PhantomPlugin instance at 0x7f6d4d21ccb0>
+2015-05-19 15:21:04,060 [DEBUG] tankcore Loading plugin aggreg from Tank/Plugins/Aggregator.py
+2015-05-19 15:21:04,061 [DEBUG] tankcore sys.path: ['/usr/lib/yandex-tank', '/usr/lib/python2.7', '/usr/lib/python2.7/plat-x86_64-linux-gnu', '/usr/lib/python2.7/lib-tk', '/usr/lib/python2.7/lib-old', '/usr/lib/python2.7/lib-dynload', '/usr/local/lib/python2.7/dist-packages', '/usr/local/lib/python2.7/dist-packages/PIL', '/usr/lib/python2.7/dist-packages', '/usr/lib/python2.7/dist-packages/gtk-2.0', '/usr/lib/pymodules/python2.7', '/usr/bin', '/usr/lib/yandex-tank/Tank/Plugins']
+2015-05-19 15:21:04,066 [DEBUG] tankcore Exec: res=Aggregator.AggregatorPlugin(self)
+2015-05-19 15:21:04,068 [DEBUG] tankcore Instantiated: <Aggregator.AggregatorPlugin instance at 0x7f6d4d243290>
+2015-05-19 15:21:04,068 [DEBUG] tankcore Loading plugin autostop from Tank/Plugins/Autostop.py
+2015-05-19 15:21:04,068 [DEBUG] tankcore sys.path: ['/usr/lib/yandex-tank', '/usr/lib/python2.7', '/usr/lib/python2.7/plat-x86_64-linux-gnu', '/usr/lib/python2.7/lib-tk', '/usr/lib/python2.7/lib-old', '/usr/lib/python2.7/lib-dynload', '/usr/local/lib/python2.7/dist-packages', '/usr/local/lib/python2.7/dist-packages/PIL', '/usr/lib/python2.7/dist-packages', '/usr/lib/python2.7/dist-packages/gtk-2.0', '/usr/lib/pymodules/python2.7', '/usr/bin', '/usr/lib/yandex-tank/Tank/Plugins']
+2015-05-19 15:21:04,074 [DEBUG] tankcore Exec: res=Autostop.AutostopPlugin(self)
+2015-05-19 15:21:04,075 [DEBUG] tankcore Instantiated: <Autostop.AutostopPlugin instance at 0x7f6d4d505d88>
+2015-05-19 15:21:04,075 [DEBUG] tankcore Loading plugin monitoring from Tank/Plugins/Monitoring.py
+2015-05-19 15:21:04,075 [DEBUG] tankcore sys.path: ['/usr/lib/yandex-tank', '/usr/lib/python2.7', '/usr/lib/python2.7/plat-x86_64-linux-gnu', '/usr/lib/python2.7/lib-tk', '/usr/lib/python2.7/lib-old', '/usr/lib/python2.7/lib-dynload', '/usr/local/lib/python2.7/dist-packages', '/usr/local/lib/python2.7/dist-packages/PIL', '/usr/lib/python2.7/dist-packages', '/usr/lib/python2.7/dist-packages/gtk-2.0', '/usr/lib/pymodules/python2.7', '/usr/bin', '/usr/lib/yandex-tank/Tank/Plugins']
+2015-05-19 15:21:04,131 [DEBUG] tankcore Exec: res=Monitoring.MonitoringPlugin(self)
+2015-05-19 15:21:04,131 [DEBUG] tankcore Instantiated: <Monitoring.MonitoringPlugin instance at 0x7f6d4d512d88>
+2015-05-19 15:21:04,131 [DEBUG] tankcore Loading plugin console from Tank/Plugins/ConsoleOnline.py
+2015-05-19 15:21:04,132 [DEBUG] tankcore sys.path: ['/usr/lib/yandex-tank', '/usr/lib/python2.7', '/usr/lib/python2.7/plat-x86_64-linux-gnu', '/usr/lib/python2.7/lib-tk', '/usr/lib/python2.7/lib-old', '/usr/lib/python2.7/lib-dynload', '/usr/local/lib/python2.7/dist-packages', '/usr/local/lib/python2.7/dist-packages/PIL', '/usr/lib/python2.7/dist-packages', '/usr/lib/python2.7/dist-packages/gtk-2.0', '/usr/lib/pymodules/python2.7', '/usr/bin', '/usr/lib/yandex-tank/Tank/Plugins']
+2015-05-19 15:21:04,134 [DEBUG] tankcore Exec: res=ConsoleOnline.ConsoleOnlinePlugin(self)
+2015-05-19 15:21:04,134 [DEBUG] tankcore Instantiated: <ConsoleOnline.ConsoleOnlinePlugin instance at 0x7f6d4c79ddd0>
+2015-05-19 15:21:04,134 [DEBUG] tankcore Loading plugin web from Tank/Plugins/WebOnline.py
+2015-05-19 15:21:04,135 [DEBUG] tankcore sys.path: ['/usr/lib/yandex-tank', '/usr/lib/python2.7', '/usr/lib/python2.7/plat-x86_64-linux-gnu', '/usr/lib/python2.7/lib-tk', '/usr/lib/python2.7/lib-old', '/usr/lib/python2.7/lib-dynload', '/usr/local/lib/python2.7/dist-packages', '/usr/local/lib/python2.7/dist-packages/PIL', '/usr/lib/python2.7/dist-packages', '/usr/lib/python2.7/dist-packages/gtk-2.0', '/usr/lib/pymodules/python2.7', '/usr/bin', '/usr/lib/yandex-tank/Tank/Plugins']
+2015-05-19 15:21:04,139 [DEBUG] tankcore Exec: res=WebOnline.WebOnlinePlugin(self)
+2015-05-19 15:21:04,139 [DEBUG] tankcore Instantiated: <WebOnlinePlugin(Thread-1, initial daemon)>
+2015-05-19 15:21:04,139 [DEBUG] tankcore Loading plugin tips from Tank/Plugins/TipsAndTricks.py
+2015-05-19 15:21:04,140 [DEBUG] tankcore sys.path: ['/usr/lib/yandex-tank', '/usr/lib/python2.7', '/usr/lib/python2.7/plat-x86_64-linux-gnu', '/usr/lib/python2.7/lib-tk', '/usr/lib/python2.7/lib-old', '/usr/lib/python2.7/lib-dynload', '/usr/local/lib/python2.7/dist-packages', '/usr/local/lib/python2.7/dist-packages/PIL', '/usr/lib/python2.7/dist-packages', '/usr/lib/python2.7/dist-packages/gtk-2.0', '/usr/lib/pymodules/python2.7', '/usr/bin', '/usr/lib/yandex-tank/Tank/Plugins']
+2015-05-19 15:21:04,142 [DEBUG] tankcore Exec: res=TipsAndTricks.TipsAndTricksPlugin(self)
+2015-05-19 15:21:04,143 [DEBUG] tankcore Instantiated: <TipsAndTricks.TipsAndTricksPlugin instance at 0x7f6d4c7a1d40>
+2015-05-19 15:21:04,143 [DEBUG] tankcore Loading plugin totalautostop from Tank/Plugins/TotalAutostop.py
+2015-05-19 15:21:04,144 [DEBUG] tankcore sys.path: ['/usr/lib/yandex-tank', '/usr/lib/python2.7', '/usr/lib/python2.7/plat-x86_64-linux-gnu', '/usr/lib/python2.7/lib-tk', '/usr/lib/python2.7/lib-old', '/usr/lib/python2.7/lib-dynload', '/usr/local/lib/python2.7/dist-packages', '/usr/local/lib/python2.7/dist-packages/PIL', '/usr/lib/python2.7/dist-packages', '/usr/lib/python2.7/dist-packages/gtk-2.0', '/usr/lib/pymodules/python2.7', '/usr/bin', '/usr/lib/yandex-tank/Tank/Plugins']
+2015-05-19 15:21:04,155 [DEBUG] tankcore Exec: res=TotalAutostop.TotalAutostopPlugin(self)
+2015-05-19 15:21:04,156 [DEBUG] tankcore Instantiated: <TotalAutostop.TotalAutostopPlugin instance at 0x7f6d4c7b6fc8>
+2015-05-19 15:21:04,156 [DEBUG] tankcore Loading plugin loadosophia from Tank/Plugins/Loadosophia.py
+2015-05-19 15:21:04,156 [DEBUG] tankcore sys.path: ['/usr/lib/yandex-tank', '/usr/lib/python2.7', '/usr/lib/python2.7/plat-x86_64-linux-gnu', '/usr/lib/python2.7/lib-tk', '/usr/lib/python2.7/lib-old', '/usr/lib/python2.7/lib-dynload', '/usr/local/lib/python2.7/dist-packages', '/usr/local/lib/python2.7/dist-packages/PIL', '/usr/lib/python2.7/dist-packages', '/usr/lib/python2.7/dist-packages/gtk-2.0', '/usr/lib/pymodules/python2.7', '/usr/bin', '/usr/lib/yandex-tank/Tank/Plugins']
+2015-05-19 15:21:04,184 [DEBUG] tankcore Exec: res=Loadosophia.LoadosophiaPlugin(self)
+2015-05-19 15:21:04,184 [DEBUG] tankcore Instantiated: <Loadosophia.LoadosophiaPlugin instance at 0x7f6d4c7a7560>
+2015-05-19 15:21:04,184 [DEBUG] tankcore Loading plugin graphite from Tank/Plugins/GraphiteUploader.py
+2015-05-19 15:21:04,185 [DEBUG] tankcore sys.path: ['/usr/lib/yandex-tank', '/usr/lib/python2.7', '/usr/lib/python2.7/plat-x86_64-linux-gnu', '/usr/lib/python2.7/lib-tk', '/usr/lib/python2.7/lib-old', '/usr/lib/python2.7/lib-dynload', '/usr/local/lib/python2.7/dist-packages', '/usr/local/lib/python2.7/dist-packages/PIL', '/usr/lib/python2.7/dist-packages', '/usr/lib/python2.7/dist-packages/gtk-2.0', '/usr/lib/pymodules/python2.7', '/usr/bin', '/usr/lib/yandex-tank/Tank/Plugins']
+2015-05-19 15:21:04,187 [DEBUG] tankcore Exec: res=GraphiteUploader.GraphiteUploaderPlugin(self)
+2015-05-19 15:21:04,187 [DEBUG] tankcore Instantiated: <GraphiteUploader.GraphiteUploaderPlugin instance at 0x7f6d4d278128>
+2015-05-19 15:21:04,187 [DEBUG] tankcore Loading plugin rcassert from Tank/Plugins/RCAssert.py
+2015-05-19 15:21:04,188 [DEBUG] tankcore sys.path: ['/usr/lib/yandex-tank', '/usr/lib/python2.7', '/usr/lib/python2.7/plat-x86_64-linux-gnu', '/usr/lib/python2.7/lib-tk', '/usr/lib/python2.7/lib-old', '/usr/lib/python2.7/lib-dynload', '/usr/local/lib/python2.7/dist-packages', '/usr/local/lib/python2.7/dist-packages/PIL', '/usr/lib/python2.7/dist-packages', '/usr/lib/python2.7/dist-packages/gtk-2.0', '/usr/lib/pymodules/python2.7', '/usr/bin', '/usr/lib/yandex-tank/Tank/Plugins']
+2015-05-19 15:21:04,189 [DEBUG] tankcore Exec: res=RCAssert.RCAssertPlugin(self)
+2015-05-19 15:21:04,189 [DEBUG] tankcore Instantiated: <RCAssert.RCAssertPlugin instance at 0x7f6d4d278248>
+2015-05-19 15:21:04,189 [DEBUG] tankcore Loading plugin report from Tank/Plugins/Report.py
+2015-05-19 15:21:04,189 [DEBUG] tankcore sys.path: ['/usr/lib/yandex-tank', '/usr/lib/python2.7', '/usr/lib/python2.7/plat-x86_64-linux-gnu', '/usr/lib/python2.7/lib-tk', '/usr/lib/python2.7/lib-old', '/usr/lib/python2.7/lib-dynload', '/usr/local/lib/python2.7/dist-packages', '/usr/local/lib/python2.7/dist-packages/PIL', '/usr/lib/python2.7/dist-packages', '/usr/lib/python2.7/dist-packages/gtk-2.0', '/usr/lib/pymodules/python2.7', '/usr/bin', '/usr/lib/yandex-tank/Tank/Plugins']
+2015-05-19 15:21:04,192 [DEBUG] tankcore Exec: res=Report.ReportPlugin(self)
+2015-05-19 15:21:04,192 [DEBUG] tankcore Instantiated: <Report.ReportPlugin instance at 0x7f6d4d278638>
+2015-05-19 15:21:04,192 [DEBUG] tankcore Plugin instances: {'/usr/lib/yandex-tank/Tank/Plugins/Phantom.py': <Phantom.PhantomPlugin instance at 0x7f6d4d21ccb0>, '/usr/lib/yandex-tank/Tank/Plugins/ConsoleOnline.py': <ConsoleOnline.ConsoleOnlinePlugin instance at 0x7f6d4c79ddd0>, '/usr/lib/yandex-tank/Tank/Plugins/TotalAutostop.py': <TotalAutostop.TotalAutostopPlugin instance at 0x7f6d4c7b6fc8>, '/usr/lib/yandex-tank/Tank/Plugins/Autostop.py': <Autostop.AutostopPlugin instance at 0x7f6d4d505d88>, '/usr/lib/yandex-tank/Tank/Plugins/Monitoring.py': <Monitoring.MonitoringPlugin instance at 0x7f6d4d512d88>, '/usr/lib/yandex-tank/Tank/Plugins/GraphiteUploader.py': <GraphiteUploader.GraphiteUploaderPlugin instance at 0x7f6d4d278128>, '/usr/lib/yandex-tank/Tank/Plugins/ResourceCheck.py': <ResourceCheck.ResourceCheckPlugin instance at 0x7f6d4d4d3488>, '/usr/lib/yandex-tank/Tank/Plugins/TipsAndTricks.py': <TipsAndTricks.TipsAndTricksPlugin instance at 0x7f6d4c7a1d40>, '/usr/lib/yandex-tank/Tank/Plugins/Report.py': <Report.ReportPlugin instance at 0x7f6d4d278638>, '/usr/lib/yandex-tank/Tank/Plugins/ShellExec.py': <ShellExec.ShellExecPlugin instance at 0x7f6d4d4d3638>, '/usr/lib/yandex-tank/Tank/Plugins/RCAssert.py': <RCAssert.RCAssertPlugin instance at 0x7f6d4d278248>, '/usr/lib/yandex-tank/Tank/Plugins/WebOnline.py': <WebOnlinePlugin(Thread-1, initial daemon)>, '/usr/lib/yandex-tank/Tank/Plugins/Aggregator.py': <Aggregator.AggregatorPlugin instance at 0x7f6d4d243290>, '/usr/lib/yandex-tank/Tank/Plugins/Loadosophia.py': <Loadosophia.LoadosophiaPlugin instance at 0x7f6d4c7a7560>}
+2015-05-19 15:21:04,192 [DEBUG] tankcore Plugins order: ['/usr/lib/yandex-tank/Tank/Plugins/ResourceCheck.py', '/usr/lib/yandex-tank/Tank/Plugins/ShellExec.py', '/usr/lib/yandex-tank/Tank/Plugins/Phantom.py', '/usr/lib/yandex-tank/Tank/Plugins/Aggregator.py', '/usr/lib/yandex-tank/Tank/Plugins/Autostop.py', '/usr/lib/yandex-tank/Tank/Plugins/Monitoring.py', '/usr/lib/yandex-tank/Tank/Plugins/ConsoleOnline.py', '/usr/lib/yandex-tank/Tank/Plugins/WebOnline.py', '/usr/lib/yandex-tank/Tank/Plugins/TipsAndTricks.py', '/usr/lib/yandex-tank/Tank/Plugins/TotalAutostop.py', '/usr/lib/yandex-tank/Tank/Plugins/Loadosophia.py', '/usr/lib/yandex-tank/Tank/Plugins/GraphiteUploader.py', '/usr/lib/yandex-tank/Tank/Plugins/RCAssert.py', '/usr/lib/yandex-tank/Tank/Plugins/Report.py']
+2015-05-19 15:21:04,193 [INFO] Tank.ConsoleWorker Performing test
+2015-05-19 15:21:04,193 [INFO] tankcore Configuring plugins...
+2015-05-19 15:21:04,193 [DEBUG] tankcore Configuring <ResourceCheck.ResourceCheckPlugin instance at 0x7f6d4d4d3488>
+2015-05-19 15:21:04,193 [DEBUG] tankcore No section 'rcheck', adding
+2015-05-19 15:21:04,193 [DEBUG] tankcore Flushing config to: /var/lock/lunapark_j6bvD7.lock
+2015-05-19 15:21:04,194 [DEBUG] tankcore Flushing config to: /var/lock/lunapark_j6bvD7.lock
+2015-05-19 15:21:04,194 [DEBUG] tankcore Flushing config to: /var/lock/lunapark_j6bvD7.lock
+2015-05-19 15:21:04,194 [DEBUG] tankcore Flushing config to: /var/lock/lunapark_j6bvD7.lock
+2015-05-19 15:21:04,194 [DEBUG] tankcore Configuring <ShellExec.ShellExecPlugin instance at 0x7f6d4d4d3638>
+2015-05-19 15:21:04,194 [DEBUG] tankcore No section 'shellexec', adding
+2015-05-19 15:21:04,195 [DEBUG] tankcore Flushing config to: /var/lock/lunapark_j6bvD7.lock
+2015-05-19 15:21:04,195 [DEBUG] tankcore Flushing config to: /var/lock/lunapark_j6bvD7.lock
+2015-05-19 15:21:04,195 [DEBUG] tankcore Flushing config to: /var/lock/lunapark_j6bvD7.lock
+2015-05-19 15:21:04,195 [DEBUG] tankcore Flushing config to: /var/lock/lunapark_j6bvD7.lock
+2015-05-19 15:21:04,196 [DEBUG] tankcore Flushing config to: /var/lock/lunapark_j6bvD7.lock
+2015-05-19 15:21:04,196 [DEBUG] tankcore Flushing config to: /var/lock/lunapark_j6bvD7.lock
+2015-05-19 15:21:04,196 [DEBUG] tankcore Configuring <Phantom.PhantomPlugin instance at 0x7f6d4d21ccb0>
+2015-05-19 15:21:04,196 [DEBUG] tankcore Flushing config to: /var/lock/lunapark_j6bvD7.lock
+2015-05-19 15:21:04,196 [DEBUG] tankcore Flushing config to: /var/lock/lunapark_j6bvD7.lock
+2015-05-19 15:21:04,197 [DEBUG] tankcore Flushing config to: /var/lock/lunapark_j6bvD7.lock
+2015-05-19 15:21:04,197 [DEBUG] tankcore Flushing config to: /var/lock/lunapark_j6bvD7.lock
+2015-05-19 15:21:04,197 [DEBUG] tankcore Searching for plugin: Tank.Plugins.Autostop.AutostopPlugin
+2015-05-19 15:21:04,198 [DEBUG] tankcore Flushing config to: /var/lock/lunapark_j6bvD7.lock
+2015-05-19 15:21:04,198 [DEBUG] tankcore Flushing config to: /var/lock/lunapark_j6bvD7.lock
+2015-05-19 15:21:04,198 [DEBUG] tankcore Flushing config to: /var/lock/lunapark_j6bvD7.lock
+2015-05-19 15:21:04,199 [DEBUG] tankcore Flushing config to: /var/lock/lunapark_j6bvD7.lock
+2015-05-19 15:21:04,199 [DEBUG] tankcore Flushing config to: /var/lock/lunapark_j6bvD7.lock
+2015-05-19 15:21:04,199 [DEBUG] tankcore Adding artifact file to collect (keep=False): /gen/scienc/benchmarks/answ_M432YD.log
+2015-05-19 15:21:04,200 [DEBUG] tankcore Flushing config to: /var/lock/lunapark_j6bvD7.lock
+2015-05-19 15:21:04,200 [DEBUG] tankcore Adding artifact file to collect (keep=False): /gen/scienc/benchmarks/phout_GoZij4.log
+2015-05-19 15:21:04,200 [DEBUG] tankcore Adding artifact file to collect (keep=False): /gen/scienc/benchmarks/phantom_stat_LlWgCC.log
+2015-05-19 15:21:04,200 [DEBUG] tankcore Adding artifact file to collect (keep=False): /gen/scienc/benchmarks/phantom_9EVo_v.log
+2015-05-19 15:21:04,200 [DEBUG] tankcore Flushing config to: /var/lock/lunapark_j6bvD7.lock
+2015-05-19 15:21:04,201 [DEBUG] tankcore Flushing config to: /var/lock/lunapark_j6bvD7.lock
+2015-05-19 15:21:04,201 [DEBUG] tankcore Flushing config to: /var/lock/lunapark_j6bvD7.lock
+2015-05-19 15:21:04,201 [DEBUG] tankcore Flushing config to: /var/lock/lunapark_j6bvD7.lock
+2015-05-19 15:21:04,202 [DEBUG] tankcore Flushing config to: /var/lock/lunapark_j6bvD7.lock
+2015-05-19 15:21:04,202 [DEBUG] tankcore Flushing config to: /var/lock/lunapark_j6bvD7.lock
+2015-05-19 15:21:04,202 [DEBUG] tankcore Flushing config to: /var/lock/lunapark_j6bvD7.lock
+2015-05-19 15:21:04,203 [DEBUG] tankcore Flushing config to: /var/lock/lunapark_j6bvD7.lock
+2015-05-19 15:21:04,203 [DEBUG] tankcore Flushing config to: /var/lock/lunapark_j6bvD7.lock
+2015-05-19 15:21:04,203 [DEBUG] tankcore Flushing config to: /var/lock/lunapark_j6bvD7.lock
+2015-05-19 15:21:04,204 [DEBUG] tankcore Flushing config to: /var/lock/lunapark_j6bvD7.lock
+2015-05-19 15:21:04,204 [DEBUG] tankcore Flushing config to: /var/lock/lunapark_j6bvD7.lock
+2015-05-19 15:21:04,204 [DEBUG] root Trying to resolve address string: science.im
+2015-05-19 15:21:04,205 [DEBUG] root Parsing port
+2015-05-19 15:21:04,206 [DEBUG] root Lookup result: [(2, 1, 6, '', ('188.44.43.9', 0)), (2, 2, 17, '', ('188.44.43.9', 0)), (2, 3, 0, '', ('188.44.43.9', 0))]
+2015-05-19 15:21:04,206 [WARNING] root Using phantom.port option is deprecated. Use phantom.address=[address]:port instead
+2015-05-19 15:21:04,207 [INFO] root Resolved science.im into 188.44.43.9:80
+2015-05-19 15:21:04,207 [INFO] Tank.stepper.main Configuring StepperWrapper...
+2015-05-19 15:21:04,208 [DEBUG] tankcore Flushing config to: /var/lock/lunapark_j6bvD7.lock
+2015-05-19 15:21:04,208 [DEBUG] Tank.stepper.main Option phantom.ammofile = 
+2015-05-19 15:21:04,208 [DEBUG] tankcore Flushing config to: /var/lock/lunapark_j6bvD7.lock
+2015-05-19 15:21:04,209 [DEBUG] Tank.stepper.main Option phantom.ammo_type = phantom
+2015-05-19 15:21:04,209 [DEBUG] tankcore Flushing config to: /var/lock/lunapark_j6bvD7.lock
+2015-05-19 15:21:04,209 [DEBUG] Tank.stepper.main Option phantom.loop = -1
+2015-05-19 15:21:04,209 [DEBUG] tankcore Flushing config to: /var/lock/lunapark_j6bvD7.lock
+2015-05-19 15:21:04,210 [DEBUG] Tank.stepper.main Option phantom.ammo_limit = -1
+2015-05-19 15:21:04,210 [DEBUG] Tank.stepper.main Option phantom.rps_schedule = line(1, 100, 10m)
+2015-05-19 15:21:04,210 [DEBUG] tankcore Flushing config to: /var/lock/lunapark_j6bvD7.lock
+2015-05-19 15:21:04,210 [DEBUG] Tank.stepper.main Option phantom.instances_schedule = 
+2015-05-19 15:21:04,210 [DEBUG] Tank.stepper.main Option phantom.instances = 1000
+2015-05-19 15:21:04,210 [DEBUG] Tank.stepper.main Option phantom.uris = /
+2015-05-19 15:21:04,211 [DEBUG] Tank.stepper.main Option phantom.headers = [Host: www.target.example.com]
+[Connection: close]
+2015-05-19 15:21:04,211 [DEBUG] Tank.stepper.main Option phantom.header_http = 1.1
+2015-05-19 15:21:04,211 [DEBUG] tankcore Flushing config to: /var/lock/lunapark_j6bvD7.lock
+2015-05-19 15:21:04,211 [DEBUG] Tank.stepper.main Option phantom.autocases = 0
+2015-05-19 15:21:04,211 [DEBUG] tankcore Flushing config to: /var/lock/lunapark_j6bvD7.lock
+2015-05-19 15:21:04,212 [DEBUG] Tank.stepper.main Option phantom.use_caching = 1
+2015-05-19 15:21:04,212 [DEBUG] tankcore Flushing config to: /var/lock/lunapark_j6bvD7.lock
+2015-05-19 15:21:04,212 [DEBUG] Tank.stepper.main Option phantom.file_cache = 8192
+2015-05-19 15:21:04,212 [DEBUG] tankcore Flushing config to: /var/lock/lunapark_j6bvD7.lock
+2015-05-19 15:21:04,213 [DEBUG] tankcore Flushing config to: /var/lock/lunapark_j6bvD7.lock
+2015-05-19 15:21:04,213 [DEBUG] Tank.stepper.main Option phantom.force_stepping = 0
+2015-05-19 15:21:04,213 [DEBUG] tankcore Flushing config to: /var/lock/lunapark_j6bvD7.lock
+2015-05-19 15:21:04,213 [DEBUG] Tank.stepper.main Option phantom.stpd_file = 
+2015-05-19 15:21:04,213 [DEBUG] tankcore Flushing config to: /var/lock/lunapark_j6bvD7.lock
+2015-05-19 15:21:04,214 [DEBUG] Tank.stepper.main Option phantom.chosen_cases = 
+2015-05-19 15:21:04,214 [DEBUG] tankcore Flushing config to: /var/lock/lunapark_j6bvD7.lock
+2015-05-19 15:21:04,214 [DEBUG] tankcore Configuring <Aggregator.AggregatorPlugin instance at 0x7f6d4d243290>
+2015-05-19 15:21:04,214 [DEBUG] tankcore No section 'aggregator', adding
+2015-05-19 15:21:04,214 [DEBUG] tankcore Flushing config to: /var/lock/lunapark_j6bvD7.lock
+2015-05-19 15:21:04,215 [DEBUG] tankcore Flushing config to: /var/lock/lunapark_j6bvD7.lock
+2015-05-19 15:21:04,216 [DEBUG] tankcore Flushing config to: /var/lock/lunapark_j6bvD7.lock
+2015-05-19 15:21:04,216 [DEBUG] tankcore Flushing config to: /var/lock/lunapark_j6bvD7.lock
+2015-05-19 15:21:04,216 [DEBUG] tankcore Configuring <Autostop.AutostopPlugin instance at 0x7f6d4d505d88>
+2015-05-19 15:21:04,216 [DEBUG] tankcore Searching for plugin: Tank.Plugins.Aggregator.AggregatorPlugin
+2015-05-19 15:21:04,217 [DEBUG] tankcore No section 'autostop', adding
+2015-05-19 15:21:04,217 [DEBUG] tankcore Flushing config to: /var/lock/lunapark_j6bvD7.lock
+2015-05-19 15:21:04,217 [DEBUG] tankcore Flushing config to: /var/lock/lunapark_j6bvD7.lock
+2015-05-19 15:21:04,217 [DEBUG] tankcore Configuring <Monitoring.MonitoringPlugin instance at 0x7f6d4d512d88>
+2015-05-19 15:21:04,218 [DEBUG] tankcore No section 'monitoring', adding
+2015-05-19 15:21:04,218 [DEBUG] tankcore Flushing config to: /var/lock/lunapark_j6bvD7.lock
+2015-05-19 15:21:04,218 [DEBUG] tankcore Flushing config to: /var/lock/lunapark_j6bvD7.lock
+2015-05-19 15:21:04,218 [DEBUG] tankcore Flushing config to: /var/lock/lunapark_j6bvD7.lock
+2015-05-19 15:21:04,219 [DEBUG] tankcore Searching for plugin: Tank.Plugins.Autostop.AutostopPlugin
+2015-05-19 15:21:04,219 [DEBUG] tankcore Flushing config to: /var/lock/lunapark_j6bvD7.lock
+2015-05-19 15:21:04,219 [DEBUG] tankcore Configuring <ConsoleOnline.ConsoleOnlinePlugin instance at 0x7f6d4c79ddd0>
+2015-05-19 15:21:04,219 [DEBUG] tankcore No section 'console', adding
+2015-05-19 15:21:04,220 [DEBUG] tankcore Flushing config to: /var/lock/lunapark_j6bvD7.lock
+2015-05-19 15:21:04,220 [DEBUG] tankcore Flushing config to: /var/lock/lunapark_j6bvD7.lock
+2015-05-19 15:21:04,220 [DEBUG] tankcore Flushing config to: /var/lock/lunapark_j6bvD7.lock
+2015-05-19 15:21:04,221 [DEBUG] tankcore Flushing config to: /var/lock/lunapark_j6bvD7.lock
+2015-05-19 15:21:04,221 [DEBUG] tankcore Searching for plugin: Tank.Plugins.Aggregator.AggregatorPlugin
+2015-05-19 15:21:04,222 [DEBUG] tankcore Flushing config to: /var/lock/lunapark_j6bvD7.lock
+2015-05-19 15:21:04,222 [DEBUG] tankcore Configuring <WebOnlinePlugin(Thread-1, initial daemon)>
+2015-05-19 15:21:04,222 [DEBUG] tankcore Flushing config to: /var/lock/lunapark_j6bvD7.lock
+2015-05-19 15:21:04,223 [DEBUG] tankcore Flushing config to: /var/lock/lunapark_j6bvD7.lock
+2015-05-19 15:21:04,223 [DEBUG] tankcore Flushing config to: /var/lock/lunapark_j6bvD7.lock
+2015-05-19 15:21:04,223 [DEBUG] tankcore Flushing config to: /var/lock/lunapark_j6bvD7.lock
+2015-05-19 15:21:04,224 [DEBUG] tankcore Configuring <TipsAndTricks.TipsAndTricksPlugin instance at 0x7f6d4c7a1d40>
+2015-05-19 15:21:04,224 [DEBUG] tankcore No section 'tips', adding
+2015-05-19 15:21:04,224 [DEBUG] tankcore Flushing config to: /var/lock/lunapark_j6bvD7.lock
+2015-05-19 15:21:04,224 [DEBUG] tankcore Flushing config to: /var/lock/lunapark_j6bvD7.lock
+2015-05-19 15:21:04,225 [DEBUG] tankcore Configuring <TotalAutostop.TotalAutostopPlugin instance at 0x7f6d4c7b6fc8>
+2015-05-19 15:21:04,225 [DEBUG] tankcore Searching for plugin: Tank.Plugins.Autostop.AutostopPlugin
+2015-05-19 15:21:04,225 [DEBUG] tankcore Flushing config to: /var/lock/lunapark_j6bvD7.lock
+2015-05-19 15:21:04,225 [DEBUG] tankcore Configuring <Loadosophia.LoadosophiaPlugin instance at 0x7f6d4c7a7560>
+2015-05-19 15:21:04,226 [DEBUG] tankcore No section 'loadosophia', adding
+2015-05-19 15:21:04,226 [DEBUG] tankcore Flushing config to: /var/lock/lunapark_j6bvD7.lock
+2015-05-19 15:21:04,226 [DEBUG] tankcore Flushing config to: /var/lock/lunapark_j6bvD7.lock
+2015-05-19 15:21:04,227 [DEBUG] tankcore Flushing config to: /var/lock/lunapark_j6bvD7.lock
+2015-05-19 15:21:04,227 [DEBUG] tankcore Flushing config to: /var/lock/lunapark_j6bvD7.lock
+2015-05-19 15:21:04,227 [DEBUG] tankcore Flushing config to: /var/lock/lunapark_j6bvD7.lock
+2015-05-19 15:21:04,228 [DEBUG] tankcore Flushing config to: /var/lock/lunapark_j6bvD7.lock
+2015-05-19 15:21:04,228 [DEBUG] tankcore Searching for plugin: Tank.Plugins.Aggregator.AggregatorPlugin
+2015-05-19 15:21:04,228 [DEBUG] tankcore Flushing config to: /var/lock/lunapark_j6bvD7.lock
+2015-05-19 15:21:04,229 [DEBUG] tankcore Configuring <GraphiteUploader.GraphiteUploaderPlugin instance at 0x7f6d4d278128>
+2015-05-19 15:21:04,229 [DEBUG] tankcore No section 'graphite', adding
+2015-05-19 15:21:04,229 [DEBUG] tankcore Flushing config to: /var/lock/lunapark_j6bvD7.lock
+2015-05-19 15:21:04,229 [WARNING] tankcore Graphite uploader is not configured and will not send any data
+2015-05-19 15:21:04,230 [DEBUG] tankcore Flushing config to: /var/lock/lunapark_j6bvD7.lock
+2015-05-19 15:21:04,230 [DEBUG] tankcore Configuring <RCAssert.RCAssertPlugin instance at 0x7f6d4d278248>
+2015-05-19 15:21:04,230 [DEBUG] tankcore No section 'rcassert', adding
+2015-05-19 15:21:04,230 [DEBUG] tankcore Flushing config to: /var/lock/lunapark_j6bvD7.lock
+2015-05-19 15:21:04,231 [DEBUG] tankcore Flushing config to: /var/lock/lunapark_j6bvD7.lock
+2015-05-19 15:21:04,231 [DEBUG] tankcore Flushing config to: /var/lock/lunapark_j6bvD7.lock
+2015-05-19 15:21:04,232 [DEBUG] tankcore Configuring <Report.ReportPlugin instance at 0x7f6d4d278638>
+2015-05-19 15:21:04,232 [DEBUG] tankcore No section 'report', adding
+2015-05-19 15:21:04,232 [DEBUG] tankcore Flushing config to: /var/lock/lunapark_j6bvD7.lock
+2015-05-19 15:21:04,232 [DEBUG] tankcore Flushing config to: /var/lock/lunapark_j6bvD7.lock
+2015-05-19 15:21:04,233 [DEBUG] tankcore Searching for plugin: Tank.Plugins.Aggregator.AggregatorPlugin
+2015-05-19 15:21:04,233 [DEBUG] tankcore Searching for plugin: Tank.Plugins.Monitoring.MonitoringPlugin
+2015-05-19 15:21:04,233 [DEBUG] tankcore Flushing config to: /var/lock/lunapark_j6bvD7.lock
+2015-05-19 15:21:04,234 [INFO] tankcore Preparing test...
+2015-05-19 15:21:04,234 [DEBUG] tankcore Preparing <ResourceCheck.ResourceCheckPlugin instance at 0x7f6d4d4d3488>
+2015-05-19 15:21:04,234 [INFO] tankcore Checking tank resources...
+2015-05-19 15:21:04,234 [DEBUG] tankcore Starting: sh -c "df --no-sync -m -P -l -x fuse -x tmpfs -x devtmpfs -x davfs -x nfs . | tail -n 1 | awk '{print \$4}' "
+2015-05-19 15:21:04,238 [DEBUG] tankcore Waiting for process to finish: <subprocess.Popen object at 0x7f6d4d281d90>
+2015-05-19 15:21:04,339 [DEBUG] tankcore 35061
+2015-05-19 15:21:04,339 [DEBUG] tankcore Process exit code: 0
+2015-05-19 15:21:04,339 [DEBUG] root Result: (0, '35061\n', '')
+2015-05-19 15:21:04,340 [DEBUG] tankcore Disk free space: 35061/2048
+2015-05-19 15:21:04,340 [DEBUG] tankcore Starting: free -m | awk '$1=="-/+" {print $4}'
+2015-05-19 15:21:04,344 [DEBUG] tankcore Waiting for process to finish: <subprocess.Popen object at 0x7f6d4d281d90>
+2015-05-19 15:21:04,444 [DEBUG] tankcore 3935
+2015-05-19 15:21:04,445 [DEBUG] tankcore Process exit code: 0
+2015-05-19 15:21:04,445 [DEBUG] tankcore Memory free: 3935/512
+2015-05-19 15:21:04,445 [DEBUG] tankcore Preparing <ShellExec.ShellExecPlugin instance at 0x7f6d4d4d3638>
+2015-05-19 15:21:04,445 [DEBUG] tankcore Preparing <Phantom.PhantomPlugin instance at 0x7f6d4d21ccb0>
+2015-05-19 15:21:04,445 [DEBUG] tankcore Searching for plugin: Tank.Plugins.Aggregator.AggregatorPlugin
+2015-05-19 15:21:04,446 [DEBUG] Tank.stepper.main stpd-hash source: cache version 4||-1|-1|line(1, 100, 10m)|0|/|Host: www.target.example.com;Connection: close|1.1||/|Host: www.target.example.com;Connection: close
+2015-05-19 15:21:04,446 [DEBUG] Tank.stepper.main Generated cache file name: ./_2f532c1160ffd0bdf5f6e4ae3644949d.stpd
+2015-05-19 15:21:04,446 [DEBUG] tankcore Flushing config to: /var/lock/lunapark_j6bvD7.lock
+2015-05-19 15:21:04,447 [INFO] Tank.stepper.main Making stpd-file: ./_2f532c1160ffd0bdf5f6e4ae3644949d.stpd
+2015-05-19 15:21:04,447 [DEBUG] Tank.stepper.info Published 1000 to instances
+2015-05-19 15:21:04,447 [DEBUG] Tank.stepper.info Published ['line(1, 100, 10m)'] to loadscheme
+2015-05-19 15:21:04,448 [DEBUG] Tank.stepper.info Published 600 to duration
+2015-05-19 15:21:04,450 [DEBUG] Tank.stepper.info Published [(1, 7), (2, 6), (3, 6), (4, 6), (5, 6), (6, 6), (7, 6), (8, 6), (9, 6), (10, 6), (11, 6), (12, 6), (13, 6), (14, 6), (15, 6), (16, 6), (17, 7), (18, 6), (19, 6), (20, 6), (21, 6), (22, 6), (23, 6), (24, 6), (25, 6), (26, 6), (27, 6), (28, 6), (29, 6), (30, 6), (31, 6), (32, 6), (33, 6), (34, 7), (35, 6), (36, 6), (37, 6), (38, 6), (39, 6), (40, 6), (41, 6), (42, 6), (43, 6), (44, 6), (45, 6), (46, 6), (47, 6), (48, 6), (49, 6), (50, 7), (51, 6), (52, 6), (53, 6), (54, 6), (55, 6), (56, 6), (57, 6), (58, 6), (59, 6), (60, 6), (61, 6), (62, 6), (63, 6), (64, 6), (65, 6), (66, 6), (67, 7), (68, 6), (69, 6), (70, 6), (71, 6), (72, 6), (73, 6), (74, 6), (75, 6), (76, 6), (77, 6), (78, 6), (79, 6), (80, 6), (81, 6), (82, 6), (83, 7), (84, 6), (85, 6), (86, 6), (87, 6), (88, 6), (89, 6), (90, 6), (91, 6), (92, 6), (93, 6), (94, 6), (95, 6), (96, 6), (97, 6), (98, 6), (99, 6)] to steps
+2015-05-19 15:21:04,450 [INFO] Tank.stepper.config Using UriStyleGenerator ammo reader
+2015-05-19 15:21:04,828 [DEBUG] Tank.stepper.main Saving stepper info: ./_2f532c1160ffd0bdf5f6e4ae3644949d.stpd_si.json
+2015-05-19 15:21:04,830 [DEBUG] tankcore Adding artifact file to collect (keep=False): /gen/scienc/benchmarks/phantom_UZyW6j.conf
+2015-05-19 15:21:04,830 [DEBUG] Tank.Plugins.PhantomUtils Generating phantom config: /gen/scienc/benchmarks/phantom_UZyW6j.conf
+2015-05-19 15:21:04,831 [DEBUG] tankcore Starting: ['phantom', 'check', '/gen/scienc/benchmarks/phantom_UZyW6j.conf']
+2015-05-19 15:21:04,836 [DEBUG] tankcore Waiting for process to finish: <subprocess.Popen object at 0x7f6d4d281e90>
+2015-05-19 15:21:05,836 [DEBUG] tankcore setup_t module_setup = setup_module_t {
+2015-05-19 15:21:05,837 [DEBUG] tankcore dir = "/usr/lib/phantom"
+2015-05-19 15:21:05,837 [DEBUG] tankcore list = {
+2015-05-19 15:21:05,837 [DEBUG] tankcore io_monitor
+2015-05-19 15:21:05,837 [DEBUG] tankcore ssl
+2015-05-19 15:21:05,837 [DEBUG] tankcore io_benchmark
+2015-05-19 15:21:05,837 [DEBUG] tankcore io_benchmark_method_stream
+2015-05-19 15:21:05,837 [DEBUG] tankcore io_benchmark_method_stream_ipv4
+2015-05-19 15:21:05,837 [DEBUG] tankcore io_benchmark_method_stream_ipv6
+2015-05-19 15:21:05,837 [DEBUG] tankcore io_benchmark_method_stream_transport_ssl
+2015-05-19 15:21:05,837 [DEBUG] tankcore io_benchmark_method_stream_source_log
+2015-05-19 15:21:05,837 [DEBUG] tankcore io_benchmark_method_stream_proto_none
+2015-05-19 15:21:05,837 [DEBUG] tankcore io_benchmark_method_stream_proto_http
+2015-05-19 15:21:05,837 [DEBUG] tankcore }
+2015-05-19 15:21:05,838 [DEBUG] tankcore }
+2015-05-19 15:21:05,838 [DEBUG] tankcore setup_t stat_setup = setup_stat_t {
+2015-05-19 15:21:05,838 [DEBUG] tankcore list = {
+2015-05-19 15:21:05,838 [DEBUG] tankcore default
+2015-05-19 15:21:05,838 [DEBUG] tankcore }
+2015-05-19 15:21:05,838 [DEBUG] tankcore }
+2015-05-19 15:21:05,838 [DEBUG] tankcore scheduler_t main_scheduler = scheduler_simple_t {
+2015-05-19 15:21:05,838 [DEBUG] tankcore threads = 2
+2015-05-19 15:21:05,838 [DEBUG] tankcore limit = unlimited
+2015-05-19 15:21:05,838 [DEBUG] tankcore event_buf_size = 20
+2015-05-19 15:21:05,838 [DEBUG] tankcore timeout_prec = 001
+2015-05-19 15:21:05,838 [DEBUG] tankcore tname = ""
+2015-05-19 15:21:05,838 [DEBUG] tankcore policy = other
+2015-05-19 15:21:05,838 [DEBUG] tankcore priority = 0
+2015-05-19 15:21:05,838 [DEBUG] tankcore }
+2015-05-19 15:21:05,839 [DEBUG] tankcore logger_t phantom_logger = logger_file_t {
+2015-05-19 15:21:05,839 [DEBUG] tankcore level = info
+2015-05-19 15:21:05,839 [DEBUG] tankcore filename = "/gen/scienc/benchmarks/phantom_9EVo_v.log"
+2015-05-19 15:21:05,839 [DEBUG] tankcore check_interval = 1s
+2015-05-19 15:21:05,839 [DEBUG] tankcore scheduler = main_scheduler
+2015-05-19 15:21:05,839 [DEBUG] tankcore }
+2015-05-19 15:21:05,839 [DEBUG] tankcore logger = phantom_logger
+2015-05-19 15:21:05,839 [DEBUG] tankcore io_t benchmark_io = io_benchmark_t {
+2015-05-19 15:21:05,839 [DEBUG] tankcore instances = 1000
+2015-05-19 15:21:05,839 [DEBUG] tankcore method_t stream_method = method_stream_ipv4_t {
+2015-05-19 15:21:05,839 [DEBUG] tankcore address = 188.44.43.9
+2015-05-19 15:21:05,839 [DEBUG] tankcore port = 80
+2015-05-19 15:21:05,839 [DEBUG] tankcore bind = {
+2015-05-19 15:21:05,839 [DEBUG] tankcore }
+2015-05-19 15:21:05,839 [DEBUG] tankcore cork = true
+2015-05-19 15:21:05,840 [DEBUG] tankcore timeout = 11s
+2015-05-19 15:21:05,840 [DEBUG] tankcore ibuf_size = 4K
+2015-05-19 15:21:05,840 [DEBUG] tankcore obuf_size = 1K
+2015-05-19 15:21:05,840 [DEBUG] tankcore source_t source_log = source_log_t {
+2015-05-19 15:21:05,840 [DEBUG] tankcore filename = "./_2f532c1160ffd0bdf5f6e4ae3644949d.stpd"
+2015-05-19 15:21:05,840 [DEBUG] tankcore ibuf_size = 1M
+2015-05-19 15:21:05,840 [DEBUG] tankcore }
+2015-05-19 15:21:05,840 [DEBUG] tankcore source = source_log
+2015-05-19 15:21:05,840 [DEBUG] tankcore transport = NULL
+2015-05-19 15:21:05,840 [DEBUG] tankcore proto_t http_proto0 = proto_http_t {
+2015-05-19 15:21:05,840 [DEBUG] tankcore reply_limits = {
+2015-05-19 15:21:05,840 [DEBUG] tankcore line = 1K
+2015-05-19 15:21:05,840 [DEBUG] tankcore field_num = 128
+2015-05-19 15:21:05,841 [DEBUG] tankcore field = 8K
+2015-05-19 15:21:05,841 [DEBUG] tankcore entity = 8M
+2015-05-19 15:21:05,841 [DEBUG] tankcore }
+2015-05-19 15:21:05,841 [DEBUG] tankcore }
+2015-05-19 15:21:05,841 [DEBUG] tankcore proto_t none_proto = proto_none_t {
+2015-05-19 15:21:05,841 [DEBUG] tankcore }
+2015-05-19 15:21:05,841 [DEBUG] tankcore proto = http_proto0
+2015-05-19 15:21:05,841 [DEBUG] tankcore logger_t benchmark_logger = logger_default_t {
+2015-05-19 15:21:05,841 [DEBUG] tankcore filename = "/gen/scienc/benchmarks/answ_M432YD.log"
+2015-05-19 15:21:05,841 [DEBUG] tankcore check_interval = 1s
+2015-05-19 15:21:05,841 [DEBUG] tankcore scheduler = main_scheduler
+2015-05-19 15:21:05,841 [DEBUG] tankcore level = all
+2015-05-19 15:21:05,841 [DEBUG] tankcore }
+2015-05-19 15:21:05,841 [DEBUG] tankcore logger_t brief_logger = logger_brief_t {
+2015-05-19 15:21:05,842 [DEBUG] tankcore time_format = unix
+2015-05-19 15:21:05,842 [DEBUG] tankcore filename = "/gen/scienc/benchmarks/phout_GoZij4.log"
+2015-05-19 15:21:05,842 [DEBUG] tankcore check_interval = 1s
+2015-05-19 15:21:05,842 [DEBUG] tankcore scheduler = main_scheduler
+2015-05-19 15:21:05,842 [DEBUG] tankcore level = all
+2015-05-19 15:21:05,842 [DEBUG] tankcore }
+2015-05-19 15:21:05,842 [DEBUG] tankcore loggers = {
+2015-05-19 15:21:05,842 [DEBUG] tankcore brief_logger
+2015-05-19 15:21:05,842 [DEBUG] tankcore }
+2015-05-19 15:21:05,842 [DEBUG] tankcore }
+2015-05-19 15:21:05,842 [DEBUG] tankcore method = stream_method
+2015-05-19 15:21:05,842 [DEBUG] tankcore times_t simple_times = times_simple_t {
+2015-05-19 15:21:05,842 [DEBUG] tankcore max = 11s
+2015-05-19 15:21:05,842 [DEBUG] tankcore min = 001
+2015-05-19 15:21:05,842 [DEBUG] tankcore steps = 20
+2015-05-19 15:21:05,843 [DEBUG] tankcore }
+2015-05-19 15:21:05,843 [DEBUG] tankcore times = simple_times
+2015-05-19 15:21:05,843 [DEBUG] tankcore scheduler = main_scheduler
+2015-05-19 15:21:05,843 [DEBUG] tankcore }
+2015-05-19 15:21:05,843 [DEBUG] tankcore io_t monitor_io = io_monitor_t {
+2015-05-19 15:21:05,843 [DEBUG] tankcore clear = true
+2015-05-19 15:21:05,843 [DEBUG] tankcore period = 1s
+2015-05-19 15:21:05,843 [DEBUG] tankcore list = {
+2015-05-19 15:21:05,843 [DEBUG] tankcore main_scheduler
+2015-05-19 15:21:05,843 [DEBUG] tankcore benchmark_io
+2015-05-19 15:21:05,843 [DEBUG] tankcore }
+2015-05-19 15:21:05,843 [DEBUG] tankcore stat_id = default
+2015-05-19 15:21:05,843 [DEBUG] tankcore filename = "/gen/scienc/benchmarks/phantom_stat_LlWgCC.log"
+2015-05-19 15:21:05,843 [DEBUG] tankcore check_interval = 1s
+2015-05-19 15:21:05,843 [DEBUG] tankcore scheduler = main_scheduler
+2015-05-19 15:21:05,844 [DEBUG] tankcore }
+2015-05-19 15:21:05,844 [DEBUG] tankcore Process exit code: 0
+2015-05-19 15:21:05,844 [DEBUG] tankcore Searching for plugin: Tank.Plugins.ConsoleOnline.ConsoleOnlinePlugin
+2015-05-19 15:21:05,844 [DEBUG] root Steps: [(1, 7), (2, 6), (3, 6), (4, 6), (5, 6), (6, 6), (7, 6), (8, 6), (9, 6), (10, 6), (11, 6), (12, 6), (13, 6), (14, 6), (15, 6), (16, 6), (17, 7), (18, 6), (19, 6), (20, 6), (21, 6), (22, 6), (23, 6), (24, 6), (25, 6), (26, 6), (27, 6), (28, 6), (29, 6), (30, 6), (31, 6), (32, 6), (33, 6), (34, 7), (35, 6), (36, 6), (37, 6), (38, 6), (39, 6), (40, 6), (41, 6), (42, 6), (43, 6), (44, 6), (45, 6), (46, 6), (47, 6), (48, 6), (49, 6), (50, 7), (51, 6), (52, 6), (53, 6), (54, 6), (55, 6), (56, 6), (57, 6), (58, 6), (59, 6), (60, 6), (61, 6), (62, 6), (63, 6), (64, 6), (65, 6), (66, 6), (67, 7), (68, 6), (69, 6), (70, 6), (71, 6), (72, 6), (73, 6), (74, 6), (75, 6), (76, 6), (77, 6), (78, 6), (79, 6), (80, 6), (81, 6), (82, 6), (83, 7), (84, 6), (85, 6), (86, 6), (87, 6), (88, 6), (89, 6), (90, 6), (91, 6), (92, 6), (93, 6), (94, 6), (95, 6), (96, 6), (97, 6), (98, 6), (99, 6)]
+2015-05-19 15:21:05,845 [DEBUG] tankcore Searching for plugin: Tank.Plugins.Aggregator.AggregatorPlugin
+2015-05-19 15:21:05,845 [DEBUG] tankcore Searching for plugin: Tank.Plugins.Aggregator.AggregatorPlugin
+2015-05-19 15:21:05,845 [DEBUG] tankcore Preparing <Aggregator.AggregatorPlugin instance at 0x7f6d4d243290>
+2015-05-19 15:21:05,846 [DEBUG] tankcore Preparing <Autostop.AutostopPlugin instance at 0x7f6d4d505d88>
+2015-05-19 15:21:05,846 [DEBUG] tankcore Criteria object: []
+2015-05-19 15:21:05,846 [DEBUG] tankcore Searching for plugin: Tank.Plugins.ConsoleOnline.ConsoleOnlinePlugin
+2015-05-19 15:21:05,846 [DEBUG] tankcore Preparing <Monitoring.MonitoringPlugin instance at 0x7f6d4d512d88>
+2015-05-19 15:21:05,846 [DEBUG] tankcore Searching for plugin: Tank.Plugins.Phantom.PhantomPlugin
+2015-05-19 15:21:05,846 [DEBUG] tankcore Changed monitoring target to science.im
+2015-05-19 15:21:05,846 [INFO] tankcore Starting monitoring with config: /usr/lib/yandex-tank/Tank/Plugins/monitoring_default_config.xml
+2015-05-19 15:21:05,846 [DEBUG] tankcore Adding artifact file to collect (keep=True): /usr/lib/yandex-tank/Tank/Plugins/monitoring_default_config.xml
+2015-05-19 15:21:05,847 [DEBUG] tankcore Adding artifact file to collect (keep=False): /gen/scienc/benchmarks/monitoring_Kjr9Um.data
+2015-05-19 15:21:05,847 [DEBUG] tankcore Searching for plugin: Tank.Plugins.ConsoleOnline.ConsoleOnlinePlugin
+2015-05-19 15:21:05,874 [DEBUG] root Using target hint: science.im
+2015-05-19 15:21:05,875 [DEBUG] root Metrics count: 0
+2015-05-19 15:21:05,875 [DEBUG] root Host len: 0
+2015-05-19 15:21:05,875 [DEBUG] root keys: ['address']
+2015-05-19 15:21:05,875 [DEBUG] root values: ['[target]']
+2015-05-19 15:21:05,875 [DEBUG] Tank.MonCollector.collector filter_conf: defaultdict(<type 'str'>, {'science.im': ['CPU_user', 'CPU_system', 'CPU_iowait', 'Memory_free', 'Memory_cached', 'Memory_used', 'Disk_read', 'Disk_write', 'Net_recv', 'Net_send']})
+2015-05-19 15:21:05,875 [DEBUG] Tank.MonCollector.collector Filter mask: defaultdict(<type 'str'>, {'science.im': []})
+2015-05-19 15:21:05,875 [DEBUG] root Creating agents
+2015-05-19 15:21:05,875 [DEBUG] root Creating agent: {'priority': 0, 'username': 'mahotin', 'host': 'science.im', 'startups': [], 'python': '/usr/bin/env python2', 'metric': 'mem,net,disk,cpu-stat', 'interval': 1, 'shutdowns': [], 'port': '22', 'custom': {'tail': [], 'call': []}}
+2015-05-19 15:21:05,877 [DEBUG] root Agents: [<Tank.MonCollector.collector.AgentClient object at 0x7f6d4d281ed0>]
+2015-05-19 15:21:05,877 [DEBUG] root Install monitoring agent. Host: science.im
+2015-05-19 15:21:05,878 [INFO] root Installing monitoring agent at mahotin@science.im...
+2015-05-19 15:21:05,878 [DEBUG] root Get remote temp dir: ['/usr/bin/env python2 -c "import tempfile; print tempfile.mkdtemp();"']
+2015-05-19 15:21:05,878 [DEBUG] Tank.MonCollector.collector Executing: ['ssh', '-q', '-o', 'StrictHostKeyChecking=no', '-o', 'PasswordAuthentication=no', '-o', 'NumberOfPasswordPrompts=0', '-o', 'ConnectTimeout=5', '-C', '-p', '22', '-l', 'mahotin', 'science.im', '/usr/bin/env python2 -c "import tempfile; print tempfile.mkdtemp();"']
+2015-05-19 15:21:05,963 [DEBUG] root Return code [science.im]: 255
+2015-05-19 15:21:05,965 [DEBUG] tankcore Problems starting monitoring: Traceback (most recent call last):
+  File "/usr/lib/yandex-tank/Tank/Plugins/Monitoring.py", line 122, in prepare_test
+    self.monitoring.prepare()
+  File "/usr/lib/yandex-tank/Tank/MonCollector/collector.py", line 282, in prepare
+    self.artifact_files.append(agent.install(conf.loglevel()))
+  File "/usr/lib/yandex-tank/Tank/MonCollector/collector.py", line 168, in install
+    self.username, self.host, pipe.returncode, pipe.stdout.read().strip()))
+RuntimeError: Failed to get remote dir via SSH at mahotin@science.im, code 255: 
+
+2015-05-19 15:21:05,966 [WARNING] tankcore Failed to start monitoring: Failed to get remote dir via SSH at mahotin@science.im, code 255: 
+2015-05-19 15:21:05,966 [DEBUG] tankcore Preparing <ConsoleOnline.ConsoleOnlinePlugin instance at 0x7f6d4c79ddd0>
+2015-05-19 15:21:05,966 [DEBUG] tankcore Preparing <WebOnlinePlugin(Thread-1, initial daemon)>
+2015-05-19 15:21:05,968 [DEBUG] tankcore Searching for plugin: Tank.Plugins.Aggregator.AggregatorPlugin
+2015-05-19 15:21:05,969 [DEBUG] tankcore Preparing <TipsAndTricks.TipsAndTricksPlugin instance at 0x7f6d4c7a1d40>
+2015-05-19 15:21:05,969 [DEBUG] tankcore Searching for plugin: Tank.Plugins.ConsoleOnline.ConsoleOnlinePlugin
+2015-05-19 15:21:05,969 [DEBUG] tankcore Preparing <TotalAutostop.TotalAutostopPlugin instance at 0x7f6d4c7b6fc8>
+2015-05-19 15:21:05,969 [DEBUG] tankcore Preparing <Loadosophia.LoadosophiaPlugin instance at 0x7f6d4c7a7560>
+2015-05-19 15:21:05,969 [DEBUG] tankcore Preparing <GraphiteUploader.GraphiteUploaderPlugin instance at 0x7f6d4d278128>
+2015-05-19 15:21:05,969 [DEBUG] tankcore Preparing <RCAssert.RCAssertPlugin instance at 0x7f6d4d278248>
+2015-05-19 15:21:05,969 [DEBUG] tankcore Preparing <Report.ReportPlugin instance at 0x7f6d4d278638>
+2015-05-19 15:21:05,969 [INFO] tankcore Starting test...
+2015-05-19 15:21:05,969 [DEBUG] tankcore Starting <ResourceCheck.ResourceCheckPlugin instance at 0x7f6d4d4d3488>
+2015-05-19 15:21:05,970 [DEBUG] tankcore Starting <ShellExec.ShellExecPlugin instance at 0x7f6d4d4d3638>
+2015-05-19 15:21:05,970 [DEBUG] tankcore Starting <Phantom.PhantomPlugin instance at 0x7f6d4d21ccb0>
+2015-05-19 15:21:05,970 [DEBUG] tankcore Starting phantom with arguments: ['phantom', 'run', '/gen/scienc/benchmarks/phantom_UZyW6j.conf']
+2015-05-19 15:21:05,970 [DEBUG] tankcore Adding artifact file to collect (keep=False): /gen/scienc/benchmarks/phantom_stdout_stderr_92FivP.log
+2015-05-19 15:21:05,975 [DEBUG] tankcore Starting <Aggregator.AggregatorPlugin instance at 0x7f6d4d243290>
+2015-05-19 15:21:05,976 [DEBUG] tankcore Starting <Autostop.AutostopPlugin instance at 0x7f6d4d505d88>
+2015-05-19 15:21:05,976 [DEBUG] tankcore Starting <Monitoring.MonitoringPlugin instance at 0x7f6d4d512d88>
+2015-05-19 15:21:05,976 [DEBUG] tankcore Starting <ConsoleOnline.ConsoleOnlinePlugin instance at 0x7f6d4c79ddd0>
+2015-05-19 15:21:05,976 [DEBUG] tankcore Starting <WebOnlinePlugin(Thread-1, initial daemon)>
+2015-05-19 15:21:05,977 [DEBUG] tankcore Starting <TipsAndTricks.TipsAndTricksPlugin instance at 0x7f6d4c7a1d40>
+2015-05-19 15:21:05,977 [DEBUG] tankcore Starting <TotalAutostop.TotalAutostopPlugin instance at 0x7f6d4c7b6fc8>
+2015-05-19 15:21:05,977 [DEBUG] tankcore Starting <Loadosophia.LoadosophiaPlugin instance at 0x7f6d4c7a7560>
+2015-05-19 15:21:05,977 [DEBUG] tankcore Starting <GraphiteUploader.GraphiteUploaderPlugin instance at 0x7f6d4d278128>
+2015-05-19 15:21:05,977 [DEBUG] tankcore Starting <RCAssert.RCAssertPlugin instance at 0x7f6d4d278248>
+2015-05-19 15:21:05,977 [DEBUG] tankcore Starting <Report.ReportPlugin instance at 0x7f6d4d278638>
+2015-05-19 15:21:05,977 [INFO] tankcore Waiting for test to finish...
+2015-05-19 15:21:05,978 [DEBUG] tankcore Polling <ResourceCheck.ResourceCheckPlugin instance at 0x7f6d4d4d3488>
+2015-05-19 15:21:05,978 [DEBUG] tankcore Checking tank resources...
+2015-05-19 15:21:05,978 [DEBUG] tankcore Starting: sh -c "df --no-sync -m -P -l -x fuse -x tmpfs -x devtmpfs -x davfs -x nfs . | tail -n 1 | awk '{print \$4}' "
+2015-05-19 15:21:05,980 [INFO] tankcore Starting local HTTP server for online view at port: http://mahotin:8081/
+2015-05-19 15:21:05,985 [DEBUG] tankcore Waiting for process to finish: <subprocess.Popen object at 0x7f6d4d281fd0>
+2015-05-19 15:21:06,085 [DEBUG] tankcore 35059
+2015-05-19 15:21:06,086 [DEBUG] tankcore Process exit code: 0
+2015-05-19 15:21:06,086 [DEBUG] root Result: (0, '35059\n', '')
+2015-05-19 15:21:06,086 [DEBUG] tankcore Disk free space: 35059/2048
+2015-05-19 15:21:06,086 [DEBUG] tankcore Starting: free -m | awk '$1=="-/+" {print $4}'
+2015-05-19 15:21:06,090 [DEBUG] tankcore Waiting for process to finish: <subprocess.Popen object at 0x7f6d4d281fd0>
+2015-05-19 15:21:06,191 [DEBUG] tankcore 428
+2015-05-19 15:21:06,191 [DEBUG] tankcore Process exit code: 0
+2015-05-19 15:21:06,191 [DEBUG] tankcore Memory free: 428/512
+2015-05-19 15:21:06,192 [INFO] Tank.ConsoleWorker Exception: Traceback (most recent call last):
+  File "/usr/lib/yandex-tank/Tank/ConsoleWorker.py", line 235, in perform_test
+    retcode = self.core.wait_for_finish()
+  File "/usr/lib/yandex-tank/tankcore.py", line 311, in wait_for_finish
+    retcode = plugin.is_test_finished()
+  File "/usr/lib/yandex-tank/Tank/Plugins/ResourceCheck.py", line 45, in is_test_finished
+    self.__check_mem()
+  File "/usr/lib/yandex-tank/Tank/Plugins/ResourceCheck.py", line 73, in __check_mem
+    raise RuntimeError("Not enough resources: free memory less than %sMB: %sMB" % (self.mem_limit, mem_free))
+RuntimeError: Not enough resources: free memory less than 512MB: 428MB
+
+2015-05-19 15:21:06,192 [ERROR] Tank.ConsoleWorker Not enough resources: free memory less than 512MB: 428MB
+2015-05-19 15:21:06,192 [INFO] Tank.ConsoleWorker Trying to shutdown gracefully...
+2015-05-19 15:21:06,193 [INFO] tankcore Finishing test...
+2015-05-19 15:21:06,193 [DEBUG] tankcore Finalize <ResourceCheck.ResourceCheckPlugin instance at 0x7f6d4d4d3488>
+2015-05-19 15:21:06,193 [DEBUG] tankcore RC before: 1
+2015-05-19 15:21:06,193 [DEBUG] tankcore RC after: 1
+2015-05-19 15:21:06,193 [DEBUG] tankcore Finalize <ShellExec.ShellExecPlugin instance at 0x7f6d4d4d3638>
+2015-05-19 15:21:06,193 [DEBUG] tankcore RC before: 1
+2015-05-19 15:21:06,193 [DEBUG] tankcore RC after: 1
+2015-05-19 15:21:06,193 [DEBUG] tankcore Finalize <Phantom.PhantomPlugin instance at 0x7f6d4d21ccb0>
+2015-05-19 15:21:06,193 [DEBUG] tankcore RC before: 1
+2015-05-19 15:21:06,193 [WARNING] tankcore Terminating phantom process with PID 32071
+2015-05-19 15:21:06,194 [DEBUG] tankcore RC after: 1
+2015-05-19 15:21:06,194 [DEBUG] tankcore Finalize <Aggregator.AggregatorPlugin instance at 0x7f6d4d243290>
+2015-05-19 15:21:06,194 [DEBUG] tankcore RC before: 1
+2015-05-19 15:21:06,194 [DEBUG] Tank.Plugins.Aggregator Opening phout file: /gen/scienc/benchmarks/phout_GoZij4.log
+2015-05-19 15:21:06,194 [DEBUG] Tank.Plugins.Aggregator Opening stat file: /gen/scienc/benchmarks/phantom_stat_LlWgCC.log
+2015-05-19 15:21:06,194 [DEBUG] Tank.Plugins.Aggregator Instances info buffer size: 0 / Read buffer size: 1058
+2015-05-19 15:21:06,195 [DEBUG] Tank.Plugins.Aggregator Reading phout, up to 10MB...
+2015-05-19 15:21:06,195 [DEBUG] Tank.Plugins.Aggregator About to process 1 phout lines
+2015-05-19 15:21:06,195 [DEBUG] Tank.Plugins.Aggregator Parsing speed: 22310 lines/sec
+2015-05-19 15:21:06,195 [DEBUG] Tank.Plugins.Aggregator Read lines total: 1
+2015-05-19 15:21:06,195 [DEBUG] Tank.Plugins.Aggregator Seconds queue: [1432048866]
+2015-05-19 15:21:06,195 [DEBUG] Tank.Plugins.Aggregator Seconds buffer (up to 2): [1432048866]
+2015-05-19 15:21:06,195 [DEBUG] Tank.Plugins.Aggregator Parsing second: 1432048866
+2015-05-19 15:21:06,196 [DEBUG] root Total times len: 1
+2015-05-19 15:21:06,196 [DEBUG] Tank.Plugins.Aggregator Calculate aggregates for 1 requests
+2015-05-19 15:21:06,197 [DEBUG] root Total quantiles: {98.0: 51, 99.0: 51, 100.0: 51, 75.0: 51, 80.0: 51, 50.0: 51, 85.0: 51, 25.0: 51, 90.0: 51, 95.0: 51}
+2015-05-19 15:21:06,197 [DEBUG] Tank.Plugins.Aggregator Aggregating speed: 2020 lines/sec
+2015-05-19 15:21:06,197 [DEBUG] Tank.Plugins.Aggregator pending_second_data_queue: [SecondAggregateData[2015-05-19 15:21:06][1432048866.0]]
+2015-05-19 15:21:06,197 [DEBUG] Tank.Plugins.Aggregator Pop result: SecondAggregateData[2015-05-19 15:21:06][1432048866.0]
+2015-05-19 15:21:06,198 [DEBUG] tankcore Notifying listeners about second: 2015-05-19 15:21:06 , 1/1 req/responses
+2015-05-19 15:21:06,198 [DEBUG] Tank.Plugins.ConsoleScreen Arrived times dist: [{'count': 1, 'to': 60, 'from': 50}]
+2015-05-19 15:21:06,199 [DEBUG] Tank.Plugins.ConsoleScreen Current times dist: {50: {'count': 1, 'to': 60, 'from': 50}}
+2015-05-19 15:21:06,199 [DEBUG] Tank.Plugins.ConsoleScreen Arrived codes data: {'200': 1}
+2015-05-19 15:21:06,199 [DEBUG] Tank.Plugins.ConsoleScreen Current codes dist: {'200': 1}
+2015-05-19 15:21:06,199 [DEBUG] Tank.Plugins.ConsoleScreen Arrived codes data: {'0': 1}
+2015-05-19 15:21:06,199 [DEBUG] Tank.Plugins.ConsoleScreen Current codes dist: {'0': 1}
+2015-05-19 15:21:06,200 [DEBUG] tankcore Processed ammo count: 1/
+2015-05-19 15:21:06,200 [DEBUG] Tank.Plugins.Aggregator Instances info buffer size: 0 / Read buffer size: 1058
+2015-05-19 15:21:06,201 [DEBUG] Tank.Plugins.Aggregator Reading phout, up to 10MB...
+2015-05-19 15:21:06,201 [DEBUG] Tank.Plugins.Aggregator About to process 0 phout lines
+2015-05-19 15:21:06,201 [DEBUG] Tank.Plugins.Aggregator Parsing speed: 0 lines/sec
+2015-05-19 15:21:06,201 [DEBUG] Tank.Plugins.Aggregator Read lines total: 1
+2015-05-19 15:21:06,201 [DEBUG] Tank.Plugins.Aggregator Seconds queue: []
+2015-05-19 15:21:06,201 [DEBUG] Tank.Plugins.Aggregator Seconds buffer (up to 2): []
+2015-05-19 15:21:06,201 [DEBUG] Tank.Plugins.Aggregator No queue data!
+2015-05-19 15:21:06,201 [DEBUG] tankcore RC after: 1
+2015-05-19 15:21:06,201 [DEBUG] tankcore Finalize <Autostop.AutostopPlugin instance at 0x7f6d4d505d88>
+2015-05-19 15:21:06,201 [DEBUG] tankcore RC before: 1
+2015-05-19 15:21:06,201 [DEBUG] tankcore RC after: 1
+2015-05-19 15:21:06,201 [DEBUG] tankcore Finalize <Monitoring.MonitoringPlugin instance at 0x7f6d4d512d88>
+2015-05-19 15:21:06,202 [DEBUG] tankcore RC before: 1
+2015-05-19 15:21:06,202 [INFO] tankcore Finishing monitoring
+2015-05-19 15:21:06,202 [DEBUG] tankcore RC after: 1
+2015-05-19 15:21:06,202 [DEBUG] tankcore Finalize <ConsoleOnline.ConsoleOnlinePlugin instance at 0x7f6d4c79ddd0>
+2015-05-19 15:21:06,202 [DEBUG] tankcore RC before: 1
+2015-05-19 15:21:06,202 [DEBUG] tankcore RC after: 1
+2015-05-19 15:21:06,202 [DEBUG] tankcore Finalize <WebOnlinePlugin(Thread-1, started daemon 140107384448768)>
+2015-05-19 15:21:06,202 [DEBUG] tankcore RC before: 1
+2015-05-19 15:21:06,202 [DEBUG] tankcore RC after: 1
+2015-05-19 15:21:06,202 [DEBUG] tankcore Finalize <TipsAndTricks.TipsAndTricksPlugin instance at 0x7f6d4c7a1d40>
+2015-05-19 15:21:06,202 [DEBUG] tankcore RC before: 1
+2015-05-19 15:21:06,203 [DEBUG] tankcore RC after: 1
+2015-05-19 15:21:06,203 [DEBUG] tankcore Finalize <TotalAutostop.TotalAutostopPlugin instance at 0x7f6d4c7b6fc8>
+2015-05-19 15:21:06,203 [DEBUG] tankcore RC before: 1
+2015-05-19 15:21:06,203 [DEBUG] tankcore RC after: 1
+2015-05-19 15:21:06,203 [DEBUG] tankcore Finalize <Loadosophia.LoadosophiaPlugin instance at 0x7f6d4c7a7560>
+2015-05-19 15:21:06,203 [DEBUG] tankcore RC before: 1
+2015-05-19 15:21:06,203 [DEBUG] tankcore RC after: 1
+2015-05-19 15:21:06,204 [DEBUG] tankcore Finalize <GraphiteUploader.GraphiteUploaderPlugin instance at 0x7f6d4d278128>
+2015-05-19 15:21:06,204 [DEBUG] tankcore RC before: 1
+2015-05-19 15:21:06,204 [DEBUG] tankcore RC after: 1
+2015-05-19 15:21:06,204 [DEBUG] tankcore Finalize <RCAssert.RCAssertPlugin instance at 0x7f6d4d278248>
+2015-05-19 15:21:06,204 [DEBUG] tankcore RC before: 1
+2015-05-19 15:21:06,204 [DEBUG] tankcore RC after: 1
+2015-05-19 15:21:06,204 [DEBUG] tankcore Finalize <Report.ReportPlugin instance at 0x7f6d4d278638>
+2015-05-19 15:21:06,204 [DEBUG] tankcore RC before: 1
+2015-05-19 15:21:06,204 [DEBUG] tankcore RC after: 1
+2015-05-19 15:21:06,204 [INFO] tankcore Post-processing test...
+2015-05-19 15:21:06,204 [DEBUG] tankcore Post-process <ResourceCheck.ResourceCheckPlugin instance at 0x7f6d4d4d3488>
+2015-05-19 15:21:06,205 [DEBUG] tankcore RC before: 1
+2015-05-19 15:21:06,205 [DEBUG] tankcore RC after: 1
+2015-05-19 15:21:06,205 [DEBUG] tankcore Post-process <ShellExec.ShellExecPlugin instance at 0x7f6d4d4d3638>
+2015-05-19 15:21:06,205 [DEBUG] tankcore RC before: 1
+2015-05-19 15:21:06,205 [DEBUG] tankcore RC after: 1
+2015-05-19 15:21:06,205 [DEBUG] tankcore Post-process <Phantom.PhantomPlugin instance at 0x7f6d4d21ccb0>
+2015-05-19 15:21:06,205 [DEBUG] tankcore RC before: 1
+2015-05-19 15:21:06,205 [DEBUG] tankcore RC after: 1
+2015-05-19 15:21:06,205 [DEBUG] tankcore Post-process <Aggregator.AggregatorPlugin instance at 0x7f6d4d243290>
+2015-05-19 15:21:06,205 [DEBUG] tankcore RC before: 1
+2015-05-19 15:21:06,205 [DEBUG] tankcore RC after: 1
+2015-05-19 15:21:06,205 [DEBUG] tankcore Post-process <Autostop.AutostopPlugin instance at 0x7f6d4d505d88>
+2015-05-19 15:21:06,206 [DEBUG] tankcore RC before: 1
+2015-05-19 15:21:06,206 [DEBUG] tankcore RC after: 1
+2015-05-19 15:21:06,206 [DEBUG] tankcore Post-process <Monitoring.MonitoringPlugin instance at 0x7f6d4d512d88>
+2015-05-19 15:21:06,206 [DEBUG] tankcore RC before: 1
+2015-05-19 15:21:06,206 [DEBUG] tankcore RC after: 1
+2015-05-19 15:21:06,206 [DEBUG] tankcore Post-process <ConsoleOnline.ConsoleOnlinePlugin instance at 0x7f6d4c79ddd0>
+2015-05-19 15:21:06,206 [DEBUG] tankcore RC before: 1
+2015-05-19 15:21:06,206 [DEBUG] tankcore RC after: 1
+2015-05-19 15:21:06,206 [DEBUG] tankcore Post-process <WebOnlinePlugin(Thread-1, started daemon 140107384448768)>
+2015-05-19 15:21:06,206 [DEBUG] tankcore RC before: 1
+2015-05-19 15:21:06,206 [DEBUG] tankcore RC after: 1
+2015-05-19 15:21:06,207 [DEBUG] tankcore Post-process <TipsAndTricks.TipsAndTricksPlugin instance at 0x7f6d4c7a1d40>
+2015-05-19 15:21:06,207 [DEBUG] tankcore RC before: 1
+2015-05-19 15:21:06,207 [DEBUG] tankcore RC after: 1
+2015-05-19 15:21:06,207 [DEBUG] tankcore Post-process <TotalAutostop.TotalAutostopPlugin instance at 0x7f6d4c7b6fc8>
+2015-05-19 15:21:06,207 [DEBUG] tankcore RC before: 1
+2015-05-19 15:21:06,207 [DEBUG] tankcore RC after: 1
+2015-05-19 15:21:06,207 [DEBUG] tankcore Post-process <Loadosophia.LoadosophiaPlugin instance at 0x7f6d4c7a7560>
+2015-05-19 15:21:06,207 [DEBUG] tankcore RC before: 1
+2015-05-19 15:21:06,207 [DEBUG] tankcore Searching for plugin: Tank.Plugins.Phantom.PhantomPlugin
+2015-05-19 15:21:06,207 [DEBUG] tankcore Searching for plugin: Tank.Plugins.ApacheBenchmark.ApacheBenchmarkPlugin
+2015-05-19 15:21:06,208 [DEBUG] tankcore AB not found
+2015-05-19 15:21:06,208 [DEBUG] tankcore Searching for plugin: Tank.Plugins.Monitoring.MonitoringPlugin
+2015-05-19 15:21:06,208 [WARNING] Loadosophia Loadosophia.org uploading disabled, please set loadosophia.token option to enable it, get token at https://loadosophia.org/service/upload/token/
+2015-05-19 15:21:06,208 [DEBUG] tankcore Searching for plugin: <class 'Tank.Plugins.WebOnline.WebOnlinePlugin'>
+2015-05-19 15:21:07,209 [DEBUG] tankcore RC after: 1
+2015-05-19 15:21:07,209 [DEBUG] tankcore Post-process <GraphiteUploader.GraphiteUploaderPlugin instance at 0x7f6d4d278128>
+2015-05-19 15:21:07,209 [DEBUG] tankcore RC before: 1
+2015-05-19 15:21:07,209 [DEBUG] tankcore RC after: 1
+2015-05-19 15:21:07,210 [DEBUG] tankcore Post-process <RCAssert.RCAssertPlugin instance at 0x7f6d4d278248>
+2015-05-19 15:21:07,210 [DEBUG] tankcore RC before: 1
+2015-05-19 15:21:07,210 [DEBUG] tankcore RC after: 1
+2015-05-19 15:21:07,210 [DEBUG] tankcore Post-process <Report.ReportPlugin instance at 0x7f6d4d278638>
+2015-05-19 15:21:07,210 [DEBUG] tankcore RC before: 1
+2015-05-19 15:21:07,210 [INFO] tankcore Building HTML report...
+2015-05-19 15:21:07,210 [DEBUG] tankcore Adding artifact file to collect (keep=False): /gen/scienc/benchmarks/report_MC3waQ.html
+2015-05-19 15:21:07,211 [DEBUG] tankcore RC after: 1
+2015-05-19 15:21:07,211 [DEBUG] tankcore Collecting artifacts
+2015-05-19 15:21:07,211 [INFO] tankcore Artifacts dir: ./2015-05-19_15-21-07.9_iLO2
+2015-05-19 15:21:07,211 [DEBUG] tankcore Collecting file: /usr/lib/yandex-tank/Tank/Plugins/monitoring_default_config.xml to ./2015-05-19_15-21-07.9_iLO2/monitoring_default_config.xml
+2015-05-19 15:21:07,212 [DEBUG] tankcore Collecting file: /gen/scienc/benchmarks/phantom_stat_LlWgCC.log to ./2015-05-19_15-21-07.9_iLO2/phantom_stat_LlWgCC.log
+2015-05-19 15:21:07,212 [DEBUG] tankcore Collecting file: /gen/scienc/benchmarks/phantom_stdout_stderr_92FivP.log to ./2015-05-19_15-21-07.9_iLO2/phantom_stdout_stderr_92FivP.log
+2015-05-19 15:21:07,212 [DEBUG] tankcore Collecting file: /gen/scienc/benchmarks/answ_M432YD.log to ./2015-05-19_15-21-07.9_iLO2/answ_M432YD.log
+2015-05-19 15:21:07,212 [DEBUG] tankcore Collecting file: /gen/scienc/benchmarks/phantom_9EVo_v.log to ./2015-05-19_15-21-07.9_iLO2/phantom_9EVo_v.log
+2015-05-19 15:21:07,212 [DEBUG] tankcore Collecting file: /var/lock/lunapark_j6bvD7.lock to ./2015-05-19_15-21-07.9_iLO2/lunapark_j6bvD7.lock
+2015-05-19 15:21:07,213 [DEBUG] tankcore Collecting file: /gen/scienc/benchmarks/load.ini to ./2015-05-19_15-21-07.9_iLO2/load.ini
+2015-05-19 15:21:07,213 [DEBUG] tankcore Collecting file: /gen/scienc/benchmarks/phantom_UZyW6j.conf to ./2015-05-19_15-21-07.9_iLO2/phantom_UZyW6j.conf
+2015-05-19 15:21:07,213 [DEBUG] tankcore Collecting file: /gen/scienc/benchmarks/report_MC3waQ.html to ./2015-05-19_15-21-07.9_iLO2/report_MC3waQ.html
+2015-05-19 15:21:07,213 [DEBUG] tankcore Collecting file: tank.log to ./2015-05-19_15-21-07.9_iLO2/tank.log
+2015-05-19 15:21:07,213 [DEBUG] tankcore Collecting file: /gen/scienc/benchmarks/monitoring_Kjr9Um.data to ./2015-05-19_15-21-07.9_iLO2/monitoring_Kjr9Um.data
+2015-05-19 15:21:07,213 [DEBUG] tankcore Collecting file: /gen/scienc/benchmarks/phout_GoZij4.log to ./2015-05-19_15-21-07.9_iLO2/phout_GoZij4.log
+2015-05-19 15:21:07,214 [INFO] Tank.ConsoleWorker Done graceful shutdown
+2015-05-19 15:21:07,214 [INFO] Tank.ConsoleWorker Done performing test with code 1
