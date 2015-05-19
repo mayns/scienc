@@ -9,6 +9,7 @@ from scientist.models import Scientist
 from project.models import Project
 import datetime
 import globals
+import json
 
 __author__ = 'mayns'
 
@@ -167,26 +168,37 @@ __author__ = 'mayns'
 #
 #     return projects
 
-def generate_projects(n=10):
-    projects = []
-    create_fields = TABLES['projects_test']
+def generate_projects_to_file(n=100, filename=None):
+    if not filename:
+        filename = '/gen/scienc/post_data.txt'
+    create_fields = TABLES['projects']
 
-    for project in xrange(n):
-        project_dict = {}
+    with open(filename, 'a') as f:
 
-        for key, value in create_fields.iteritems():
-            if key == u'id':
-                project_dict[key] = project + 1
+        for project in xrange(n):
+            project_dict = {}
 
-            if value.type == basestring:
-                project_dict[key] = fauxfactory.gen_cyrillic(value.length)
+            for key, value in create_fields.iteritems():
 
-            if value.type == list:
-                values = []
-                for i in xrange(random.choice(globals.SCIENCE_FIELDS_MAP.keys())):
-                    values.append(fauxfactory.gen_cyrillic())
-                    values.append(i)
-                project_dict[key] = list(set(values))
-        projects.append(project_dict)
+                if value.type == basestring:
+                    project_dict[key] = fauxfactory.gen_alpha(value.length)
+                    project_dict[key] = project_dict[key].replace('a', ' ').replace('t', ' ').replace('e', ' ').replace('r', ' ')
 
-    return projects
+                if value.type == list:
+                    values = []
+                    for i in xrange(7):
+                        v = random.choice(globals.SCIENCE_FIELDS_MAP.keys())
+                        values.append(v)
+                    project_dict[key] = list(set(values))
+            f.write(json.dumps(project_dict) + '\n')
+
+
+def generate_post_req_siege():
+    with open(''):
+        pass
+    # siege -g 'sciencemates.dev:9090/api/projects POST title=green&research_fields=["math"]&description_short=blaaah'
+    pass
+
+
+def generate_post_req_ytank():
+    pass

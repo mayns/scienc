@@ -6,4 +6,5 @@ __author__ = 'mayns'
 
 url_handlers = [
     (r"/api/projects(/\w+)?", handlers_sync.ProjectsHandler),
+    (r"/api/user", handlers_sync.UserHandler),
 ]

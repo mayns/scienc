@@ -1,24 +1,23 @@
 # -*- coding: utf-8 -*-
 
-import os
-import logging
-import sys
+import timeit
 from functools import partial
-
 
 __author__ = 'mayns'
 
-path = os.path.abspath(__file__)
-sys.path.append(os.path.join(os.path.dirname(path), "../"))
-os.environ['PROJECT_SETTINGS_MODULE'] = 'settings'
 
 from tornado import ioloop
 
 if __name__ == "__main__":
     _ioloop = ioloop.IOLoop.instance()
 
-    from db.psql_relations import create_relations
-    _ioloop.run_sync(partial(create_relations))
+    print 'Started generating data into /gen/scienc/post_data.txt'
+    start = timeit.default_timer()
 
-    from db.postgres_fill import fill_init_data
-    _ioloop.run_sync(fill_init_data)
+    from benchmarks.generators import generate_projects_to_file
+    _ioloop.run_sync(partial(generate_projects_to_file))
+
+    # from benchmarks.generators import generate_post_req_siege
+    # _ioloop.run_sync(partial(generate_post_req_siege))
+
+    print 'Generation finished in: {0:.2f} sec'.format(timeit.default_timer() - start)
