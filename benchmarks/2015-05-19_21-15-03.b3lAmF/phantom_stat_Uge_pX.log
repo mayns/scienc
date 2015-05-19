@@ -1,0 +1,255 @@
+"2015-05-19 21:14:59.117 +0000" : {
+  "main_scheduler" : {
+    "bqs" : {
+      "07472" : {
+        "mmconts" : [0, 488, 503],
+        "acts" : [637, 601],
+        "tstate" : { "idle" : 1010263, "run" : 48152, "locked" : 238, "mmap" : 29 }
+      },
+      "07473" : {
+        "mmconts" : [0, 488, 503],
+        "acts" : [190, 179],
+        "tstate" : { "idle" : 976100, "run" : 74785, "locked" : 2105, "mmap" : 5600 }
+      }
+    }
+  },
+  "benchmark_io" : {
+    "simple_times" : {
+      "mcount" : {
+        "mcount" : { "16 -- 25" : 5, "10 -- 16" : 3, "6 -- 10" : 2, "4 -- 6" : 96 }
+      }
+    },
+    "stream_method" : {
+      "conns" : [106, 100],
+      "in" : [79993, 75525],
+      "out" : [69256, 65388],
+      "mmtasks" : [0, 0, 6],
+      "load" : 0.039,
+      "mcount" : {
+        "mcount" : { "Success" : 106 }
+      },
+      "http_proto0" : {
+        "mcount" : {
+          "mcount" : { "Internal Server Error" : 106 }
+        }
+      },
+      "source_log" : {
+        "delta" : [0, 0, 3573]
+      },
+      "loggers" : {
+        "brief_logger" : {
+          "records" : [106, 100],
+          "out" : [5935, 5602]
+        },
+        "benchmark_logger" : {
+          "records" : [106, 100],
+          "out" : [151597, 143099]
+        }
+      }
+    }
+  }
+},
+"2015-05-19 21:15:00.117 +0000" : {
+  "main_scheduler" : {
+    "bqs" : {
+      "07472" : {
+        "mmconts" : [503, 503, 503],
+        "acts" : [168, 167],
+        "tstate" : { "idle" : 977744, "run" : 22517, "locked" : 0, "mmap" : 0 }
+      },
+      "07473" : {
+        "mmconts" : [503, 503, 503],
+        "acts" : [137, 136],
+        "tstate" : { "idle" : 980770, "run" : 19494, "locked" : 0, "mmap" : 0 }
+      }
+    }
+  },
+  "benchmark_io" : {
+    "simple_times" : {
+      "mcount" : {
+        "mcount" : { "6 -- 10" : 4, "4 -- 6" : 96 }
+      }
+    },
+    "stream_method" : {
+      "conns" : [100, 99],
+      "in" : [75300, 75281],
+      "out" : [65316, 65299],
+      "mmtasks" : [0, 0, 1],
+      "load" : 0.044,
+      "mcount" : {
+        "mcount" : { "Success" : 100 }
+      },
+      "http_proto0" : {
+        "mcount" : {
+          "mcount" : { "Internal Server Error" : 100 }
+        }
+      },
+      "source_log" : {
+        "delta" : [0, 0, 0]
+      },
+      "loggers" : {
+        "brief_logger" : {
+          "records" : [100, 99],
+          "out" : [5576, 5574]
+        },
+        "benchmark_logger" : {
+          "records" : [100, 99],
+          "out" : [142816, 142785]
+        }
+      }
+    }
+  }
+},
+"2015-05-19 21:15:01.117 +0000" : {
+  "main_scheduler" : {
+    "bqs" : {
+      "07472" : {
+        "mmconts" : [503, 503, 503],
+        "acts" : [144, 143],
+        "tstate" : { "idle" : 980599, "run" : 19660, "locked" : 0, "mmap" : 0 }
+      },
+      "07473" : {
+        "mmconts" : [503, 503, 503],
+        "acts" : [161, 160],
+        "tstate" : { "idle" : 978554, "run" : 21693, "locked" : 0, "mmap" : 0 }
+      }
+    }
+  },
+  "benchmark_io" : {
+    "simple_times" : {
+      "mcount" : {
+        "mcount" : { "10 -- 16" : 1, "6 -- 10" : 6, "4 -- 6" : 93 }
+      }
+    },
+    "stream_method" : {
+      "conns" : [100, 99],
+      "in" : [75300, 75281],
+      "out" : [65316, 65299],
+      "mmtasks" : [0, 0, 2],
+      "load" : 0.043,
+      "mcount" : {
+        "mcount" : { "Success" : 100 }
+      },
+      "http_proto0" : {
+        "mcount" : {
+          "mcount" : { "Internal Server Error" : 100 }
+        }
+      },
+      "source_log" : {
+        "delta" : [0, 0, 0]
+      },
+      "loggers" : {
+        "brief_logger" : {
+          "records" : [100, 99],
+          "out" : [5581, 5579]
+        },
+        "benchmark_logger" : {
+          "records" : [100, 99],
+          "out" : [142818, 142782]
+        }
+      }
+    }
+  }
+},
+"2015-05-19 21:15:02.117 +0000" : {
+  "main_scheduler" : {
+    "bqs" : {
+      "07472" : {
+        "mmconts" : [503, 503, 503],
+        "acts" : [165, 165],
+        "tstate" : { "idle" : 976888, "run" : 22529, "locked" : 0, "mmap" : 0 }
+      },
+      "07473" : {
+        "mmconts" : [503, 503, 503],
+        "acts" : [140, 140],
+        "tstate" : { "idle" : 978343, "run" : 21076, "locked" : 0, "mmap" : 0 }
+      }
+    }
+  },
+  "benchmark_io" : {
+    "simple_times" : {
+      "mcount" : {
+        "mcount" : { "16 -- 25" : 1, "10 -- 16" : 1, "6 -- 10" : 7, "4 -- 6" : 91 }
+      }
+    },
+    "stream_method" : {
+      "conns" : [100, 100],
+      "in" : [75300, 75343],
+      "out" : [65316, 65353],
+      "mmtasks" : [0, 0, 2],
+      "load" : 0.043,
+      "mcount" : {
+        "mcount" : { "Success" : 100 }
+      },
+      "http_proto0" : {
+        "mcount" : {
+          "mcount" : { "Internal Server Error" : 100 }
+        }
+      },
+      "source_log" : {
+        "delta" : [0, 0, 0]
+      },
+      "loggers" : {
+        "brief_logger" : {
+          "records" : [100, 100],
+          "out" : [5587, 5590]
+        },
+        "benchmark_logger" : {
+          "records" : [100, 100],
+          "out" : [142820, 142897]
+        }
+      }
+    }
+  }
+},
+"2015-05-19 21:15:02.811 +0000" : {
+  "main_scheduler" : {
+    "bqs" : {
+      "07472" : {
+        "mmconts" : [503, 503, 503],
+        "acts" : [116, 167],
+        "tstate" : { "idle" : 678300, "run" : 15925, "locked" : 0, "mmap" : 0 }
+      },
+      "07473" : {
+        "mmconts" : [503, 503, 503],
+        "acts" : [93, 133],
+        "tstate" : { "idle" : 679999, "run" : 14224, "locked" : 0, "mmap" : 0 }
+      }
+    }
+  },
+  "benchmark_io" : {
+    "simple_times" : {
+      "mcount" : {
+        "mcount" : { "10 -- 16" : 1, "6 -- 10" : 2, "4 -- 6" : 66 }
+      }
+    },
+    "stream_method" : {
+      "conns" : [70, 100],
+      "in" : [51957, 74842],
+      "out" : [45750, 65901],
+      "mmtasks" : [0, 0, 2],
+      "load" : 0.046,
+      "mcount" : {
+        "mcount" : { "Success" : 69 }
+      },
+      "http_proto0" : {
+        "mcount" : {
+          "mcount" : { "Internal Server Error" : 69 }
+        }
+      },
+      "source_log" : {
+        "delta" : [0, 0, 0]
+      },
+      "loggers" : {
+        "brief_logger" : {
+          "records" : [69, 99],
+          "out" : [3855, 5546]
+        },
+        "benchmark_logger" : {
+          "records" : [69, 99],
+          "out" : [98574, 141828]
+        }
+      }
+    }
+  }
+}
