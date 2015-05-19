@@ -170,8 +170,10 @@ __author__ = 'mayns'
 
 def generate_projects_to_file(n=100, filename=None):
     if not filename:
-        filename = '/gen/scienc/post_data.txt'
+        filename = '/gen/scienc/benchmarks/ytank_data.txt'
     create_fields = TABLES['projects']
+
+    ytank_prefix = u'POST||/api/projects/||{tag}||{body}'
 
     with open(filename, 'a') as f:
 
@@ -190,7 +192,8 @@ def generate_projects_to_file(n=100, filename=None):
                         v = random.choice(globals.SCIENCE_FIELDS_MAP.keys())
                         values.append(v)
                     project_dict[key] = list(set(values))
-            f.write(json.dumps(project_dict) + '\n')
+
+            f.write(ytank_prefix.format(tag=project, body=json.dumps(project_dict) + '\n'))
 
 
 def generate_post_req_siege():

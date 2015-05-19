@@ -3,6 +3,7 @@
 
 import sys
 
+
 def make_ammo(method, url, headers, case, body):
     """ makes phantom ammo """
     #http request w/o entity body template
@@ -31,26 +32,30 @@ def make_ammo(method, url, headers, case, body):
         "%d %s\n"
         "%s"
     )
-
     return ammo_template % (len(req), case, req)
 
+
 def main():
-    for stdin_line in sys.stdin:
-        try:
-            method, url, case, body = stdin_line.split("||")
-            body = body.strip()
-        except:
-            method, url, case = stdin_line.split("||")
-            body = None
 
-        method, url, case = method.strip(), url.strip(), case.strip()
+    with open('/gen/scienc/benchmarks/ammo.txt', 'a') as f:
 
-        headers = "Host: hostname.com\r\n" + \
-            "User-Agent: tank\r\n" + \
-            "Accept: */*\r\n" + \
-            "Connection: Close"
+        for stdin_line in sys.stdin:
+            try:
+                method, url, case, body = stdin_line.split("||")
+                body = body.strip()
+            except:
+                method, url, case = stdin_line.split("||")
+                body = None
 
-        sys.stdout.write(make_ammo(method, url, headers, case, body))
+            method, url, case = method.strip(), url.strip(), case.strip()
+
+            headers = "Host: science.im\r\n" + \
+                "User-Agent: tank\r\n" + \
+                "Content-Type: application/json\r\n" + \
+                "Accept: */*\r\n" + \
+                "Connection: Close"
+
+            f.write(make_ammo(method, url, headers, case, body))
 
 if __name__ == "__main__":
     main()
