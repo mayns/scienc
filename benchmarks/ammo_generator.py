@@ -51,6 +51,7 @@ def main():
 
             headers = "Host: science.im\r\n" + \
                 "User-Agent: tank\r\n" + \
+                "Content-Type: application/x-www-form-urlencoded\r\n" + \
                 "Accept: */*\r\n" + \
                 "Connection: Close"
 
