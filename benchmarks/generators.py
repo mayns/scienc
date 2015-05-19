@@ -168,7 +168,7 @@ __author__ = 'mayns'
 #
 #     return projects
 
-def generate_projects_to_file(n=1, filename=None):
+def generate_projects_to_file(n=100, filename=None):
     if not filename:
         filename = '/gen/scienc/benchmarks/ytank_data.txt'
     create_fields = TABLES['projects']

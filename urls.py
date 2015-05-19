@@ -39,4 +39,3 @@ url_handlers = [
     (r"/api/.*", cm_handlers.NotFoundRedirectHandler),
 
 ]
-
