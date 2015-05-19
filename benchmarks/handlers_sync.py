@@ -77,6 +77,10 @@ class ProjectsHandler(web.RequestHandler):
         sql_query = "INSERT INTO {tbl} ({fields}) VALUES ({vals})".format(tbl='projects',
                                                                           fields=FIELDS(),
                                                                           vals=vals)
-        cursor = self.conn.cursor()
-        cursor.execute(sql_query)
-        self.conn.commit()
+        logging.info('SQL: {}'.format(sql_query))
+        try:
+            cursor = self.conn.cursor()
+            cursor.execute(sql_query)
+            self.conn.commit()
+        except Exception, ex:
+            logging.exception(ex)
