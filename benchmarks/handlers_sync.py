@@ -46,10 +46,7 @@ class ProjectsHandler(web.RequestHandler):
 
     def post(self, *args, **kwargs):
         logging.info(u'Sync POST')
-        logging.info(args)
-        logging.info(kwargs)
         title = self.get_argument(u'title', u'')
-        logging.info(title)
         research_fields = self.get_argument(u'research_fields', u'')
         description_short = self.get_argument(u'description_short', u'')
         self.add_to_db(title, research_fields, description_short)
