@@ -178,19 +178,19 @@ def generate_projects_to_file(n=100, filename=None):
     with open(filename, 'a') as f:
 
         for project in xrange(n):
-            project_dict = {}
-
+            body = u'?'
             for key, value in create_fields.iteritems():
-
+                body += u'{}='.format(key)
                 if value.type == basestring:
-                    project_dict[key] = fauxfactory.gen_alpha(value.length)
-                    project_dict[key] = project_dict[key].replace('a', ' ').replace('t', ' ').replace('e', ' ').replace('r', ' ')
+                    val = fauxfactory.gen_alpha(value.length)
+                    val = val.replace('a', ' ').replace('t', ' ').replace('e', ' ').replace('r', ' ')
 
-                if value.type == list:
+                else:
                     values = []
                     for i in xrange(7):
                         v = random.choice(globals.SCIENCE_FIELDS_MAP.keys())
                         values.append(v)
-                    project_dict[key] = list(set(values))
+                    val = json.dumps(list(set(values)))
+                body += u'{}&'.format(val)
 
-            f.write(ytank_prefix.format(tag='', body=json.dumps(project_dict) + '\r\n'))
+            f.write(ytank_prefix.format(tag='', body=body[:-1] + '\r\n'))
