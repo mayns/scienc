@@ -15,7 +15,7 @@ def make_ammo(method, url, headers, case, body):
 
     #http request with entity body template
     req_template_w_entity_body = (
-          "%s %s\r\n"
+          "%s %s HTTP/1.1\r\n"
           "%s\r\n"
           "Content-Length: %d\r\n"
           "\r\n"
