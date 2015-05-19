@@ -173,7 +173,7 @@ def generate_projects_to_file(n=100, filename=None):
         filename = '/gen/scienc/benchmarks/ytank_data.txt'
     create_fields = TABLES['projects']
 
-    ytank_prefix = u'POST||/api/projects/||{tag}||{body}'
+    ytank_prefix = u'POST||/api/projects||{tag}||{body}'
 
     with open(filename, 'a') as f:
 
@@ -193,15 +193,4 @@ def generate_projects_to_file(n=100, filename=None):
                         values.append(v)
                     project_dict[key] = list(set(values))
 
-            f.write(ytank_prefix.format(tag=project, body=json.dumps(project_dict) + '\n'))
-
-
-def generate_post_req_siege():
-    with open(''):
-        pass
-    # siege -g 'sciencemates.dev:9090/api/projects POST title=green&research_fields=["math"]&description_short=blaaah'
-    pass
-
-
-def generate_post_req_ytank():
-    pass
+            f.write(ytank_prefix.format(tag='good', body=json.dumps(project_dict) + '\n'))
