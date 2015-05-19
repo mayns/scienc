@@ -168,7 +168,7 @@ __author__ = 'mayns'
 #
 #     return projects
 
-def generate_projects_to_file(n=100, filename=None):
+def generate_projects_to_file(n=1, filename=None):
     if not filename:
         filename = '/gen/scienc/benchmarks/ytank_data.txt'
     create_fields = TABLES['projects']
@@ -193,4 +193,4 @@ def generate_projects_to_file(n=100, filename=None):
                         values.append(v)
                     project_dict[key] = list(set(values))
 
-            f.write(ytank_prefix.format(tag='', body=json.dumps(project_dict) + '\n'))
+            f.write(ytank_prefix.format(tag='', body=json.dumps(project_dict) + '\r\n'))
