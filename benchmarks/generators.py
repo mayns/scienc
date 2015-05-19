@@ -193,4 +193,4 @@ def generate_projects_to_file(n=100, filename=None):
                         values.append(v)
                     project_dict[key] = list(set(values))
 
-            f.write(ytank_prefix.format(tag='good', body=json.dumps(project_dict) + '\n'))
+            f.write(ytank_prefix.format(tag='', body=json.dumps(project_dict) + '\n'))
