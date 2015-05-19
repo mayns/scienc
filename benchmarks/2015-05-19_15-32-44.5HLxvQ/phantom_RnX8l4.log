@@ -1,7 +1,0 @@
-2015-05-19 15:28:52.296 +0000 [info] [] Start
-2015-05-19 15:32:43.113 +0000 [error] [monitor_io] bq_sleep: Operation canceled
-2015-05-19 15:32:43.115 +0000 [error] [phantom_logger] bq_sleep: Operation canceled
-2015-05-19 15:32:43.115 +0000 [error] [monitor_io] bq_sleep: Operation canceled
-2015-05-19 15:32:43.115 +0000 [error] [benchmark_io stream_method brief_logger] bq_sleep: Operation canceled
-2015-05-19 15:32:43.134 +0000 [error] [benchmark_io] cond-wait: Operation canceled
-2015-05-19 15:32:43.135 +0000 [info] [] Exit
