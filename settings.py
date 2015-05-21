@@ -56,6 +56,6 @@ SCIENCE_DB_TEST_MAP = dict(
         database=u'science', host=u'localhost', port=5434, user=PSQL_ROOT_USER, password=PSQL_ROOT_PASSWORD
     ),
     SHARD=dict(
-        database=u'science', host=u'localhost', port=6433, user=PSQL_ROOT_USER, password=PSQL_ROOT_PASSWORD
+        database=u'science', host=u'localhost', port=5432, user=PSQL_ROOT_USER, password=PSQL_ROOT_PASSWORD
     )
 )
