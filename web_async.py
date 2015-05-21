@@ -41,7 +41,7 @@ if __name__ == "__main__":
     )
 
     # this is a one way to run ioloop in sync
-    future = application.db.connect()
+    future = application.db.getconn()
     _ioLoop.add_future(future, lambda f: _ioLoop.stop())
     _ioLoop.start()
 
