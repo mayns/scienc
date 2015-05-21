@@ -73,7 +73,7 @@ class ProjectsHandler(web.RequestHandler):
     @gen.coroutine
     def add_to_db(self, title, research_fields, description_short):
         _id = generate_id(21)
-        vals = "''{}'', ''{}'', ''{}'', ''{}''".format(_id, title,
+        vals = "'{}', '{}', '{}', '{}'".format(_id, title,
                                                research_fields.replace('[', '{').replace(']', '}'), description_short)
         sql_query = "INSERT INTO {tbl} ({fields}) VALUES ({vals})".format(tbl='projects',
                                                                           fields=FIELDS(),
