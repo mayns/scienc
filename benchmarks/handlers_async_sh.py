@@ -66,7 +66,8 @@ class ProjectsHandler(web.RequestHandler):
     @gen.coroutine
     def get_from_db(self):
         sql_query = "SELECT {fields} FROM {tbl}".format(fields=FIELDS(), tbl='projects')
-        cursor = yield momoko.Op(self.conn.execute, sql_query)
+        sql_string = "SELECT get_query('{q}'::text);".format(q=sql_query)
+        cursor = yield momoko.Op(self.conn.execute, sql_string)
         res = cursor.fetchall()
         raise gen.Return([dict(zip(fields, r)) for r in res])
 
