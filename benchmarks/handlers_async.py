@@ -38,10 +38,6 @@ class ProjectsHandler(web.RequestHandler):
         super(ProjectsHandler, self).__init__(*args, **kwargs)
         self.payload = dict()
 
-    @property
-    def db(self):
-        return self.application.db
-
     @gen.coroutine
     def get(self, *args, **kwargs):
         logging.info(u'Async GET')
@@ -60,24 +56,24 @@ class ProjectsHandler(web.RequestHandler):
         description_short = self.get_argument(u'description_short', u'')
         yield self.add_to_db(title, research_fields, description_short)
 
-    # @property
-    # def conn(self):
-    #     if not hasattr(self.application, 'conn'):
-    #         self.application.conn = \
-    #             PSQLClient.get_client(dsn=u'dbname={database} user={user} password={password} host={host} '
-    #                                       u'port={port}'.format(**settings.SCIENCE_DB_TEST_MAP[u'NO_SHARD_A']))
-    #     return self.application.conn
-    #
-    # @property
-    # def conn_shard(self):
-    #     if not hasattr(self.application, 'conn_shard'):
-    #         self.application.conn_shard = psycopg2.connect(**settings.SCIENCE_DB_TEST_MAP[u'SHARD'])
-    #     return self.application.conn_shard
+    @property
+    def conn(self):
+        if not hasattr(self.application, 'conn'):
+            self.application.conn = \
+                PSQLClient.get_client(dsn=u'dbname={database} user={user} password={password} host={host} '
+                                          u'port={port}'.format(**settings.SCIENCE_DB_TEST_MAP[u'NO_SHARD_A']))
+        return self.application.conn
+
+    @property
+    def conn_shard(self):
+        if not hasattr(self.application, 'conn_shard'):
+            self.application.conn_shard = psycopg2.connect(**settings.SCIENCE_DB_TEST_MAP[u'SHARD'])
+        return self.application.conn_shard
 
     @gen.coroutine
     def get_from_db(self):
         sql_query = "SELECT {fields} FROM {tbl}".format(fields=FIELDS(), tbl='projects')
-        cursor = yield self.db.execute(sql_query)
+        cursor = yield momoko.Op(self.conn.execute, sql_query)
         res = cursor.fetchall()
         raise gen.Return([dict(zip(fields, r)) for r in res])
 
@@ -91,7 +87,7 @@ class ProjectsHandler(web.RequestHandler):
                                                                           vals=vals)
         logging.info('SQL: {}'.format(sql_query))
         try:
-            yield self.db.execute(sql_query)
+            yield momoko.Op(self.conn.execute, sql_query)
 
         except Exception, ex:
             logging.exception(ex)
