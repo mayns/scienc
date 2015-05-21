@@ -87,7 +87,7 @@ class ProjectsHandler(web.RequestHandler):
         logging.info('SQL: {}'.format(sql_query))
         try:
             yield momoko.Op(self.conn.execute, sql_query)
-            # yield momoko.Op(self.conn.execute, 'COMMIT')
+            yield momoko.Op(self.conn.execute, 'COMMIT')
 
         except Exception, ex:
             logging.exception(ex)
