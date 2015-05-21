@@ -78,7 +78,7 @@ class ProjectsHandler(web.RequestHandler):
         sql_query = "INSERT INTO {tbl} ({fields}) VALUES ({vals})".format(tbl='projects',
                                                                           fields=FIELDS(),
                                                                           vals=vals)
-        sql_string = "SELECT execute_query('{q_id}', {q})".format(q_id=_id, q=sql_query)
+        sql_string = "SELECT execute_query('{q_id}', '{q}')".format(q_id=_id, q=sql_query)
         logging.info('SQL: {}'.format(sql_string))
         try:
             yield momoko.Op(self.conn.execute, sql_query)
