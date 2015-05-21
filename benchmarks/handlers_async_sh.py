@@ -43,7 +43,7 @@ class ProjectsHandler(web.RequestHandler):
         projects = yield self.get_from_db()
         for project in projects:
             project.update(research_fields=
-                           [dict(id=f, name=globals.SCIENCE_FIELDS_MAP[f]) for f in project.get(u'research_fields')
+                           [dict(id=f, name=globals.SCIENCE_FIELDS_MAP.get(f)) for f in project.get(u'research_fields', [])
                                 if f in globals.SCIENCE_FIELDS_MAP])
         self.finish(dict(data=projects))
 
