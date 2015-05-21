@@ -81,7 +81,7 @@ class ProjectsHandler(web.RequestHandler):
         sql_string = "SELECT execute_query('{q_id}'::text, '{q}'::text);".format(q_id=_id, q=sql_query)
         logging.info('SQL: {}'.format(sql_string))
         try:
-            yield momoko.Op(self.conn.execute, sql_query)
+            yield momoko.Op(self.conn.execute, sql_string)
 
         except Exception, ex:
             logging.exception(ex)
