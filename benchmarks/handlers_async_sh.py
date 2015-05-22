@@ -52,7 +52,7 @@ class ProjectsHandler(web.RequestHandler):
         logging.info(u'Async POST')
         title = self.get_argument(u'title', u'')
         research_fields = self.get_argument(u'research_fields', u'')
-        description_short = self.get_argument(u'description_short', u'')
+        description_short = self.get_argument(u'description_short', u'[]')
         yield self.add_to_db(title, research_fields, description_short)
 
     @property
