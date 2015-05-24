@@ -228,8 +228,10 @@ class ProjectBL(object):
 
     @classmethod
     @gen.coroutine
-    def get_all(cls):
-        projects_data = yield Project.get_all_json(columns=Project.OVERVIEW_FIELDS)
+    def get_all(cls, columns=None):
+        if not columns:
+            columns = Project.OVERVIEW_FIELDS
+        projects_data = yield Project.get_all_json(columns=columns)
         for project in projects_data:
             if u'research_fields' in project:
                 project.update(research_fields=

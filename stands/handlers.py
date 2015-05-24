@@ -12,7 +12,7 @@ class ServerGenTemplateItemsHandler(BaseRequestHandler):
 
     @gen.coroutine
     def get(self, *args, **kwargs):
-        projects = yield ProjectBL.get_all()
+        projects = yield ProjectBL.get_all(columns=[u'title', u'description_short', u'research_fields', u'id'])
         self.render("projects_list.html", projects=projects)
 
 
