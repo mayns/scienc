@@ -86,3 +86,31 @@ class ProjectsHandler(web.RequestHandler):
 
         except Exception, ex:
             logging.exception(ex)
+
+
+class ServerGenTemplateItemsHandler(web.RequestHandler):
+    def __init__(self, *args, **kwargs):
+        self.application = None
+        super(ServerGenTemplateItemsHandler, self).__init__(*args, **kwargs)
+        self.payload = dict()
+
+    @property
+    def conn(self):
+        if not hasattr(self.application, 'conn'):
+            self.application.conn = \
+                PSQLClient.get_client(dsn=u'dbname={database} user={user} password={password} host={host} '
+                                          u'port={port}'.format(**settings.SCIENCE_DB_TEST_MAP[u'SHARD']))
+        return self.application.conn
+
+    @gen.coroutine
+    def get(self, *args, **kwargs):
+        projects = yield self.get_from_db(columns=[u'title', u'description_short', u'research_fields', u'id'])
+        self.render("projects_list.html", projects=projects)
+
+    @gen.coroutine
+    def get_from_db(self):
+        sql_query = "SELECT {fields} FROM {tbl}".format(fields=FIELDS(), tbl='projects')
+        sql_string = "SELECT get_query('{q}'::text);".format(q=sql_query)
+        cursor = yield momoko.Op(self.conn.execute, sql_string)
+        res = cursor.fetchall()
+        raise gen.Return([dict(zip(fields, r)) for r in res])
