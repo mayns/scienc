@@ -32,8 +32,8 @@ url_handlers = [
     # (r"/ckeditor/samples/", CkeditorSampleHandler),
 
     # test stands
-    (r"/stand/items", st_handlers.ServerGenTemplateItemsHandler),
-    (r"/stand/item(/\d+)?", st_handlers.ServerGenTemplateItemHandler),
+    (r"/api/stand/items", st_handlers.ServerGenTemplateItemsHandler),
+    (r"/api/stand/item(/\d+)?", st_handlers.ServerGenTemplateItemHandler),
 
 
     (r"/api/.*", cm_handlers.NotFoundRedirectHandler),
