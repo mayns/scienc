@@ -108,7 +108,7 @@ class ServerGenTemplateItemsHandler(web.RequestHandler):
         self.render("projects_list.html", projects=projects)
 
     @gen.coroutine
-    def get_from_db(self):
+    def get_from_db(self, columns=None):
         sql_query = "SELECT {fields} FROM {tbl}".format(fields=FIELDS(), tbl='projects')
         sql_string = "SELECT get_query('{q}'::text);".format(q=sql_query)
         cursor = yield momoko.Op(self.conn.execute, sql_string)
