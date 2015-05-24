@@ -9,5 +9,5 @@ url_handlers = [
     (r"/api/projects(/\w+)?", handlers_sync.ProjectsHandler),
     (r"/api/user", handlers_sync.UserHandler),
     (r"/api/stand/items", handlers.ServerGenTemplateItemsHandler),
-    (r"/api/stand/item(/\d+)?", handlers.ServerGenTemplateItemHandler),
+    (r"/api/stand/item(/\w+)?", handlers.ServerGenTemplateItemHandler),
 ]
