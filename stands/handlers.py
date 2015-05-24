@@ -22,7 +22,7 @@ class ServerGenTemplateItemHandler(BaseRequestHandler):
     def get(self, project_id):
         project = {}
         try:
-            project_id = int(project_id.replace(u'/', u''))
+            project_id = project_id.replace(u'/', u'')
         except:
             self.send_error(status_code=403)
         print u'get server side project:', project_id
