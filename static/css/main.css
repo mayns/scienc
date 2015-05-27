@@ -99,6 +99,11 @@ html {
   height: 100%;
 }
 
+/* line 1, ../scss/blocks/_helpers.scss */
+.g-hide {
+  display: none !important;
+}
+
 /* line 1, ../scss/blocks/_page.scss */
 .page {
   margin: 0;

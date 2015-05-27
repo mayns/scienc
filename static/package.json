@@ -11,6 +11,7 @@
     "ampersand-input-view": "^4.0.5",
     "ampersand-modal-view": "^1.2.0",
     "ampersand-model": "^5.0.3",
+    "ampersand-model-validations-mixin": "^1.0.3",
     "ampersand-router": "^3.0.2",
     "ampersand-sync": "^3.0.7",
     "ampersand-view": "^7.3.0",

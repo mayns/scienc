@@ -8,15 +8,15 @@ div.page__content
 					div.form__line.input.js-first-name
 						div.row.row_align_middle
 							label.col.col_type_lg_size_8.input__label(for='scientist_first_name') Имя
-							input.col.col_type_lg_size_16.input__field(type='text', name='first_name', placeholder="Иван")
-						div.row
-							div.col.col_type_lg_size_16.col_offset_type_lg_size_8.input__message-container(data-hook="message-container")
+							input.col.col_type_lg_size_16.input__field(data-hook="first_name", type='text', placeholder="Иван")
+						div.row(data-hook="first_name_message_container")
+							div.col.col_type_lg_size_16.col_offset_type_lg_size_8.input__message-container
 								div.input__message.input__message_type_error Поле обязательно для заполнения
 
 					div.form__line.input.js-last-name
 						div.row.row_align_middle
 							label.col.col_type_lg_size_8.input__label(for='scientist_last_name') Фамилия
-							input.col.col_type_lg_size_16.input__field(type='text', name='last_name', placeholder="Иванов")
+							input.col.col_type_lg_size_16.input__field(data-hook="last_name", type='text', placeholder="Иванов")
 						div.row
 							div.col.col_type_lg_size_16.col_offset_type_lg_size_8.input__message-container(data-hook="message-container")
 								div.input__message.input__message_type_error Поле обязательно для заполнения
@@ -24,7 +24,7 @@ div.page__content
 					div.form__line.input.js-middle-name
 						div.row.row_align_middle
 							label.col.col_type_lg_size_8.input__label(for='scientist_middle_name') Отчество
-							input.col.col_type_lg_size_16.input__field(type='text', name='middle_name', placeholder="Иванович")
+							input.col.col_type_lg_size_16.input__field(data-hook="middle_name", type='text', placeholder="Иванович")
 						div.row
 							div.col.col_type_lg_size_16.col_offset_type_lg_size_8.input__message-container(data-hook="message-container")
 								div.input__message.input__message_type_error Поле обязательно для заполнения
@@ -34,14 +34,14 @@ div.page__content
 						div.col.col_type_lg_size_4
 							div.row.row_align_middle.row_align_between
 								label(for='male') М
-								input#male(type='radio', value='m', name='gender', checked="")
+								input#male(type='radio', data-hook="gender-m", value='m', name='gender')
 								label(for='female') Ж
-								input#female(type='radio', value='f', name='gender', checked="")
+								input#female(type='radio', data-hook="gender-f", value='f', name='gender')
 
 					div.form__line.input.js-middle-name
 						div.row.row_align_middle
 							label.col.col_type_lg_size_8.input__label(for='dateOfBirth') Дата рождения
-							input.col.col_type_lg_size_16.input__field(type='text', name='dob')
+							input.col.col_type_lg_size_16.input__field(type='text', data-hook="dob")
 						div.row
 							div.col.col_type_lg_size_16.col_offset_type_lg_size_8.input__message-container(data-hook="message-container")
 								div.input__message.input__message_type_error Неверный формат даты
@@ -49,8 +49,8 @@ div.page__content
 					div.form__line.input.js-middle-name
 						div.row.row_align_middle
 							label.col.col_type_lg_size_8.input__label(for='placeOfLiving') Место проживания
-							input.col.col_type_lg_size_7.input__field(type='text', name='location[country]')
-							input.col.col_type_lg_size_8.input__field.col_offset_type_lg_size_1(type='text', name='location[city]')
+							input.col.col_type_lg_size_7.input__field(type='text', data-hook="location.country")
+							input.col.col_type_lg_size_8.input__field.col_offset_type_lg_size_1(type='text', data-hook="location.city")
 
 				div.col.col_type_lg_size_8
 					input-photo#photo(size='{"width": 250, "height": 250}', imageuri='#{image_url}')
@@ -61,16 +61,16 @@ div.page__content
 				fieldset.fieldset.fieldset_nested
 					div.form__line.row.row_align_middle
 						label.col.col_type_lg_size_4(for='middle_education_country') Страна
-						input#middle_education_country.col.col_type_lg_size_20(type='text', name='middle_education[country]')
+						input#middle_education_country.col.col_type_lg_size_20(type='text', data-hook='middle_education.country')
 					div.form__line.row.row_align_middle
 						label.col.col_type_lg_size_4(for='middle_education_city') Город
-						input#middle_education_city.col.col_type_lg_size_20(type='text', name='middle_education[city]')
+						input#middle_education_city.col.col_type_lg_size_20(type='text', data-hook='middle_education.city')
 					div.form__line.row.row_align_middle
 						label.col.col_type_lg_size_4(for='middle_education_school') Школа
-						input#middle_education_school.col.col_type_lg_size_20(type='text', name='middle_education[school]')
+						input#middle_education_school.col.col_type_lg_size_20(type='text', data-hook='middle_education.school')
 					div.form__line.row.row_align_middle
 						label.col.col_type_lg_size_4(for='middle_education_graduation_year') Год выпуска
-						input#middle_education_graduation_year.col.col_type_lg_size_20(type='text', name='middle_education[graduation_year]')
+						input#middle_education_graduation_year.col.col_type_lg_size_20(type='text', data-hook='middle_education.graduation_year')
 			fieldset.fieldset.fieldset_nested
 				legend.fieldset__heading
 					span Высшее образование
@@ -86,11 +86,11 @@ div.page__content
 			fieldset.fieldset.fieldset_nested
 				legend.fieldset__heading О себе
 				div.row.fieldset.fieldset_nested
-					textarea.col.col_type_lg_size_24(name='about')
+					textarea.col.col_type_lg_size_24(data-hook='about')
 			fieldset.fieldset.fieldset_nested
 				legend.fieldset__heading Интересы
 				div.row
-					input.col.col_type_lg_size_24(name='interests[]')
+					input.col.col_type_lg_size_24(data-hook='interests')
 		fieldset.fieldset
 			legend.fieldset__heading
 				span Контакты
@@ -103,10 +103,10 @@ div.page__content
 				div.col.col_type_lg_size_18
 					div.row.row_align_middle
 						label.col.col_type_lg_size_6(for='email') Email
-						input.col.col_type_lg_size_10(type='email', name='email')
+						input.col.col_type_lg_size_10(type='email', data-hook='email')
 					div.row.row_align_middle
 						label.col.col_type_lg_size_6(for='pwd') Пароль
-						input.col.col_type_lg_size_10(type='password', name='pwd')
+						input.col.col_type_lg_size_10(type='password', data-hook='pwd')
 
 		button.button.button_type_submit(type="submit")
 			= formType === 'create' ? 'Создать' : 'Сохранить'

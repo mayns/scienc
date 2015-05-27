@@ -2,39 +2,25 @@ var BaseModel = require('./base');
 var AmpState = require('ampersand-state');
 var BaseCollection = require('ampersand-collection');
 var App = require('ampersand-app');
+var ValidationMixin = require('ampersand-model-validations-mixin');
 
-var HighEducation = AmpState.extend({
-	initialize: function() {
-		this.set({_id: App.getId()});
-	},
+var Publication = AmpState.extend({
 	props: {
 		link: ['string', false, ''],
 		source: ['string', false, ''],
 		title: ['string', false, ''],
-		year: ['string', false, '']
-	},
-	session: {
-		_id: 'number'
-	}
-});
-
-var Publication = AmpState.extend({
-	initialize: function() {
-		this.set({_id: App.getId()});
-	},
-	props: {
-		connection: ['string', false, ''],
-		number: ['string', false, '']
-	},
-	session: {
-		_id: 'number'
+		year: ['number', false, '']
 	}
 });
 
 var Contact = AmpState.extend({
-	initialize: function() {
-		this.set({_id: App.getId()});
-	},
+	props: {
+		connection: ['string', false, ''],
+		number: ['string', false, '']
+	}
+});
+
+var HighEducation = AmpState.extend({
 	props: {
 		chair: ['string', false, ''],
 		city: ['string', false, ''],
@@ -43,28 +29,25 @@ var Contact = AmpState.extend({
 		faculty: ['string', false, ''],
 		graduation_year: ['string', false, ''],
 		university: ['string', false, '']
-	},
-	session: {
-		_id: 'number'
 	}
 });
 
 var HighEducationsCollection = BaseCollection.extend({
 	model: HighEducation,
-	mainIndex: '_id'
+	mainIndex: 'cid'
 });
 
 var PublicationsCollection = BaseCollection.extend({
 	model: Publication,
-	mainIndex: '_id'
+	mainIndex: 'cid'
 });
 
 var ContactsCollection = BaseCollection.extend({
 	model: Contact,
-	mainIndex: '_id'
+	mainIndex: 'cid'
 });
 
-var ScientistModel = BaseModel.extend({
+var ScientistModel = BaseModel.extend(ValidationMixin, {
 	urlRoot: '/api/scientists',
 	idAttribute: 'id',
 	props: {
@@ -73,7 +56,7 @@ var ScientistModel = BaseModel.extend({
 		middle_name: ['string', true, ''],
 		last_name: ['string', true, ''],
 		image_url: ['string', false,  '/static/images/profile.svg'],
-		dob: ['string', true, ''],
+		dob: ['string', false, ''],
 		gender: {
 			type: 'string',
 			values: ['f', 'm']
@@ -83,8 +66,22 @@ var ScientistModel = BaseModel.extend({
 		interests: 'array',
 		about: ['string', false, '']
 	},
+	validations: {
+		first_name: {
+			type: 'blank',
+			msg: 'Поле обязательно для заполнения'
+		},
+		middle_name: {
+			type: 'blank',
+			msg: 'Поле обязательно для заполнения'
+		},
+		last_name: {
+			type: 'blank',
+			msg: 'Поле обязательно для заполнения'
+		}
+	},
 	collections: {
-		high_educations: HighEducationsCollection,
+		high_education: HighEducationsCollection,
 		publications: PublicationsCollection,
 		contacts: ContactsCollection
 	},
