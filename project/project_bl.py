@@ -148,8 +148,7 @@ class ProjectBL(object):
         updated_data = project.get_updated_data(project_dict)
         if u'vacancies' in updated_data.keys():
             vacancies = updated_data.pop(u'vacancies', [])
-            project_v_ids = [v[u'id'] for v in project.vacancies]
-            del_vacancy_ids = set(project_v_ids) - set([v[u'id'] for v in vacancies if u'id' in v])
+            del_vacancy_ids = set(project.vacancies) - set([v[u'id'] for v in vacancies if u'id' in v])
             vacancy_ids = []
             for vacancy in vacancies:
                 # новые вакансии
@@ -158,7 +157,7 @@ class ProjectBL(object):
                     v_id = yield cls.add_vacancy(vacancy)
 
                 # ищем те, которые изменились
-                elif vacancy.get(u'id') in project_v_ids:
+                elif vacancy.get(u'id') in project.vacancies:
                     v_id = yield cls.update_vacancy(vacancy)
 
                 else:
@@ -175,8 +174,7 @@ class ProjectBL(object):
 
         if u'participants' in updated_data.keys():
             participants = project_dict.pop(u'participants', [])
-            project_p_ids = [v[u'id'] for v in project.participants]
-            del_participant_ids = set(project_p_ids) - set([p[u'id'] for p in participants if u'id' in p])
+            del_participant_ids = set(project.participants) - set([p[u'id'] for p in participants if u'id' in p])
             participant_ids = []
             for participant in participants:
                 # новые участники
@@ -185,7 +183,7 @@ class ProjectBL(object):
                     p_id = yield cls.add_participant(participant)
 
                 # ищем те, которые изменились
-                elif participant.get(u'id') in project_p_ids:
+                elif participant.get(u'id') in project.participants:
                     p_id = yield cls.update_participant(participant)
 
                 else:
@@ -317,7 +315,6 @@ class ProjectBL(object):
         project = yield Project.get_by_id(data[u'project_id'])
         scientist = yield Scientist.get_by_id(data[u'scientist_id'])
         sql_query = get_insert_query(globals.TABLE_RESPONSES, data, returning=u'')
-        print sql_query
         try:
             yield momoko.Op(conn.execute, sql_query)
         except PSQLException, ex:
@@ -371,7 +368,7 @@ class ProjectBL(object):
             )
             project = yield Project.get_by_id(data[u'project_id'])
             participant_id = yield cls.add_participant(participant_data)
-            project.participants = [p[u'id'] for p in project.participants] + [participant_id]
+            project.participants.append(participant_id)
             yield project.save(fields=[u'participants'], columns=[u'participants'])
 
     @classmethod
