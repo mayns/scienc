@@ -1406,6 +1406,7 @@ html /deep/ [type="checkbox"] {
     font-weight: bold;
     color: #c32448;
     text-align: center;
+    width: 100%;
 }
 
 .core-header {
