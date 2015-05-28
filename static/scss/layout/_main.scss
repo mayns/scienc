@@ -10,3 +10,26 @@ html /deep/ .container {
 html /deep/ .container.main {
   padding: 30px;
 }
+
+.warn {
+    font-family: "Roboto Slab", serif;
+    font-size: 32px;
+    font-weight: bold;
+    color: #c32448;
+    text-align: center;
+    margin: auto;
+}
+
+.core-header {
+    display: none;
+}
+
+@supports (-webkit-appearance:none)
+{
+    .warn {
+        display: none;
+    }
+    .core-header {
+        display: block;
+    }
+}
