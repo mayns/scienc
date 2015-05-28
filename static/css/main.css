@@ -1407,6 +1407,9 @@ html /deep/ [type="checkbox"] {
     color: #c32448;
     text-align: center;
     width: 100%;
+    background-color: #FCF0E4;
+    border: dashed;
+    border-color: #62554C;
 }
 
 .core-header {
