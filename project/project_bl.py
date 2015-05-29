@@ -144,7 +144,7 @@ class ProjectBL(object):
         if not project_id:
             raise Exception(u'No project id provided')
 
-        project = yield Project.get_by_id(project_id)
+        project = yield Project.get_by_id(project_id, load_data=True)
         updated_data = project.get_updated_data(project_dict)
         if u'vacancies' in updated_data.keys():
             vacancies = updated_data.pop(u'vacancies', [])

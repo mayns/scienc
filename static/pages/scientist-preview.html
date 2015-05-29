@@ -1,6 +1,6 @@
 <link rel="import" href="/static/elements/polymer/polymer.html"/>
 
-<polymer-element name="scientist-preview" attributes="json">
+<polymer-element name="scientist-preview" attributes="data">
     <template>
         <style>
             :host {
@@ -61,7 +61,7 @@
             }
         </style>
         <div class="main">
-           <template bind="{{ json }}">
+           <template bind="{{ data }}">
                <section class="section">
                    <h1 class="section-header">{{ first_name }} {{ middle_name}} {{ last_name }}</h1>
                    <div class="row row-flex">

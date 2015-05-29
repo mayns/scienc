@@ -17,7 +17,7 @@ class Scientist(object):
             dob=u'1986-10-13',
             gender=u'f',
             location={u'country': u'Russia', u'city': u'Moscow'},
-            image_url=u'https://en.gravatar.com/userimage/39116033/0b1c1ef31de9d584943a47db3a03143a.jpg',
+            # image_url=u'https://en.gravatar.com/userimage/39116033/0b1c1ef31de9d584943a47db3a03143a.jpg',
             middle_education=dict(
                 country=u'Россия',
                 city=u'Тверь',
@@ -86,7 +86,7 @@ class Scientist(object):
             dob=u'1989-12-19',
             gender=u'm',
             location={u'country': u'Russia', u'city': u'Moscow'},
-            image_url=u'https://en.gravatar.com/userimage/39116033/0b1c1ef31de9d584943a47db3a03143a.jpg',
+            # image_url=u'https://en.gravatar.com/userimage/39116033/0b1c1ef31de9d584943a47db3a03143a.jpg',
             middle_education=dict(
                 country=u'Россия',
                 city=u'Москва',

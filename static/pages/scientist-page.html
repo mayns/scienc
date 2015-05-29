@@ -26,10 +26,10 @@
             </page-actions>
         </template>
         <template if="{{ preview }}">
-            <scientist-preview json="{{ json.data }}" class="container main"></scientist-preview>
+            <scientist-preview data="{{ json.data }}" class="container main"></scientist-preview>
         </template>
         <template if="{{ !preview }}">
-            <scientist-modify json="{{ json.data }}" viewType="update"></scientist-modify>
+            <scientist-modify data="{{ json.data }}" viewType="update"></scientist-modify>
         </template>
 	</template>
 	<script>

@@ -132,7 +132,7 @@ class Project(object):
             id=u'2',
             manager_id=u'1',
             research_fields=[globals.K_ENGINEERING, globals.K_IT],
-            title=u'Измерение тяги в другие страны в зависимости от региона Москвы',
+            title=u'Как два программиста хлеб пекли',
             description_short=u'In biology most of the phenomena, whether at the scale of individual development or at '
                               u'that of 'u'Darwinian evolution, are temporally extended. Taking into account repeated '
                               u'iterations and 'u'sequential events is needed for any understanding of the '
