@@ -1,0 +1,20 @@
+<link rel="import" href="/static/elements/polymer/polymer.html"/>
+
+<polymer-element name="page-actions">
+    <template>
+        <style>
+            :host {
+                display: block;
+                background-color: rgb(99, 118, 134);
+                padding: 0 0 7px;
+                color: rgb(255, 255, 255);
+            }
+        </style>
+        <div class="container row-flex">
+            <content></content>
+        </div>
+    </template>
+    <script>
+        Polymer('page-actions', {});
+    </script>
+</polymer-element>

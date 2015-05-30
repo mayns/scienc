@@ -1,35 +1,43 @@
 <link rel="import" href="/static/elements/polymer/polymer.html"/>
 <link rel="import" href="/static/elements/app-ajax.html"/>
+<link rel="import" href="/static/mixins/serializeObject.html"/>
+<link rel="import" href="/static/mixins/utils.html"/>
 
-<polymer-element name="ajax-json-form" extends="form" on-submit="{{onFormSubmit}}" attributes="action redirect">
+<polymer-element name="ajax-json-form" extends="form" on-submit="{{ onFormSubmit }}" attributes="action redirect ajaxMethod">
 	<template>
 		<content></content>
-		<app-ajax id="ajax" url="{{action}}" method="{{ viewType === 'create' ? 'POST' : 'PUT' }}" on-core-response="{{onFormSuccess}}" handleAs="json"></app-ajax>
+		<app-ajax 
+            id="ajax" 
+            url="{{ action }}" 
+            method="{{ ajaxMethod }}" 
+            on-core-response="{{ onSubmitSuccess }}" 
+            handleAs="json">
+        </app-ajax>
 	</template>
 	<script>
-		Polymer({
-			onFormSubmit: function(e) {
-				e.preventDefault();
-				var jsonData = this.serializeObject('data-json'),
-					formData = new FormData();
+		Polymer('ajax-json-form', Polymer.mixin({
+            /*
+            *  @abstract
+            */
+            addCustomFields: function(jsonData, formData) {},
+            onFormSubmit: function(e) {
+                e.preventDefault();
+                var jsonData = this.serializeObject('data-json'),
+                    ajax = this.$.ajax,
+                    formData = new FormData();
 
                 this.addCustomFields(jsonData, formData);
                 formData.append('data', JSON.stringify(jsonData));
-                console.log()
-				this.$.ajax.makeRequest(formData);
-			},
-            addCustomFields: function(jsonData, formData) {},
-			serializeObject: function() {
-				return $$.serializeObject.apply(this, arguments);
-			},
-			onFormSuccess: function(e, detail, sender) {
-                this.fire('form-response', {
+                ajax.makeRequest(formData);
+            },
+            onSubmitSuccess: function(e, detail, sender) {
+                this.fire('submit-success', {
                     data: detail
                 });
-				if (this.redirect) {
-					$$.qs('app-router').go(this.redirect);
-				}
-			}
-		});
+                if (this.redirect) {
+                    $$.byId('app').qs('app-router').go(this.redirect);
+                }
+            }
+        }, AppMixins.serializeObject));
 	</script>
 </polymer-element>

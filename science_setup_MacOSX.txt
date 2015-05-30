@@ -4,46 +4,75 @@
 #                                        #
 ##########################################
 
-Устанавливаем nginx
-------------------
-curl -O http://nginx.org/download/nginx-1.6.2.tar.gz
-tar -xvzf nginx-1.6.2.tar.gz
-cd nginx-1.6.2/
-./configure --with-http_gzip_static_module --with-ipv6
-make
-make install
-cd ..
+Homebrew
+--------
+ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
+
+PCRE
+----
+brew install pcre
+
+IMAGE LIBS
+----------
+brew install libjpeg libpng
+
+NGINX
+-----
+brew install nginx --with-webdav
+
+POSTGRES
+--------
+-> brew install postgresql
+
+-> create user postgres:
+sudo -s
+dscl . create /Users/postgres
+dscl . passwd /Users/postgres postgres
+
+-> create db folder:
+mkdir -p /opt/db/postgresql94/defaultdb/
+chown postgres:postgres /opt/db/postgresql94/defaultdb/
+ctrl+d
+
+-> init db:
+sudo su postgres
+initdb /opt/db/postgresql94/defaultdb/ -E utf8
+
+-> launch db:
+postgres -D /opt/db/postgresql94/defaultdb/
 
 Необходимые пакеты
 ------------------
-pip install tornado momoko
+pip install tornado django simplejson fauxfactory
+pip install PIL --allow-unverified PIL --allow-all-external
+pip install pillow
+pip install psycopg2 momoko 
 
-Генерим ssh ключ, если нет, иначе - пропускаем шаг
-------------------
-выходим из sudo
-cd ~/.ssh
+SSH
+---
 ssh-keygen
-Filename не вводить, нажать enter; Phrase = <по желанию>
+Enter
+Phrase
 pbcopy < id_rsa.pub
 добавить ключ в профиль на сайте
 
-Создаем папку проекта и заодно репу
-------------------
+REPO
+----
 sudo mkdir /gen
-sudo chmod 777 /gen
-git init
+sudo chmod -R 755 /gen
+cd /gen/
 git clone git@github.com:mayns/scienc.git
 
-Настраиваем Nginx
-----------------
+NGINX SETUP
+-----------
 mkdir /usr/local/nginx
-ln -s /usr/loca/nginx/sbin/nginx /usr/local/bin/nginx
 cd /gen/scienc
 В configs/dev/nginx.conf заменить epoll на kqueue
-cp -R configs/dev/nginx.conf /usr/local/nginx/conf
+cp -R configs/dev/nginx.conf /usr/local/etc/nginx/
 
 В scienc.conf проверить все пути, чтобы ссылались на папку проекта
 mkdir /var/log/nginx/
+mkdir /var/log/nginx/science
 mkdir /usr/local/nginx/sites-enabled
 cp configs/dev/scienc.conf /usr/local/nginx/sites-enabled
 ln -s /usr/local/nginx/sbin/nginx /usr/bin/
@@ -54,32 +83,12 @@ cp -f /gen/scienc/configs/dev/scmedia.conf /usr/local/nginx/sites-enabled
 nano /etc/hosts — > 127.0.0.1 media-science.dev
 
 Запуск Nginx
-----------------
+------------
 nginx
 
 Остановка Nginx
-----------------
+---------------
 nginx -s stop
-
-Установка PostgreSQL with MacPorts
-----------------
-sudo port -v selfupdate
-sudo port install postgresql93-server
-
-Создаем папку, где будет храниться база
-sudo mkdir -p /opt/db/postgresql93/defaultdb
-
-Устанавливаем владельца и пароль
-sudo chown postgres:postgres /opt/db/postgresql93/defaultdb
-
-Инициализируем первоналачальную базу
-sudo su postgres -c '/opt/local/lib/postgresql93/bin/initdb -D /opt/db/postgresql93/defaultdb'
-
-Запускаем сервер
-sudo su postgres -c '/opt/local/lib/postgresql93/bin/postgres -D /opt/db/postgresql93/defaultdb'
-
-Прописываем путь
-export PATH=/opt/local/lib/postgresql93/bin:$PATH
 
 Прописываем хосты
 -----------------

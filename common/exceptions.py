@@ -31,5 +31,4 @@ class RequiredFields(Exception):
 class PSQLException(Exception):
 
     def __init__(self, msg):
-        self.message = u'PSQL Exception: {}'.format(msg)
-        super(PSQLException, self).__init__(self.message)
+        super(PSQLException, self).__init__(u'PSQL Exception:', msg)

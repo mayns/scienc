@@ -2,6 +2,8 @@
 <link rel="import" href="/static/elements/app-router/app-router.html"/>
 <link rel="import" href="/static/elements/html5-history-anchor/html5-history-anchor.html"/>
 <link rel="import" href="/static/elements/core-icons/core-icons.html">
+<link rel="import" href="/static/elements/science-app.html">
+<link rel="import" href="/static/mixins/utils.html">
 
 <polymer-element name="project-item" attributes="data">
 	<template>
@@ -12,67 +14,121 @@
 				padding: 10px;
 				position: relative;
 			}
-			h1 {
-				margin: 0 0 10px 0;
-                font-family: 'Roboto Slab';
+            .project-header {
+                margin-bottom: 10px;
+            }
+            .project-header h1 {
+                font-size: 28px;
+				margin-bottom: 10px;
+                font-family: 'Roboto Slab' sans-serif;
 			}
-            a {
-                text-decoration: none;
-                color: inherit;
+            .project p {
+                padding-bottom: 10px;
+                line-height: 1.6;
             }
             .short-descr {
-                font-family: 'Roboto Slab';
+                font-family: 'Roboto Slab' sans-serif;
                 font-size: 16px;
                 font-weight: bold;
             }
 			.project-holder {
-				background-color: #21303F;
-				color: white;
-				padding: 3px 5px 3px 5px;
-                font-size: 14px;
+                background-color: #21303F;
+                color: white;
+                padding: 3px 8px 3px 8px;
+                font-size: 16px;
 			}
-			.project-like-icon {
+			.like-icon.bottom {
 				cursor: pointer;
 				position: absolute;
 				left: 50%;
 				margin-left: -12px;
 			}
-			.project-like-icon:hover svg {
+            .like-icon.top {
+                margin-right: 10px;
+                width: 30px;
+                height: 30px;
+            }
+			.like-icon:hover svg {
 				stroke: #FF334F;
 			}
-			.project-like-icon svg {
+			.like-icon svg {
 				fill: white;
 				stroke-width: 2px;
 				stroke: #ccc;
 				transition: fill 0.3s ease, stroke 0.3s ease;
 			}
-			.project-like-icon.liked svg {
+			.like-icon.liked svg {
 				fill: #FF334F;
 				stroke: #FF334F;
 			}
+            .icon {
+                width: 60px;
+                height: 60px;
+            }
+            .science-field-item:after {
+                content: '+';
+                font-size: 26px;
+                color: #d1d1d1;
+                margin-left: 10px;
+                margin-right: 10px;
+            }
+            .science-field-item:last-child:after {
+                content: '';
+            }
 		</style>
-		<article class="project">
-			<header class="project-header">
-				<h1>
-					<a is="html5-history-anchor" href="/project/{{data.id}}" pushstate popstate>{{data.title}}</a>
-				</h1>
-                <template if="{{ data.university_connection }}">
+		<template bind="{{ data }}">
+            <article class="project">
+                <header class="project-header">
+                    <h1>
+                        <a is="html5-history-anchor" href="/project/{{ id }}" pushstate popstate>{{title}}</a>
+                    </h1>
                     <div horizontal layout justified center>
-                        <div class="project-holder">{{data.university_connection[0].university}}</div>
+                        <div horizontal layout center flex>
+                            <template repeat="{{ university_connection }}">
+                                <span class="project-holder">{{ university }}</span>
+                            </template>
+                        </div>
                     </div>
-                </template>
-			</header>
-			<p>
-				<span class="short-descr">Краткое описание: </span>{{data.description_short}}
-			</p>
-			<core-icon class="project-like-icon" icon="favorite" on-tap="{{onFavIconTap}}"></core-icon>
-		</article>
+                </header>
+                <p>
+                    <span class="short-descr">Краткое описание: </span>{{ description_short }}
+                </p>
+                <div horizontal layout justified center>
+
+                    <div horizontal layout center flex>
+                        <template repeat="{{ research_fields }}">
+                            <span class="science-field-item row-flex middle">
+                                <img class="icon" src="/static/images/{{ id }}.svg" alt="{{ name }}"/>
+                            </span>
+                        </template>
+                    </div>
+
+                    <div class="row-flex middle">
+                        <div style="margin-right: 10px; font-size: 26px; color: #808080">{{ data.likes || '' }}</div>
+                    <core-icon id="likeIcon"
+                            class="like-icon top"
+                            on-click="{{ toggleLike }}"
+                            icon="favorite">
+                    </core-icon>
+                    </div>
+                </div>
+            </article>
+        </template>
 	</template>
 	<script>
-		Polymer({
-			onFavIconTap: function(e, detail, sender) {
-				e.target.classList.toggle('liked');
-			}
+		Polymer('project-item', {
+            liked: false,
+            ready: function() {
+                this.app = $$.byId('app');
+
+                if(this.app.user && this.app.user.liked_projects.indexOf(this.data.id) !== -1) {
+                    this.liked = true;
+                }
+            },
+            toggleLike: function() {
+                this.liked = !this.liked;
+                this.$.likeIcon.classList.toggle('liked');
+            }
 		});
 	</script>
 </polymer-element>

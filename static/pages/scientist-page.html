@@ -1,25 +1,41 @@
 <link rel="import" href="/static/elements/polymer/polymer.html"/>
 <link rel="import" href="/static/elements/core-ajax/core-ajax.html"/>
-<link rel="import" href="/static/elements/scientist-preview.html"/>
+<link rel="import" href="/static/pages/scientist-preview.html"/>
 <link rel="import" href="/static/pages/scientist-modify.html"/>
+<link rel="import" href="/static/elements/page-actions.html"/>
+
 
 <polymer-element name="scientist-page" attributes="preview">
 	<template>
-        <core-ajax auto url="/api/scientist/{{ id }}" method="GET" handleAs="json" response="{{ json }}"></core-ajax>
-
-
+        <style>
+            :host {
+                display: block;
+            }
+        </style>
+        <core-ajax auto url="/api/scientists/{{ id }}" method="GET" handleAs="json" response="{{ json }}"></core-ajax>
+        <core-ajax id="ajaxDelete" on-core-response="{{ onDeleteSuccess }}"  url="/api/scientists/{{ id }}" method="DELETE"></core-ajax>
+        <template if="{{ id == app.user.id }}">
+            <page-actions class="row-flex">
+                <template if="{{ preview }}">
+                    <div on-tap="{{ edit }}" class="action col-lg-2">Редактирование</div>
+                    <div on-tap="{{ delete }}" class="action">Удалить профиль</div>
+                </template>
+                <template if="{{ !preview }}">
+                    <div on-tap="{{ show }}" class="action">Просмотр</div>
+                </template>
+            </page-actions>
+        </template>
         <template if="{{ preview }}">
-            <div on-tap="{{ edit }}" class="action">Редактирование</div>
-            <scientist-preview data="{{ json.data }}"></scientist-preview>
+            <scientist-preview data="{{ json.data }}" class="container main"></scientist-preview>
         </template>
         <template if="{{ !preview }}">
-            <div on-tap="{{ show }}" class="action">Назад</div>
             <scientist-modify data="{{ json.data }}" viewType="update"></scientist-modify>
         </template>
 	</template>
 	<script>
-		Polymer({
+		Polymer('scientist-page', {
             ready: function() {
+                this.app = $$.byId('app');
                 this.preview = true;
             },
             show: function() {
@@ -27,6 +43,13 @@
             },
             edit: function() {
                 this.preview = false;
+            },
+            delete: function() {
+                this.$.ajaxDelete.go();
+            },
+            onDeleteSuccess: function() {
+                this.app.user = null;
+                $$.byId('router').go('/scientists');
             }
         });
 	</script>

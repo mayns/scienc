@@ -1,26 +1,67 @@
 <link rel="import" href="/static/elements/polymer/polymer.html"/>
 <link rel="import" href="/static/elements/core-ajax/core-ajax.html"/>
+<link rel="import" href="/static/pages/project-preview.html"/>
+<link rel="import" href="/static/pages/project-modify.html"/>
+<link rel="import" href="/static/elements/page-actions.html"/>
+<link rel="import" href="/static/elements/science-app.html"/>
+<link rel="import" href="/static/mixins/utils.html"/>
 
-<polymer-element name="project-page" noscript>
+<polymer-element name="project-page">
     <template>
         <style>
-            h1, h2 {
-                margin-top: 0;
+            :host {
+                display: block;
             }
         </style>
-		<core-ajax auto url="/api/project/{{ id }}" method="GET" handleAs="json" response="{{ json }}"></core-ajax>
-        <template bind="{{ json.data }}">
-            <section>
-                <h1>{{ title }}</h1>
-                <template repeat="{{ university_connection }}">
-                    <div>{{ university }} {{ faculty }} {{ chair }}</div>
+        <core-ajax 
+            id="ajax" 
+            auto 
+            url="/api/projects/{{ id }}"
+            method="GET" 
+            handleAs="json" 
+            response="{{ json }}">
+        </core-ajax>
+        <core-ajax id="ajaxDelete" url="/api/projects/{{ id }}"  method="DELETE" on-core-response="{{ onDeleteSuccess }}"></core-ajax>
+        <template if="{{ json.data.manager_id && json.data.manager_id == app.user.id }}">
+            <page-actions class="row-flex">
+                <template if="{{ preview }}">
+                    <div on-tap="{{ edit }}" class="action col-lg-2">Редактирование</div>
+                    <div on-tap="{{ delete }}" class="action">Удалить</div>
                 </template>
-                <div layout horizontal justified>
-                    <div>{{ in_progress === 'true' ? 'В процессе' : 'Завершен' }}</div>
-                    <div>{{ likes }}</div>
-                </div>
-                <h2>Цели исследованиея</h2>
-            </section>
+                <template if="{{ !preview }}">
+                    <div on-tap="{{ show }}" class="action col-lg-2">Просмотр</div>
+                </template>
+            </page-actions>
+        </template>
+        <template if="{{ preview }}">
+            <project-preview data="{{ json.data }}" class="container main"></project-preview>
+        </template>
+        <template if="{{ !preview }}">
+            <project-modify data="{{ json.data }}" viewType="update" class="container main"></project-modify>
         </template>
     </template>
+    <script>
+        Polymer('project-page', {
+            ready: function() {
+                this.app = $$.byId('app');
+            },
+            publish: {
+                preview: true
+            },
+            show: function() {
+                this.preview = true;
+            },
+            edit: function() {
+                this.preview = false;
+            },
+//          TODO Move to another place
+            onDeleteSuccess: function() {
+                document.querySelector('app-router').go('/');
+            },
+
+            delete: function(){
+                this.$.ajaxDelete.go();
+            }
+        });
+    </script>
 </polymer-element>

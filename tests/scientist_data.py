@@ -6,28 +6,9 @@ __author__ = 'mayns'
 class Scientist(object):
 
     scientist_dict = {
-        0: dict(
-
-
-            email=u'cooper@gmail.com',
-            pwd=u'alice',
-            first_name=u'Damn',
-            last_name=u'Coffee',
-            middle_name=u'Good',
-            image_url=u'',
-
-        ),
 
         1: dict(
-            email=u'llama@gmail.com',
-            pwd=u'alice',
-            first_name=u'The Best',
-            last_name=u'Pie',
-            middle_name=u'Cherry',
-            image_url=u'',
-        ),
-
-        2: dict(
+            id=u'1',
             email=u'oksgorobets@gmail.com',
             pwd=u'alice',
             first_name=u'Оксана',
@@ -36,7 +17,7 @@ class Scientist(object):
             dob=u'1986-10-13',
             gender=u'f',
             location={u'country': u'Russia', u'city': u'Moscow'},
-            image_url=u'https://en.gravatar.com/userimage/39116033/0b1c1ef31de9d584943a47db3a03143a.jpg',
+            # image_url=u'https://en.gravatar.com/userimage/39116033/0b1c1ef31de9d584943a47db3a03143a.jpg',
             middle_education=dict(
                 country=u'Россия',
                 city=u'Тверь',
@@ -93,29 +74,10 @@ class Scientist(object):
                 )
             ],
 
-            participating_projects=[
-                dict(
-                    project_id=0,
-                    role_id=0
-                ),
-
-                dict(
-                    project_id=1,
-                    role_id=0
-                )
-            ],
-            desired_vacancies=[
-                dict(
-                    project_id=666,
-                    vacancy_id=0
-                )
-            ],
-            managing_project_ids=[0, 1],
-
-            achievements=[0],
         ),
 
-        3: dict(
+        2: dict(
+            id=u'2',
             email=u'losogudok@yandex.ru',
             pwd=u'qwe',
             first_name=u'Андрей',
@@ -124,7 +86,7 @@ class Scientist(object):
             dob=u'1989-12-19',
             gender=u'm',
             location={u'country': u'Russia', u'city': u'Moscow'},
-            image_url=u'https://en.gravatar.com/userimage/39116033/0b1c1ef31de9d584943a47db3a03143a.jpg',
+            # image_url=u'https://en.gravatar.com/userimage/39116033/0b1c1ef31de9d584943a47db3a03143a.jpg',
             middle_education=dict(
                 country=u'Россия',
                 city=u'Москва',
@@ -177,26 +139,6 @@ class Scientist(object):
                 )
             ],
 
-            participating_projects=[
-                dict(
-                    project_id=0,
-                    role_id=1
-                ),
-
-                dict(
-                    project_id=1,
-                    role_id=1
-                )
-            ],
-            desired_vacancies=[
-                dict(
-                    project_id=666,
-                    vacancy_id=1
-                )
-            ],
-            managing_project_ids=[1],
-
-            achievements=[0],
         )
 
     }

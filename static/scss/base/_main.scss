@@ -2,9 +2,11 @@ body {
   font-family: 'Roboto', sans-serif;
 }
 
-html /deep/ a {
-  text-decoration: none;
-  color: inherit;
+html /label/ label {
+  text-transform: capitalize;
 }
 
-
+app-router,
+app-route {
+  display: block;
+}

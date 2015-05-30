@@ -1,0 +1,92 @@
+<link rel="import" href="/static/elements/polymer/polymer.html"/>
+<link rel="import" href="/static/elements/app-ajax.html"/>
+<link rel="import" href="/static/elements/science-app.html"/>
+
+
+<polymer-element name="project-vacancy">
+    <template>
+        <style>
+            :host {
+                display: block;
+                margin-bottom: 30px;
+            }
+            label {
+                display: block;
+                margin-bottom: 10px;
+            }
+            textarea {
+                display: block;
+                width: 100%;
+                margin-bottom: 20px;
+            }
+            .vacancy {
+                margin-bottom: 20px;
+            }
+        </style>
+        <div layout horizontal center class="vacancy">
+            <div flex>
+                <div>{{ data.vacancy_name }}</div>
+                <div class="meta">{{ data.description }}</div>
+            </div>
+            <template if="{{ app.user }}">
+                <template if="{{ !participate }}">
+                    <div on-tap="{{ toggleLetter }}" class="action">
+                        Участвовать
+                    </div>
+                </template>
+                <template if="{{ participate }}">
+                    <div>
+                        Заявка отправлена
+                    </div>
+                </template>
+            </template>
+        </div>
+        <template if="{{ !participate }}">
+            <div class="{{ letterPreview ? '' : 'hide' }} letter">
+            <label for="">Прикрепить письмо к заявке</label>
+            <textarea flex id="message"></textarea>
+            <button class="button submit" on-tap="{{ submitForm }}">Отправить</button>
+        </div>
+        </template>
+        <app-ajax id="ajax"
+                  url="/api/projects/{{ data.project_id }}/responses"
+                  on-core-response="{{ onSubmitSuccess }}"
+                  method="POST">
+        </app-ajax>
+    </template>
+    <script>
+        Polymer('project-vacancy', {
+            ready: function(){
+                this.app = $$.byId('app');
+                this.participate = this.app.user && this.app.user.desired_vacancies.indexOf(this.data.project_id + ':' + this.data.vacancy_id) !== -1;
+                this.app.on('user-update', this.checkParticipation);
+            },
+            publish: {
+                data: {},
+                letterPreview: false
+            },
+            toggleLetter: function() {
+                this.letterPreview = !this.letterPreview;
+            },
+            checkParticipation: function() {
+                this.participate = this.app.user && this.app.user.desired_vacancies.indexOf(this.data.project_id + ':' + this.data.vacancy_id) !== -1;
+            },
+            submitForm: function() {
+                var ajax = this.$.ajax;
+                var formData = new FormData();
+                var body = {
+                    message: this.$.message.value,
+                    vacancy_id: this.data.vacancy_id
+                };
+                formData.append('data', JSON.stringify(body));
+                ajax.makeRequest(formData);
+            },
+            onSubmitSuccess: function(event, detail, sender) {
+                this.$.message.value = '';
+                this.letterPreview = false;
+                this.app.user.desired_vacancies.push(this.data.project_id + ':' + this.data.vacancy_id);
+                this.checkParticipation();
+            }
+        });
+    </script>
+</polymer-element>

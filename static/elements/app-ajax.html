@@ -1,27 +1,30 @@
 <link rel="import" href="/static/elements/polymer/polymer.html"/>
 <link rel="import" href="/static/elements/core-ajax/core-ajax.html"/>
-<link rel="import" href="/static/elements/app-globals.html"/>
+<link rel="import" href="/static/elements/science-app.html"/>
 
 <polymer-element name="app-ajax" attributes="url handleAs params response error method headers body contentType withCredentials progress loading">
 	<template>
-		<core-ajax 	id="ajax"
-				   	url="{{url}}"
-				   	handleAs="{{handleAs}}"
-				   	params="{{params}}"
-					response="{{response}}"
-					error="{{error}}"
-					method="{{method}}"
-					headers="{{headers}}"
-					body="{{body}}"
-					contentType="{{contentType}}"
-					withCredentials="{{withCredentials}}"
-					progress="{{progress}}"
-					loading="{{loading}}">
+		<core-ajax 	
+			id="ajax"
+		   	url="{{url}}"
+		   	handleAs="{{handleAs}}"
+		   	params="{{params}}"
+			response="{{response}}"
+			error="{{error}}"
+			method="{{method}}"
+			headers="{{headers}}"
+			body="{{body}}"
+			contentType="{{contentType}}"
+			withCredentials="{{withCredentials}}"
+			progress="{{progress}}"
+			loading="{{loading}}">
 	   	</core-ajax>
-		<app-globals id="globals"></app-globals>
 	</template>
 	<script>
-		Polymer({
+		Polymer('app-ajax', {
+            ready: function() {
+                this.app = $$.byId('app');
+            },
 			makeRequest: function(formData) {
 				var ajax = this.$.ajax;
 
@@ -29,7 +32,7 @@
 					formData = new	FormData();
 				}
 
-				formData.append('_xsrf', this.$.globals.data._xsrf);
+				formData.append('_xsrf', this.app._xsrf);
 				ajax.body = formData;
 				ajax.go();
 			}

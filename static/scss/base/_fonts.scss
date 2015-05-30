@@ -1,4 +1,11 @@
 @font-face {
+	font-family: 'Cooper Black';
+	src: url('/static/fonts/cooper-black/Cooper_Black.ttf') format('truetype');
+	font-weight: normal;
+	font-style: normal;
+}
+
+@font-face {
   font-family: 'Roboto';
   src: url('/static/fonts/roboto/Roboto-Regular.ttf') format('truetype');
   font-weight: 400;

@@ -1,0 +1,129 @@
+<link rel="import" href="/static/elements/polymer/polymer.html"/>
+<link rel="import" href="/static/elements/my-project.html"/>
+<link rel="import" href="/static/elements/html5-history-anchor/html5-history-anchor.html"/>
+<link rel="import" href="/static/elements/app-ajax.html"/>
+
+<polymer-element name="my-project" attributes="data">
+    <template>
+        <style>
+            :host {
+                display: block;
+                border-bottom: 2px solid #ccc;
+                padding: 10px;
+            }
+            .my-project h1 {
+                font-size: 28px;
+                margin-bottom: 10px;
+                font-family: 'Roboto Slab';
+            }
+            .my-project .responses {
+                color: #aaa;
+                font-size: 20px;
+                margin-bottom: 10px;
+            }
+            .my-project .response {
+                margin-bottom: 30px;
+            }
+            .my-project .response:last-child {
+                margin-bottom: 0;
+            }
+            .my-project .message {
+                color: #aaa;
+            }
+        </style>
+        <div class="my-project">
+            <h1>
+                <a  is="html5-history-anchor"
+                    pushstate
+                    popstate
+                    href="/project/{{ data.project_id }}">
+                    {{ data.title }}
+                </a>
+            </h1>
+            <template if="{{ data.responses.length > 0 }}">
+                <div class="responses">Отклики</div>
+                <template repeat="{{ r in data.responses }}">
+                    <div class="response">
+                        <div class="row-flex between">
+                            <div>
+                                <a  is="html5-history-anchor"
+                                    pushstate
+                                    popstate
+                                    href="/scientist/{{ r.scientist_id }}">
+                                    {{ r.scientist_name }}
+                                </a>
+                            </div>
+                            <div>{{ r.vacancy_name }}</div>
+	                        <template if="{{ r.status }}">
+		                        <div>
+			                        <span>{{ r.status }}</span>
+		                        </div>
+	                        </template>
+                            <template if="{{ !r.status }}">
+	                            <div>
+	                                <span class="icon-ok action" on-tap="{{ acceptResponse }}"></span>
+	                                <span class="icon-cancel action" on-tap="{{ declineResponse }}"></span>
+	                            </div>
+                            </template>
+                        </div>
+                        <div class="message">{{ message }}</div>
+                    </div>
+                    <app-ajax id="ajax" url="/api/projects/{{ data.project_id }}/responses" on-core-response="{{ onSuccess }}"></app-ajax>
+                </template>
+            </template>
+        </div>
+	    <core-ajax
+            id="projects"
+            url="/api/scientists/my-projects"
+            method="GET"
+            on-core-response="{{ onProjectsUpdate }}"
+            handleAs="json">
+        </core-ajax>
+    </template>
+    <script>
+        Polymer('my-project', Polymer.mixin({
+            acceptResponse: function(e) {
+                var response = e.target.templateInstance.model.r;
+                var ajax = this.$.ajax;
+                var formData = new FormData();
+                var json = {
+                    scientist_id: response.scientist_id,
+                    vacancy_id: response.vacancy_id,
+                    result: 'accepted'
+                };
+                ajax.method = 'PUT';
+                formData.append('data', JSON.stringify(json));
+                ajax.makeRequest(formData);
+            },
+            declineResponse: function(e) {
+                var response = e.target.templateInstance.model.r;
+                var ajax = this.$.ajax;
+                var formData = new FormData();
+                var json = {
+                    scientist_id: response.scientist_id,
+                    vacancy_id: response.vacancy_id,
+                    result: 'declined'
+                };
+                ajax.method = 'PUT';
+                formData.append('data', JSON.stringify(json));
+                ajax.makeRequest(formData);
+            },
+            onSuccess: function() {
+				this.$.projects.go();
+            },
+	        onProjectsUpdate: function(e, detail, sender) {
+		        var projectId = this.data.project_id;
+		        var projects = detail.response.data;
+		        var i = 0;
+
+		        for (; i < projects.length; i++) {
+			        if (projects[i].project_id === projectId) {
+				        break;
+			        }
+		        }
+
+		        this.mix(this.data, projects[i]);
+	        }
+        }, AppMixins.utils));
+    </script>
+</polymer-element>

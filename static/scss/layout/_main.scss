@@ -2,20 +2,37 @@ app-router {
   width: 100%;
 }
 
-.content {
-  padding: 30px;
+html /deep/ .container {
+  width: 960px;
   margin: 0 auto;
 }
 
-@media screen and (min-width: 1280px) {
-  .content {
-    width: 1280px;
-  }
+html /deep/ .container.main {
+  padding: 30px;
 }
 
-@media screen and (max-width: 1024px) {
-  .content {
-    width: 960px;
-  }
+.warn {
+    font-family: "Roboto Slab", serif;
+    font-size: 32px;
+    font-weight: bold;
+    color: #c32448;
+    text-align: center;
+    width: 100%;
+    background-color: #FCF0E4;
+    border: dashed;
+    border-color: #62554C;
 }
 
+.core-header {
+    display: none;
+}
+
+@supports (-webkit-appearance:none)
+{
+    .warn {
+        display: none;
+    }
+    .core-header {
+        display: block;
+    }
+}

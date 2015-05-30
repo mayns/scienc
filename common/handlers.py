@@ -3,7 +3,7 @@
 import simplejson as json
 from tornado import gen
 from base.handlers import BaseRequestHandler
-import environment
+import globals
 
 __author__ = 'oks'
 
@@ -36,7 +36,7 @@ class LoginHandler(BaseRequestHandler):
         data = json.loads(self.get_argument(u'data', u'{}'))
         email = data.get(u'email', u'')
         pwd = data.get(u'pwd', u'')
-        scientist_id = yield ScientistBL.check_scientist(email, pwd)
+        scientist_id = yield ScientistBL.check_login(email, pwd)
         if not scientist_id:
             self.send_error(status_code=403)
             return
@@ -50,10 +50,8 @@ class LoginHandler(BaseRequestHandler):
 
 class LogoutHandler(BaseRequestHandler):
     def post(self, *args, **kwargs):
-        print u'logout'
-        scientist_id = self.get_secure_cookie(u'scientist')
-        if not scientist_id:
-            raise Exception(u'WTF???')
+        if not self.current_user_id:
+            raise Exception(u'WTF?')
         self.clear_cookie(u'scientist')
         self.redirect(self.get_argument(u'next', u'/'))
 
@@ -66,10 +64,15 @@ class UserHandler(BaseRequestHandler):
         scientist = yield self.get_current_user()
         if not scientist:
             return
-        image_url = scientist.image_url and environment.GET_IMG(scientist.image_url, environment.IMG_S)
+        image_url = scientist.image_url and globals.GET_IMG(scientist.image_url, globals.IMG_S)
+        desired_vacancies = [v[v.find(u':')+1:] for v in scientist.desired_vacancies]
+
         scientist_data = dict(
             id=scientist.id,
-            image_url=image_url
+            image_url=image_url,
+            liked_projects=scientist.liked_projects or [],
+            desired_vacancies=desired_vacancies,
+            managing_project_ids=scientist.managing_project_ids or []
         )
         response = yield self.get_response(scientist_data)
         self.finish(response)

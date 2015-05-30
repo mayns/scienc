@@ -1,18 +1,20 @@
 # -*- coding: utf-8 -*-
 
 import cStringIO
+import logging
 
 import momoko
 from tornado import gen
 from PIL import Image
 
-import environment
+import globals
 from db.utils import get_select_query, get_insert_query
-from common.media_server import upload, get_url
-from common.utils import set_password, check_password
+from common.media_server import upload, delete, get_url
+from common.utils import set_password, check_password, generate_id
 from common.decorators import psql_connection
 from scientist.models import Scientist
-from common.exceptions import UserExistException, RequiredFields
+from project.models import Project
+from common.exceptions import UserExistException, RequiredFields, PSQLException
 
 
 __author__ = 'oks'
@@ -22,22 +24,33 @@ class ScientistBL(object):
 
     @classmethod
     @gen.coroutine
-    def create(cls, scientist_dict=None, scientist_photo=None):
+    def create(cls, scientist_dict=None, scientist_photo=None, test_mode=False):
 
-        # check if user can save email/pwd and save it if he can
-        yield cls.validate_data(scientist_dict)
-        yield cls.update_roles(scientist_dict)
+        # check if user can create account
+        yield cls.validate_credentials(scientist_dict)
 
-        scientist = Scientist(**scientist_dict)
-        scientist_id = yield scientist.save(update=False)
+        # create ID
+        if test_mode:
+            scientist_id = scientist_dict.get(u'id')
+        else:
+            scientist_id = generate_id(21)
+
+        # create account
+        yield cls.update_roles(scientist_id, scientist_dict)
+
+        editable_data = Scientist.get_editable_data(scientist_dict, update=False)
+        editable_data.update(id=scientist_id)
 
         image_url = yield cls.upload_avatar(scientist_id, scientist_photo)
-        if image_url:
-            scientist = yield Scientist.get_by_id(scientist_id)
-            scientist.image_url = image_url
-            yield scientist.save(fields=[u'image_url'])
 
-        raise gen.Return(dict(scientist_id=scientist_id, image_url=environment.GET_IMG(scientist.image_url, environment.IMG_S)))
+        if image_url:
+            editable_data.update(image_url=image_url)
+
+        scientist = Scientist(**editable_data)
+        yield scientist.save(update=False, fields=editable_data.keys())
+
+        image_url = globals.GET_IMG(image_url, globals.IMG_S) if image_url else u''
+        raise gen.Return(dict(scientist_id=scientist_id, image_url=image_url))
 
     @classmethod
     @gen.coroutine
@@ -48,17 +61,21 @@ class ScientistBL(object):
             raise Exception(u'No scientist id on update')
 
         scientist = yield Scientist.get_by_id(scientist_id)
-        image_url = scientist.image_url and environment.GET_IMG(scientist.image_url, environment.IMG_S)
-        if scientist_photo:
-            new_image_url = yield cls.upload_avatar(scientist_id, scientist_photo[0])
-            if not image_url:
-                scientist_dict.update(dict(
-                    image_url=new_image_url
-                ))
-        scientist.populate_fields(scientist_dict)
 
-        yield scientist.save()
-        raise gen.Return(dict(scientist_id=scientist_id, image_url=environment.GET_IMG(image_url, environment.IMG_S)))
+        # if image arrived - change image url, else save the same
+        if scientist_photo:
+            new_image_url = yield cls.upload_avatar(scientist_id, scientist_photo)
+            scientist_dict.update(image_url=new_image_url)
+        else:
+            scientist_dict.update(image_url=scientist.image_url)
+
+        updated_data = scientist.get_updated_data(scientist_dict)
+
+        scientist.populate_fields(updated_data)
+
+        yield scientist.save(fields=updated_data.keys())
+        image_url = globals.GET_IMG(scientist.image_url, globals.IMG_S) if scientist.image_url else u''
+        raise gen.Return(dict(scientist_id=scientist_id, image_url=image_url))
 
     @classmethod
     @gen.coroutine
@@ -67,7 +84,7 @@ class ScientistBL(object):
         if not scientist_photo or (not scientist_photo.get(u'raw_image')):
             raise gen.Return(u'')
 
-        file_path = u'{sc_id}/a'.format(sc_id=str(scientist_id))
+        file_path = globals.AVATAR_PATH(scientist_id)
         url_path = get_url(file_path)
 
         img = Image.open(cStringIO.StringIO(scientist_photo[u'raw_image'][0].body))
@@ -77,7 +94,7 @@ class ScientistBL(object):
         img = img.crop((int(c.get(u'x1', 0)), int(c.get(u'y1', 0)), int(c.get(u'x2', 250)),
                         int(c.get(u'y2', 250))))
 
-        for size in environment.AVATAR_SIZES:
+        for size in globals.AVATAR_SIZES:
             new_img = img.resize((size, size), Image.ANTIALIAS)
             filename = u'{size}.png'.format(size=size)
             out_im = cStringIO.StringIO()
@@ -89,12 +106,20 @@ class ScientistBL(object):
     @classmethod
     @gen.coroutine
     def remove_avatar(cls, scientist_id):
-        pass
+        yield delete(globals.MEDIA_USR_PATH(scientist_id), u'')
 
     @classmethod
     @gen.coroutine
     @psql_connection
-    def validate_data(cls, conn, data):
+    def validate_credentials(cls, conn, data):
+
+        """
+        Check if user can save email/pwd
+
+        :param conn:
+        :param data:
+        :raise gen.Return:
+        """
         email = data.get(u'email')
         pwd = data.get(u'pwd')
 
@@ -102,7 +127,7 @@ class ScientistBL(object):
         if not both_fields:
             raise RequiredFields([u'Email', u'Password'])
 
-        sql_query = get_select_query(environment.ROLES_TABLE, functions="count(*)", where=dict(column=u'email',
+        sql_query = get_select_query(globals.TABLE_ROLES, functions="count(*)", where=dict(column=u'email',
                                                                                                value=email))
         cursor = yield momoko.Op(conn.execute, sql_query)
         count = cursor.fetchone()
@@ -112,50 +137,64 @@ class ScientistBL(object):
     @classmethod
     @gen.coroutine
     @psql_connection
-    def check_scientist(cls, conn, email, pwd):
+    def check_login(cls, conn, email, pwd):
 
-        sql_query = get_select_query(environment.ROLES_TABLE, columns=['pwd'], where=dict(column='email',
-                                                                                          value=email))
+        sql_query = get_select_query(globals.TABLE_ROLES, columns=['id', 'pwd'],
+                                     where=dict(column='email', value=email))
+
         cursor = yield momoko.Op(conn.execute, sql_query)
-        enc_pwd = cursor.fetchone()
-        if not enc_pwd:
+        data = cursor.fetchone()
+        if not data:
             raise Exception(u'Incorrect pwd')
-        exists = check_password(pwd, enc_pwd[0])
+        _id, enc_pwd = data
+        exists = check_password(pwd, enc_pwd)
         if exists:
-            sql_query = get_select_query(Scientist.TABLE, columns=['id'], where=dict(column='email',
-                                                                                     value=email))
-            cursor = yield momoko.Op(conn.execute, sql_query)
-            _id = cursor.fetchone()[0]
-            raise gen.Return(int(_id))
+            raise gen.Return(_id)
         raise Exception(u'Incorrect pwd')
 
     @classmethod
     @gen.coroutine
     @psql_connection
-    def update_roles(cls, conn, scientist_dict):
+    def update_roles(cls, conn, scientist_id, scientist_dict):
         pwd = set_password(scientist_dict.pop(u'pwd'))
 
         params = dict(
+            id=scientist_id,
             email=scientist_dict.get(u'email'),
             pwd=pwd,
-            role=scientist_dict.pop(u'role', environment.ROLE_USER)
+            role=scientist_dict.pop(u'role', globals.ROLE_USER)
         )
-        sqp_query = get_insert_query(environment.ROLES_TABLE, params)
+        sqp_query = get_insert_query(globals.TABLE_ROLES, params)
 
         yield momoko.Op(conn.execute, sqp_query)
 
     @classmethod
     @gen.coroutine
     def delete(cls, scientist_id):
-        yield Scientist.delete(scientist_id, tbl=environment.ROLES_TABLE)
+        scientist = yield Scientist.get_by_id(scientist_id)
+
+        try:
+            print 'deleting from postgres'
+            yield Scientist.delete(scientist_id, tbl=globals.TABLE_ROLES)
+        except PSQLException, ex:
+            raise ex
+
+        try:
+            # remove avatar
+            print 'BEFORE REMOVE IMG URL:', scientist.image_url
+            if u'media-science' in scientist.image_url:
+                yield cls.remove_avatar(scientist_id)
+
+        except Exception, ex:
+            logging.exception(ex)
 
     @classmethod
     @gen.coroutine
-    def get_all_scientists(cls):
+    def get_all(cls):
         data = yield Scientist.get_all_json(columns=Scientist.OVERVIEW_FIELDS)
         scientists = []
         for d in data:
-            image_url = d.get(u'image_url', u'') and environment.GET_IMG(d.get(u'image_url', u''), environment.IMG_L)
+            image_url = d.get(u'image_url', u'') and globals.GET_IMG(d.get(u'image_url', u''), globals.IMG_L)
             scientists.append(dict(
                 id=d[u'id'],
                 image_url=image_url,
@@ -167,7 +206,7 @@ class ScientistBL(object):
 
     @classmethod
     @gen.coroutine
-    def get_scientist(cls, scientist_id):
+    def get(cls, scientist_id):
 
         """
 
@@ -176,6 +215,169 @@ class ScientistBL(object):
         :rtype: dict
         """
         data = yield Scientist.get_json_by_id(scientist_id)
-        image_url = data.get(u'image_url', u'') and environment.GET_IMG(data.get(u'image_url', u''), environment.IMG_L)
+        image_url = data.get(u'image_url', u'') and globals.GET_IMG(data.get(u'image_url', u''), globals.IMG_L)
         data.update(image_url=image_url)
+        logging.info(data)
         raise gen.Return(data)
+
+    @classmethod
+    @gen.coroutine
+    def get_my_projects(cls, manager_id):
+        scientist_columns = [u'managing_project_ids']
+        scientist_json = yield Scientist.get_json_by_id(manager_id, columns=scientist_columns)
+
+        # [{scientist_id, vacancy_id, message}]
+        project_ids = scientist_json.get(u'managing_project_ids', [])
+        if not project_ids:
+            raise gen.Return([])
+
+        projects = []
+        for project_id in project_ids:
+            project_columns = [u'title', u'responses']
+            project_json = yield Project.get_json_by_id(project_id, columns=project_columns)
+            project_json.update(project_id=project_id)
+            raw_responses = project_json.pop(u'responses', [])
+
+            if not raw_responses:
+                project_json.update(responses=[])
+                projects.append(project_json)
+                continue
+
+            responses = []
+
+            for response in raw_responses:
+                response_data = yield cls.get_response_data(response)
+                responses.append(response_data)
+            project_json.update(responses=responses)
+
+            projects.append(project_json)
+        raise gen.Return(projects)
+
+    @classmethod
+    @gen.coroutine
+    @psql_connection
+    def get_response_data(cls, conn, response_id):
+        scientist_id = response_id[:response_id.find(u':')]
+        project_id = response_id[response_id.find(u':')+1:response_id.rfind(u':')]
+        vacancy_id = response_id[response_id.rfind(u':')+1:]
+
+        response_data = dict(
+            scientist_id=scientist_id,
+            vacancy_id=vacancy_id
+        )
+
+        # get message and status
+        columns = [u'message', u'status']
+        where_list = [
+            dict(
+                column=u'scientist_id',
+                value=scientist_id
+            ),
+            dict(
+                column=u'project_id',
+                value=project_id
+            ),
+            dict(
+                column=u'vacancy_id',
+                value=vacancy_id
+            )
+        ]
+        sql_query = get_select_query(globals.TABLE_RESPONSES, columns=columns, where=where_list)
+        cursor = yield momoko.Op(conn.execute, sql_query)
+        data = cursor.fetchone()
+        response_data.update(dict(zip(columns, data)))
+
+        # get vacancy name
+        v_col = [u'vacancy_name']
+        sql_query = get_select_query(globals.TABLE_VACANCIES, columns=v_col, where=dict(column=u'id',
+                                                                                            value=vacancy_id))
+        cursor = yield momoko.Op(conn.execute, sql_query)
+        data = cursor.fetchone()
+        response_data.update(dict(zip(v_col, data)))
+
+        # get scientist name
+        scientist = yield Scientist.get_by_id(scientist_id)
+        scientist_name = u' '.join(map(lambda x: x.decode('utf8'), [scientist.last_name, scientist.first_name,
+                                                                    scientist.middle_name]))
+        response_data.update(dict(
+            scientist_name=scientist_name,
+        ))
+        raise gen.Return(response_data)
+
+    @classmethod
+    @gen.coroutine
+    def get_participation_projects(cls, scientist_id):
+        cols = [u'participating_projects']
+        sc_json = yield Scientist.get_json_by_id(scientist_id, columns=cols)
+        # [{project_id, role_id}]
+
+        projects = []
+        for participation in sc_json.get(u'participating_projects', []):
+            project_columns = [u'title', u'participants']
+            project_data = yield Project.get_json_by_id(participation[u'project_id'], columns=project_columns)
+            participants = project_data.pop(u'participants')
+            project_data.update(project_id=participation[u'project_id'],
+                                role_name=[k[u'role_name'] for k in participants if k[u'id'] == participation[u'role_id']][0]
+            )
+
+            projects.append(project_data)
+        print projects
+        raise gen.Return(projects)
+
+    @classmethod
+    @gen.coroutine
+    def get_desired_projects(cls, scientist_id):
+        cols = [u'desired_vacancies']
+        sc_json = yield Scientist.get_json_by_id(scientist_id, columns=cols)
+
+        # [{project_id, vacancy_id}]
+        projects = []
+        for application in sc_json(u'desired_vacancies', []):
+            project_columns = [u'title', u'vacancies']
+            project_data = yield Project.get_json_by_id(application[u'project_id'], columns=project_columns)
+
+            vacancies = project_data.pop(u'vacancies', [])
+            project_data.update(project_id=application[u'project_id'],
+                                vacancy_id=application[u'vacancy_id'],
+                                vacancy_name=[k[u'vacancy_name'] for k in vacancies if
+                                              k[u'id'] == application[u'vacancy_id']][0]
+            )
+
+            projects.append(project_data)
+        print projects
+        raise gen.Return(projects)
+
+    @classmethod
+    @gen.coroutine
+    def delete_desired_project(cls, scientist_id, data):
+        """
+
+        :param scientist_id:
+        :param data: {project_id, vacancy_id}
+        """
+        scientist = yield Scientist.get_by_id(scientist_id)
+        project = yield Project.get_by_id(data[u'project_id'])
+        scientist.desired_vacancies = [scientist.desired_vacancies[i] for i in xrange(len(scientist.desired_vacancies))
+                                       if scientist.desired_vacancies[i][u'vacancy_id'] != data[u'vacancy_id']]
+        yield scientist.save(fields=[u'desired_vacancies'])
+        project.responses = [project.responses[i] for i in xrange(len(project.responses))
+                             if (project.responses[i][u'scientist_id'] != scientist_id) and
+                             (project.responses[u'vacancy_id'] != data[u'vacancy_id'])]
+        yield project.save(fields=[u'responses'])
+
+    @classmethod
+    @gen.coroutine
+    def delete_participation(cls, scientist_id, data):
+        """
+
+        :param scientist_id:
+        :param data: {role_id, project_id}
+        """
+        scientist = yield Scientist.get_by_id(scientist_id)
+        project = yield Project.get_by_id(data[u'project_id'])
+        scientist.participating_projects.remove(dict(project_id=project.id, role_id=data[u'role_id']))
+        yield scientist.save(fields=[u'participating_projects'])
+        for i in xrange(len(project.participants)):
+            if project.participants[i][u'id'] == data[u'role_id']:
+                project.participants[i][u'status'] = globals.STATUS_DELETED
+        yield project.save(fields=[u'participants'])

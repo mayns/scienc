@@ -1,6 +1,7 @@
 /***********************
 *   LOGIN DIALOG
 ***********************/
+
 @import '../variables';
 
 html /deep/ .login-dialog {
@@ -64,3 +65,28 @@ html /deep/ .login-dialog-close {
   font-weight: bold;
   line-height: 30px;
 }
+
+/***********************
+*   RESEARCH FIELDS DIALOG
+***********************/
+
+html /deep/ .research-fields-dialog {
+  background-color: white;
+  padding: 20px;
+}
+
+html /deep/ .research-fields-dialog .icon {
+  width: 40px;
+  height: 40px;
+}
+
+html /deep/ .research-fields-dialog .label {
+  padding: 10px 20px;
+}
+
+html /deep/ .research-fields-dialog .checkbox {
+  margin: 0;
+}
+
+
+

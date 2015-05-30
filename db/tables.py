@@ -7,13 +7,6 @@ __author__ = 'mayns'
 
 TABLES = dict(
 
-    roles = {
-        u'id': ID(),
-        u'email': Text(),
-        u'pwd': Text(),
-        u'role': Integer()
-    },
-
     countries = {
         u'id': ID(db_type='smallserial'),
         u'title_en': Text(),

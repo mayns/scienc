@@ -10,7 +10,7 @@ html /deep/ .row-flex {
 	margin-right: 0;
 	margin-left: 0;
 }
-html /deep/ .row.reverse {
+html /deep/ .row-flex.reverse {
 	flex-direction: row-reverse;
 	flex-wrap: wrap-reverse;
 }

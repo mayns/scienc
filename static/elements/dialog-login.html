@@ -2,10 +2,8 @@
 <link rel="import" href="/static/elements/paper-input/paper-input.html"/>
 <link rel="import" href="/static/elements/core-overlay/core-overlay.html"/>
 <link rel="import" href="/static/elements/app-ajax.html"/>
-<link rel="import" href="/static/elements/app-globals.html"/>
 
-
-<polymer-element name="dialog-login" attributes="">
+<polymer-element name="dialog-login">
 	<template>
 		<core-overlay opened="false" layered backdrop id="loginDialog" autoCloseDisabled>
 			<div class="login-dialog">
@@ -29,29 +27,43 @@
 					</button>
 				</form>
 				<footer class="row-flex between">
-					<a is="html5-history-anchor" href="/signup" pushstate popstate>Восстановить пароль</a>
-					<a is="html5-history-anchor" href="/signup" pushstate popstate>Зарегистрироваться</a>
+					<a 	is="html5-history-anchor" 
+						href="/pwd_recover" 
+						pushstate popstate 
+						on-tap="{{ onLinkClick }}">
+						Восстановить пароль
+					</a>
+					<a 	is="html5-history-anchor" 
+						href="/signup" 
+						pushstate popstate 
+						on-tap="{{ onLinkClick }}">
+						Зарегистрироваться
+					</a>
 				</footer>
 				<div class="login-dialog-close action" core-overlay-toggle>X</div>
-				<app-ajax on-core-response="{{onLoginFormResponse}}"
-						   method="POST"
-						   url="/api/login"
-						   headers='{"X-Requested-With": "XMLHttpRequest"}'
-						   id="ajax">
+				<app-ajax 
+					on-core-response="{{onLoginFormResponse}}"
+					method="POST"
+					url="/api/login"
+					headers='{"X-Requested-With": "XMLHttpRequest"}'
+					id="ajax">
 				</app-ajax>
-				<app-globals id="globals"></app-globals>
 			</div>
 		</core-overlay>
 	</template>
 	<script>
-		Polymer({
+		Polymer('dialog-login', {
 			open: function() {
 				this.$.loginDialog.open();
 			},
+            close: function() {
+                this.$.loginDialog.close();
+            },
 			onLoginFormSubmit: function(e) {
 				e.preventDefault();
 				var self = this;
 				var formData = new FormData();
+
 				formData.append('data', JSON.stringify({
 					email: self.$.email.value,
 					pwd: self.$.password.value
@@ -60,9 +72,14 @@
 			},
 			onLoginFormResponse: function(e) {
 				var self = this;
-				self.$.loginDialog.close();
-                self.fire('logged-in');
-			}
+                self.$.email.value = '';
+                self.$.password.value = '';
+				self.close();
+                self.fire('user-update');
+			},
+            onLinkClick: function() {
+                this.close();
+            }
 		});
 	</script>
 </polymer-element>

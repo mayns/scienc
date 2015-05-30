@@ -1,0 +1,575 @@
+<link rel="import" href="/static/elements/polymer/polymer.html"/>
+<link rel="import" href="/static/elements/break-line.html"/>
+<link rel="import" href="/static/elements/ajax-json-form.html"/>
+<link rel="import" href="/static/elements/input-tags.html"/>
+<link rel="import" href="/static/elements/core-overlay/core-overlay.html"/>
+<link rel="import" href="/static/mixins/dynamic_fields.html"/>
+<link rel="import" href="/static/mixins/utils.html"/>
+
+<polymer-element name="project-modify" attributes="data" class="container main">
+	<template>
+		<style>
+			:host {
+				display: block;
+			}
+
+			.project-form section {
+				color: #333;
+			}
+
+			.project-form fieldset {
+				padding: 20px 20px 30px;
+				margin-bottom: 40px;
+				border: 1px solid #cccccc;
+			}
+
+			.project-form fieldset fieldset {
+				border: none;
+				margin-bottom: 0;
+				padding-left: 0;
+				padding-right: 0;
+			}
+
+			.project-form fieldset fieldset legend {
+				font-size: 22px;
+			}
+
+			.project-form legend {
+				font-size: 30px;
+			}
+
+			.project-form legend .icon {
+				vertical-align: middle;
+			}
+
+			.icon {
+				width: 20px;
+				height: 20px;
+				margin-left: 10px;
+			}
+
+			form {
+				padding-bottom: 70px;
+			}
+
+			form .row-flex {
+				margin-bottom: 20px;
+			}
+
+			form .row-flex:last-child {
+				margin-bottom: 0;
+			}
+
+			.fieldblock {
+				padding-left: 40px;
+				position: relative;
+			}
+
+			.fieldblock + .fieldblock {
+				padding-top: 40px;
+				border-top: 1px solid #ccc;
+				margin-top: 40px;
+			}
+
+			.deleteItem {
+				position: absolute;
+				top: 50%;
+				left: 0;
+				margin-top: -10px;
+			}
+
+			legend {
+				font-size: 30px;
+			}
+            .sc-icon {
+                width: 60px;
+                height: 60px;
+            }
+
+			.missed-participants label {
+				padding-right: 20px;
+			}
+		</style>
+		<section vertical layout class="project-form">
+			<form is="ajax-json-form"
+			      id="form"
+			      ajaxMethod="{{ ajaxMethod }}"
+			      on-form-response="{{ onFormResponse }}"
+			      action="/api/projects"
+			      redirect="/">
+				<template bind="{{ data }}">
+					<fieldset>
+						<legend>Общие сведения</legend>
+						<div class="row-flex fieldblock">
+							<div class="col-lg-12">
+								<div class="row-flex middle">
+									<label for="title" class="action col-lg-3">Название проекта</label>
+								</div>
+								<div class="row-flex">
+									<div class="col-lg-12">
+										<input type="text"
+										       id="title"
+										       name="title"
+										       value="{{ title }}"
+										       data-json="title"
+										       required/>
+									</div>
+								</div>
+								<div class="row-flex middle">
+									<label class="action row-flex col-lg-12">Область науки</label>
+								</div>
+								<div class="row-flex">
+									<div class="col-lg-12">
+										<input type="text" id="researchFields" on-focus="{{ showResearchFields }}"
+										       value="{{ research_fields }}"/>
+										<core-overlay id="researchFieldsDialog"
+										              on-core-overlay-close-completed="{{ onDialogClose }}"
+										              class="research-fields-dialog" layered backdrop>
+											<div class="row-flex col-lg-12">
+												<div class="row-flex middle">
+													<img class="icon" src="/static/images/math.svg" alt=""/>
+													<label class="label action col-lg-10" for="math">Математика,
+														информатика, механика</label>
+													<input class="checkbox"
+													       type="checkbox"
+													       value="math"
+													       id="math"
+													       checked="{{ research_fields | inArray('math') }}"
+													       data-json="research_fields[]"/>
+												</div>
+												<div class="row-flex middle">
+													<img class="icon" src="/static/images/physics.svg" alt=""/>
+													<label for="physics" class="action col-lg-10 label">Физика и
+														астрономия</label>
+													<input class="checkbox"
+													       type="checkbox"
+													       value="physics"
+													       id="physics"
+													       checked="{{ research_fields | inArray('physics') }}"
+													       data-json="research_fields[]"/>
+												</div>
+												<div class="row-flex middle">
+													<img class="icon" src="/static/images/chemistry.svg" alt=""/>
+													<label for="chemistry" class="action col-lg-10 label">Химия</label>
+													<input class="checkbox"
+													       type="checkbox"
+													       value="chemistry"
+													       checked="{{ research_fields | inArray('chemistry') }}"
+													       id="chemistry" data-json="research_fields[]"/>
+												</div>
+												<div class="row-flex middle">
+													<img class="icon" src="/static/images/it.svg" alt=""/>
+													<label for="it" class="action col-lg-10 label">Информационные
+														технологии и вычеслительные системы</label>
+													<input class="checkbox"
+													       type="checkbox"
+													       value="it"
+													       id="it"
+													       checked="{{ research_fields | inArray('it') }}"
+													       data-json="research_fields[]"/>
+												</div>
+												<div class="row-flex middle">
+													<img class="icon" src="/static/images/biology.svg" alt=""/>
+													<label for="biology" class="action col-lg-10 label">Биология и
+														медицинская наука</label>
+													<input class="checkbox"
+													       type="checkbox"
+													       value="biology"
+													       id="biology"
+													       checked="{{ research_fields | inArray('biology') }}"
+													       data-json="research_fields[]"/>
+												</div>
+												<div class="row-flex middle">
+													<img class="icon" src="/static/images/earth.svg" alt=""/>
+													<label for="earth" class="action col-lg-10 label">Науки о
+														Земле</label>
+													<input class="checkbox"
+													       type="checkbox"
+													       value="earth"
+													       id="earth"
+													       checked="{{ research_fields | inArray('earth') }}"
+													       data-json="research_fields[]"/>
+												</div>
+												<div class="row-flex middle">
+													<img class="icon" src="/static/images/engineering.svg" alt=""/>
+													<label for="engineering" class="action col-lg-10 label">Инженерные
+														науки</label>
+													<input class="checkbox"
+													       type="checkbox"
+													       value="engineering"
+													       checked="{{ research_fields | inArray('engineering') }}"
+													       id="engineering" data-json="research_fields[]"/>
+												</div>
+											</div>
+										</core-overlay>
+									</div>
+								</div>
+								<div class="row-flex middle">
+									<label class="col-lg-3">В процессе</label>
+									<input type="checkbox" checked="{{ in_progress !== 'false' }}"
+									       data-json="in_progress"/>
+								</div>
+								<div class="row-flex middle">
+									<label class="col-lg-3">Связь с университетами</label>
+									<input type="checkbox" checked="{{ university_connection }}"/>
+									<template if="{{ university_connection }}">
+										<img on-click="{{ addItem }}" data-itemtype="university_connection"
+										     class="action icon"
+										     src="/static/images/plus.svg"
+										     alt=""/>
+									</template>
+								</div>
+								<template if="{{ university_connection }}">
+									<template repeat="{{ university_connection }}">
+										<div class="fieldblock">
+											<div class="row-flex">
+												<div class="col-lg-2">
+													<label for="">Страна</label>
+												</div>
+												<div class="col-lg-10">
+													<input type="text"
+													       value="{{ country }}"
+													       data-json="university_connection[][country]"/>
+												</div>
+											</div>
+											<div class="row-flex">
+												<div class="col-lg-2">
+													<label for="">Город</label>
+												</div>
+												<div class="col-lg-10">
+													<input type="text"
+													       value="{{ city }}"
+													       data-json="university_connection[][city]"/>
+												</div>
+											</div>
+											<div class="row-flex">
+												<div class="col-lg-2">
+													<label for="">Университет</label>
+												</div>
+												<div class="col-lg-10">
+													<input type="text"
+													       value="{{ university }}"
+													       data-json="university_connection[][university]"/>
+												</div>
+											</div>
+											<div class="row-flex">
+												<div class="col-lg-2">
+													<label for="">Факультет</label>
+												</div>
+												<div class="col-lg-10">
+													<input type="text"
+													       value="{{ faculty }}"
+													       data-json="university_connection[][faculty]"/>
+												</div>
+											</div>
+											<div class="row-flex">
+												<div class="col-lg-2">
+													<label for="">Кафедра</label>
+												</div>
+												<div class="col-lg-10">
+													<input type="text"
+													       value="{{ chair }}"
+													       data-json="university_connection[][chair]"/>
+												</div>
+											</div>
+											<div class="row-flex"></div>
+											<img class="deleteItem icon action"
+											     data-itemtype="university_connection"
+											     on-click="{{ deleteItem }}"
+											     src="/static/images/minus.svg" alt=""/>
+										</div>
+									</template>
+								</template>
+								<div class="row-flex">
+									<label for="description_short">Краткое описание</label>
+								</div>
+								<div class="row-flex">
+                                    <textarea name="description_short"
+                                              data-json="description_short"
+                                              id="description_short"
+                                              value="{{ description_short }}"
+                                              class="col-lg-12" required></textarea>
+								</div>
+								<div class="row-flex">
+									<label>Сайт проекта</label>
+								</div>
+								<div class="row-flex">
+									<input type="text" class="col-lg-12" data-json="project_site"
+									       value="{{ project_site }}"/>
+								</div>
+								<div class="row-flex">
+									<label>Тэги</label>
+								</div>
+								<div class="row-flex">
+									<input-tags value="{{ tags }}" data-json="tags[]" class="col-lg-12"
+									            name="tags[]"></input-tags>
+								</div>
+							</div>
+						</div>
+					</fieldset>
+					<fieldset>
+						<legend>О проекте</legend>
+						<div class="fieldblock">
+							<div class="row-flex">
+								<label class="action">Цели исследования</label>
+							</div>
+							<div class="row-flex">
+                                <textarea name="objective"
+                                          data-json="objective"
+                                          value="{{ objective }}"
+                                          id="objective"
+                                          class="col-lg-12"></textarea>
+							</div>
+							<div class="row-flex">
+								<label>Полное описание</label>
+							</div>
+							<div class="row-flex">
+                                <textarea name="description_full"
+                                          data-json="description_full"
+                                          value="{{ description_full }}"
+                                          id="description_full"
+                                          class="col-lg-12"></textarea>
+							</div>
+							<div class="row-flex">
+								<label>Возможности применения результатов</label>
+							</div>
+							<div class="row-flex">
+                                <textarea name="usage_possibilities"
+                                          data-json="usage_possibilities"
+                                          value="{{ usage_possibilities }}"
+                                          id="usage_possibilities"
+                                          class="col-lg-12"></textarea>
+							</div>
+							<div class="row-flex">
+								<label>Достигнутые результаты</label>
+							</div>
+							<div class="row-flex">
+                                <textarea name="results"
+                                          data-json="results"
+                                          value="{{ results }}"
+                                          id="results"
+                                          class="col-lg-12"></textarea>
+							</div>
+							<div class="row-flex middle">
+								<label for="">В тему</label>
+								<img on-click="{{ addItem }}" data-itemtype="related_data" class="action icon"
+								     src="/static/images/plus.svg"
+								     alt=""/>
+							</div>
+							<template repeat="{{ related_data }}">
+								<div class="row-flex">
+									<div class="col-lg-5">
+										<input type="text"
+										       value="{{ title }}"
+										       placeholder="Название"
+										       data-json="related_data[][title]"/>
+									</div>
+									<div class="col-lg-5 col-lg-offset-1">
+										<input type="text"
+										       value="{{ link }}"
+										       placeholder="Ссылка"
+										       data-json="related_data[][link]"/>
+									</div>
+									<div class="col-lg-11">
+										<input type="text"
+										       value="{{ description }}"
+										       placeholder="и че там вкратце"
+										       data-json="related_data[][description]"/>
+									</div>
+									<img on-click="{{ deleteItem }}"
+									     data-itemtype="related_data"
+									     class="action icon"
+									     src="/static/images/minus.svg"
+									     alt=""/>
+								</div>
+							</template>
+						</div>
+					</fieldset>
+					<fieldset>
+						<legend>Участники</legend>
+						<div class="fieldblock">
+							<div class="row-flex">
+								<label for="">Руководитель проекта</label>
+							</div>
+							<div class="row-flex">
+								<input name="leader"
+								       type="text"
+								       data-json="leader[full_name]"
+								       value="{{ leader.full_name }}"
+								       id="leader"
+								       class="col-lg-12">
+								<input type="text"
+								       value="{{ leader.scientist_id }}"
+								       placeholder="Ссылка на участника"
+								       data-json="leader[scientist_id]"/>
+								<input hidden
+								       value="{{ leader.id }}"
+								       data-json="leader[id]"/>
+							</div>
+							<div class="row-flex middle">
+								<label for="">Участники проекта</label>
+								<img on-click="{{ addItem }}" data-itemtype="participants" class="action icon"
+								     src="/static/images/plus.svg"
+								     alt=""/>
+							</div>
+							<template repeat="{{ participants }}">
+								<div class="row-flex">
+									<div class="col-lg-5">
+										<input type="text"
+										       value="{{ last_name }}"
+										       placeholder="Ф"
+										       data-json="participants[][last_name]"/>
+										<input type="text"
+										       value="{{ first_name }}"
+										       placeholder="И"
+										       data-json="participants[][first_name]"/>
+										<input type="text"
+										       value="{{ middle_name }}"
+										       placeholder="О"
+										       data-json="participants[][middle_name]"/>
+										<input type="text"
+										       value="{{ scientist_id }}"
+										       placeholder="Ссылка на участника"
+										       data-json="participants[][scientist_id]"/>
+										<input hidden
+										       value="{{ id }}"
+										       data-json="participants[][id]"/>
+									</div>
+									<div class="col-lg-5 col-lg-offset-1">
+										<input type="text"
+										       value="{{ role_name }}"
+										       placeholder="Роль в проекте"
+										       data-json="participants[][role_name]"/>
+									</div>
+									<img on-click="{{ deleteItem }}"
+									     data-itemtype="participants"
+									     class="action icon"
+									     src="/static/images/minus.svg"
+									     alt=""/>
+								</div>
+							</template>
+							<div class="row-flex middle">
+								<label for="">Вакансии</label>
+								<img on-click="{{ addItem }}" data-itemtype="vacancies" class="action icon"
+								     src="/static/images/plus.svg"
+								     alt=""/>
+							</div>
+							<template repeat="{{ vacancies }}">
+								<div class="row-flex">
+									<div class="col-lg-5">
+										<div class="row-flex between top">
+											<input type="text"
+											       placeholder="Должность"
+											       value="{{ vacancy_name }}"
+											       data-json="vacancies[][vacancy_name]"
+											       flex/>
+										</div>
+										<!--<div class="row-flex between top">-->
+										<!--<input type="text"-->
+										<!--placeholder="Сложность"-->
+										<!--value="{{ difficulty }}"-->
+										<!--data-json="vacancies[][difficulty]"-->
+										<!--flex/>-->
+										<!--</div>-->
+										<input hidden
+										       value="{{ id }}"
+										       data-json="vacancies[][id]"/>
+									</div>
+									<div class="col-lg-5 col-lg-offset-1">
+										<div class="row-flex between top">
+                                            <textarea rows="1"
+                                                      placeholder="Описание"
+                                                      value="{{ description }}"
+                                                      data-json="vacancies[][description]"
+                                                      flex></textarea>
+
+										</div>
+									</div>
+									<img on-click="{{ deleteItem }}" data-itemtype="vacancies" class="action icon"
+									     src="/static/images/minus.svg"
+									     alt=""/>
+								</div>
+							</template>
+						</div>
+					</fieldset>
+					<fieldset>
+						<legend>Контактные данные</legend>
+						<div class="fieldblock">
+							<div class="row-flex">
+								<label>
+									Контакты
+								</label>
+								<img on-click="{{ addItem }}" data-itemtype="contacts" class="action icon"
+								     src="/static/images/plus.svg"
+								     alt=""/>
+							</div>
+							<div class="row-flex">
+								<div class="col-lg-10">
+									<template repeat="{{ contacts }}">
+										<div class="row-flex between">
+											<input type="text" class="col-lg-3" value="{{ name }}"
+											       data-json="contacts[][name]" placeholder="ФИО"/>
+											<input type="text" class="col-lg-3" value="{{ connection }}"
+											       data-json="contacts[][connection]" placeholder="Вид связи"/>
+											<input type="text" class="col-lg-3" value="{{ number }}"
+											       data-json="contacts[][number]" placeholder="Номер/login"/>
+											<img on-click="{{ deleteItem }}" data-itemtype="contacts"
+											     class="action icon"
+											     src="/static/images/minus.svg"
+											     alt=""/>
+										</div>
+									</template>
+								</div>
+							</div>
+						</div>
+					</fieldset>
+				</template>
+				<div class="row center">
+					<button type="submit" class="button submit">{{ viewType === 'create' ? 'Добавить' : 'Сохранить' }}
+					</button>
+				</div>
+			</form>
+		</section>
+	</template>
+	<script>
+		Polymer('project-modify', Polymer.mixin({
+			ready: function () {
+				if (this.viewType === 'update') {
+					this.$.form.setAttribute('action', '/api/projects/' + this.data.id);
+					this.$.form.redirect = '/project/' + this.data.id;
+				}
+			},
+			publish: {
+				data: {
+					university_connection: [1],
+					related_data: [1],
+					contacts: [1],
+					participants: [1],
+					vacancies: [1]
+				},
+				formType: 'short',
+				viewType: 'create'
+			},
+			computed: {
+				ajaxMethod: "viewType === 'create' ? 'POST' : 'PUT'"
+			},
+			onDialogClose: function () {
+				var researchFields = $$.qsa.call(this.$.researchFieldsDialog, '.checkbox')
+					.filter(function (item) {
+						return item.checked;
+					})
+					.map(function (item) {
+						return item.value;
+					});
+
+				this.$.researchFields.value = researchFields;
+			},
+			showResearchFields: function () {
+				this.$.researchFieldsDialog.open();
+			},
+			onFormResponse: function () {
+				this.fire('user-update');
+			}
+		}, AppMixins.dynamicFields));
+	</script>
+</polymer-element>

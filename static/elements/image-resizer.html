@@ -3,7 +3,7 @@
 <polymer-element name="image-resizer" hidden attributes="imageSize coords">
     <script>
         (function(){
-            Polymer({
+            Polymer('image-resizer', {
                 resize: function (imageUrl) {
                     var self = this,
                         sourceImage = new Image(),

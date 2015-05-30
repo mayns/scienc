@@ -1,0 +1,68 @@
+<link rel="import" href="/static/mixins/mixins.html"/>
+
+<script>
+    (function(){
+        "use strict";
+
+        var utils = {
+            byId: function(id) {
+                return document.getElementById(id);
+            },
+            qs: function(selector) {
+                var context = this || document;
+                return context.querySelector(selector);
+            },
+            qsa: function(selector) {
+                var context = this || document;
+                return utils.toArray(context.querySelectorAll(selector));
+            },
+            on: function(type, callback, useCapture) {
+                this.addEventListener(type, callback, Boolean(useCapture));
+            },
+            off: function(type, callback, useCapture) {
+                this.removeEventListener(type, callback, Boolean(useCapture));
+            },
+            toArray: function(collection) {
+                return [].slice.call(collection);
+            },
+            mix: function(objectToMix) {
+                var restObjects = [].slice.call(arguments, 1);
+
+                restObjects.forEach(function(mixin){
+                    utils._mix(objectToMix, mixin);
+                });
+
+                return objectToMix;
+            },
+            _mix: function mix(parent, mixin) {
+                var toStr = Object.prototype.toString,
+                        arr = "[object Array]",
+                        key;
+
+                for (key in mixin) {
+                    if (mixin.hasOwnProperty(key)) {
+                        if (typeof mixin[key] === "object" && mixin[key] !== null) {
+                            if (typeof parent[key] !== "object") {
+                                parent[key] = (Array.isArray(mixin[key])) ? [] : {};
+                            }
+                            mix(parent[key], mixin[key]);
+                        }
+                        else {
+                            parent[key] = mixin[key];
+                        }
+                    }
+                }
+            }
+        };
+
+	    PolymerExpressions.prototype.inArray = function(array, value){
+            if(!array){
+                array = [];
+            }
+			return array.indexOf(value) !== -1;
+		};
+
+        window.AppMixins.utils = utils;
+        window.$$ = utils;
+    })();
+</script>

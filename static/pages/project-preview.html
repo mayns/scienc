@@ -1,0 +1,204 @@
+<link rel="import" href="/static/elements/polymer/polymer.html"/>
+<link rel="import" href="/static/elements/core-ajax/core-ajax.html"/>
+<link rel="import" href="/static/elements/core-icon/core-icon.html"/>
+<link rel="import" href="/static/elements/project-vacancy.html"/>
+
+<polymer-element name="project-preview" attributes="data">
+    <template>
+        <style>
+            :host {
+                display: block;
+            }
+            .project {
+                padding-bottom: 100px;
+            }
+            .project h1,
+            .project h2 {
+                font-family: 'Roboto Slab';
+            }
+            .project h2 {
+                font-size: 22px;
+            }
+            .project p,
+            .project ul,
+            .project ol,
+            .project ul {
+                padding: 10px 20px 20px 20px;
+            }
+            .project ol,
+            .project ul {
+                padding-left: 40px;
+            }
+            .project li {
+                margin-bottom: 10px;
+            }
+            .project-title {
+                font-size: 28px;
+            }
+            .project-holder {
+                font-size: 18px;
+                text-transform: uppercase;
+                color: #848484;
+                font-family: 'Roboto';
+                margin-bottom: 15px;
+            }
+            .project-status {
+                margin-bottom: 20px;
+            }
+            .project-progress {
+                text-transform: uppercase;
+            }
+            .project-progress.false {
+                color: rgb(207, 37, 37);
+            }
+            .project-progress.true {
+                color: rgba(20, 172, 0, 0.62);
+            }
+            .likes {
+                font-size: 20px;
+                margin-right: 30px;
+            }
+            .heart {
+                margin-right: 20px;
+            }
+            .heart svg {
+                fill: #FF334F;
+                stroke: #FF334F;
+            }
+            .team {
+                text-align: center;
+                font-size: 80px;
+                letter-spacing: 20px;
+                font-weight: normal;
+                margin-bottom: 30px;
+                color: #666;
+            }
+            .tag {
+                margin-left: 20px;
+                margin-top: 10px;
+            }
+        </style>
+        <template bind="{{ data }}">
+            <section class="project">
+                <h1 class="project-title">{{ title }}</h1>
+                <template repeat="{{ university_connection }}">
+                    <div class="project-holder">{{ university }}, Ф-т {{ faculty }}, каф. {{ chair }}</div>
+                </template>
+                <div class="project-status" layout horizontal center>
+                    <template if="{{ in_progress === 'true'  }}">
+                        <div class="project-progress true" flex>В процессе</div>
+                    </template>
+                    <template if="{{ in_progress !== 'true' }}">
+                        <div class="project-progress false" flex>Завершен</div>
+                    </template>
+                    <core-icon class="heart" icon="favorite"></core-icon>
+                    <div class="likes">{{ likes }}</div>
+                </div>
+                <template if="{{ objective }}">
+                    <h2>Цели исследования</h2>
+                    <p>{{ objective }}</p>
+                </template>
+                <template if="{{ description_full }}">
+                    <h2>Полное описание</h2>
+                    <p>{{ description_full }}</p>
+                </template>
+                <template if="{{ usage_possibilities }}">
+                    <h2>Возможности применения результатов</h2>
+                    <p>{{ usage_possibilities }}</p>
+                </template>
+                <template if="{{ results }}">
+                    <h2>Достигнутые результаты</h2>
+                    <p>{{ results }}</p>
+                </template>
+                <template if="{{ project_site }}">
+                    <h2>Сайт проекта</h2>
+                    <p>
+                        <a class="link" href="{{ project_site }}">{{ title }}</a>
+                    </p>
+                </template>
+                <template if="{{ related_data.length > 0 }}">
+                    <h2>Почитать по теме</h2>
+                    <div>
+                        <ol>
+                            <template repeat="{{ related_data }}">
+                                <li>
+                                    <a class="link" is="html5-history-anchor" pushstate popstate href="{{ source_link }}">{{ title }}</a>
+                                </li>
+                            </template>
+                        </ol>
+                     </div>
+                </template>
+                <template if="{{ tags.length > 0 }}">
+                    <h2>Тэги</h2>
+                    <div class="tag" >
+                        <template repeat="{{ tag in tags }}">
+                            {{ tag }},
+                        </template>
+                    </div>
+                </template>
+                <template if="{{ leader.fullname || participants.length > 0 || vacancies.length > 0 }}">
+                    <section>
+                        <h1 class="team">Команда</h1>
+                        <template if="{{ leader.full_name }}">
+                            <h2>Научный руководитель</h2>
+                            <template bind="{{ leader }}">
+                                <p>
+                                    <template if="{{ scientist_id }}">
+                                        <a is="html5-history-anchor" class="link" pushstate popstate href="/scientist/{{ scientist_id }}">{{ full_name }}</a>
+                                    </template>
+                                    <template if="{{ !scientist_id }}">
+                                        <span is="html5-history-anchor">{{ full_name }}</span>
+                                    </template>
+                                </p>
+                            </template>
+                        </template>
+                        <template if="{{ participants.length > 0 }}">
+                            <h2>Участники</h2>
+                            <div>
+                                <ol>
+                                    <template repeat="{{ participants }}">
+                                        <li>
+                                            <template if="{{ scientist_id }}">
+                                                <a class="link" is="html5-history-anchor" pushstate popstate href="/scientist/{{ scientist_id }}">{{ first_name }} {{ middle_name }} {{last_name}}</a>
+                                            </template>
+                                            <template if="{{ !scientist_id }}">
+                                                <span is="html5-history-anchor">{{ first_name }} {{ middle_name }} {{last_name}}</span>
+                                            </template>
+                                            <div class="meta">{{ role_name }}</div>
+                                        </li>
+                                    </template>
+                                </ol>
+                            </div>
+                        </template>
+                        <template if="{{ vacancies.length > 0 }}">
+                            <h2>Не хватает</h2>
+                            <p>
+                                <template repeat="{{ p in vacancies }}">
+                                    <project-vacancy data="[[ {vacancy_name: p.vacancy_name, description: p.description, project_id: id, vacancy_id: p.id  } ]]">
+                                    </project-vacancy>
+                                </template>
+                            </p>
+                        </template>
+                    </section>
+                </template>
+                <template if="{{ contacts.length > 0 }}">
+                    <h2>Контакты</h2>
+                    <div>
+                        <ul>
+                            <template repeat="{{ contacts }}">
+                                <li>
+                                    <div>{{ connection }}</div>
+                                    <div>{{ number }}</div>
+                                    <div>{{ name }}</div>
+                                </li>
+                            </template>
+                        </ul>
+                    </div>
+                </template>
+            </section>
+        </template>
+    </template>
+    <script>
+        Polymer('project-preview', {});
+    </script>
+</polymer-element>

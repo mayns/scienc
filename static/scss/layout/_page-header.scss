@@ -4,22 +4,16 @@
 }
 
 .page-header {
-  margin: 0 auto;
   height: 100px;
   display: flex;
   align-items: center;
   justify-content: space-between;
 }
 
-@media screen and (min-width: 1280px) {
-  .page-header {
-    width: 1280px;
-  }
-}
-
 .page-header-logo {
   color: #E9A611;
   font-size: 48px;
+  font-family: 'Cooper Black';
 }
 
 .page-header-controls {
