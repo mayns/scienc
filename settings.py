@@ -48,17 +48,13 @@ SCIENCE_DB = dict(
     password=PSQL_ROOT_PASSWORD,
 )
 
+HEROKU_DB = dict(
+    database=u'science',
+    host=u'ec2-54-83-0-61.compute-1.amazonaws.com',
+    port=5432,
+    user=u'nmfyynjymjkbts',
+    password=u'IDoYEDpF5eCM9QhdNlXsK97v2c',
+)
+
 PSQL_MIN_CONNECTIONS = 1
 PSQL_MAX_CONNECTIONS = 1000
-
-SCIENCE_DB_TEST_MAP = dict(
-    NO_SHARD_S=dict(
-        database=u'science', host=u'localhost', port=5433, user=PSQL_ROOT_USER, password=PSQL_ROOT_PASSWORD
-    ),
-    NO_SHARD_A=dict(
-        database=u'science', host=u'localhost', port=5434, user=PSQL_ROOT_USER, password=PSQL_ROOT_PASSWORD
-    ),
-    SHARD=dict(
-        database=u'science', host=u'localhost', port=5432, user=PSQL_ROOT_USER, password=PSQL_ROOT_PASSWORD
-    )
-)
