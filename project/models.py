@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-import environment
+import globals
 from base.models import PSQLModel
 
 __author__ = 'oks'
@@ -28,12 +28,12 @@ class Project(PSQLModel):
 
     SEARCH_VACANCIES = [u'vacancies']
 
-    RELATED_TABLES = [environment.TABLE_VACANCIES, environment.TABLE_PARTICIPANTS]
+    RELATED_TABLES = [globals.TABLE_VACANCIES, globals.TABLE_PARTICIPANTS]
 
     RELATED_COLUMNS = {
         # environment.TABLE_VACANCIES: [u'id', u'vacancy_name', u'description', u'difficulty'],
-        environment.TABLE_VACANCIES: [u'id', u'vacancy_name', u'description'],
-        environment.TABLE_PARTICIPANTS: [u'id', u'role_name', u'scientist_id', u'first_name',
+        globals.TABLE_VACANCIES: [u'id', u'vacancy_name', u'description'],
+        globals.TABLE_PARTICIPANTS: [u'id', u'role_name', u'scientist_id', u'first_name',
                                          u'last_name', u'middle_name'],
     }
 

@@ -24,14 +24,10 @@
             <article class="project">
                 <header class="project-header">
                     <h1>
-                        <a href="/stand/i/gen-templates/item/{{ project['id'] }}">{{ project['title'] }}</a>
+                        <a href="/api/stand/item/{{ project['id'] }}">{{ project['title'] }}</a>
                     </h1>
                     <div horizontal layout justified center>
-                        <div horizontal layout center flex>
-                            {% for conn in project['university_connection'] %}
-                                <span class="project-holder">{{ conn['university'] }}</span>
-                            {% end %}
-                        </div>
+
                         <core-icon class="like-icon liked top" icon="favorite"></core-icon>
                     </div>
                 </header>

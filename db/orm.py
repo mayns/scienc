@@ -76,7 +76,7 @@ MODELS = dict(
         u'project_id': Text(required=True, db_references='projects(id)'),
         u'vacancy_name': Text(),
         u'description': Text(),
-        u'status': Text(default=environment.STATUS_ACTIVE),
+        u'status': Text(default=globals.STATUS_ACTIVE),
         # u'difficulty': Text(),
 
         # system info
@@ -99,7 +99,7 @@ MODELS = dict(
         u'project_id': Text(is_composite=True, db_references='projects(id)'),
         u'vacancy_id': Text(is_composite=True, db_references='vacancies(id)'),
         u'message': Text(),
-        u'status': Text(default=environment.STATUS_WAITING)
+        u'status': Text(default=globals.STATUS_WAITING)
     },
 
     roles={

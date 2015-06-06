@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 import logging
-import environment
+import globals
 import momoko
 from tornado import gen
 
@@ -73,7 +73,7 @@ class ProjectBL(object):
         participant_id = generate_id(21)
         participant_data.update(id=participant_id)
 
-        sql_query = get_insert_query(environment.TABLE_PARTICIPANTS, participant_data)
+        sql_query = get_insert_query(globals.TABLE_PARTICIPANTS, participant_data)
         try:
             yield momoko.Op(conn.execute, sql_query)
         except PSQLException, ex:
@@ -84,7 +84,7 @@ class ProjectBL(object):
     @gen.coroutine
     @psql_connection
     def update_participant(cls, conn, participant_data):
-        sqp_query = get_update_query(environment.TABLE_PARTICIPANTS, participant_data,
+        sqp_query = get_update_query(globals.TABLE_PARTICIPANTS, participant_data,
                                      where_params=dict(id=participant_data[u'id']))
         try:
             yield momoko.Op(conn.execute, sqp_query)
@@ -96,7 +96,7 @@ class ProjectBL(object):
     @gen.coroutine
     @psql_connection
     def delete_participant(cls, conn, participant_id):
-        sqp_query = get_delete_query(environment.TABLE_PARTICIPANTS, dict(column=u'id', value=participant_id))
+        sqp_query = get_delete_query(globals.TABLE_PARTICIPANTS, dict(column=u'id', value=participant_id))
         try:
             yield momoko.Op(conn.execute, sqp_query)
         except PSQLException, ex:
@@ -108,7 +108,7 @@ class ProjectBL(object):
     def add_vacancy(cls, conn, vacancy_data):
         vacancy_id = generate_id(21)
         vacancy_data.update(id=vacancy_id)
-        sqp_query = get_insert_query(environment.TABLE_VACANCIES, vacancy_data)
+        sqp_query = get_insert_query(globals.TABLE_VACANCIES, vacancy_data)
         try:
             yield momoko.Op(conn.execute, sqp_query)
         except PSQLException, ex:
@@ -119,7 +119,7 @@ class ProjectBL(object):
     @gen.coroutine
     @psql_connection
     def update_vacancy(cls, conn, vacancy_data):
-        sqp_query = get_update_query(environment.TABLE_VACANCIES, vacancy_data,
+        sqp_query = get_update_query(globals.TABLE_VACANCIES, vacancy_data,
                                      where_params=dict(id=vacancy_data[u'id']))
         yield momoko.Op(conn.execute, sqp_query)
         try:
@@ -131,7 +131,7 @@ class ProjectBL(object):
     @gen.coroutine
     @psql_connection
     def delete_vacancy(cls, conn, vacancy_id):
-        sqp_query = get_delete_query(environment.TABLE_VACANCIES, dict(column=u'id', value=vacancy_id))
+        sqp_query = get_delete_query(globals.TABLE_VACANCIES, dict(column=u'id', value=vacancy_id))
         try:
             yield momoko.Op(conn.execute, sqp_query)
         except PSQLException, ex:
@@ -148,8 +148,7 @@ class ProjectBL(object):
         updated_data = project.get_updated_data(project_dict)
         if u'vacancies' in updated_data.keys():
             vacancies = updated_data.pop(u'vacancies', [])
-            project_v_ids = [v[u'id'] for v in project.vacancies]
-            del_vacancy_ids = set(project_v_ids) - set([v[u'id'] for v in vacancies if u'id' in v])
+            del_vacancy_ids = set(project.vacancies) - set([v[u'id'] for v in vacancies if u'id' in v])
             vacancy_ids = []
             for vacancy in vacancies:
                 # новые вакансии
@@ -158,7 +157,7 @@ class ProjectBL(object):
                     v_id = yield cls.add_vacancy(vacancy)
 
                 # ищем те, которые изменились
-                elif vacancy.get(u'id') in project_v_ids:
+                elif vacancy.get(u'id') in project.vacancies:
                     v_id = yield cls.update_vacancy(vacancy)
 
                 else:
@@ -175,8 +174,7 @@ class ProjectBL(object):
 
         if u'participants' in updated_data.keys():
             participants = project_dict.pop(u'participants', [])
-            project_p_ids = [v[u'id'] for v in project.participants]
-            del_participant_ids = set(project_p_ids) - set([p[u'id'] for p in participants if u'id' in p])
+            del_participant_ids = set(project.participants) - set([p[u'id'] for p in participants if u'id' in p])
             participant_ids = []
             for participant in participants:
                 # новые участники
@@ -185,7 +183,7 @@ class ProjectBL(object):
                     p_id = yield cls.add_participant(participant)
 
                 # ищем те, которые изменились
-                elif participant.get(u'id') in project_p_ids:
+                elif participant.get(u'id') in project.participants:
                     p_id = yield cls.update_participant(participant)
 
                 else:
@@ -228,13 +226,15 @@ class ProjectBL(object):
 
     @classmethod
     @gen.coroutine
-    def get_all(cls):
-        projects_data = yield Project.get_all_json(columns=Project.OVERVIEW_FIELDS)
+    def get_all(cls, columns=None):
+        if not columns:
+            columns = Project.OVERVIEW_FIELDS
+        projects_data = yield Project.get_all_json(columns=columns)
         for project in projects_data:
             if u'research_fields' in project:
                 project.update(research_fields=
-                               [dict(id=f, name=environment.SCIENCE_FIELDS_MAP[f]) for f in project[u'research_fields']
-                                if f in environment.SCIENCE_FIELDS_MAP])
+                               [dict(id=f, name=globals.SCIENCE_FIELDS_MAP[f]) for f in project[u'research_fields']
+                                if f in globals.SCIENCE_FIELDS_MAP])
         raise gen.Return(projects_data)
 
     @classmethod
@@ -243,7 +243,7 @@ class ProjectBL(object):
     def get_vacancy(cls, conn, v_id):
         # columns = [u'id', u'vacancy_name', u'description', u'difficulty']
         columns = [u'id', u'vacancy_name', u'description']
-        sql_query = get_select_query(environment.TABLE_VACANCIES, columns=columns,
+        sql_query = get_select_query(globals.TABLE_VACANCIES, columns=columns,
                                      where=dict(column=u'id', value=str(v_id)))
         cursor = yield momoko.Op(conn.execute, sql_query)
         data = cursor.fetchone()
@@ -255,7 +255,7 @@ class ProjectBL(object):
     @psql_connection
     def get_participant(cls, conn, p_id):
         columns = [u'id', u'role_name', u'scientist_id', u'first_name', u'middle_name', u'last_name']
-        sql_query = get_select_query(environment.TABLE_PARTICIPANTS, columns=columns,
+        sql_query = get_select_query(globals.TABLE_PARTICIPANTS, columns=columns,
                                      where=dict(column=u'id', value=str(p_id)))
         cursor = yield momoko.Op(conn.execute, sql_query)
         data = cursor.fetchone()
@@ -314,8 +314,7 @@ class ProjectBL(object):
         """
         project = yield Project.get_by_id(data[u'project_id'])
         scientist = yield Scientist.get_by_id(data[u'scientist_id'])
-        sql_query = get_insert_query(environment.TABLE_RESPONSES, data, returning=u'')
-        print sql_query
+        sql_query = get_insert_query(globals.TABLE_RESPONSES, data, returning=u'')
         try:
             yield momoko.Op(conn.execute, sql_query)
         except PSQLException, ex:
@@ -342,7 +341,7 @@ class ProjectBL(object):
         :param data: {scientist_id, project_id, vacancy_id, result}
         :type data: dict
         """
-        sql_query = get_update_query(environment.TABLE_RESPONSES, dict(status=data[u'result']),
+        sql_query = get_update_query(globals.TABLE_RESPONSES, dict(status=data[u'result']),
                                      where_params=dict(scientist_id=data[u'scientist_id'],
                                                        project_id=data[u'project_id'],
                                                        vacancy_id=data[u'vacancy_id']), returning=u'')
@@ -351,9 +350,9 @@ class ProjectBL(object):
         except PSQLException, ex:
             logging.exception(ex)
 
-        if data[u'result'] == environment.STATUS_ACCEPTED:
+        if data[u'result'] == globals.STATUS_ACCEPTED:
 
-            sql_query = get_select_query(environment.TABLE_VACANCIES, columns=[u'vacancy_name'],
+            sql_query = get_select_query(globals.TABLE_VACANCIES, columns=[u'vacancy_name'],
                                             where=dict(column=u'id', value=data[u'vacancy_id']))
             cursor = yield momoko.Op(conn.execute, sql_query)
             vacancy_name = cursor.fetchone()[0]
@@ -369,7 +368,7 @@ class ProjectBL(object):
             )
             project = yield Project.get_by_id(data[u'project_id'])
             participant_id = yield cls.add_participant(participant_data)
-            project.participants = [p[u'id'] for p in project.participants] + [participant_id]
+            project.participants.append(participant_id)
             yield project.save(fields=[u'participants'], columns=[u'participants'])
 
     @classmethod
@@ -382,7 +381,7 @@ class ProjectBL(object):
     @psql_connection
     def set_del_status_response(cls, conn, response_id):
         sc_id, p_id, v_id = response_id.split(u':')
-        sql_query = get_update_query(environment.TABLE_RESPONSES, dict(status=environment.STATUS_DELETED),
+        sql_query = get_update_query(globals.TABLE_RESPONSES, dict(status=globals.STATUS_DELETED),
                                      where_params=dict(scientist_id=sc_id,
                                                        project_id=p_id,
                                                        vacancy_id=v_id))

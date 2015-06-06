@@ -48,7 +48,7 @@ def get_update_query(tbl, update_params, where_params=None, editable_columns=Non
     return sql_string
 
 
-def get_insert_query(tbl, insert_data, create_columns=None, returning=u'id'):
+def get_insert_query(tbl, insert_data, create_columns=None, returning=u'id', q_id=None):
     """
 
     :type insert_data: dict
@@ -78,6 +78,8 @@ def get_insert_query(tbl, insert_data, create_columns=None, returning=u'id'):
                                                                                        fields=fields,
                                                                                        values=values,
                                                                                        ret=returning)
+    if q_id:
+        sql_string = u'SELECT execute_query({q_id}, {q})'.format(q_id=q_id, q=sql_string)
     return sql_string
 
 

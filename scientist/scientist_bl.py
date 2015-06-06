@@ -7,7 +7,7 @@ import momoko
 from tornado import gen
 from PIL import Image
 
-import environment
+import globals
 from db.utils import get_select_query, get_insert_query
 from common.media_server import upload, delete, get_url
 from common.utils import set_password, check_password, generate_id
@@ -49,7 +49,7 @@ class ScientistBL(object):
         scientist = Scientist(**editable_data)
         yield scientist.save(update=False, fields=editable_data.keys())
 
-        image_url = environment.GET_IMG(image_url, environment.IMG_S) if image_url else u''
+        image_url = globals.GET_IMG(image_url, globals.IMG_S) if image_url else u''
         raise gen.Return(dict(scientist_id=scientist_id, image_url=image_url))
 
     @classmethod
@@ -74,7 +74,7 @@ class ScientistBL(object):
         scientist.populate_fields(updated_data)
 
         yield scientist.save(fields=updated_data.keys())
-        image_url = environment.GET_IMG(scientist.image_url, environment.IMG_S) if scientist.image_url else u''
+        image_url = globals.GET_IMG(scientist.image_url, globals.IMG_S) if scientist.image_url else u''
         raise gen.Return(dict(scientist_id=scientist_id, image_url=image_url))
 
     @classmethod
@@ -84,7 +84,7 @@ class ScientistBL(object):
         if not scientist_photo or (not scientist_photo.get(u'raw_image')):
             raise gen.Return(u'')
 
-        file_path = environment.AVATAR_PATH(scientist_id)
+        file_path = globals.AVATAR_PATH(scientist_id)
         url_path = get_url(file_path)
 
         img = Image.open(cStringIO.StringIO(scientist_photo[u'raw_image'][0].body))
@@ -94,7 +94,7 @@ class ScientistBL(object):
         img = img.crop((int(c.get(u'x1', 0)), int(c.get(u'y1', 0)), int(c.get(u'x2', 250)),
                         int(c.get(u'y2', 250))))
 
-        for size in environment.AVATAR_SIZES:
+        for size in globals.AVATAR_SIZES:
             new_img = img.resize((size, size), Image.ANTIALIAS)
             filename = u'{size}.png'.format(size=size)
             out_im = cStringIO.StringIO()
@@ -106,7 +106,7 @@ class ScientistBL(object):
     @classmethod
     @gen.coroutine
     def remove_avatar(cls, scientist_id):
-        yield delete(environment.MEDIA_USR_PATH(scientist_id), u'')
+        yield delete(globals.MEDIA_USR_PATH(scientist_id), u'')
 
     @classmethod
     @gen.coroutine
@@ -127,7 +127,7 @@ class ScientistBL(object):
         if not both_fields:
             raise RequiredFields([u'Email', u'Password'])
 
-        sql_query = get_select_query(environment.TABLE_ROLES, functions="count(*)", where=dict(column=u'email',
+        sql_query = get_select_query(globals.TABLE_ROLES, functions="count(*)", where=dict(column=u'email',
                                                                                                value=email))
         cursor = yield momoko.Op(conn.execute, sql_query)
         count = cursor.fetchone()
@@ -139,7 +139,7 @@ class ScientistBL(object):
     @psql_connection
     def check_login(cls, conn, email, pwd):
 
-        sql_query = get_select_query(environment.TABLE_ROLES, columns=['id', 'pwd'],
+        sql_query = get_select_query(globals.TABLE_ROLES, columns=['id', 'pwd'],
                                      where=dict(column='email', value=email))
 
         cursor = yield momoko.Op(conn.execute, sql_query)
@@ -162,9 +162,9 @@ class ScientistBL(object):
             id=scientist_id,
             email=scientist_dict.get(u'email'),
             pwd=pwd,
-            role=scientist_dict.pop(u'role', environment.ROLE_USER)
+            role=scientist_dict.pop(u'role', globals.ROLE_USER)
         )
-        sqp_query = get_insert_query(environment.TABLE_ROLES, params)
+        sqp_query = get_insert_query(globals.TABLE_ROLES, params)
 
         yield momoko.Op(conn.execute, sqp_query)
 
@@ -175,7 +175,7 @@ class ScientistBL(object):
 
         try:
             print 'deleting from postgres'
-            yield Scientist.delete(scientist_id, tbl=environment.TABLE_ROLES)
+            yield Scientist.delete(scientist_id, tbl=globals.TABLE_ROLES)
         except PSQLException, ex:
             raise ex
 
@@ -194,7 +194,7 @@ class ScientistBL(object):
         data = yield Scientist.get_all_json(columns=Scientist.OVERVIEW_FIELDS)
         scientists = []
         for d in data:
-            image_url = d.get(u'image_url', u'') and environment.GET_IMG(d.get(u'image_url', u''), environment.IMG_L)
+            image_url = d.get(u'image_url', u'') and globals.GET_IMG(d.get(u'image_url', u''), globals.IMG_L)
             scientists.append(dict(
                 id=d[u'id'],
                 image_url=image_url,
@@ -215,7 +215,7 @@ class ScientistBL(object):
         :rtype: dict
         """
         data = yield Scientist.get_json_by_id(scientist_id)
-        image_url = data.get(u'image_url', u'') and environment.GET_IMG(data.get(u'image_url', u''), environment.IMG_L)
+        image_url = data.get(u'image_url', u'') and globals.GET_IMG(data.get(u'image_url', u''), globals.IMG_L)
         data.update(image_url=image_url)
         logging.info(data)
         raise gen.Return(data)
@@ -282,14 +282,14 @@ class ScientistBL(object):
                 value=vacancy_id
             )
         ]
-        sql_query = get_select_query(environment.TABLE_RESPONSES, columns=columns, where=where_list)
+        sql_query = get_select_query(globals.TABLE_RESPONSES, columns=columns, where=where_list)
         cursor = yield momoko.Op(conn.execute, sql_query)
         data = cursor.fetchone()
         response_data.update(dict(zip(columns, data)))
 
         # get vacancy name
         v_col = [u'vacancy_name']
-        sql_query = get_select_query(environment.TABLE_VACANCIES, columns=v_col, where=dict(column=u'id',
+        sql_query = get_select_query(globals.TABLE_VACANCIES, columns=v_col, where=dict(column=u'id',
                                                                                             value=vacancy_id))
         cursor = yield momoko.Op(conn.execute, sql_query)
         data = cursor.fetchone()
@@ -379,5 +379,5 @@ class ScientistBL(object):
         yield scientist.save(fields=[u'participating_projects'])
         for i in xrange(len(project.participants)):
             if project.participants[i][u'id'] == data[u'role_id']:
-                project.participants[i][u'status'] = environment.STATUS_DELETED
+                project.participants[i][u'status'] = globals.STATUS_DELETED
         yield project.save(fields=[u'participants'])

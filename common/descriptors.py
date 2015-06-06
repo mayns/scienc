@@ -2,7 +2,7 @@
 
 import json
 import datetime
-import environment
+import globals
 
 __author__ = 'mayns'
 
@@ -146,15 +146,15 @@ class Datetime(FieldDescriptor):
         super(Datetime, self).__init__(default=default, db_default=db_default, db_type=db_type, **kwargs)
         self.db_default = db_default or 'NULL'
 
-        self.store = lambda value: value.strftime(environment.DATETIME_FORMAT[db_type]['DB']) \
+        self.store = lambda value: value.strftime(globals.DATETIME_FORMAT[db_type]['DB']) \
             if (value and not isinstance(value, basestring)) else value or self.db_default
 
-        self.to_json = lambda value: value.strftime(environment.DATETIME_FORMAT[db_type]['DB']) \
+        self.to_json = lambda value: value.strftime(globals.DATETIME_FORMAT[db_type]['DB']) \
             if value and not isinstance(value, basestring) else value
-        self.restore = lambda value: datetime.datetime.strptime(value, environment.DATETIME_FORMAT[db_type]['DB']) \
+        self.restore = lambda value: datetime.datetime.strptime(value, globals.DATETIME_FORMAT[db_type]['DB']) \
             if value else u''
         self.from_json = lambda value: \
-            datetime.datetime.strptime(value, environment.DATETIME_FORMAT[db_type]['DB']).date() if value else u''
+            datetime.datetime.strptime(value, globals.DATETIME_FORMAT[db_type]['DB']).date() if value else u''
         self.type = datetime.date
         self.db_type = db_type or 'timestamp'
         self.default = default or None

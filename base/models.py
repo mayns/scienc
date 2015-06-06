@@ -157,7 +157,7 @@ class PSQLModel(object):
 
     @classmethod
     @gen.coroutine
-    def get_by_id(cls, _id, columns=None):
+    def get_by_id(cls, _id, columns=None, load_data=False):
 
         if not columns:
             columns = list(set(MODELS[cls.TABLE].keys()) - set(cls.SYSTEM_INFO))
@@ -183,7 +183,8 @@ class PSQLModel(object):
                         pass
                 setattr(instance, k, v)
 
-        yield instance.load_data()
+        if load_data:
+            yield instance.load_data()
 
         raise gen.Return(instance)
 

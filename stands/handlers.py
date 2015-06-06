@@ -12,7 +12,7 @@ class ServerGenTemplateItemsHandler(BaseRequestHandler):
 
     @gen.coroutine
     def get(self, *args, **kwargs):
-        projects = yield ProjectBL.get_all()
+        projects = yield ProjectBL.get_all(columns=[u'title', u'description_short', u'research_fields', u'id'])
         self.render("projects_list.html", projects=projects)
 
 
@@ -22,7 +22,7 @@ class ServerGenTemplateItemHandler(BaseRequestHandler):
     def get(self, project_id):
         project = {}
         try:
-            project_id = int(project_id.replace(u'/', u''))
+            project_id = project_id.replace(u'/', u'')
         except:
             self.send_error(status_code=403)
         print u'get server side project:', project_id

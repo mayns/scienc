@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-import environment
+import globals
 
 __author__ = 'mayns'
 
@@ -11,7 +11,7 @@ class Project(object):
         1: dict(
             id=u'1',
             manager_id=u'2',
-            research_fields=[environment.K_MATH, environment.K_BIOLOGY],
+            research_fields=[globals.K_MATH, globals.K_BIOLOGY],
             title=u'New Algorithms for Nonnegative Matrix Factorization and Beyond',
             description_short=u'In biology most of the phenomena, whether at the scale of individual development or at '
                               u'that of 'u'Darwinian evolution, are temporally extended. Taking into account repeated '
@@ -123,7 +123,7 @@ class Project(object):
             contacts=[
                 dict(
                     name=u'Oks',
-                    connection=environment.PHONE,
+                    connection=globals.PHONE,
                     number=u'617-253-4359',
                 )
             ],
@@ -131,7 +131,7 @@ class Project(object):
         2: dict(
             id=u'2',
             manager_id=u'1',
-            research_fields=[environment.K_ENGINEERING, environment.K_IT],
+            research_fields=[globals.K_ENGINEERING, globals.K_IT],
             title=u'Измерение тяги в другие страны в зависимости от региона Москвы',
             description_short=u'In biology most of the phenomena, whether at the scale of individual development or at '
                               u'that of 'u'Darwinian evolution, are temporally extended. Taking into account repeated '
@@ -243,7 +243,7 @@ class Project(object):
             contacts=[
                 dict(
                     name=u'Oks',
-                    connection=environment.PHONE,
+                    connection=globals.PHONE,
                     number=u'617-253-4359',
                 )
             ],
@@ -256,14 +256,14 @@ class Project(object):
             project_id=u'1',
             vacancy_id=u'1',
             message=u'Please take me',
-            status=environment.STATUS_DECLINED,
+            status=globals.STATUS_DECLINED,
         ),
         dict(
             scientist_id=u'1',
             project_id=u'1',
             vacancy_id=u'2',
             message=u'i am the best',
-            status=environment.STATUS_WAITING,
+            status=globals.STATUS_WAITING,
         )
     ]
 
