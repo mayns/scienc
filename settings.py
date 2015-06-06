@@ -40,22 +40,10 @@ PSQL_ROOT_PASSWORD = u'postgres'
 SCIENCE_DB = dict(
     database=u'science',
     host=u'localhost',
-    port=5432 if not ON_PRODUCTION_SERVER else 5433,
+    port=5432,
     user=PSQL_ROOT_USER,
     password=PSQL_ROOT_PASSWORD,
 )
 
 PSQL_MIN_CONNECTIONS = 1
-PSQL_MAX_CONNECTIONS = 1000
-
-SCIENCE_DB_TEST_MAP = dict(
-    NO_SHARD_S=dict(
-        database=u'science', host=u'localhost', port=5433, user=PSQL_ROOT_USER, password=PSQL_ROOT_PASSWORD
-    ),
-    NO_SHARD_A=dict(
-        database=u'science', host=u'localhost', port=5434, user=PSQL_ROOT_USER, password=PSQL_ROOT_PASSWORD
-    ),
-    SHARD=dict(
-        database=u'science', host=u'localhost', port=5432, user=PSQL_ROOT_USER, password=PSQL_ROOT_PASSWORD
-    )
-)
+PSQL_MAX_CONNECTIONS = 100
