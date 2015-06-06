@@ -3,6 +3,7 @@
 import logging
 import globals
 import momoko
+import json
 from tornado import gen
 
 from common.decorators import psql_connection
@@ -280,6 +281,8 @@ class ProjectBL(object):
             vacancies=vacancies,
             participants=participants
         )
+        project_data.update(in_progress=json.loads(project_data[u'in_progress']))
+        print project_data
         raise gen.Return(project_data)
 
     @classmethod

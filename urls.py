@@ -4,9 +4,10 @@
 from common import handlers as cm_handlers
 from project import handlers as pr_handlers
 from scientist import handlers as sc_handlers
-from stands import handlers as st_handlers
+
 
 __author__ = 'oks'
+
 url_handlers = [
     # common
     (r"/api/login", cm_handlers.LoginHandler),
@@ -30,11 +31,6 @@ url_handlers = [
     (r"/api/projects/(\w+)/responses/?", pr_handlers.ResponseHandler),
     # (r"/api/projects/(\w+)/participation", pr_handlers.ProjectsParticipationHandler),
     # (r"/ckeditor/samples/", CkeditorSampleHandler),
-
-    # test stands
-    (r"/api/stand/items", st_handlers.ServerGenTemplateItemsHandler),
-    (r"/api/stand/item(/\d+)?", st_handlers.ServerGenTemplateItemHandler),
-
 
     (r"/api/.*", cm_handlers.NotFoundRedirectHandler),
 
